@@ -1,8 +1,8 @@
 "use client";
 
 import React, { useEffect } from "react";
-import { cn } from "@/lib/utils";
 import { X } from "lucide-react";
+import { cn } from "@/lib/utils";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -16,45 +16,48 @@ export interface ModalProps {
 export function Modal({ isOpen, onClose, title, description, children, className }: ModalProps) {
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "Escape" && isOpen) {
-        onClose();
-      }
+      if (e.key === "Escape") onClose();
     };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
+    if (isOpen) {
+      document.body.style.overflow = "hidden";
+      window.addEventListener("keydown", handleKeyDown);
+    }
+    return () => {
+      document.body.style.overflow = "unset";
+      window.removeEventListener("keydown", handleKeyDown);
+    };
   }, [isOpen, onClose]);
 
   if (!isOpen) return null;
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/75 backdrop-blur-sm animate-in fade-in duration-150">
+    <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+      {/* Subtle Backdrop */}
+      <div
+        className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity animate-in fade-in"
+        onClick={onClose}
+      />
+
+      {/* Modal Dialog Card */}
       <div
         className={cn(
-          "w-full max-w-lg bg-obsidian-850 border border-obsidian-750/80 rounded shadow-terminal overflow-hidden flex flex-col text-terminal-text",
+          "relative w-full max-w-lg bg-white rounded-2xl shadow-popover border border-slate-200/80 overflow-hidden z-10 animate-in zoom-in-95 duration-200",
           className
         )}
       >
-        <div className="flex items-center justify-between px-5 py-3.5 border-b border-obsidian-700 bg-obsidian-900">
+        <div className="flex items-center justify-between p-5 border-b border-slate-100 bg-white">
           <div>
-            <h2 className="text-xs font-mono font-bold uppercase tracking-wider text-terminal-text flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-phosphor-cyan animate-pulse" />
-              {title}
-            </h2>
-            {description && (
-              <p className="text-[11px] text-terminal-muted mt-0.5 font-sans leading-normal">
-                {description}
-              </p>
-            )}
+            <h3 className="text-base font-semibold text-slate-900">{title}</h3>
+            {description && <p className="text-xs text-slate-500 mt-0.5">{description}</p>}
           </div>
           <button
             onClick={onClose}
-            className="p-1 text-terminal-muted hover:text-terminal-text rounded hover:bg-obsidian-750 transition-colors"
+            className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
           >
             <X className="w-4 h-4" />
           </button>
         </div>
-
-        <div className="p-5 overflow-y-auto max-h-[80vh] bg-obsidian-800">{children}</div>
+        <div className="p-6">{children}</div>
       </div>
     </div>
   );

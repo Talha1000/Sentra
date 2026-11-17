@@ -9,81 +9,89 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        // Stark Swiss Broadsheet & Archival Vellum Palette
-        vellum: {
-          50: "#FAF9F5",  // Purest page vellum
-          100: "#F5F3EC", // Standard broadsheet background
-          200: "#EAE6DB", // Substrate divider & borders
-          300: "#DBD5C5", // Table borders & hairlines
-          400: "#BEB6A2",
-          800: "#22201C",
-          900: "#141311", // Deep pitch ink
+        canvas: "#F8FAFC", // Sleek ultra-light slate background
+        subtle: "#F1F5F9",
+        border: {
+          light: "#E2E8F0",
+          DEFAULT: "#CBD5E1",
+          dark: "#94A3B8",
+        },
+        brand: {
+          50: "#EFF6FF",
+          100: "#DBEAFE",
+          500: "#3B82F6",
+          600: "#2563EB",
+          700: "#1D4ED8",
+          800: "#1E40AF",
+          900: "#1E3A8A",
+          950: "#0F172A",
         },
         ink: {
-          black: "#0C0D0E",    // Primary typography
-          charcoal: "#2C3036", // Body text
-          muted: "#6A7280",    // Technical annotations
-          faint: "#9DA5B4",    // Coordinates & grid
+          primary: "#0F172A", // Deep charcoal-navy for text
+          secondary: "#475569", // Balanced body text
+          muted: "#64748B", // Supporting captions
+          light: "#94A3B8",
         },
-        // High-Impact Scientific Accents
-        klein: {
-          DEFAULT: "#0038FF", // International Klein Blue
-          subtle: "#E6ECFF",
-          border: "#99B4FF",
+        emerald: {
+          subtle: "#ECFDF5",
+          border: "#A7F3D0",
+          DEFAULT: "#059669",
+          dark: "#065F46",
         },
-        vermilion: {
-          DEFAULT: "#FF3300", // Bauhaus Vermilion / Alert
-          subtle: "#FFEBE6",
-          border: "#FF9980",
-        },
-        spruce: {
-          DEFAULT: "#008744", // Forest Green Ground Truth
-          subtle: "#E6F4ED",
-          border: "#80C9A2",
-        },
-        amberacc: {
+        amber: {
+          subtle: "#FFFBEB",
+          border: "#FDE68A",
           DEFAULT: "#D97706",
-          subtle: "#FEF3C7",
-          border: "#FCD34D",
+          dark: "#92400E",
+        },
+        rose: {
+          subtle: "#FFF1F2",
+          border: "#FECDD3",
+          DEFAULT: "#E11D48",
+          dark: "#9F1239",
+        },
+        sky: {
+          subtle: "#F0F9FF",
+          border: "#BAE6FD",
+          DEFAULT: "#0284C7",
+          dark: "#075985",
         },
       },
       fontFamily: {
-        serif: [
-          "Newsreader",
-          "Instrument Serif",
-          "Georgia",
-          "serif",
-        ],
         sans: [
           "Inter",
           "-apple-system",
           "BlinkMacSystemFont",
+          '"Segoe UI"',
+          "Roboto",
           "sans-serif",
         ],
         mono: [
           "JetBrains Mono",
+          "ui-monospace",
           "SFMono-Regular",
-          "Consolas",
           "Menlo",
+          "Monaco",
+          "Consolas",
           "monospace",
         ],
       },
       borderRadius: {
-        none: "0px",
-        DEFAULT: "0px",
-        sm: "0px",
-        md: "0px",
-        lg: "0px",
-        xl: "0px",
-        "2xl": "0px",
+        sm: "6px",
+        DEFAULT: "8px",
+        md: "8px",
+        lg: "12px",
+        xl: "16px",
+        "2xl": "20px",
         full: "9999px",
       },
       boxShadow: {
-        none: "none",
-        sharp: "2px 2px 0px 0px #0C0D0E",
-        sharpLg: "4px 4px 0px 0px #0C0D0E",
-        sharpKlein: "3px 3px 0px 0px #0038FF",
-        sharpVermilion: "3px 3px 0px 0px #FF3300",
+        xs: "0 1px 2px 0 rgba(15, 23, 42, 0.05)",
+        sm: "0 1px 3px 0 rgba(15, 23, 42, 0.06), 0 1px 2px -1px rgba(15, 23, 42, 0.06)",
+        card: "0 1px 3px 0 rgba(15, 23, 42, 0.04), 0 1px 2px -1px rgba(15, 23, 42, 0.04)",
+        cardHover: "0 4px 6px -1px rgba(15, 23, 42, 0.07), 0 2px 4px -2px rgba(15, 23, 42, 0.05)",
+        dropdown: "0 10px 15px -3px rgba(15, 23, 42, 0.08), 0 4px 6px -4px rgba(15, 23, 42, 0.04)",
+        popover: "0 20px 25px -5px rgba(15, 23, 42, 0.1), 0 8px 10px -6px rgba(15, 23, 42, 0.05)",
       },
     },
   },

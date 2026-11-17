@@ -8,15 +8,15 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api";
 import {
-  Layers,
+  LayoutDashboard,
   FlaskConical,
   BarChart3,
   ShieldCheck,
   Play,
   Sparkles,
   Cpu,
-  Activity,
-  ArrowUpRight,
+  Layers,
+  ChevronRight,
 } from "lucide-react";
 
 export function Topbar() {
@@ -25,11 +25,11 @@ export function Topbar() {
   const [seededMsg, setSeededMsg] = useState<string | null>(null);
 
   const navItems = [
-    { name: "Workspace", href: "/workspace", code: "§ 01", subtitle: "Ledger & Briefing" },
-    { name: "Decision Studio", href: "/decisions", code: "§ 02", subtitle: "Stochastic Engine" },
-    { name: "Experiment Lab", href: "/experiments", code: "§ 03", subtitle: "Cognitive Protocols" },
-    { name: "Evidence & Stats", href: "/analytics", code: "§ 04", subtitle: "Welch t-Test & ECE" },
-    { name: "Governance & Audit", href: "/governance", code: "§ 05", subtitle: "Chain of Custody" },
+    { name: "Workspace", href: "/workspace", icon: LayoutDashboard },
+    { name: "Decision Studio", href: "/decisions", icon: Cpu },
+    { name: "Experiments", href: "/experiments", icon: FlaskConical },
+    { name: "Analytics & Evidence", href: "/analytics", icon: BarChart3 },
+    { name: "Governance & Audit", href: "/governance", icon: ShieldCheck },
   ];
 
   const handleSeedDemo = async () => {
@@ -38,12 +38,12 @@ export function Topbar() {
       const res = await api.fetch("/auth/demo-seed", { method: "POST" });
       if (res?.access_token) {
         api.setToken(res.access_token);
-        setSeededMsg("SEEDED ✓");
+        setSeededMsg("Data Ready");
         setTimeout(() => setSeededMsg(null), 3000);
       }
     } catch (e) {
       console.error(e);
-      setSeededMsg("ERR");
+      setSeededMsg("Error");
       setTimeout(() => setSeededMsg(null), 3000);
     } finally {
       setIsSeeding(false);
@@ -51,138 +51,106 @@ export function Topbar() {
   };
 
   return (
-    <header className="border-b-2 border-ink-black bg-vellum-50 select-none sticky top-0 z-50">
-      {/* Editorial Masthead Top Ticker */}
-      <div className="border-b border-vellum-300 px-4 lg:px-8 py-1 flex items-center justify-between text-[10px] font-mono tracking-wider uppercase text-ink-muted bg-vellum-100">
+    <header className="border-b border-slate-200 bg-white/95 backdrop-blur-sm sticky top-0 z-40 select-none shadow-xs">
+      {/* Primary Navigation Bar */}
+      <div className="h-16 px-4 sm:px-6 lg:px-8 max-w-[1520px] mx-auto flex items-center justify-between gap-4">
+        {/* Brand & Organization */}
         <div className="flex items-center gap-3">
-          <span className="font-bold text-ink-black">SENTRA INSTITUTION</span>
-          <span className="text-vellum-400">|</span>
-          <span>HUMAN–MACHINE DECISION INTELLIGENCE & RESEARCH LABORATORY</span>
-        </div>
-        <div className="flex items-center gap-4 text-ink-charcoal">
-          <span>VOL. IV — PROTOCOL ARCHIVE</span>
-          <span className="text-vellum-400">|</span>
-          <div className="flex items-center gap-1.5 font-bold text-spruce">
-            <span className="w-1.5 h-1.5 bg-spruce inline-block" />
-            <span>SYS.STATUS: SYNCHRONIZED</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Primary Broadsheet Masthead */}
-      <div className="px-4 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
-        {/* Masthead Title / Emblem */}
-        <div className="flex items-center gap-4">
-          <Link href="/workspace" className="flex items-baseline gap-2 group">
-            <span className="font-serif font-black text-2xl lg:text-3xl tracking-tight text-ink-black uppercase group-hover:text-klein transition-colors">
-              SENTRA
-            </span>
-            <span className="font-mono text-[9px] uppercase font-bold tracking-widest px-1.5 py-0.5 bg-ink-black text-white">
-              DISPATCH № 412
-            </span>
+          <Link href="/workspace" className="flex items-center gap-2.5 group">
+            <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-sm tracking-tight shadow-xs group-hover:bg-brand-600 transition-colors">
+              S
+            </div>
+            <div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-base tracking-tight text-slate-900">
+                  SENTRA
+                </span>
+                <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200/80">
+                  Platform
+                </span>
+              </div>
+            </div>
           </Link>
-          <div className="hidden xl:block pl-4 border-l-2 border-ink-black text-[10px] font-mono leading-tight text-ink-muted">
-            <div className="font-bold text-ink-black uppercase">RESEARCH-GRADE INTELLIGENCE</div>
-            <div>STOCHASTIC OPTIMIZATION & BIAS AUDIT</div>
-          </div>
         </div>
 
-        {/* Central Broadsheet Tab Navigation */}
-        <nav className="flex items-stretch border-2 border-ink-black bg-vellum-100">
+        {/* Central Clean Nav Links */}
+        <nav className="hidden md:flex items-center gap-1 bg-slate-100/70 p-1 rounded-xl border border-slate-200/60">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
+            const Icon = item.icon;
             return (
               <Link
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "px-3.5 py-2 text-left border-r-2 last:border-r-0 border-ink-black transition-colors relative flex flex-col justify-center",
+                  "px-3.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2 transition-all duration-150",
                   isActive
-                    ? "bg-ink-black text-white"
-                    : "text-ink-charcoal hover:bg-vellum-200"
+                    ? "bg-white text-slate-900 shadow-xs font-semibold"
+                    : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
                 )}
               >
-                <div className="flex items-center gap-1.5">
-                  <span
-                    className={cn(
-                      "text-[9px] font-mono font-bold tracking-wider",
-                      isActive ? "text-klein-border" : "text-ink-muted"
-                    )}
-                  >
-                    {item.code}
-                  </span>
-                  <span className="text-xs font-mono font-bold tracking-tight uppercase">
-                    {item.name}
-                  </span>
-                </div>
-                <div
-                  className={cn(
-                    "hidden 2xl:block text-[9px] font-mono leading-none mt-0.5",
-                    isActive ? "text-vellum-300" : "text-ink-faint"
-                  )}
-                >
-                  {item.subtitle}
-                </div>
+                <Icon className={cn("w-3.5 h-3.5", isActive ? "text-brand-600" : "text-slate-400")} />
+                <span>{item.name}</span>
               </Link>
             );
           })}
         </nav>
 
-        {/* Editorial Action Stamps */}
+        {/* Action Controls */}
         <div className="flex items-center gap-3">
           <Button
             variant="secondary"
             size="sm"
             onClick={handleSeedDemo}
             isLoading={isSeeding}
-            className="text-[11px] h-9 px-3 gap-1.5"
+            className="text-xs font-medium text-slate-600 border-slate-200"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amberacc" />
-            <span>{seededMsg || "SEED COGNITIVE TEST SET"}</span>
+            <Sparkles className="w-3.5 h-3.5 text-amber-500 mr-1.5" />
+            <span>{seededMsg || "Seed Test Data"}</span>
           </Button>
 
           <Link href="/experiments/run/exp-inv-001">
             <Button
-              variant="primary"
+              variant="brand"
               size="sm"
-              className="h-9 px-4 text-[11px] gap-2 bg-klein hover:bg-blue-700 text-white border-2 border-ink-black shadow-sharp"
+              className="text-xs font-medium gap-1.5 shadow-xs"
             >
-              <Play className="w-3 h-3 fill-current" />
-              <span>RUN PARTICIPANT TRIAL</span>
+              <Play className="w-3.5 h-3.5 fill-current" />
+              <span>Run Trial</span>
             </Button>
           </Link>
 
-          <div className="h-9 px-2.5 border-2 border-ink-black bg-vellum-200 flex items-center justify-center font-mono font-bold text-xs text-ink-black">
-            EXP-V2
+          <div className="h-8 w-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-semibold text-slate-700 border border-slate-300">
+            JD
           </div>
         </div>
       </div>
 
-      {/* Sub-Masthead Telemetry Teletype */}
-      <div className="border-t border-ink-black px-4 lg:px-8 py-1.5 bg-vellum-100 flex items-center justify-between text-[11px] font-mono text-ink-charcoal overflow-x-auto gap-4">
-        <div className="flex items-center gap-5 shrink-0">
-          <div className="flex items-center gap-1.5">
-            <span className="font-bold text-ink-black uppercase">GROUND TRUTH MODEL:</span>
-            <span className="text-spruce font-bold">DETERMINISTIC NEWVENDOR (F⁻¹(0.667))</span>
+      {/* Sub-Header Live Status Strip */}
+      <div className="h-8 px-4 sm:px-6 lg:px-8 max-w-[1520px] mx-auto border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 overflow-x-auto gap-4">
+        <div className="flex items-center gap-4 shrink-0 text-[11px]">
+          <div className="flex items-center gap-1.5 font-medium text-emerald-700">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
+            <span>Engine: Deterministic Online</span>
           </div>
-          <span className="text-vellum-300">|</span>
+          <span className="text-slate-300">|</span>
           <div>
-            ENROLLED COHORT: <span className="font-bold text-ink-black">N=45 (225 TRIALS LOGGED)</span>
+            Enrolled Cohort: <strong className="text-slate-700 font-semibold">N = 45 Subjects (225 Trials)</strong>
           </div>
-          <span className="text-vellum-300">|</span>
+          <span className="text-slate-300">|</span>
           <div>
-            COGNITIVE ALIGNMENT: <span className="font-bold text-klein">76.4% OVER-RELIANCE RATE</span>
+            AI Agreement: <strong className="text-blue-700 font-semibold">76.4%</strong>
           </div>
-          <span className="text-vellum-300">|</span>
+          <span className="text-slate-300">|</span>
           <div>
-            CALIBRATION ERROR (ECE): <span className="font-bold text-vermilion">0.034 (HIGH SKEW)</span>
+            Calibration Error (ECE): <strong className="text-emerald-700 font-semibold">0.034</strong>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0 text-ink-muted">
-          <span>LATENCY: 6.2s SERVER BENCHMARK</span>
-          <span className="text-vellum-300">|</span>
-          <span className="text-ink-black font-bold uppercase">BROADSHEET VIEW 2.0</span>
+        <div className="hidden sm:flex items-center gap-3 shrink-0 text-[11px] text-slate-400">
+          <span>Latency: 6.2s Benchmark</span>
+          <span>•</span>
+          <span>SOC2 Audited</span>
         </div>
       </div>
     </header>

@@ -2,9 +2,11 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
+import { MetricCard } from "@/components/ui/metric-card";
 import {
   Play,
   Sliders,
@@ -12,14 +14,18 @@ import {
   ArrowUpRight,
   ShieldCheck,
   Zap,
-  Radio,
-  FileText,
   Activity,
-  Plus,
+  Search,
+  Filter,
+  CheckCircle2,
+  Users,
+  FlaskConical,
+  Clock,
 } from "lucide-react";
 
 export default function ExperimentsDashboardPage() {
   const [filterType, setFilterType] = useState<string>("ALL");
+  const [searchQuery, setSearchQuery] = useState<string>("");
   const [isBuilderOpen, setIsBuilderOpen] = useState<boolean>(false);
 
   // Dynamic Experiment Builder state
@@ -31,49 +37,46 @@ export default function ExperimentsDashboardPage() {
   const [experiments, setExperiments] = useState([
     {
       id: "EXP-INV-001",
-      edition: "MONOGRAPH #412-A",
       title: "Human–AI Collaboration & Over-Reliance in Stochastic Inventory Purchasing",
       hypothesis:
-        "High-confidence generative rationales induce selective cognitive vigilance decay, leading participants to accept sub-optimal purchasing recommendations even under obvious demand shocks.",
+        "High-confidence generative rationales increase decision speed in steady state but induce cognitive complacency, causing human buyers to accept sub-optimal purchasing advice under sudden supply shocks.",
       protocol: "Between-Subjects Randomized",
-      domain: "Supply Chain / Newsvendor",
+      domain: "Supply Chain",
       conditionsCount: 3,
       scenariosCount: 5,
       participantsEnrolled: 45,
       completedTrials: 225,
-      status: "Active Protocol",
+      status: "Active",
       biasInjected: "+35% in Scenarios 3 & 5",
       pVal: "p < 0.001",
     },
     {
       id: "EXP-CAP-002",
-      edition: "MONOGRAPH #412-B",
-      title: "Confidence Calibration Under Market Volatility Spikes & Regime Changes",
+      title: "Confidence Calibration Under Market Volatility Spikes & Regime Shifts",
       hypothesis:
-        "Explicit visual epistemic uncertainty bounds reduce uncalibrated capital bets by 42% compared to single-point deterministic estimates during regime transitions.",
+        "Presenting visual epistemic uncertainty intervals reduces uncalibrated capital allocations by 42% compared to single-point deterministic forecasts during market volatility spikes.",
       protocol: "Within-Subjects Counterbalanced",
       domain: "Capital Allocation",
       conditionsCount: 2,
       scenariosCount: 4,
       participantsEnrolled: 30,
       completedTrials: 120,
-      status: "Active Protocol",
-      biasInjected: "High variance regime shift",
+      status: "Active",
+      biasInjected: "High-variance regime shift",
       pVal: "p = 0.014",
     },
     {
       id: "EXP-REC-003",
-      edition: "MONOGRAPH #412-C",
       title: "Algorithmic Fairness & Human Re-weighting in Multi-Attribute Hiring Panels",
       hypothesis:
-        "Interactive counterfactual explanations significantly decrease demographic selection bias in hiring committees by exposing latent proxy variables.",
+        "Interactive counterfactual explanations significantly decrease demographic selection bias in hiring committees by exposing latent proxy variables in automated candidate ranking.",
       protocol: "Between-Subjects Factorial",
       domain: "Talent Evaluation",
       conditionsCount: 3,
       scenariosCount: 6,
       participantsEnrolled: 18,
       completedTrials: 54,
-      status: "Pending Peer Review",
+      status: "Draft",
       biasInjected: "Covariate feature skew",
       pVal: "p = 0.048",
     },
@@ -81,26 +84,25 @@ export default function ExperimentsDashboardPage() {
 
   // Live incoming participant teletype feed
   const liveTelemetry = [
-    { id: "e-941", token: "SUBJ-C-14", cond: "Condition C", latency: "6.42s", action: 1040, status: "OPTIMAL", tag: "spruce" },
-    { id: "e-940", token: "SUBJ-B-12", cond: "Condition B", latency: "3.10s", action: 1850, status: "OVER-RELIANT", tag: "vermilion" },
-    { id: "e-939", token: "SUBJ-A-09", cond: "Condition A", latency: "8.95s", action: 1410, status: "OPTIMAL", tag: "spruce" },
-    { id: "e-938", token: "SUBJ-C-13", cond: "Condition C", latency: "7.18s", action: 1390, status: "CALIBRATED", tag: "klein" },
-    { id: "e-937", token: "SUBJ-B-11", cond: "Condition B", latency: "2.74s", action: 1840, status: "OVER-RELIANT", tag: "vermilion" },
+    { id: "e-941", token: "SUBJ-C-14", cond: "Condition C", latency: "6.42s", action: 1040, status: "Optimal", variant: "spruce" as const },
+    { id: "e-940", token: "SUBJ-B-12", cond: "Condition B", latency: "3.10s", action: 1850, status: "Over-Reliant", variant: "crimson" as const },
+    { id: "e-939", token: "SUBJ-A-09", cond: "Condition A", latency: "8.95s", action: 1410, status: "Optimal", variant: "spruce" as const },
+    { id: "e-938", token: "SUBJ-C-13", cond: "Condition C", latency: "7.18s", action: 1390, status: "Calibrated", variant: "cobalt" as const },
+    { id: "e-937", token: "SUBJ-B-11", cond: "Condition B", latency: "2.74s", action: 1840, status: "Over-Reliant", variant: "crimson" as const },
   ];
 
   const handleCreateProtocol = () => {
     const newExp = {
       id: `EXP-${selectedDomain.toUpperCase().substring(0, 3)}-00${experiments.length + 1}`,
-      edition: `MONOGRAPH #412-${String.fromCharCode(65 + experiments.length)}`,
       title: newTitle,
-      hypothesis: `Testing participant decision quality with controlled ${biasMagnitude}% algorithmic bias injection in ${selectedDomain}.`,
+      hypothesis: `Empirical evaluation of decision quality with controlled ${biasMagnitude}% algorithmic bias injection in ${selectedDomain}.`,
       protocol: "Between-Subjects Randomized",
       domain: selectedDomain,
       conditionsCount: 3,
       scenariosCount: 5,
-      participantsEnrolled: 1,
-      completedTrials: 1,
-      status: "Active Protocol",
+      participantsEnrolled: 0,
+      completedTrials: 0,
+      status: "Active",
       biasInjected: `±${biasMagnitude}% controlled deviation`,
       pVal: "Testing",
     };
@@ -108,137 +110,114 @@ export default function ExperimentsDashboardPage() {
     setIsBuilderOpen(false);
   };
 
-  const filteredExperiments =
-    filterType === "ALL"
-      ? experiments
-      : experiments.filter((e) => e.protocol.toUpperCase().includes(filterType) || e.status.toUpperCase().includes(filterType));
+  const filteredExperiments = experiments.filter((e) => {
+    const matchesFilter =
+      filterType === "ALL" ||
+      e.protocol.toUpperCase().includes(filterType) ||
+      e.status.toUpperCase() === filterType;
+    const matchesSearch =
+      searchQuery === "" ||
+      e.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      e.domain.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      e.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesFilter && matchesSearch;
+  });
 
   return (
     <div className="space-y-8">
-      {/* Editorial Masthead Header Section */}
-      <section className="border-2 border-ink-black bg-vellum-50 p-6 lg:p-8 shadow-sharp">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b-2 border-ink-black">
-          <div className="space-y-2 max-w-4xl">
-            <div className="flex items-center gap-3 text-xs font-mono font-bold uppercase tracking-widest text-ink-muted">
-              <span className="px-2 py-0.5 bg-ink-black text-white">§ 03. LABORATORY</span>
-              <span>/</span>
-              <span className="text-klein font-bold">DOUBLE-BLIND EMPIRICAL PROTOCOLS</span>
-              <span>/</span>
-              <span>IRB-STAMP: #2026-ETH-991</span>
-            </div>
-            <h1 className="font-serif font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink-black uppercase">
-              Experimental Cognitive Laboratory
-            </h1>
-            <p className="text-sm lg:text-base text-ink-charcoal font-sans leading-relaxed max-w-3xl">
-              Deploys randomized between-subjects experimental batteries with mathematically provable ground truths, controlled algorithmic bias stressors, and microsecond participant response capture.
-            </p>
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+            <span>Research Laboratory</span>
+            <span>•</span>
+            <span className="text-brand-600">Double-Blind Protocols</span>
           </div>
+          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+            Experimental Laboratory
+          </h1>
+          <p className="text-sm text-slate-600 mt-1 max-w-3xl">
+            Design, deploy, and evaluate randomized behavioral trials measuring human reliance, reaction speed, and verification quality when interacting with AI recommendations.
+          </p>
+        </div>
 
-          <div className="flex flex-wrap items-center gap-3 shrink-0">
-            <Button
-              variant="secondary"
-              size="default"
-              onClick={() => setIsBuilderOpen(true)}
-              className="text-xs font-mono font-bold uppercase tracking-wider gap-2 h-11 px-4 border-2 border-ink-black bg-vellum-100 hover:bg-vellum-200 shadow-sharp"
-            >
-              <Sliders className="w-4 h-4 text-ink-black" />
-              <span>DEPLOY NEW PROTOCOL</span>
+        <div className="flex items-center gap-3 shrink-0">
+          <Button
+            variant="secondary"
+            onClick={() => setIsBuilderOpen(true)}
+            className="gap-2"
+          >
+            <Sliders className="w-4 h-4 text-slate-600" />
+            <span>New Protocol</span>
+          </Button>
+
+          <Link href="/experiments/run/exp-inv-001">
+            <Button variant="brand" className="gap-2 shadow-xs">
+              <Play className="w-4 h-4 fill-current" />
+              <span>Launch Participant Battery</span>
             </Button>
-
-            <Link href="/experiments/run/exp-inv-001">
-              <Button
-                variant="primary"
-                size="default"
-                className="text-xs font-mono font-bold uppercase tracking-wider gap-2 h-11 px-5 bg-klein hover:bg-blue-700 text-white border-2 border-ink-black shadow-sharp"
-              >
-                <Play className="w-4 h-4 fill-current" />
-                <span>RUN PARTICIPANT BATTERY</span>
-              </Button>
-            </Link>
-          </div>
+          </Link>
         </div>
-
-        {/* Masthead Sub-Ledger Row */}
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 pt-6 text-xs font-mono">
-          <div className="border-l-2 border-ink-black pl-3">
-            <span className="text-[10px] text-ink-muted uppercase block">ACTIVE PROTOCOLS</span>
-            <span className="font-bold text-lg text-ink-black tabular-nums">{experiments.length} STUDIES</span>
-          </div>
-          <div className="border-l-2 border-ink-black pl-3">
-            <span className="text-[10px] text-ink-muted uppercase block">ENROLLED PARTICIPANTS</span>
-            <span className="font-bold text-lg text-klein tabular-nums">N = 93 SUBJECTS</span>
-          </div>
-          <div className="border-l-2 border-ink-black pl-3">
-            <span className="text-[10px] text-ink-muted uppercase block">LOGGED DECISION TRIALS</span>
-            <span className="font-bold text-lg text-ink-black tabular-nums">399 OBSERVED</span>
-          </div>
-          <div className="border-l-2 border-ink-black pl-3">
-            <span className="text-[10px] text-ink-muted uppercase block">PEAK OVER-RELIANCE RATE</span>
-            <span className="font-bold text-lg text-vermilion tabular-nums">76.4% IN COND B</span>
-          </div>
-        </div>
-      </section>
+      </div>
 
       {/* Protocol Architect Modal */}
       <Modal
         isOpen={isBuilderOpen}
         onClose={() => setIsBuilderOpen(false)}
-        title="Protocol Architect & Injected Bias Generator"
-        description="Configure experimental hypotheses, target cohort sizing, and controlled algorithmic error stressors."
+        title="Deploy New Research Protocol"
+        description="Configure study hypotheses, participant cohort sizing, and controlled error stressors."
       >
-        <div className="space-y-5 text-xs font-mono">
+        <div className="space-y-4">
           <div>
-            <label className="block text-ink-black font-bold mb-1 text-[11px] uppercase tracking-wider">
+            <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
               Protocol Title
             </label>
             <input
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              className="w-full p-3 border-2 border-ink-black bg-vellum-50 text-ink-black font-mono text-xs focus:bg-white focus:outline-none"
+              className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500 focus:border-brand-500"
             />
           </div>
 
           <div className="grid grid-cols-2 gap-4">
             <div>
-              <label className="block text-ink-black font-bold mb-1 text-[11px] uppercase tracking-wider">
-                Target Domain
+              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                Domain
               </label>
               <select
                 value={selectedDomain}
                 onChange={(e) => setSelectedDomain(e.target.value)}
-                className="w-full p-3 border-2 border-ink-black bg-vellum-50 text-ink-black font-mono text-xs focus:bg-white"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
               >
-                <option value="Inventory">Inventory Purchasing (Newsvendor)</option>
-                <option value="Capital">Capital Allocation & Risk</option>
+                <option value="Inventory">Inventory Purchasing</option>
+                <option value="Capital">Capital Allocation</option>
                 <option value="Operations">Operations Scheduling</option>
-                <option value="Recruitment">Talent Selection (Fairness)</option>
+                <option value="Recruitment">Talent Selection</option>
               </select>
             </div>
 
             <div>
-              <label className="block text-ink-black font-bold mb-1 text-[11px] uppercase tracking-wider">
-                Target Sample Size (N)
+              <label className="block text-xs font-semibold text-slate-700 uppercase tracking-wider mb-1.5">
+                Target Cohort (N)
               </label>
               <input
                 type="number"
                 value={sampleSize}
                 onChange={(e) => setSampleSize(Number(e.target.value))}
-                className="w-full p-3 border-2 border-ink-black bg-vellum-50 text-ink-black font-mono text-xs focus:bg-white"
+                className="w-full px-3.5 py-2.5 rounded-lg border border-slate-200 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
               />
             </div>
           </div>
 
-          {/* Injected Bias Slider Panel */}
-          <div className="p-4 bg-vellum-100 border-2 border-ink-black space-y-3">
+          {/* Injected Bias Slider */}
+          <div className="p-4 bg-amber-50/60 border border-amber-200 rounded-xl space-y-2.5">
             <div className="flex justify-between items-center">
-              <span className="font-bold text-xs uppercase flex items-center gap-2 text-vermilion">
-                <Zap className="w-4 h-4 fill-current" />
+              <span className="font-semibold text-xs text-amber-900 uppercase flex items-center gap-1.5">
+                <Zap className="w-3.5 h-3.5 text-amber-600" />
                 Injected Algorithmic Bias Stressor
               </span>
-              <span className="font-mono font-bold text-base text-vermilion tabular-nums">
-                +{biasMagnitude}%
-              </span>
+              <span className="font-mono font-bold text-sm text-amber-800">+{biasMagnitude}%</span>
             </div>
             <input
               type="range"
@@ -247,266 +226,253 @@ export default function ExperimentsDashboardPage() {
               step="5"
               value={biasMagnitude}
               onChange={(e) => setBiasMagnitude(Number(e.target.value))}
-              className="w-full h-2 bg-vellum-300 border border-ink-black rounded-none cursor-pointer accent-vermilion"
+              className="w-full h-1.5 bg-amber-200 rounded-lg cursor-pointer accent-amber-600"
             />
-            <p className="text-[11px] text-ink-charcoal font-sans leading-normal">
-              In designated shock scenarios, the AI recommendation will intentionally skew <strong>+{biasMagnitude}%</strong> above the deterministic optimum to evaluate whether human reviewers detect the deviation or demonstrate uncalibrated over-reliance.
+            <p className="text-xs text-amber-800/90 leading-relaxed">
+              In designated surprise scenarios, the AI recommendation will deviate <strong>+{biasMagnitude}%</strong> above the mathematical optimum to quantify participant verification vigilance versus passive compliance.
             </p>
           </div>
 
-          <div className="flex justify-end gap-3 pt-3 border-t-2 border-ink-black">
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setIsBuilderOpen(false)}
-              className="border-2 border-ink-black bg-vellum-100 text-xs font-mono"
-            >
-              CANCEL
+          <div className="flex justify-end gap-2.5 pt-3 border-t border-slate-100">
+            <Button variant="secondary" onClick={() => setIsBuilderOpen(false)}>
+              Cancel
             </Button>
-            <Button
-              variant="primary"
-              size="sm"
-              onClick={handleCreateProtocol}
-              className="gap-2 bg-ink-black text-white hover:bg-neutral-800 border-2 border-ink-black text-xs font-mono shadow-sharp"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-klein-subtle" />
-              <span>COMMIT TO ACTIVE REPOSITORY</span>
+            <Button variant="brand" onClick={handleCreateProtocol}>
+              Save Protocol
             </Button>
           </div>
         </div>
       </Modal>
 
-      {/* Main Asymmetric Broadsheet Layout: 2/3 Protocol Catalog + 1/3 Archival Ledger */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left 8 Columns: Protocol Register & Case Studies */}
-        <div className="lg:col-span-8 space-y-6">
-          {/* Section Sub-Header & Segmented Filter Bar */}
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b-2 border-ink-black pb-3">
-            <div className="flex items-center gap-2 font-mono text-xs font-bold uppercase tracking-wider text-ink-black">
-              <span>INDEX № 01</span>
-              <span>—</span>
-              <span>REGISTERED RESEARCH MONOGRAPHS</span>
-            </div>
+      {/* KPI Overview Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <MetricCard
+          label="Active Research Protocols"
+          value={experiments.length}
+          subtext="Between & within-subjects batteries"
+          delta={{ value: "+1 this month", isPositive: true }}
+        />
+        <MetricCard
+          label="Total Enrolled Subjects"
+          value="93"
+          subtext="Pseudonymized participant tokens"
+          delta={{ value: "N = 93", isPositive: true }}
+        />
+        <MetricCard
+          label="Logged Decision Trials"
+          value="399"
+          subtext="Scored against ground-truth payoffs"
+          delta={{ value: "100% Validated", isNeutral: true }}
+        />
+        <MetricCard
+          label="Condition B Reliance"
+          value="76.4%"
+          subtext="Peak adherence to biased suggestions"
+          delta={{ value: "Bias stressor active", isPositive: false }}
+        />
+      </div>
 
-            <div className="flex items-center border-2 border-ink-black bg-vellum-50">
+      {/* Main Two-Column Content: Left Studies, Right Telemetry & Rigor */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        {/* Left 8 Columns: Filter Bar & Protocols */}
+        <div className="lg:col-span-8 space-y-4">
+          {/* Filter & Search Bar */}
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+            <div className="flex items-center gap-1 overflow-x-auto">
               {[
-                { id: "ALL", label: "ALL STUDIES" },
-                { id: "ACTIVE", label: "ACTIVE" },
-                { id: "BETWEEN", label: "BETWEEN-SUBJ" },
-                { id: "WITHIN", label: "WITHIN-SUBJ" },
+                { id: "ALL", label: "All Protocols" },
+                { id: "ACTIVE", label: "Active" },
+                { id: "BETWEEN", label: "Between-Subjects" },
+                { id: "WITHIN", label: "Within-Subjects" },
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setFilterType(tab.id)}
-                  className={`px-3 py-1 text-[11px] font-mono font-bold uppercase border-r-2 last:border-r-0 border-ink-black transition-colors ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap ${
                     filterType === tab.id
-                      ? "bg-ink-black text-white"
-                      : "text-ink-charcoal hover:bg-vellum-200"
+                      ? "bg-slate-900 text-white font-semibold shadow-xs"
+                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                   }`}
                 >
                   {tab.label}
                 </button>
               ))}
             </div>
+
+            <div className="relative min-w-[200px]">
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <input
+                type="text"
+                placeholder="Search protocols..."
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                className="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-500"
+              />
+            </div>
           </div>
 
-          {/* List of Scientific Protocols as Broadsheet Folios */}
-          <div className="space-y-6">
+          {/* Protocol Cards List */}
+          <div className="space-y-4">
             {filteredExperiments.map((exp) => (
-              <article
-                key={exp.id}
-                className="border-2 border-ink-black bg-vellum-50 p-6 shadow-sharp hover:translate-x-0.5 hover:translate-y-0.5 transition-transform"
-              >
-                {/* Protocol Folio Header */}
-                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-4 border-b border-vellum-300">
-                  <div className="flex flex-wrap items-center gap-2.5">
-                    <span className="font-mono font-black text-xs px-2 py-0.5 bg-ink-black text-white">
-                      {exp.id}
-                    </span>
-                    <span className="text-[11px] font-mono font-bold text-ink-muted">
-                      {exp.edition}
-                    </span>
-                    <span className="text-vellum-400">•</span>
-                    <Badge variant={exp.status.includes("Active") ? "spruce" : "amber"}>
-                      {exp.status}
-                    </Badge>
-                    <Badge variant="cobalt">{exp.domain}</Badge>
+              <Card key={exp.id} className="hover:shadow-cardHover transition-all">
+                <CardContent className="p-6 space-y-4">
+                  {/* Top Meta Row */}
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                    <div className="flex flex-wrap items-center gap-2">
+                      <span className="font-mono text-xs font-semibold text-slate-900">
+                        {exp.id}
+                      </span>
+                      <span className="text-slate-300">•</span>
+                      <Badge variant={exp.status === "Active" ? "spruce" : "neutral"}>
+                        {exp.status}
+                      </Badge>
+                      <Badge variant="cobalt">{exp.domain}</Badge>
+                      <span className="text-xs text-slate-500 font-medium">{exp.protocol}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <Link href="/analytics">
+                        <Button variant="secondary" size="sm" className="gap-1.5">
+                          <span>Evidence</span>
+                          <ArrowUpRight className="w-3.5 h-3.5 text-slate-400" />
+                        </Button>
+                      </Link>
+                      <Link href={`/experiments/run/${exp.id}`}>
+                        <Button variant="brand" size="sm" className="gap-1.5">
+                          <Play className="w-3.5 h-3.5 fill-current" />
+                          <span>Run Trial</span>
+                        </Button>
+                      </Link>
+                    </div>
                   </div>
 
-                  <div className="flex items-center gap-2 shrink-0">
-                    <Link href="/analytics">
-                      <Button
-                        variant="secondary"
-                        size="sm"
-                        className="h-8 px-3 text-[11px] font-mono font-bold uppercase gap-1.5 border-2 border-ink-black bg-vellum-100 hover:bg-vellum-200"
-                      >
-                        <span>STATISTICS</span>
-                        <ArrowUpRight className="w-3.5 h-3.5" />
-                      </Button>
-                    </Link>
-                    <Link href={`/experiments/run/${exp.id}`}>
-                      <Button
-                        variant="primary"
-                        size="sm"
-                        className="h-8 px-3.5 text-[11px] font-mono font-bold uppercase gap-1.5 bg-klein hover:bg-blue-700 text-white border-2 border-ink-black"
-                      >
-                        <Play className="w-3 h-3 fill-current" />
-                        <span>RUN TRIAL</span>
-                      </Button>
-                    </Link>
-                  </div>
-                </div>
-
-                {/* Title & Research Hypothesis Abstract */}
-                <div className="py-4 space-y-2">
-                  <h2 className="font-serif font-black text-xl lg:text-2xl text-ink-black tracking-tight leading-snug">
-                    {exp.title}
-                  </h2>
-                  <div className="bg-vellum-100 p-3.5 border-l-4 border-ink-black text-xs font-sans text-ink-charcoal leading-relaxed">
-                    <strong className="font-mono uppercase font-bold text-[11px] text-ink-black block mb-0.5">
-                      HYPOTHESIS STATEMENT:
-                    </strong>
-                    {exp.hypothesis}
-                  </div>
-                </div>
-
-                {/* Quantitative Specification Grid */}
-                <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-3 border-t border-vellum-300 font-mono text-xs">
-                  <div className="border border-ink-black p-2.5 bg-vellum-100">
-                    <span className="text-[10px] text-ink-muted uppercase block">STUDY DESIGN</span>
-                    <span className="font-bold text-ink-black mt-0.5 block truncate">
-                      {exp.conditionsCount} CONDITIONS (A/B/C)
-                    </span>
+                  {/* Title & Hypothesis Statement */}
+                  <div className="space-y-2">
+                    <h3 className="text-base font-semibold text-slate-900 tracking-tight leading-snug">
+                      {exp.title}
+                    </h3>
+                    <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-600 leading-relaxed">
+                      <strong className="text-slate-800 font-medium uppercase tracking-wider text-[11px] block mb-1">
+                        Hypothesis Statement:
+                      </strong>
+                      {exp.hypothesis}
+                    </div>
                   </div>
 
-                  <div className="border border-ink-black p-2.5 bg-vellum-100">
-                    <span className="text-[10px] text-ink-muted uppercase block">TEST BATTERY</span>
-                    <span className="font-bold text-ink-black mt-0.5 block">
-                      {exp.scenariosCount} STOCHASTIC TRIALS
-                    </span>
-                  </div>
+                  {/* High Density Metric Cells */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
+                    <div className="p-3 bg-white rounded-lg border border-slate-200/80">
+                      <span className="text-[11px] font-medium text-slate-500 uppercase block">Study Design</span>
+                      <span className="font-semibold text-slate-900 text-xs mt-0.5 block">
+                        {exp.conditionsCount} Conditions (A / B / C)
+                      </span>
+                    </div>
 
-                  <div className="border border-ink-black p-2.5 bg-vellum-100">
-                    <span className="text-[10px] text-ink-muted uppercase block">SUBJECT COHORT</span>
-                    <span className="font-bold text-klein mt-0.5 block tabular-nums">
-                      N = {exp.participantsEnrolled} ({exp.completedTrials} RUNS)
-                    </span>
-                  </div>
+                    <div className="p-3 bg-white rounded-lg border border-slate-200/80">
+                      <span className="text-[11px] font-medium text-slate-500 uppercase block">Test Battery</span>
+                      <span className="font-semibold text-slate-900 text-xs mt-0.5 block">
+                        {exp.scenariosCount} Consequential Scenarios
+                      </span>
+                    </div>
 
-                  <div className="border border-ink-black p-2.5 bg-vellum-100">
-                    <span className="text-[10px] text-ink-muted uppercase block">INJECTED STRESSOR</span>
-                    <span className="font-bold text-vermilion mt-0.5 block truncate text-[11px]">
-                      {exp.biasInjected}
-                    </span>
+                    <div className="p-3 bg-white rounded-lg border border-slate-200/80">
+                      <span className="text-[11px] font-medium text-slate-500 uppercase block">Cohort Enrolled</span>
+                      <span className="font-semibold text-blue-700 text-xs mt-0.5 block tabular-nums">
+                        N = {exp.participantsEnrolled} ({exp.completedTrials} trials)
+                      </span>
+                    </div>
+
+                    <div className="p-3 bg-white rounded-lg border border-slate-200/80">
+                      <span className="text-[11px] font-medium text-slate-500 uppercase block">Stress Test</span>
+                      <span className="font-semibold text-amber-700 text-xs mt-0.5 block truncate">
+                        {exp.biasInjected}
+                      </span>
+                    </div>
                   </div>
-                </div>
-              </article>
+                </CardContent>
+              </Card>
             ))}
           </div>
         </div>
 
-        {/* Right 4 Columns: Archival Teletype Ledger & Empirical Rigor Standard */}
+        {/* Right 4 Columns: Live Participant Telemetry & Rigor Standards */}
         <div className="lg:col-span-4 space-y-6">
-          {/* Section Header */}
-          <div className="border-b-2 border-ink-black pb-3">
-            <div className="font-mono text-xs font-bold uppercase tracking-wider text-ink-black flex items-center justify-between">
-              <span>INDEX № 02 — TELEMETRY DISPATCH</span>
-              <span className="w-2 h-2 bg-spruce inline-block" />
-            </div>
-          </div>
-
-          {/* Perforated Ticker Tape Participant Feed */}
-          <div className="border-2 border-ink-black bg-vellum-50 p-5 shadow-sharp space-y-4">
-            <div className="flex items-center justify-between pb-3 border-b-2 border-ink-black">
+          {/* Live Telemetry Feed */}
+          <Card>
+            <CardHeader className="pb-3 flex flex-row items-center justify-between">
               <div className="flex items-center gap-2">
-                <Radio className="w-4 h-4 text-spruce" />
-                <span className="font-mono font-bold text-xs uppercase text-ink-black">
-                  RECEIPT TAPE // LIVE TRIALS
-                </span>
+                <Activity className="w-4 h-4 text-emerald-600 animate-pulse" />
+                <CardTitle className="text-sm">Live Participant Stream</CardTitle>
               </div>
-              <span className="text-[10px] font-mono uppercase font-bold px-1.5 py-0.5 bg-spruce-subtle text-spruce border border-spruce">
-                STREAMING
-              </span>
-            </div>
+              <Badge variant="spruce">Active Recording</Badge>
+            </CardHeader>
+            <CardContent className="space-y-3 pt-0">
+              <div className="text-[11px] font-medium text-slate-400 flex justify-between px-1">
+                <span>Subject Token</span>
+                <span>Latency / Verdict</span>
+              </div>
 
-            <div className="space-y-3 font-mono text-xs">
-              {liveTelemetry.map((t) => (
-                <div
-                  key={t.id}
-                  className="p-3 bg-vellum-100 border border-ink-black flex items-center justify-between transition-colors hover:bg-vellum-200"
-                >
-                  <div className="space-y-1">
-                    <div className="flex items-center gap-2">
-                      <span className="font-bold text-ink-black">{t.token}</span>
-                      <span className="text-vellum-400">/</span>
-                      <span className="text-[10px] text-ink-muted">{t.cond}</span>
+              <div className="space-y-2.5">
+                {liveTelemetry.map((t) => (
+                  <div
+                    key={t.id}
+                    className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-between text-xs transition-colors hover:bg-slate-100/60"
+                  >
+                    <div className="space-y-0.5">
+                      <div className="font-semibold text-slate-800">{t.token}</div>
+                      <div className="text-[11px] text-slate-500">
+                        {t.cond} • Order: <strong className="text-slate-700">{t.action}</strong>
+                      </div>
                     </div>
-                    <div className="text-[11px] text-ink-charcoal">
-                      PURCHASE ORDER: <strong className="text-ink-black">{t.action} UNITS</strong>
+
+                    <div className="text-right space-y-1">
+                      <div className="font-mono text-xs font-medium text-slate-700 tabular-nums">
+                        {t.latency}
+                      </div>
+                      <Badge variant={t.variant}>{t.status}</Badge>
                     </div>
                   </div>
+                ))}
+              </div>
+            </CardContent>
+            <CardFooter className="text-slate-500 text-[11px]">
+              <span>Hardware clock: performance.now()</span>
+              <span className="font-semibold text-slate-700">±0.1ms accuracy</span>
+            </CardFooter>
+          </Card>
 
-                  <div className="text-right space-y-1">
-                    <div className="font-bold text-ink-black tabular-nums">{t.latency}</div>
-                    <Badge variant={t.tag as any} className="text-[9px] px-1.5 py-0.5">
-                      {t.status}
-                    </Badge>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <div className="pt-3 border-t border-vellum-300 text-[10px] font-mono text-ink-muted flex items-center justify-between">
-              <span>CAPTURE: MONOTONIC HARDWARE CLOCK</span>
-              <span className="font-bold text-ink-black">ACCURACY: ±0.1ms</span>
-            </div>
-          </div>
-
-          {/* Epistemic Protocol Certification Box */}
-          <div className="border-2 border-ink-black bg-vellum-100 p-5 shadow-sharp space-y-4">
-            <div className="flex items-center gap-2 border-b-2 border-ink-black pb-3">
-              <ShieldCheck className="w-4 h-4 text-klein" />
-              <span className="font-mono font-bold text-xs uppercase text-ink-black">
-                RESEARCH RIGOR MANIFESTO
-              </span>
-            </div>
-
-            <div className="space-y-3.5 text-xs font-sans text-ink-charcoal leading-relaxed">
+          {/* Epistemic Protocol Rigor Declaration */}
+          <Card>
+            <CardHeader className="pb-3 flex flex-row items-center gap-2">
+              <ShieldCheck className="w-4 h-4 text-brand-600" />
+              <CardTitle className="text-sm">Research Rigor Standards</CardTitle>
+            </CardHeader>
+            <CardContent className="space-y-3.5 text-xs text-slate-600 leading-relaxed pt-0">
               <div className="flex items-start gap-2.5">
-                <span className="font-mono font-bold text-ink-black text-sm leading-none mt-0.5">01</span>
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                 <div>
-                  <strong className="font-mono text-ink-black uppercase text-[11px] block">
-                    Zero Hallucinatory LLM Scoring:
-                  </strong>
-                  All ground truths and payoffs are computed analytically via exact newsvendor equations F⁻¹(Cu / (Cu + Co)).
+                  <strong className="text-slate-900 block font-medium">Analytical Ground Truths</strong>
+                  Payoffs are determined via mathematical newsvendor equations F⁻¹(Cu/(Cu+Co)), not generative heuristics.
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <span className="font-mono font-bold text-ink-black text-sm leading-none mt-0.5">02</span>
+                <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
                 <div>
-                  <strong className="font-mono text-ink-black uppercase text-[11px] block">
-                    Microsecond Latency Isolation:
-                  </strong>
-                  Decision reaction time is recorded independently of DOM rendering cycles, eliminating device render variance.
+                  <strong className="text-slate-900 block font-medium">Monotonic Latency Capture</strong>
+                  Participant deliberation time is clocked independently of browser DOM rendering cycles.
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <span className="font-mono font-bold text-ink-black text-sm leading-none mt-0.5">03</span>
+                <CheckCircle2 className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                 <div>
-                  <strong className="font-mono text-ink-black uppercase text-[11px] block">
-                    Controlled Stress Testing:
-                  </strong>
-                  Algorithmic deviations (+35% bias) isolate uncritical trust decay from genuine human competence.
+                  <strong className="text-slate-900 block font-medium">Controlled Over-Reliance Stressing</strong>
+                  Controlled deviations (+35% bias) isolate uncritical trust decay from genuine human competence.
                 </div>
               </div>
-            </div>
-
-            <div className="pt-3 border-t-2 border-ink-black text-[10px] font-mono text-ink-muted">
-              INSTITUTIONAL REVIEW BOARD COMPLIANT PROTOCOL
-            </div>
-          </div>
+            </CardContent>
+          </Card>
         </div>
       </div>
     </div>

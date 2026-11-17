@@ -1,58 +1,52 @@
 import React from "react";
 import { cn } from "@/lib/utils";
 
-export function Table({ className, ...props }: React.TableHTMLAttributes<HTMLTableElement>) {
+export function Table({ className, children, ...props }: React.TableHTMLAttributes<HTMLTableElement>) {
   return (
-    <div className="w-full overflow-x-auto border-2 border-ink-black bg-white rounded-none shadow-sharp">
-      <table className={cn("w-full caption-bottom text-xs text-left", className)} {...props} />
+    <div className="w-full overflow-x-auto">
+      <table className={cn("w-full caption-bottom text-xs text-left", className)} {...props}>
+        {children}
+      </table>
     </div>
   );
 }
 
-export function TableHeader({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) {
+export function TableHeader({ className, children, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) {
   return (
-    <thead
-      className={cn(
-        "border-b-2 border-ink-black bg-vellum-100 text-ink-black font-mono text-[10px] uppercase tracking-wider",
-        className
-      )}
-      {...props}
-    />
+    <thead className={cn("border-b border-slate-200 bg-slate-50/75 text-slate-500 uppercase tracking-wider font-semibold text-[11px]", className)} {...props}>
+      {children}
+    </thead>
   );
 }
 
-export function TableBody({ className, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) {
+export function TableBody({ className, children, ...props }: React.HTMLAttributes<HTMLTableSectionElement>) {
   return (
-    <tbody
-      className={cn("[&_tr:last-child]:border-0 divide-y-2 divide-vellum-200 bg-white", className)}
-      {...props}
-    />
+    <tbody className={cn("divide-y divide-slate-100 bg-white", className)} {...props}>
+      {children}
+    </tbody>
   );
 }
 
-export function TableRow({ className, ...props }: React.HTMLAttributes<HTMLTableRowElement>) {
+export function TableRow({ className, children, ...props }: React.HTMLAttributes<HTMLTableRowElement>) {
   return (
-    <tr
-      className={cn("hover:bg-vellum-50 transition-colors border-b border-vellum-200", className)}
-      {...props}
-    />
+    <tr className={cn("hover:bg-slate-50/60 transition-colors", className)} {...props}>
+      {children}
+    </tr>
   );
 }
 
-export function TableHead({ className, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
+export function TableHead({ className, children, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
   return (
-    <th
-      className={cn("h-8 px-3.5 text-left align-middle font-bold text-ink-black border-r border-vellum-300 last:border-r-0", className)}
-      {...props}
-    />
+    <th className={cn("h-10 px-4 py-3 align-middle font-semibold text-slate-600 whitespace-nowrap", className)} {...props}>
+      {children}
+    </th>
   );
 }
 
-export function TableCell({ className, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) {
+export function TableCell({ className, children, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) {
   return (
-    <td
-      className={cn("p-3.5 align-middle text-ink-charcoal tabular-nums font-mono border-r border-vellum-200 last:border-r-0", className)}
-      {...props}
-    />
+    <td className={cn("px-4 py-3.5 align-middle text-slate-800", className)} {...props}>
+      {children}
+    </td>
   );
 }

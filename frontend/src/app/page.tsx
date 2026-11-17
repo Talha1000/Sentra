@@ -16,53 +16,51 @@ import {
   CheckCircle2,
   Sparkles,
   Cpu,
-  Terminal,
   Activity,
   Zap,
 } from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 
 export default function LandingPage() {
-  const [teaserOrder, setTeaserOrder] = useState<number>(1450);
-  const aiSuggested = 1750; // Injected +20% bias
+  const [teaserOrder, setTeaserOrder] = useState<number>(1420);
+  const aiSuggested = 1750; // Injected +23% bias
   const groundTruthOptimal = 1420;
 
   const currentDeviation = Math.abs(teaserOrder - groundTruthOptimal);
   const aiDeviation = Math.abs(aiSuggested - groundTruthOptimal);
 
   return (
-    <div className="min-h-screen bg-obsidian-950 text-terminal-text font-sans flex flex-col justify-between selection:bg-phosphor-cyan/20 selection:text-phosphor-cyan">
-      {/* Top Precision Terminal Bar */}
-      <header className="border-b border-obsidian-700 bg-obsidian-900/90 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-14 flex items-center justify-between">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col justify-between selection:bg-brand-100 selection:text-brand-900">
+      {/* Top Navigation Bar */}
+      <header className="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-50">
+        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded bg-phosphor-cyan text-obsidian-950 flex items-center justify-center font-mono font-black text-sm tracking-tighter shadow-cyanGlow">
+            <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-sm tracking-tight shadow-xs">
               S
             </div>
-            <div className="flex items-baseline gap-2">
-              <span className="font-mono font-bold text-base tracking-widest uppercase text-terminal-text">
+            <div className="flex items-center gap-2">
+              <span className="font-bold text-base tracking-tight text-slate-900">
                 SENTRA
               </span>
-              <span className="font-mono text-[10px] text-phosphor-cyan">
-                // PRECISION DECISION TERMINAL
+              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                Decision Intelligence
               </span>
             </div>
           </div>
 
-          <nav className="hidden md:flex items-center gap-6 text-xs font-mono uppercase text-terminal-muted">
-            <a href="#philosophy" className="hover:text-terminal-text transition-colors">Philosophy</a>
-            <a href="#matrix" className="hover:text-terminal-text transition-colors">Operational Matrix</a>
-            <a href="#simulation" className="hover:text-terminal-text transition-colors">Interactive Stressor</a>
-            <a href="#epistemic" className="hover:text-terminal-text transition-colors">Epistemic Rigor</a>
+          <nav className="hidden md:flex items-center gap-8 text-xs font-medium text-slate-600">
+            <a href="#capabilities" className="hover:text-slate-900 transition-colors">Capabilities</a>
+            <a href="#simulator" className="hover:text-slate-900 transition-colors">Interactive Stressor</a>
+            <a href="#governance" className="hover:text-slate-900 transition-colors">Governance & Audit</a>
           </nav>
 
           <div className="flex items-center gap-3">
             <Link href="/workspace">
-              <Button variant="secondary" size="sm" className="text-xs">WORKSPACE</Button>
+              <Button variant="secondary" size="sm">Workspace</Button>
             </Link>
             <Link href="/experiments/run/exp-inv-001">
-              <Button variant="primary" size="sm" className="gap-1.5 text-xs">
-                <span>START TRIAL</span>
+              <Button variant="brand" size="sm" className="gap-1.5 shadow-xs">
+                <span>Run Trial</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
             </Link>
@@ -72,261 +70,191 @@ export default function LandingPage() {
 
       {/* Hero Section */}
       <section className="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded border border-obsidian-700 bg-obsidian-850 shadow-sm text-xs font-mono text-terminal-muted">
-          <span className="w-2 h-2 rounded-full bg-phosphor-green animate-pulse" />
-          <span className="text-terminal-text font-bold">DECISION INTELLIGENCE & BEHAVIORAL CALIBRATION PLATFORM</span>
+        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-white shadow-xs text-xs font-medium text-slate-600">
+          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+          <span>Decision Intelligence & Human–AI Collaboration Platform</span>
         </div>
 
-        <h1 className="text-4xl md:text-6xl font-mono font-bold text-terminal-text tracking-tight max-w-5xl mx-auto leading-tight uppercase">
-          Evaluate, calibrate, and govern decisions made by <span className="text-phosphor-cyan">humans and AI</span>.
+        <h1 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight max-w-4xl mx-auto leading-tight">
+          Understand, evaluate, and improve decisions made by <span className="text-brand-600">humans and AI</span>.
         </h1>
 
-        <p className="text-sm md:text-base text-terminal-muted max-w-3xl mx-auto leading-relaxed font-sans">
-          SENTRA is an enterprise decision intelligence workstation combining stochastic business optimization,
-          continuous empirical calibration, and transparent epistemic AI governance.
+        <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+          A production-minded decision intelligence workstation combining stochastic business optimization, continuous empirical calibration, and transparent AI governance.
         </p>
 
-        <div className="pt-4 flex flex-wrap items-center justify-center gap-4">
+        <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
           <Link href="/workspace">
-            <Button size="lg" className="gap-2 px-6">
-              <span>ENTER WORKSPACE TERMINAL</span>
+            <Button variant="primary" size="lg" className="gap-2 px-6 shadow-xs">
+              <span>Enter Workspace</span>
               <ChevronRight className="w-4 h-4" />
             </Button>
           </Link>
           <Link href="/experiments/run/exp-inv-001">
-            <Button variant="outline" size="lg" className="px-6">
-              PARTICIPATE IN RESEARCH PROTOCOL
+            <Button variant="secondary" size="lg" className="px-6">
+              Participate in Research Study
             </Button>
           </Link>
         </div>
-
-        {/* Quality Badges */}
-        <div className="pt-10 flex flex-wrap items-center justify-center gap-8 text-xs font-mono text-terminal-muted">
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-phosphor-green" />
-            <span>Deterministic Ground-Truth Evaluator</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-phosphor-green" />
-            <span>Server-Clock Monotonic Reaction Latency</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <CheckCircle2 className="w-4 h-4 text-phosphor-green" />
-            <span>Over-Reliance Bias Injection Stressor</span>
-          </div>
-        </div>
       </section>
 
-      {/* Interactive Teaser Section */}
-      <section id="simulation" className="max-w-5xl mx-auto px-6 py-10 w-full font-mono">
-        <Card className="border-obsidian-700 bg-obsidian-850 shadow-terminal overflow-hidden">
-          <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 px-6 py-3.5 flex flex-row items-center justify-between">
+      {/* Interactive Teaser Widget */}
+      <section id="simulator" className="max-w-5xl mx-auto px-6 py-12 w-full">
+        <Card className="border-slate-200 shadow-sm overflow-hidden">
+          <CardHeader className="bg-slate-50/80 border-b border-slate-200/80 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <CardTitle className="text-xs font-bold text-terminal-text">
-                OVER-RELIANCE STRESSOR SIMULATOR // LIVE TESTBED
+              <div className="flex items-center gap-2">
+                <Badge variant="cobalt">Interactive Live Test</Badge>
+                <Badge variant="spruce">Stochastic Newsvendor</Badge>
+              </div>
+              <CardTitle className="text-lg mt-2">
+                Simulate Decision Quality Under Deliberate AI Bias
               </CardTitle>
-              <p className="text-[11px] text-terminal-muted font-sans mt-0.5">
-                Observe how an injected algorithmic bias distorts economic payoff relative to mathematical ground truth.
-              </p>
             </div>
-            <Badge variant="cognition">LIVE SIMULATOR</Badge>
+            <div className="text-xs text-slate-500 font-mono">
+              Scenario: Q4 Semiconductor Inventory Allocation
+            </div>
           </CardHeader>
 
-          <CardContent className="p-6 grid grid-cols-1 md:grid-cols-2 gap-8 text-xs">
-            {/* Left: Decision Sliders */}
-            <div className="space-y-4">
-              <div className="space-y-2">
-                <div className="flex justify-between">
-                  <span className="text-terminal-muted uppercase text-[11px]">Proposed Purchase Order</span>
-                  <span className="font-mono font-bold text-sm text-phosphor-cyan">{teaserOrder} units</span>
-                </div>
-                <input
-                  type="range"
-                  min="1000"
-                  max="2000"
-                  step="10"
-                  value={teaserOrder}
-                  onChange={(e) => setTeaserOrder(Number(e.target.value))}
-                  className="w-full h-1.5 bg-obsidian-700 rounded appearance-none cursor-pointer accent-phosphor-cyan"
-                />
-                <div className="flex justify-between text-[10px] text-terminal-dim">
-                  <span>Conservative (1,000)</span>
-                  <span>Aggressive (2,000)</span>
-                </div>
+          <CardContent className="p-6 space-y-6">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/70">
+                <span className="text-xs font-medium text-slate-500 uppercase block">Underlying Demand</span>
+                <span className="font-mono text-xl font-bold text-slate-900 block mt-1">1,400 ± 220 units</span>
+                <span className="text-xs text-slate-500 mt-1 block">Gaussian demand distribution</span>
               </div>
 
-              {/* AI Suggestion Callout */}
-              <div className="p-3.5 rounded bg-obsidian-900 border border-phosphor-amber/40 space-y-1.5">
-                <div className="flex items-center justify-between">
-                  <span className="font-bold text-phosphor-amber flex items-center gap-1.5 uppercase text-[11px]">
-                    <Sparkles className="w-3.5 h-3.5" />
-                    AI Recommendation
-                  </span>
-                  <span className="font-mono font-bold text-phosphor-amber">{aiSuggested} units</span>
+              <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200">
+                <div className="flex justify-between items-center">
+                  <span className="text-xs font-semibold text-amber-900 uppercase">AI Recommendation</span>
+                  <Badge variant="amber">+23% Skew</Badge>
                 </div>
-                <p className="text-[11px] text-terminal-muted leading-relaxed font-sans">
-                  The model recommends ordering 1,750 units. Notice: in this controlled trial, the AI advice is intentionally biased (+23% above optimal) to measure participant compliance.
-                </p>
+                <span className="font-mono text-xl font-bold text-amber-900 block mt-1">1,750 units</span>
+                <span className="text-xs text-amber-800 mt-1 block">Injected bias test stressor</span>
               </div>
 
-              <div className="flex items-center gap-2 pt-1">
-                <button
-                  onClick={() => setTeaserOrder(aiSuggested)}
-                  className="px-2.5 py-1.5 rounded text-[10px] font-mono font-semibold bg-obsidian-900 border border-obsidian-700 hover:border-phosphor-amber text-terminal-muted hover:text-terminal-text transition-colors"
-                >
-                  Adopt AI Suggestion (1,750)
-                </button>
-                <button
-                  onClick={() => setTeaserOrder(groundTruthOptimal)}
-                  className="px-2.5 py-1.5 rounded text-[10px] font-mono font-semibold bg-obsidian-900 border border-obsidian-700 hover:border-phosphor-green text-terminal-muted hover:text-terminal-text transition-colors"
-                >
-                  Set to Theoretical Optimal (1,420)
-                </button>
+              <div className="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200">
+                <span className="text-xs font-semibold text-emerald-900 uppercase block">Ground Truth Optimum</span>
+                <span className="font-mono text-xl font-bold text-emerald-900 block mt-1">1,420 units</span>
+                <span className="text-xs text-emerald-800 mt-1 block">Analytical critical fractile F⁻¹(0.667)</span>
               </div>
             </div>
 
-            {/* Right: Live Ground Truth Comparison */}
-            <div className="bg-obsidian-900 p-4 rounded border border-obsidian-700 flex flex-col justify-between space-y-4">
-              <div className="space-y-3">
-                <span className="font-bold uppercase tracking-wider text-terminal-text text-xs">
-                  Ground-Truth Payoff Radar
-                </span>
+            {/* Slider */}
+            <div className="space-y-3 pt-2">
+              <div className="flex justify-between items-center text-xs">
+                <span className="font-semibold text-slate-800">Your Decision (Units to Order):</span>
+                <span className="font-mono text-base font-bold text-slate-900">{teaserOrder} units</span>
+              </div>
 
-                <div className="space-y-2">
-                  <div className="flex justify-between text-[11px]">
-                    <span className="text-terminal-muted">Theoretical Optimal Order:</span>
-                    <span className="font-mono font-bold text-phosphor-green">{groundTruthOptimal} units</span>
-                  </div>
-                  <div className="flex justify-between text-[11px]">
-                    <span className="text-terminal-muted">Your Order Deviation:</span>
-                    <span className={`font-mono font-bold ${currentDeviation < 30 ? "text-phosphor-green" : "text-phosphor-crimson"}`}>
-                      {currentDeviation} units {currentDeviation < 30 ? "(Optimal Zone)" : ""}
-                    </span>
-                  </div>
-                  <div className="flex justify-between text-[11px]">
-                    <span className="text-terminal-muted">Algorithmic Flaw Injected:</span>
-                    <span className="font-mono font-bold text-phosphor-crimson">+{aiDeviation} units</span>
-                  </div>
+              <input
+                type="range"
+                min="1000"
+                max="2000"
+                step="10"
+                value={teaserOrder}
+                onChange={(e) => setTeaserOrder(Number(e.target.value))}
+                className="w-full h-2 bg-slate-200 rounded-lg cursor-pointer accent-brand-600"
+              />
+
+              <div className="flex justify-between text-xs text-slate-400 font-mono">
+                <span>1,000 units (Lean)</span>
+                <span>1,420 units (True Optimal)</span>
+                <span>1,750 units (Biased AI)</span>
+                <span>2,000 units (Over-Buffered)</span>
+              </div>
+            </div>
+
+            {/* Evaluation Verdict */}
+            <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
+              <div>
+                <span className="text-slate-500 font-medium">Deviation from Mathematical Optimum:</span>
+                <div className="font-mono font-bold text-slate-900 text-sm mt-0.5">
+                  {currentDeviation === 0 ? "★ Exact Optimal Match" : `±${currentDeviation} units deviation`}
                 </div>
               </div>
 
-              <div className="pt-3 border-t border-obsidian-700 text-[11px] font-sans text-terminal-muted leading-relaxed">
-                {currentDeviation === 0 ? (
-                  <span className="text-phosphor-green font-semibold">
-                    ✓ Optimal execution: You verified parameters, rejected algorithmic error bias, and captured maximum economic payoff.
-                  </span>
-                ) : Math.abs(teaserOrder - aiSuggested) < 20 ? (
-                  <span className="text-phosphor-crimson font-semibold">
-                    ⚠ Over-reliance detected: Adopting unverified algorithmic advice caused severe holding cost penalties.
-                  </span>
-                ) : (
-                  <span>
-                    Deterministic critical fractile scoring continuously active.
-                  </span>
-                )}
+              <div className="text-right">
+                <span className="text-slate-500 font-medium">Cognitive Verdict:</span>
+                <div className="mt-0.5">
+                  {currentDeviation < 40 ? (
+                    <Badge variant="spruce">Optimal Calibrated Oversight</Badge>
+                  ) : Math.abs(teaserOrder - aiSuggested) < 40 ? (
+                    <Badge variant="crimson">Uncritical AI Over-Reliance Detected</Badge>
+                  ) : (
+                    <Badge variant="neutral">Conservative Risk Aversion</Badge>
+                  )}
+                </div>
               </div>
             </div>
           </CardContent>
         </Card>
       </section>
 
-      {/* Six Connected Core Modules */}
-      <section id="matrix" className="max-w-7xl mx-auto px-6 py-14 space-y-6">
-        <div className="text-center space-y-2 font-mono">
-          <span className="text-xs uppercase text-phosphor-cyan tracking-wider font-bold">
-            INTEGRATED SYSTEM ARCHITECTURE
-          </span>
-          <h2 className="text-2xl font-bold text-terminal-text uppercase">Six Connected Operational Domains</h2>
+      {/* Feature Pillars */}
+      <section id="capabilities" className="max-w-7xl mx-auto px-6 py-16">
+        <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
+          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
+            Built for Consequential Enterprise Decision-Making
+          </h2>
+          <p className="text-sm text-slate-600">
+            SENTRA bridges the critical gap between raw AI model inference and verifiable human decision outcomes.
+          </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-          <Card className="border-obsidian-700 bg-obsidian-850 hover:border-obsidian-600 transition-colors">
-            <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 pb-2">
-              <CardTitle className="text-xs flex items-center gap-2">
-                <Layers className="w-4 h-4 text-phosphor-cyan" />
-                <span>01 // Intelligence Workspace</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-3.5 text-xs text-terminal-muted font-sans leading-relaxed">
-              Portfolio oversight tracking agreement rates, latency distributions, and consequential decision ledgers.
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <Card className="hover:shadow-cardHover transition-all">
+            <CardContent className="p-6 space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-brand-600">
+                <Cpu className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-semibold text-slate-900">Stochastic Business Optimization</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Deterministic inventory models, capital allocation under regime shifts, and multi-attribute decision matrices backed by exact mathematical formulas.
+              </p>
             </CardContent>
           </Card>
 
-          <Card className="border-obsidian-700 bg-obsidian-850 hover:border-obsidian-600 transition-colors">
-            <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 pb-2">
-              <CardTitle className="text-xs flex items-center gap-2">
-                <Cpu className="w-4 h-4 text-phosphor-green" />
-                <span>02 // Decision Studio</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-3.5 text-xs text-terminal-muted font-sans leading-relaxed">
-              Formulate multi-attribute stochastic decisions with live 1,000-draw Monte Carlo expected profit simulations.
+          <Card className="hover:shadow-cardHover transition-all">
+            <CardContent className="p-6 space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
+                <FlaskConical className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-semibold text-slate-900">Experimental Cognitive Laboratory</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Double-blind between-subjects research protocols, injected bias stressors, and millisecond reaction timing to measure reliance objectively.
+              </p>
             </CardContent>
           </Card>
 
-          <Card className="border-obsidian-700 bg-obsidian-850 hover:border-obsidian-600 transition-colors">
-            <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 pb-2">
-              <CardTitle className="text-xs flex items-center gap-2">
-                <Sparkles className="w-4 h-4 text-phosphor-amber" />
-                <span>03 // Human–AI Collaboration</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-3.5 text-xs text-terminal-muted font-sans leading-relaxed">
-              Calibrated recommendation inspection with explicit uncertainty decomposition and human authorization sign-off.
-            </CardContent>
-          </Card>
-
-          <Card className="border-obsidian-700 bg-obsidian-850 hover:border-obsidian-600 transition-colors">
-            <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 pb-2">
-              <CardTitle className="text-xs flex items-center gap-2">
-                <FlaskConical className="w-4 h-4 text-phosphor-cyan" />
-                <span>04 // Research Laboratory</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-3.5 text-xs text-terminal-muted font-sans leading-relaxed">
-              Deploy double-blind randomized experimental protocols, controlled bias stressors, and millisecond timing clocks.
-            </CardContent>
-          </Card>
-
-          <Card className="border-obsidian-700 bg-obsidian-850 hover:border-obsidian-600 transition-colors">
-            <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 pb-2">
-              <CardTitle className="text-xs flex items-center gap-2">
-                <BarChart3 className="w-4 h-4 text-phosphor-green" />
-                <span>05 // Evidence & Analytics</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-3.5 text-xs text-terminal-muted font-sans leading-relaxed">
-              Real-time statistical inference (Welch t-tests, Cohen's d), Trust Calibration Curves, and CSV microdata downloads.
-            </CardContent>
-          </Card>
-
-          <Card className="border-obsidian-700 bg-obsidian-850 hover:border-obsidian-600 transition-colors">
-            <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 pb-2">
-              <CardTitle className="text-xs flex items-center gap-2">
-                <ShieldCheck className="w-4 h-4 text-phosphor-violet" />
-                <span>06 // Governance & Audit</span>
-              </CardTitle>
-            </CardHeader>
-            <CardContent className="p-3.5 text-xs text-terminal-muted font-sans leading-relaxed">
-              Tamper-evident HMAC audit ledgers, model weight cards, and strict multi-tenant row-level authorization.
+          <Card className="hover:shadow-cardHover transition-all">
+            <CardContent className="p-6 space-y-3">
+              <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600">
+                <ShieldCheck className="w-5 h-5" />
+              </div>
+              <h3 className="text-base font-semibold text-slate-900">Cryptographic Governance & Audit</h3>
+              <p className="text-xs text-slate-600 leading-relaxed">
+                Immutable SHA-256 sealed audit trails, prompt template version control, calibration error curves, and row-level tenant access isolation.
+              </p>
             </CardContent>
           </Card>
         </div>
       </section>
 
-      {/* Footer */}
-      <footer className="border-t border-obsidian-700 bg-obsidian-900 py-6 text-xs font-mono text-terminal-muted">
-        <div className="max-w-7xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4">
+      {/* Clean Footer */}
+      <footer className="border-t border-slate-200 bg-white py-8 px-6">
+        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
           <div className="flex items-center gap-2">
-            <div className="w-5 h-5 rounded bg-phosphor-cyan text-obsidian-950 flex items-center justify-center font-bold text-[10px]">
-              S
-            </div>
-            <span className="font-bold tracking-wider uppercase text-terminal-text">SENTRA PRECISION WORKSTATION</span>
+            <span className="font-bold text-slate-800">SENTRA</span>
+            <span>•</span>
+            <span>Decision Intelligence Platform</span>
           </div>
-          <div className="flex items-center gap-6 text-terminal-dim">
-            <span>DETERMINISTIC EVALUATION</span>
-            <span>FASTAPI & NEXT.JS 15</span>
-            <span>HIGH FIDELITY TERMINAL</span>
+          <div className="flex items-center gap-4 text-xs">
+            <Link href="/workspace" className="hover:text-slate-900">Workspace</Link>
+            <Link href="/decisions" className="hover:text-slate-900">Decisions</Link>
+            <Link href="/experiments" className="hover:text-slate-900">Experiments</Link>
+            <Link href="/analytics" className="hover:text-slate-900">Analytics</Link>
+            <Link href="/governance" className="hover:text-slate-900">Governance</Link>
           </div>
         </div>
       </footer>

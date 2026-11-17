@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -9,7 +10,7 @@ import { CalibrationCurve } from "@/components/charts/calibration-curve";
 import { LatencyAccuracyScatter } from "@/components/charts/latency-accuracy-scatter";
 import { api, ExperimentAnalytics } from "@/lib/api";
 import { formatCurrency, formatPercent } from "@/lib/utils";
-import { Download, Sparkles, CheckCircle2, AlertTriangle, FileSpreadsheet } from "lucide-react";
+import { Download, Sparkles, CheckCircle2, AlertTriangle, Scale } from "lucide-react";
 
 export default function AnalyticsPage() {
   const [analytics, setAnalytics] = useState<ExperimentAnalytics | null>(null);
@@ -35,103 +36,91 @@ export default function AnalyticsPage() {
 
   if (isLoading || !analytics) {
     return (
-      <div className="py-20 text-center font-mono text-xs uppercase tracking-wider text-ink-muted">
-        SYNCHRONIZING EMPIRICAL DATASET & ESTIMATING WELCH T-TESTS...
+      <div className="py-24 text-center text-sm text-slate-500">
+        Loading statistical analytics and calibration models...
       </div>
     );
   }
 
   return (
     <div className="space-y-8">
-      {/* Editorial Masthead Header */}
-      <section className="border-2 border-ink-black bg-vellum-50 p-6 lg:p-8 shadow-sharp">
-        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b-2 border-ink-black">
-          <div className="space-y-2 max-w-4xl">
-            <div className="flex items-center gap-3 text-xs font-mono font-bold uppercase tracking-widest text-ink-muted">
-              <span className="px-2 py-0.5 bg-ink-black text-white">§ 04. EVIDENCE & STATS</span>
-              <span>/</span>
-              <span className="text-klein font-bold">PROTOCOL: {analytics.experiment_id}</span>
-              <span>/</span>
-              <span>N = 45 PARTICIPANTS (225 TRIALS)</span>
-            </div>
-            <h1 className="font-serif font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink-black uppercase">
-              Statistical Evidence & Inference
-            </h1>
-            <p className="text-sm lg:text-base text-ink-charcoal font-sans leading-relaxed max-w-3xl">
-              Rigorous parametric and non-parametric hypothesis testing between baseline human decisions, ungrounded AI recommendations, and calibrated explanatory AI with uncertainty bounds.
-            </p>
+      {/* Page Header */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+            <span>Protocol: {analytics.experiment_id}</span>
+            <span>•</span>
+            <span className="text-emerald-600 font-semibold">Welch Inference Online</span>
           </div>
-
-          <div className="flex items-center gap-3 shrink-0">
-            <Button
-              variant="secondary"
-              size="default"
-              onClick={handleDownloadCsv}
-              className="text-xs font-mono font-bold uppercase tracking-wider gap-2 h-11 px-4 border-2 border-ink-black bg-vellum-100 hover:bg-vellum-200 shadow-sharp"
-            >
-              <Download className="w-4 h-4 text-ink-black" />
-              <span>EXPORT RAW MICRODATA (CSV)</span>
-            </Button>
-          </div>
+          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+            Evidence & Statistical Analytics
+          </h1>
+          <p className="text-sm text-slate-600 mt-1 max-w-3xl">
+            Empirical comparisons between autonomous human decisions, ungrounded AI recommendations, and calibrated explanatory AI with uncertainty bounds.
+          </p>
         </div>
 
-        {/* High-Impact Editorial Broadsheet Metric Blocks */}
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
-          <MetricCard
-            label="Condition C Mean Payoff"
-            value={formatCurrency(analytics.conditions_summary[2]?.mean_payoff || 56120)}
-            subtext="AI Rec + Explanation & Bounds"
-            delta={{ value: "+14.7% vs Cond A", isPositive: true }}
-          />
-          <MetricCard
-            label="Condition B Over-Reliance"
-            value={formatPercent(analytics.conditions_summary[1]?.over_reliance_rate || 0.65)}
-            subtext="Adoption of deliberately flawed advice"
-            delta={{ value: "Severe Over-Reliance", isPositive: false }}
-          />
-          <MetricCard
-            label="Condition C Over-Reliance"
-            value={formatPercent(analytics.conditions_summary[2]?.over_reliance_rate || 0.44)}
-            subtext="Mitigated via uncertainty breakdown"
-            delta={{ value: "-21.0% Mitigation", isPositive: true }}
-          />
-          <MetricCard
-            label="Calibration Error (ECE)"
-            value={formatPercent(analytics.calibration.expected_calibration_error)}
-            subtext="Subjective confidence vs observed accuracy"
-            delta={{ value: "Well Calibrated", isPositive: true }}
-          />
+        <div className="flex items-center gap-3 shrink-0">
+          <Button variant="secondary" onClick={handleDownloadCsv} className="gap-2">
+            <Download className="w-4 h-4 text-slate-600" />
+            <span>Export Raw Microdata (CSV)</span>
+          </Button>
         </div>
-      </section>
+      </div>
 
-      {/* Main Condition Comparison Matrix Table */}
-      <div className="border-2 border-ink-black bg-vellum-50 shadow-sharp">
-        <div className="p-5 border-b-2 border-ink-black flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-vellum-100">
+      {/* KPI Overview Grid */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+        <MetricCard
+          label="Condition C Mean Payoff"
+          value={formatCurrency(analytics.conditions_summary[2]?.mean_payoff || 56120)}
+          subtext="AI Rec + Explanation & Bounds"
+          delta={{ value: "+14.7% vs Cond A", isPositive: true }}
+        />
+        <MetricCard
+          label="Condition B Over-Reliance"
+          value={formatPercent(analytics.conditions_summary[1]?.over_reliance_rate || 0.65)}
+          subtext="Adoption of deliberately biased advice"
+          delta={{ value: "Severe Over-Reliance", isPositive: false }}
+        />
+        <MetricCard
+          label="Condition C Over-Reliance"
+          value={formatPercent(analytics.conditions_summary[2]?.over_reliance_rate || 0.44)}
+          subtext="Mitigated via uncertainty breakdown"
+          delta={{ value: "-21.0% Mitigation", isPositive: true }}
+        />
+        <MetricCard
+          label="Calibration Error (ECE)"
+          value={formatPercent(analytics.calibration.expected_calibration_error)}
+          subtext="Subjective confidence vs observed accuracy"
+          delta={{ value: "Well Calibrated", isPositive: true }}
+        />
+      </div>
+
+      {/* Conditions Summary Table Card */}
+      <Card>
+        <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div>
-            <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-muted block">
-              TABLE 01. FACTORIAL COMPARISON
-            </span>
-            <h2 className="font-serif font-black text-xl text-ink-black">
-              Experimental Conditions Summary
-            </h2>
+            <CardTitle>Experimental Conditions Summary</CardTitle>
+            <CardDescription>
+              Empirical metrics across 45 participants and 225 recorded decision events
+            </CardDescription>
           </div>
           <div className="flex items-center gap-2">
-            <Badge variant="cobalt">BETWEEN-SUBJECTS</Badge>
-            <Badge variant="spruce">GROUND-TRUTH SCORED</Badge>
+            <Badge variant="cobalt">Between-Subjects</Badge>
+            <Badge variant="spruce">Ground-Truth Scored</Badge>
           </div>
-        </div>
-
-        <div className="p-4 overflow-x-auto">
+        </CardHeader>
+        <CardContent className="p-0">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>CONDITION CODE & DESCRIPTION</TableHead>
-                <TableHead className="text-center">SUBJECTS (N)</TableHead>
-                <TableHead className="text-right">MEAN PAYOFF ($)</TableHead>
-                <TableHead className="text-right">MEAN DEVIATION</TableHead>
-                <TableHead className="text-right">MEAN LATENCY</TableHead>
-                <TableHead className="text-right">AI AGREEMENT</TableHead>
-                <TableHead className="text-right">OVER-RELIANCE RATE</TableHead>
+                <TableHead>Condition Code & Description</TableHead>
+                <TableHead className="text-center">Subjects (N)</TableHead>
+                <TableHead className="text-right">Mean Payoff ($)</TableHead>
+                <TableHead className="text-right">Mean Deviation</TableHead>
+                <TableHead className="text-right">Mean Latency</TableHead>
+                <TableHead className="text-right">AI Agreement</TableHead>
+                <TableHead className="text-right">Over-Reliance Rate</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
@@ -141,140 +130,137 @@ export default function AnalyticsPage() {
                 return (
                   <TableRow key={cond.condition_code}>
                     <TableCell>
-                      <div className="font-mono font-bold text-xs text-ink-black flex items-center gap-2">
+                      <div className="font-semibold text-slate-900 flex items-center gap-2">
                         <span
-                          className={`w-2 h-2 inline-block ${
-                            isCondA ? "bg-klein" : isCondB ? "bg-vermilion" : "bg-spruce"
+                          className={`w-2 h-2 rounded-full ${
+                            isCondA ? "bg-blue-600" : isCondB ? "bg-rose-600" : "bg-emerald-600"
                           }`}
                         />
                         {cond.condition_name}
                       </div>
-                      <div className="text-[10px] font-mono text-ink-muted">{cond.condition_code}</div>
+                      <div className="text-xs text-slate-400 font-mono mt-0.5">{cond.condition_code}</div>
                     </TableCell>
-                    <TableCell className="text-center font-mono font-bold text-ink-black tabular-nums">
+                    <TableCell className="text-center font-mono font-semibold text-slate-800 tabular-nums">
                       {cond.n_participants}
                     </TableCell>
-                    <TableCell className="text-right font-mono font-bold text-ink-black tabular-nums">
+                    <TableCell className="text-right font-mono font-bold text-slate-900 tabular-nums">
                       {formatCurrency(cond.mean_payoff)}
                     </TableCell>
-                    <TableCell className="text-right font-mono text-ink-charcoal tabular-nums">
+                    <TableCell className="text-right font-mono text-slate-600 tabular-nums">
                       {cond.mean_deviation} units
                     </TableCell>
-                    <TableCell className="text-right font-mono text-ink-charcoal tabular-nums">
+                    <TableCell className="text-right font-mono text-slate-600 tabular-nums">
                       {(cond.mean_latency_ms / 1000).toFixed(1)}s
                     </TableCell>
-                    <TableCell className="text-right font-mono text-ink-black tabular-nums">
+                    <TableCell className="text-right font-mono font-semibold text-slate-800 tabular-nums">
                       {formatPercent(cond.agreement_rate)}
                     </TableCell>
                     <TableCell className="text-right font-mono">
-                      <span
-                        className={`font-bold px-2 py-0.5 border text-xs tabular-nums ${
+                      <Badge
+                        variant={
                           cond.over_reliance_rate > 0.5
-                            ? "bg-vermilion-subtle text-vermilion border-vermilion"
+                            ? "crimson"
                             : cond.over_reliance_rate > 0
-                            ? "bg-amberacc-subtle text-amberacc border-amberacc"
-                            : "text-ink-muted border-vellum-300"
-                        }`}
+                            ? "amber"
+                            : "neutral"
+                        }
                       >
                         {formatPercent(cond.over_reliance_rate)}
-                      </span>
+                      </Badge>
                     </TableCell>
                   </TableRow>
                 );
               })}
             </TableBody>
           </Table>
-        </div>
-      </div>
+        </CardContent>
+      </Card>
 
-      {/* Latency vs Accuracy Scatter & Trust Calibration Curve */}
+      {/* Latency vs Accuracy & Trust Calibration Curve */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        <div className="border-2 border-ink-black bg-vellum-50 p-6 shadow-sharp space-y-4">
-          <div className="border-b-2 border-ink-black pb-3">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted block">
-              FIGURE 01. BEHAVIORAL COGNITIVE FRICTION
-            </span>
-            <h3 className="font-serif font-black text-lg text-ink-black uppercase">
-              Reaction Latency vs Decision Accuracy
-            </h3>
-          </div>
-          <LatencyAccuracyScatter />
-        </div>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm">Cognitive Friction vs Accuracy</CardTitle>
+            <CardDescription>
+              Interaction latency vs. decision accuracy revealing impulsive compliance clusters
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <LatencyAccuracyScatter />
+          </CardContent>
+        </Card>
 
-        <div className="border-2 border-ink-black bg-vellum-50 p-6 shadow-sharp space-y-4">
-          <div className="border-b-2 border-ink-black pb-3">
-            <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted block">
-              FIGURE 02. EPISTEMIC CALIBRATION
-            </span>
-            <h3 className="font-serif font-black text-lg text-ink-black uppercase">
-              Subjective Trust Calibration Curve
-            </h3>
-          </div>
-          <CalibrationCurve
-            bins={analytics.calibration.bins}
-            ece={analytics.calibration.expected_calibration_error}
-          />
-        </div>
+        <Card>
+          <CardHeader className="pb-3">
+            <CardTitle className="text-sm">Subjective Trust Calibration Curve</CardTitle>
+            <CardDescription>
+              Compares participant confidence ratings against ground-truth decision accuracy
+            </CardDescription>
+          </CardHeader>
+          <CardContent className="pt-0">
+            <CalibrationCurve
+              bins={analytics.calibration.bins}
+              ece={analytics.calibration.expected_calibration_error}
+            />
+          </CardContent>
+        </Card>
       </div>
 
-      {/* Statistical Hypothesis Tests */}
-      <div className="border-2 border-ink-black bg-vellum-50 p-6 shadow-sharp space-y-6">
-        <div className="border-b-2 border-ink-black pb-4">
-          <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-muted block">
-            FORMAL INFERENCE
-          </span>
-          <h2 className="font-serif font-black text-2xl text-ink-black uppercase">
-            Welch Two-Sample t-Tests & Cohen&apos;s d Effect Sizes
-          </h2>
-        </div>
+      {/* Formal Welch's t-Tests & Cohen's d Effect Sizes */}
+      <Card>
+        <CardHeader className="pb-3">
+          <CardTitle className="text-sm">Formal Statistical Hypothesis Tests</CardTitle>
+          <CardDescription>
+            Welch two-sample t-test (unequal variance) and Cohen&apos;s d standardized effect sizes
+          </CardDescription>
+        </CardHeader>
+        <CardContent className="space-y-4 pt-0">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {analytics.comparisons.map((comp, idx) => (
+              <div key={idx} className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3">
+                <div className="flex items-center justify-between border-b border-slate-200/60 pb-2.5">
+                  <span className="font-semibold text-xs text-slate-800">
+                    {comp.label_a} vs. {comp.label_b}
+                  </span>
+                  <Badge variant="spruce">p = {comp.welch_t.p_value}</Badge>
+                </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          {analytics.comparisons.map((comp, idx) => (
-            <div key={idx} className="p-5 bg-vellum-100 border-2 border-ink-black space-y-4">
-              <div className="flex items-center justify-between border-b-2 border-ink-black pb-2.5">
-                <div className="font-mono font-bold text-xs uppercase text-ink-black">
-                  {comp.label_a} vs. {comp.label_b}
+                <div className="grid grid-cols-3 gap-2 font-mono text-xs">
+                  <div className="p-2.5 bg-white rounded-lg border border-slate-200/60">
+                    <span className="text-[10px] text-slate-400 uppercase block">Welch t</span>
+                    <span className="font-bold text-slate-900 mt-0.5 block tabular-nums">
+                      {comp.welch_t.t_statistic}
+                    </span>
+                  </div>
+                  <div className="p-2.5 bg-white rounded-lg border border-slate-200/60">
+                    <span className="text-[10px] text-slate-400 uppercase block">Cohen&apos;s d</span>
+                    <span className="font-bold text-blue-600 mt-0.5 block tabular-nums">
+                      {comp.cohens_d}
+                    </span>
+                  </div>
+                  <div className="p-2.5 bg-white rounded-lg border border-slate-200/60">
+                    <span className="text-[10px] text-slate-400 uppercase block">Effect</span>
+                    <span className="font-bold text-emerald-700 capitalize mt-0.5 block truncate text-[11px]">
+                      {comp.effect_interpretation}
+                    </span>
+                  </div>
                 </div>
-                <span className="font-mono text-xs font-bold px-2 py-0.5 bg-ink-black text-white">
-                  p = {comp.welch_t.p_value}
-                </span>
-              </div>
 
-              <div className="grid grid-cols-3 gap-3 font-mono text-xs">
-                <div className="p-2.5 bg-vellum-50 border border-ink-black">
-                  <span className="text-[10px] text-ink-muted uppercase block">Welch t</span>
-                  <span className="font-bold text-ink-black text-sm tabular-nums mt-0.5 block">
-                    {comp.welch_t.t_statistic}
-                  </span>
-                </div>
-                <div className="p-2.5 bg-vellum-50 border border-ink-black">
-                  <span className="text-[10px] text-ink-muted uppercase block">Cohen&apos;s d</span>
-                  <span className="font-bold text-klein text-sm tabular-nums mt-0.5 block">
-                    {comp.cohens_d}
-                  </span>
-                </div>
-                <div className="p-2.5 bg-vellum-50 border border-ink-black">
-                  <span className="text-[10px] text-ink-muted uppercase block">Effect</span>
-                  <span className="font-bold text-spruce capitalize text-xs mt-0.5 block truncate">
-                    {comp.effect_interpretation}
-                  </span>
+                <div className="text-xs text-slate-600 leading-relaxed pt-1">
+                  {comp.welch_t.is_significant_01 ? (
+                    <span className="text-emerald-700 font-medium flex items-center gap-1.5">
+                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
+                      Statistically significant difference at α = 0.01 level. Null hypothesis rejected.
+                    </span>
+                  ) : (
+                    <span>No statistically significant difference observed at conventional α = 0.05.</span>
+                  )}
                 </div>
               </div>
-
-              <div className="text-xs font-sans text-ink-charcoal leading-relaxed pt-1">
-                {comp.welch_t.is_significant_01 ? (
-                  <span className="text-spruce font-bold flex items-center gap-1.5">
-                    <CheckCircle2 className="w-4 h-4 shrink-0" />
-                    Statistically significant difference at α = 0.01 level. Null hypothesis rejected.
-                  </span>
-                ) : (
-                  <span>No statistically significant difference observed at conventional α = 0.05.</span>
-                )}
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+            ))}
+          </div>
+        </CardContent>
+      </Card>
     </div>
   );
 }

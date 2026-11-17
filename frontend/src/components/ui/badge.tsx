@@ -2,24 +2,40 @@ import React from "react";
 import { cn } from "@/lib/utils";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLSpanElement> {
-  variant?: "neutral" | "spruce" | "cognition" | "cobalt" | "crimson" | "iris" | "outline" | "amber" | "vermilion" | "klein";
+  variant?:
+    | "neutral"
+    | "spruce"
+    | "emerald"
+    | "cognition"
+    | "amber"
+    | "cobalt"
+    | "brand"
+    | "klein"
+    | "crimson"
+    | "rose"
+    | "vermilion"
+    | "iris"
+    | "outline";
 }
 
 export function Badge({ className, variant = "neutral", children, ...props }: BadgeProps) {
   const baseStyles =
-    "inline-flex items-center px-2 py-0.5 text-[10px] font-mono tracking-wider uppercase tabular-nums font-bold border border-ink-black rounded-none";
+    "inline-flex items-center px-2.5 py-0.5 text-[11px] font-medium rounded-full tabular-nums border transition-colors";
 
   const variants = {
-    neutral: "bg-vellum-200 text-ink-black",
-    spruce: "bg-spruce-subtle text-spruce border-spruce font-bold",
-    cobalt: "bg-klein-subtle text-klein border-klein font-bold",
-    klein: "bg-klein-subtle text-klein border-klein font-bold",
-    cognition: "bg-amberacc-subtle text-amberacc border-amberacc font-bold",
-    amber: "bg-amberacc-subtle text-amberacc border-amberacc font-bold",
-    crimson: "bg-vermilion-subtle text-vermilion border-vermilion font-bold",
-    vermilion: "bg-vermilion-subtle text-vermilion border-vermilion font-bold",
-    iris: "bg-purple-100 text-purple-900 border-purple-800",
-    outline: "border-ink-black text-ink-black bg-white",
+    neutral: "bg-slate-100 text-slate-700 border-slate-200/80",
+    spruce: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    emerald: "bg-emerald-50 text-emerald-700 border-emerald-200",
+    cobalt: "bg-blue-50 text-blue-700 border-blue-200",
+    brand: "bg-blue-50 text-blue-700 border-blue-200",
+    klein: "bg-blue-50 text-blue-700 border-blue-200",
+    cognition: "bg-amber-50 text-amber-850 border-amber-200 text-amber-800",
+    amber: "bg-amber-50 text-amber-800 border-amber-200",
+    crimson: "bg-rose-50 text-rose-700 border-rose-200",
+    rose: "bg-rose-50 text-rose-700 border-rose-200",
+    vermilion: "bg-rose-50 text-rose-700 border-rose-200",
+    iris: "bg-indigo-50 text-indigo-700 border-indigo-200",
+    outline: "border-slate-200 text-slate-600 bg-white",
   };
 
   return (
