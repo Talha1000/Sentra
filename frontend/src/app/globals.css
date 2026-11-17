@@ -1,0 +1,46 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --canvas: #F7F6F2;
+  --panel: #FFFFFF;
+  --hairline: #E5E2D9;
+  --ink-primary: #12151A;
+  --ink-secondary: #484F59;
+}
+
+body {
+  background-color: var(--canvas);
+  color: var(--ink-primary);
+  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Tabular figures for numbers, currency, percentages, timestamps, and p-values */
+.tabular-nums {
+  font-variant-numeric: tabular-nums lining-nums;
+}
+
+/* Accessibility focus state - WCAG 2.2 AA compliant high-contrast 2px outline */
+:focus-visible {
+  outline: 2px solid #14171A;
+  outline-offset: 2px;
+}
+
+/* Restrained scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: #F7F6F2;
+}
+::-webkit-scrollbar-thumb {
+  background: #D8D5C8;
+  border-radius: 3px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #B8B4A2;
+}
