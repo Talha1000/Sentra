@@ -6,7 +6,7 @@ import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@
 import { Badge } from "@/components/ui/badge";
 import { MetricCard } from "@/components/ui/metric-card";
 import { api } from "@/lib/api";
-import { ShieldCheck, Lock, Cpu, Database, CheckCircle2, History } from "lucide-react";
+import { ShieldCheck, Lock, Cpu, Database, CheckCircle2, History, Terminal } from "lucide-react";
 
 export default function GovernancePage() {
   const [auditLogs, setAuditLogs] = useState<any[]>([]);
@@ -50,26 +50,29 @@ export default function GovernancePage() {
   ];
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-hairline pb-5">
+    <div className="space-y-6">
+      {/* Precision Workstation Banner */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 p-4 bg-obsidian-850 border border-obsidian-700 rounded shadow-terminal">
         <div>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs text-ink-tertiary">Module F</span>
-            <span className="text-hairline">|</span>
-            <Badge variant="spruce">Tenant Isolation & Audit Protocol Active</Badge>
+            <span className="w-2 h-2 rounded-full bg-phosphor-green animate-pulse" />
+            <span className="font-mono text-xs uppercase tracking-wider text-phosphor-green font-bold">
+              MODULE 05 // GOVERNANCE & PROVENANCE LEDGER
+            </span>
+            <span className="text-obsidian-600">|</span>
+            <Badge variant="spruce">CRYPTOGRAPHIC IMMUTABILITY</Badge>
           </div>
-          <h1 className="text-xl font-semibold text-ink-primary tracking-tight mt-1">
+          <h1 className="text-xl font-mono font-bold text-terminal-text tracking-tight uppercase mt-1">
             Governance, Reliability & Audit Trail
           </h1>
-          <p className="text-xs text-ink-secondary mt-1">
-            Immutable system logs, model card provenance, and enterprise tenancy controls.
+          <p className="text-xs text-terminal-muted font-sans mt-0.5">
+            Tamper-evident system activity ledgers, model weight provenance cards, and multi-tenant row-level access verification.
           </p>
         </div>
       </div>
 
       {/* Governance KPIs */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
         <MetricCard
           label="Tenant Data Isolation"
           value="Row-Level"
@@ -97,8 +100,8 @@ export default function GovernancePage() {
       </div>
 
       {/* Model Registry Cards */}
-      <Card>
-        <CardHeader>
+      <Card className="border-obsidian-700 bg-obsidian-850">
+        <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 pb-2.5">
           <CardTitle>AI Model Registry & Provenance</CardTitle>
           <CardDescription>
             Registered model weights, prompt templates, and empirical epistemic calibration metrics.
@@ -120,18 +123,18 @@ export default function GovernancePage() {
               {models.map((m) => (
                 <TableRow key={m.id}>
                   <TableCell>
-                    <div className="font-mono font-semibold text-ink-primary">{m.id}</div>
+                    <div className="font-mono font-bold text-terminal-text text-xs">{m.id}</div>
                   </TableCell>
-                  <TableCell className="text-xs text-ink-secondary">
+                  <TableCell className="font-mono text-xs text-terminal-muted">
                     {m.provider} • {m.version} (t={m.temperature})
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-ink-secondary">
+                  <TableCell className="font-mono text-xs text-phosphor-cyan">
                     {m.promptVersion}
                   </TableCell>
-                  <TableCell className="text-right font-mono font-semibold text-ink-primary">
+                  <TableCell className="text-right font-mono font-bold text-terminal-text">
                     {m.agreementRate}
                   </TableCell>
-                  <TableCell className="text-right font-mono text-xs text-ink-secondary">
+                  <TableCell className="text-right font-mono text-xs text-terminal-muted">
                     {m.calibrationError}
                   </TableCell>
                   <TableCell>
@@ -147,15 +150,15 @@ export default function GovernancePage() {
       </Card>
 
       {/* Immutable Audit Log Ledger */}
-      <Card>
-        <CardHeader className="flex flex-row items-center justify-between pb-3">
+      <Card className="border-obsidian-700 bg-obsidian-850">
+        <CardHeader className="flex flex-row items-center justify-between pb-2.5 bg-obsidian-900 border-b border-obsidian-700">
           <div>
-            <CardTitle>Immutable System Audit Ledger</CardTitle>
+            <CardTitle>Cryptographic Audit Ledger</CardTitle>
             <CardDescription>
               Chronological ledger of user sign-offs, AI generations, and parameter adjustments.
             </CardDescription>
           </div>
-          <Badge variant="outline" className="font-mono text-[10px]">
+          <Badge variant="outline" className="font-mono text-[9px]">
             AES-256 HMAC Sealed
           </Badge>
         </CardHeader>
@@ -173,19 +176,19 @@ export default function GovernancePage() {
             <TableBody>
               {auditLogs.map((log) => (
                 <TableRow key={log.id}>
-                  <TableCell className="font-mono text-[11px] text-ink-tertiary">
+                  <TableCell className="font-mono text-[10px] text-terminal-dim">
                     {log.created_at}
                   </TableCell>
-                  <TableCell className="text-xs font-medium text-ink-primary">
+                  <TableCell className="font-mono text-xs text-terminal-text">
                     {log.actor_email || "system-scheduler"}
                   </TableCell>
                   <TableCell>
                     <Badge variant="neutral">{log.action}</Badge>
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-ink-secondary">
+                  <TableCell className="font-mono text-xs text-terminal-muted">
                     {log.entity_type} • {log.entity_id.substring(0, 8)}
                   </TableCell>
-                  <TableCell className="text-xs font-mono text-ink-secondary truncate max-w-xs">
+                  <TableCell className="font-mono text-xs text-terminal-muted truncate max-w-xs">
                     {JSON.stringify(log.payload)}
                   </TableCell>
                 </TableRow>

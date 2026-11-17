@@ -11,20 +11,20 @@ export interface ButtonProps extends React.ButtonHTMLAttributes<HTMLButtonElemen
 export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", isLoading = false, children, disabled, ...props }, ref) => {
     const baseStyles =
-      "inline-flex items-center justify-center font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ink-primary focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none rounded select-none";
+      "inline-flex items-center justify-center font-mono font-medium transition-all focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-phosphor-cyan disabled:opacity-40 disabled:pointer-events-none rounded select-none uppercase tracking-wider";
 
     const variants = {
-      primary: "bg-ink-primary text-panel hover:bg-black active:bg-ink-secondary",
-      secondary: "bg-subtle text-ink-primary hover:bg-surface-hover active:bg-surface-active border border-hairline",
-      outline: "border border-hairline bg-transparent hover:bg-subtle text-ink-primary",
-      ghost: "hover:bg-subtle text-ink-primary",
-      destructive: "bg-crimson text-white hover:bg-red-800",
+      primary: "bg-phosphor-cyan text-obsidian-950 font-bold hover:bg-[#33ddff] shadow-[0_0_15px_-2px_rgba(0,212,255,0.4)] active:scale-[0.98]",
+      secondary: "bg-obsidian-750 text-terminal-text hover:bg-obsidian-700 hover:text-white border border-obsidian-700 active:bg-obsidian-800",
+      outline: "border border-obsidian-700 bg-transparent hover:bg-obsidian-800 hover:border-terminal-muted text-terminal-text",
+      ghost: "hover:bg-obsidian-750 text-terminal-muted hover:text-terminal-text",
+      destructive: "bg-phosphor-crimson text-obsidian-950 font-bold hover:bg-red-400 shadow-[0_0_15px_-2px_rgba(255,77,77,0.4)]",
     };
 
     const sizes = {
-      sm: "h-8 px-3 text-xs gap-1.5",
-      md: "h-9 px-4 text-xs gap-2",
-      lg: "h-11 px-5 text-sm gap-2.5",
+      sm: "h-7 px-2.5 text-[11px] gap-1.5",
+      md: "h-8 px-3.5 text-xs gap-2",
+      lg: "h-10 px-4 text-xs gap-2.5",
     };
 
     return (

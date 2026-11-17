@@ -18,6 +18,9 @@ import {
   CheckCircle2,
   AlertTriangle,
   Zap,
+  Terminal,
+  Radio,
+  Cpu,
 } from "lucide-react";
 import { formatPercent } from "@/lib/utils";
 
@@ -45,7 +48,7 @@ export default function ExperimentsDashboardPage() {
       completedTrials: 225,
       status: "Active",
       biasInjected: "+35% in Scenarios 3 & 5",
-      colorTag: "cobalt",
+      variant: "spruce",
     },
     {
       id: "exp-cap-002",
@@ -60,7 +63,7 @@ export default function ExperimentsDashboardPage() {
       completedTrials: 120,
       status: "Active",
       biasInjected: "High variance regime",
-      colorTag: "iris",
+      variant: "cobalt",
     },
     {
       id: "exp-rec-003",
@@ -75,16 +78,17 @@ export default function ExperimentsDashboardPage() {
       completedTrials: 54,
       status: "Draft",
       biasInjected: "Feature skew",
-      colorTag: "cognition",
+      variant: "cognition",
     },
   ]);
 
   // Live incoming participant stream
   const liveTelemetry = [
-    { id: "e-941", token: "synth-c-14", cond: "Cond C", latency: "6.4s", action: 1040, status: "Optimal", tag: "spruce" },
-    { id: "e-940", token: "synth-b-12", cond: "Cond B", latency: "3.1s", action: 1850, status: "Over-Reliant", tag: "crimson" },
-    { id: "e-939", token: "synth-a-09", cond: "Cond A", latency: "8.9s", action: 1410, status: "Optimal", tag: "spruce" },
-    { id: "e-938", token: "synth-c-13", cond: "Cond C", latency: "7.2s", action: 1390, status: "Audited", tag: "cobalt" },
+    { id: "e-941", token: "synth-c-14", cond: "Cond C", latency: "6.4s", action: 1040, status: "OPTIMAL", tag: "spruce" },
+    { id: "e-940", token: "synth-b-12", cond: "Cond B", latency: "3.1s", action: 1850, status: "OVER-RELIANT", tag: "crimson" },
+    { id: "e-939", token: "synth-a-09", cond: "Cond A", latency: "8.9s", action: 1410, status: "OPTIMAL", tag: "spruce" },
+    { id: "e-938", token: "synth-c-13", cond: "Cond C", latency: "7.2s", action: 1390, status: "AUDITED", tag: "cobalt" },
+    { id: "e-937", token: "synth-b-11", cond: "Cond B", latency: "2.7s", action: 1840, status: "OVER-RELIANT", tag: "crimson" },
   ];
 
   const handleCreateProtocol = () => {
@@ -100,7 +104,7 @@ export default function ExperimentsDashboardPage() {
       completedTrials: 0,
       status: "Active",
       biasInjected: `±${biasMagnitude}% controlled deviation`,
-      colorTag: "spruce",
+      variant: "spruce",
     };
     setExperiments([newExp, ...experiments]);
     setIsBuilderOpen(false);
@@ -112,40 +116,41 @@ export default function ExperimentsDashboardPage() {
       : experiments.filter((e) => e.protocol.toUpperCase().includes(filterType) || e.status.toUpperCase() === filterType);
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto">
-      {/* Dynamic Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-hairline pb-5">
-        <div>
+    <div className="space-y-5">
+      {/* Precision Workstation Deck Banner */}
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-3 p-4 bg-obsidian-850 border border-obsidian-700 rounded shadow-terminal">
+        <div className="space-y-1">
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs text-ink-tertiary">Research Lab</span>
-            <span className="text-hairline">|</span>
-            <Badge variant="spruce">IRB Protocol Audited</Badge>
-            <span className="text-hairline">|</span>
-            <Badge variant="cobalt" className="animate-pulse">Live Telemetry Active</Badge>
+            <span className="w-2 h-2 rounded-full bg-phosphor-green animate-pulse" />
+            <span className="font-mono text-xs uppercase tracking-wider text-phosphor-green font-bold">
+              RESEARCH OPERATIONS MATRIX // PROTOCOL SUITE
+            </span>
+            <span className="text-obsidian-600">|</span>
+            <Badge variant="spruce">IRB APPROVED</Badge>
           </div>
-          <h1 className="text-2xl font-serif font-medium text-ink-primary tracking-tight mt-1">
-            Research Protocols & Experiment Studio
+          <h1 className="text-xl font-mono font-bold text-terminal-text tracking-tight uppercase">
+            Double-Blind Experimental Laboratory
           </h1>
-          <p className="text-xs text-ink-secondary mt-1">
-            Design double-blind experimental protocols, configure controlled AI biases, and track real-time participant decisions.
+          <p className="text-xs text-terminal-muted max-w-3xl font-sans">
+            Orchestrate between-subjects randomized trials, deploy controlled AI error stressors, and capture microsecond participant reaction latency.
           </p>
         </div>
 
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5 shrink-0">
           <Button
             variant="secondary"
             size="sm"
             onClick={() => setIsBuilderOpen(true)}
-            className="gap-1.5 text-xs bg-panel border-hairline shadow-sm hover:border-cobalt-border"
+            className="text-xs gap-1.5"
           >
-            <Sliders className="w-3.5 h-3.5 text-cobalt" />
-            <span>Protocol Architect</span>
+            <Sliders className="w-3.5 h-3.5 text-phosphor-cyan" />
+            <span>DEPLOY PROTOCOL</span>
           </Button>
 
           <Link href="/experiments/run/exp-inv-001">
-            <Button variant="primary" size="sm" className="gap-1.5 text-xs bg-ink-primary text-panel shadow-sm hover:bg-black">
+            <Button variant="primary" size="sm" className="gap-1.5 text-xs">
               <Play className="w-3 h-3 fill-current" />
-              <span>Launch Participant Runner</span>
+              <span>LAUNCH PARTICIPANT RUNNER</span>
             </Button>
           </Link>
         </div>
@@ -158,51 +163,51 @@ export default function ExperimentsDashboardPage() {
         title="Protocol Architect & Injected Bias Generator"
         description="Configure experimental hypotheses, target sample sizes, and controlled error magnitudes."
       >
-        <div className="space-y-4 text-xs">
+        <div className="space-y-4 text-xs font-mono">
           <div>
-            <label className="block font-semibold text-ink-primary mb-1">Study Protocol Title</label>
+            <label className="block text-terminal-muted mb-1 text-[11px] uppercase">Protocol Title</label>
             <input
               type="text"
               value={newTitle}
               onChange={(e) => setNewTitle(e.target.value)}
-              className="w-full p-2 border border-hairline rounded bg-panel font-medium"
+              className="w-full p-2.5 border border-obsidian-700 rounded bg-obsidian-900 text-terminal-text font-mono text-xs focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-phosphor-cyan"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-3">
             <div>
-              <label className="block font-semibold text-ink-primary mb-1">Decision Domain</label>
+              <label className="block text-terminal-muted mb-1 text-[11px] uppercase">Domain</label>
               <select
                 value={selectedDomain}
                 onChange={(e) => setSelectedDomain(e.target.value)}
-                className="w-full p-2 border border-hairline rounded bg-panel"
+                className="w-full p-2.5 border border-obsidian-700 rounded bg-obsidian-900 text-terminal-text font-mono text-xs"
               >
                 <option value="Inventory">Inventory Purchasing</option>
                 <option value="Capital">Capital Allocation</option>
                 <option value="Operations">Operations Scheduling</option>
-                <option value="Recruitment">Talent & Hiring</option>
+                <option value="Recruitment">Talent Selection</option>
               </select>
             </div>
 
             <div>
-              <label className="block font-semibold text-ink-primary mb-1">Target Subjects (N)</label>
+              <label className="block text-terminal-muted mb-1 text-[11px] uppercase">Target Subjects (N)</label>
               <input
                 type="number"
                 value={sampleSize}
                 onChange={(e) => setSampleSize(Number(e.target.value))}
-                className="w-full p-2 border border-hairline rounded bg-panel font-mono"
+                className="w-full p-2.5 border border-obsidian-700 rounded bg-obsidian-900 text-terminal-text font-mono text-xs"
               />
             </div>
           </div>
 
-          {/* Controlled Injected Bias Slider */}
-          <div className="p-3 bg-cognition-subtle/50 border border-cognition-border rounded space-y-2">
-            <div className="flex justify-between items-center font-medium">
-              <span className="text-cognition-dark flex items-center gap-1.5">
-                <Zap className="w-3.5 h-3.5 text-cognition" />
-                Injected Bias Magnitude (Over-Reliance Stressor)
+          {/* Injected Bias Slider */}
+          <div className="p-3.5 bg-obsidian-900 border border-phosphor-amber/40 rounded space-y-2">
+            <div className="flex justify-between items-center">
+              <span className="text-phosphor-amber font-bold text-xs uppercase flex items-center gap-1.5">
+                <Zap className="w-3.5 h-3.5" />
+                Injected Bias Stressor
               </span>
-              <span className="font-mono font-bold text-sm text-cognition-dark">+{biasMagnitude}%</span>
+              <span className="font-mono font-bold text-sm text-phosphor-amber">+{biasMagnitude}%</span>
             </div>
             <input
               type="range"
@@ -211,190 +216,205 @@ export default function ExperimentsDashboardPage() {
               step="5"
               value={biasMagnitude}
               onChange={(e) => setBiasMagnitude(Number(e.target.value))}
-              className="w-full h-1.5 bg-cognition-border rounded cursor-pointer accent-cognition"
+              className="w-full h-1 bg-obsidian-700 rounded cursor-pointer accent-phosphor-amber"
             />
-            <p className="text-[11px] text-ink-secondary leading-normal">
-              In selected trials, the AI will recommend quantities {biasMagnitude}% above optimal to observe if subjects over-rely or perform critical audit.
+            <p className="text-[10px] text-terminal-muted font-sans leading-normal">
+              In selected trials, the algorithmic model will deviate {biasMagnitude}% from mathematical optimal to evaluate participant over-reliance vs verification.
             </p>
           </div>
 
-          <div className="flex justify-end gap-2 pt-2">
+          <div className="flex justify-end gap-2 pt-2 border-t border-obsidian-700">
             <Button variant="secondary" size="sm" onClick={() => setIsBuilderOpen(false)}>
-              Cancel
+              CANCEL
             </Button>
             <Button variant="primary" size="sm" onClick={handleCreateProtocol} className="gap-1.5">
               <Sparkles className="w-3.5 h-3.5" />
-              <span>Deploy Protocol</span>
+              <span>COMMIT TO ACTIVE MATRIX</span>
             </Button>
           </div>
         </div>
       </Modal>
 
-      {/* Dynamic Telemetry Banner */}
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-        <div className="md:col-span-3 p-3.5 bg-panel border border-hairline rounded shadow-sm flex flex-col sm:flex-row items-center justify-between gap-4">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-full bg-cobalt-subtle border border-cobalt-border flex items-center justify-center text-cobalt shrink-0">
-              <Activity className="w-4 h-4 animate-pulse" />
+      {/* Main Two-Column Split Deck Workstation */}
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-5">
+        {/* Left Column (2/3 width): Protocol Matrix Deck */}
+        <div className="lg:col-span-2 space-y-4">
+          {/* Filter Bar */}
+          <div className="flex items-center justify-between bg-obsidian-850 p-2 border border-obsidian-700 rounded text-xs font-mono">
+            <div className="flex items-center gap-1">
+              {[
+                { id: "ALL", label: "ALL PROTOCOLS" },
+                { id: "ACTIVE", label: "ACTIVE" },
+                { id: "BETWEEN", label: "BETWEEN-SUBJECTS" },
+                { id: "WITHIN", label: "WITHIN-SUBJECTS" },
+              ].map((tab) => (
+                <button
+                  key={tab.id}
+                  onClick={() => setFilterType(tab.id)}
+                  className={`px-2.5 py-1 rounded text-[10px] font-mono uppercase tracking-wider transition-all font-semibold ${
+                    filterType === tab.id
+                      ? "bg-obsidian-700 text-phosphor-cyan border border-phosphor-cyan/30"
+                      : "text-terminal-muted hover:text-terminal-text hover:bg-obsidian-800"
+                  }`}
+                >
+                  {tab.label}
+                </button>
+              ))}
             </div>
-            <div>
-              <div className="text-xs font-semibold text-ink-primary flex items-center gap-2">
-                <span>Real-Time Participant Stream</span>
-                <span className="w-2 h-2 rounded-full bg-spruce animate-ping" />
-              </div>
-              <div className="text-[11px] text-ink-secondary">
-                Listening to high-resolution server-clock timestamp events.
-              </div>
-            </div>
+
+            <span className="text-[10px] text-terminal-dim">
+              [ {filteredExperiments.length} OF {experiments.length} LOADED ]
+            </span>
           </div>
 
-          <div className="flex items-center gap-2 overflow-x-auto w-full sm:w-auto">
-            {liveTelemetry.map((t) => (
-              <div
-                key={t.id}
-                className="px-2.5 py-1.5 rounded bg-canvas border border-hairline text-[11px] flex items-center gap-2 shrink-0 font-mono"
+          {/* Protocols Cards */}
+          <div className="space-y-3">
+            {filteredExperiments.map((exp) => (
+              <Card
+                key={exp.id}
+                className="border-obsidian-700 hover:border-obsidian-600 bg-obsidian-850 transition-all duration-150"
               >
-                <span className="font-bold text-ink-primary">{t.token}</span>
-                <span className="text-ink-tertiary">|</span>
-                <span>{t.latency}</span>
-                <Badge
-                  variant={
-                    t.tag === "spruce"
-                      ? "spruce"
-                      : t.tag === "crimson"
-                      ? "crimson"
-                      : "cobalt"
-                  }
-                  className="text-[9px] px-1 py-0"
-                >
-                  {t.status}
-                </Badge>
-              </div>
+                <div className="p-4 space-y-3">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-obsidian-700/60 pb-2.5">
+                    <div className="flex items-center gap-2">
+                      <span className="font-mono text-xs font-bold text-phosphor-cyan">{exp.id}</span>
+                      <span className="text-obsidian-600">/</span>
+                      <Badge variant={exp.status === "Active" ? "spruce" : "neutral"}>
+                        {exp.status}
+                      </Badge>
+                      <Badge variant="cobalt">{exp.domain}</Badge>
+                      <span className="font-mono text-[10px] text-terminal-muted">• {exp.protocol}</span>
+                    </div>
+
+                    <div className="flex items-center gap-2 shrink-0">
+                      <Link href="/analytics">
+                        <Button variant="secondary" size="sm" className="h-6 px-2 text-[10px] gap-1">
+                          <span>STATS</span>
+                          <ArrowUpRight className="w-3 h-3" />
+                        </Button>
+                      </Link>
+                      <Link href={`/experiments/run/${exp.id}`}>
+                        <Button variant="primary" size="sm" className="h-6 px-2.5 text-[10px] gap-1">
+                          <Play className="w-2.5 h-2.5 fill-current" />
+                          <span>RUN</span>
+                        </Button>
+                      </Link>
+                    </div>
+                  </div>
+
+                  <div>
+                    <h3 className="font-mono font-bold text-sm text-terminal-text tracking-wide">
+                      {exp.title}
+                    </h3>
+                    <p className="text-xs text-terminal-muted font-sans mt-1 leading-relaxed">
+                      <span className="font-mono font-semibold text-terminal-text text-[11px] uppercase">Hypothesis:</span>{" "}
+                      {exp.hypothesis}
+                    </p>
+                  </div>
+
+                  {/* High Density Metric Cells */}
+                  <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 pt-1 font-mono text-xs">
+                    <div className="p-2 bg-obsidian-900 border border-obsidian-700 rounded">
+                      <span className="text-[9px] uppercase text-terminal-muted block">Conditions</span>
+                      <span className="font-bold text-terminal-text mt-0.5 block">{exp.conditionsCount} (A / B / C)</span>
+                    </div>
+
+                    <div className="p-2 bg-obsidian-900 border border-obsidian-700 rounded">
+                      <span className="text-[9px] uppercase text-terminal-muted block">Battery Scenarios</span>
+                      <span className="font-bold text-terminal-text mt-0.5 block">{exp.scenariosCount} Trials</span>
+                    </div>
+
+                    <div className="p-2 bg-obsidian-900 border border-obsidian-700 rounded">
+                      <span className="text-[9px] uppercase text-terminal-muted block">Enrolled Subjects</span>
+                      <span className="font-bold text-phosphor-cyan mt-0.5 block">{exp.participantsEnrolled} N</span>
+                    </div>
+
+                    <div className="p-2 bg-obsidian-900 border border-obsidian-700 rounded">
+                      <span className="text-[9px] uppercase text-terminal-muted block">Bias Stressor</span>
+                      <span className="font-bold text-phosphor-amber mt-0.5 block truncate text-[11px]">
+                        {exp.biasInjected}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </Card>
             ))}
           </div>
         </div>
 
-        <div className="p-3.5 bg-panel border border-hairline rounded shadow-sm flex flex-col justify-center">
-          <div className="text-[11px] font-medium text-ink-secondary">Protocol Integrity Check</div>
-          <div className="text-base font-bold font-mono text-spruce flex items-center gap-1.5 mt-0.5">
-            <ShieldCheck className="w-4 h-4" />
-            <span>100% Deterministic</span>
-          </div>
-        </div>
-      </div>
-
-      {/* Filter Tabs */}
-      <div className="flex items-center justify-between border-b border-hairline pb-2">
-        <div className="flex items-center gap-1.5">
-          {[
-            { id: "ALL", label: "All Protocols" },
-            { id: "ACTIVE", label: "Active Live" },
-            { id: "BETWEEN", label: "Between-Subjects" },
-            { id: "WITHIN", label: "Within-Subjects" },
-          ].map((tab) => (
-            <button
-              key={tab.id}
-              onClick={() => setFilterType(tab.id)}
-              className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
-                filterType === tab.id
-                  ? "bg-ink-primary text-white shadow-sm"
-                  : "bg-panel border border-hairline text-ink-secondary hover:bg-subtle"
-              }`}
-            >
-              {tab.label}
-            </button>
-          ))}
-        </div>
-
-        <span className="text-xs text-ink-tertiary font-mono">
-          Showing {filteredExperiments.length} of {experiments.length}
-        </span>
-      </div>
-
-      {/* Protocols List with Rich Smart Colors */}
-      <div className="grid grid-cols-1 gap-6">
-        {filteredExperiments.map((exp) => (
-          <Card
-            key={exp.id}
-            className="hover:border-border-medium hover:shadow-elevated transition-all duration-200 border-hairline"
-          >
-            <CardHeader className="flex flex-row items-start justify-between pb-3 bg-canvas/40 border-b border-hairline/80">
-              <div className="space-y-1.5">
-                <div className="flex items-center gap-2">
-                  <span className="font-mono text-xs font-bold text-ink-primary">{exp.id}</span>
-                  <Badge variant={exp.status === "Active" ? "spruce" : "neutral"}>
-                    {exp.status}
-                  </Badge>
-                  <Badge variant={exp.colorTag as any}>{exp.domain}</Badge>
-                  <span className="text-xs text-ink-secondary font-mono">• {exp.protocol}</span>
-                </div>
-                <CardTitle className="text-base font-semibold text-ink-primary tracking-tight">
-                  {exp.title}
+        {/* Right Column (1/3 width): Live Telemetry Radar & Fast Feed */}
+        <div className="space-y-4">
+          {/* Live Telemetry Stream Ticker */}
+          <Card className="border-obsidian-700 bg-obsidian-850">
+            <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 pb-2.5">
+              <div className="flex items-center justify-between">
+                <CardTitle className="text-phosphor-cyan flex items-center gap-1.5 text-xs">
+                  <Radio className="w-3.5 h-3.5 animate-pulse text-phosphor-green" />
+                  <span>LIVE PARTICIPANT TELEMETRY</span>
                 </CardTitle>
-                <p className="text-xs text-ink-secondary max-w-3xl leading-relaxed">
-                  <span className="font-semibold text-ink-primary">Hypothesis:</span> {exp.hypothesis}
-                </p>
-              </div>
-
-              <div className="flex items-center gap-2 shrink-0">
-                <Link href="/analytics">
-                  <Button variant="secondary" size="sm" className="gap-1 text-xs bg-panel shadow-sm">
-                    <span>Evidence</span>
-                    <ArrowUpRight className="w-3.5 h-3.5" />
-                  </Button>
-                </Link>
-                <Link href={`/experiments/run/${exp.id}`}>
-                  <Button variant="primary" size="sm" className="gap-1 text-xs shadow-sm">
-                    <Play className="w-3 h-3 fill-current" />
-                    <span>Run Protocol</span>
-                  </Button>
-                </Link>
+                <span className="font-mono text-[9px] text-phosphor-green">REC // ACTIVE</span>
               </div>
             </CardHeader>
-
-            <CardContent className="pt-4 grid grid-cols-2 sm:grid-cols-5 gap-4 text-xs">
-              <div className="p-2.5 rounded bg-subtle/50 border border-hairline">
-                <span className="text-ink-secondary text-[11px] block">Conditions</span>
-                <span className="font-mono font-bold text-sm text-cobalt mt-0.5 block">
-                  {exp.conditionsCount} (A / B / C)
-                </span>
-                <span className="text-[10px] text-ink-tertiary">Blinded protocol</span>
+            <CardContent className="p-3 space-y-2 text-xs font-mono">
+              <div className="text-[10px] text-terminal-dim mb-1 flex justify-between">
+                <span>SUBJECT / TOKEN</span>
+                <span>LATENCY // EVAL</span>
               </div>
 
-              <div className="p-2.5 rounded bg-subtle/50 border border-hairline">
-                <span className="text-ink-secondary text-[11px] block">Battery Scenarios</span>
-                <span className="font-mono font-bold text-sm text-ink-primary mt-0.5 block">
-                  {exp.scenariosCount} Scenarios
-                </span>
-                <span className="text-[10px] text-ink-tertiary">Deterministic math</span>
-              </div>
+              {liveTelemetry.map((t) => (
+                <div
+                  key={t.id}
+                  className="p-2 rounded bg-obsidian-900 border border-obsidian-700/80 flex items-center justify-between text-xs transition-all hover:border-obsidian-600"
+                >
+                  <div className="space-y-0.5">
+                    <div className="font-bold text-terminal-text">{t.token}</div>
+                    <div className="text-[10px] text-terminal-muted">{t.cond} • Action: {t.action}</div>
+                  </div>
 
-              <div className="p-2.5 rounded bg-subtle/50 border border-hairline">
-                <span className="text-ink-secondary text-[11px] block">Active Subjects</span>
-                <span className="font-mono font-bold text-sm text-iris mt-0.5 block">
-                  {exp.participantsEnrolled} Subjects
-                </span>
-                <span className="text-[10px] text-ink-tertiary">Pseudonymous tokens</span>
-              </div>
+                  <div className="text-right space-y-0.5">
+                    <div className="font-bold text-terminal-text">{t.latency}</div>
+                    <Badge variant={t.tag as any} className="text-[9px] px-1 py-0">
+                      {t.status}
+                    </Badge>
+                  </div>
+                </div>
+              ))}
+            </CardContent>
+            <CardFooter className="bg-obsidian-900 border-t border-obsidian-700 text-[10px] font-mono text-terminal-dim">
+              <span>CLOCK: MONOTONIC PERFORMANCE.NOW()</span>
+            </CardFooter>
+          </Card>
 
-              <div className="p-2.5 rounded bg-subtle/50 border border-hairline">
-                <span className="text-ink-secondary text-[11px] block">Trials Completed</span>
-                <span className="font-mono font-bold text-sm text-spruce mt-0.5 block">
-                  {exp.completedTrials} Trials
+          {/* Research Rigor Declaration */}
+          <Card className="border-obsidian-700 bg-obsidian-850">
+            <CardHeader className="bg-obsidian-900 border-b border-obsidian-700 pb-2.5">
+              <CardTitle className="text-terminal-text text-xs flex items-center gap-1.5">
+                <ShieldCheck className="w-3.5 h-3.5 text-phosphor-green" />
+                <span>EPISTEMIC RESEARCH STANDARDS</span>
+              </CardTitle>
+            </CardHeader>
+            <CardContent className="p-3 space-y-2.5 text-xs font-sans text-terminal-muted leading-relaxed">
+              <div className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-phosphor-green mt-1.5 shrink-0" />
+                <span className="text-[11px]">
+                  <strong className="text-terminal-text font-mono">Zero LLM Hallucination:</strong> Ground-truth scoring strictly computed via analytical newsvendor equations.
                 </span>
-                <span className="text-[10px] text-ink-tertiary">Logged with latency</span>
               </div>
-
-              <div className="p-2.5 rounded bg-cognition-subtle/40 border border-cognition-border">
-                <span className="text-cognition-dark text-[11px] font-semibold block">Injected Bias</span>
-                <span className="font-mono font-bold text-xs text-cognition mt-0.5 block truncate">
-                  {exp.biasInjected}
+              <div className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-phosphor-cyan mt-1.5 shrink-0" />
+                <span className="text-[11px]">
+                  <strong className="text-terminal-text font-mono">Server-Controlled Timing:</strong> Response duration validated independently of browser render latency.
                 </span>
-                <span className="text-[10px] text-ink-secondary">Over-reliance test</span>
+              </div>
+              <div className="flex items-start gap-2">
+                <span className="w-1.5 h-1.5 rounded-full bg-phosphor-amber mt-1.5 shrink-0" />
+                <span className="text-[11px]">
+                  <strong className="text-terminal-text font-mono">Over-Reliance Stressing:</strong> Controlled sub-optimal recommendations isolate cognitive bias from baseline competence.
+                </span>
               </div>
             </CardContent>
           </Card>
-        ))}
+        </div>
       </div>
     </div>
   );
