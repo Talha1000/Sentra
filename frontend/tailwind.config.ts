@@ -9,45 +9,64 @@ const config: Config = {
   theme: {
     extend: {
       colors: {
-        canvas: "#F7F6F2",
+        canvas: "#F8F7F4",
         panel: "#FFFFFF",
-        subtle: "#F0EFEA",
-        "surface-hover": "#EBE9E2",
-        "surface-active": "#E3E0D6",
+        subtle: "#F2F0EB",
+        "surface-hover": "#EAE7DF",
+        "surface-active": "#DFDBD1",
         
-        hairline: "#E5E2D9",
-        "border-medium": "#CEC9BC",
-        "border-focus": "#14171A",
+        hairline: "#E3DFD5",
+        "border-medium": "#CBC6B8",
+        "border-focus": "#111418",
 
         ink: {
-          primary: "#12151A",
-          secondary: "#484F59",
-          tertiary: "#7A8494",
-          disabled: "#A8B1BD",
+          primary: "#111418",
+          secondary: "#434B56",
+          tertiary: "#727D8D",
+          disabled: "#A4AFBD",
         },
 
+        // Smart Semantic Palette
         cognition: {
           DEFAULT: "#B45309",
-          subtle: "#FEF3C7",
+          subtle: "#FFFBEB",
           border: "#FDE68A",
+          dark: "#92400E",
         },
 
         spruce: {
-          DEFAULT: "#1E6B4A",
-          subtle: "#E8F5EE",
-          border: "#C1E7D3",
+          DEFAULT: "#0F766E",
+          subtle: "#F0FDFA",
+          border: "#99F6E4",
+          dark: "#115E59",
+        },
+
+        cobalt: {
+          DEFAULT: "#1D4ED8",
+          subtle: "#EFF6FF",
+          border: "#BFDBFE",
+          dark: "#1E40AF",
         },
 
         crimson: {
-          DEFAULT: "#9E2A2B",
-          subtle: "#FDF2F2",
-          border: "#F8D0D0",
+          DEFAULT: "#BE123C",
+          subtle: "#FFF1F2",
+          border: "#FECDD3",
+          dark: "#9F1239",
+        },
+
+        iris: {
+          DEFAULT: "#6D28D9",
+          subtle: "#F5F3FF",
+          border: "#DDD6FE",
+          dark: "#5B21B6",
         },
 
         slateacc: {
           DEFAULT: "#334155",
           subtle: "#F1F5F9",
           border: "#CBD5E1",
+          dark: "#1E293B",
         },
       },
       fontFamily: {
@@ -82,9 +101,10 @@ const config: Config = {
         none: "0px",
       },
       boxShadow: {
-        subtle: "0 1px 2px 0 rgba(18, 21, 26, 0.04)",
-        elevated: "0 4px 12px -2px rgba(18, 21, 26, 0.06), 0 2px 4px -2px rgba(18, 21, 26, 0.03)",
-        command: "0 16px 36px -4px rgba(18, 21, 26, 0.12), 0 6px 12px -2px rgba(18, 21, 26, 0.04)",
+        subtle: "0 1px 3px 0 rgba(17, 20, 24, 0.04)",
+        elevated: "0 4px 16px -2px rgba(17, 20, 24, 0.08), 0 2px 6px -2px rgba(17, 20, 24, 0.04)",
+        command: "0 20px 40px -4px rgba(17, 20, 24, 0.14), 0 8px 16px -2px rgba(17, 20, 24, 0.06)",
+        smart: "0 0 0 1px rgba(17, 20, 24, 0.05), 0 2px 8px rgba(0, 0, 0, 0.04)",
       },
     },
   },
