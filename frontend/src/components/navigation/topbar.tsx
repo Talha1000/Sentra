@@ -16,7 +16,7 @@ import {
   Sparkles,
   Cpu,
   Activity,
-  Terminal as TerminalIcon,
+  ArrowUpRight,
 } from "lucide-react";
 
 export function Topbar() {
@@ -25,11 +25,11 @@ export function Topbar() {
   const [seededMsg, setSeededMsg] = useState<string | null>(null);
 
   const navItems = [
-    { name: "Workspace", href: "/workspace", code: "01", icon: Layers },
-    { name: "Decision Studio", href: "/decisions", code: "02", icon: Cpu },
-    { name: "Experiment Lab", href: "/experiments", code: "03", icon: FlaskConical },
-    { name: "Evidence & Stats", href: "/analytics", code: "04", icon: BarChart3 },
-    { name: "Governance & Audit", href: "/governance", code: "05", icon: ShieldCheck },
+    { name: "Workspace", href: "/workspace", code: "§ 01", subtitle: "Ledger & Briefing" },
+    { name: "Decision Studio", href: "/decisions", code: "§ 02", subtitle: "Stochastic Engine" },
+    { name: "Experiment Lab", href: "/experiments", code: "§ 03", subtitle: "Cognitive Protocols" },
+    { name: "Evidence & Stats", href: "/analytics", code: "§ 04", subtitle: "Welch t-Test & ECE" },
+    { name: "Governance & Audit", href: "/governance", code: "§ 05", subtitle: "Chain of Custody" },
   ];
 
   const handleSeedDemo = async () => {
@@ -38,46 +38,57 @@ export function Topbar() {
       const res = await api.fetch("/auth/demo-seed", { method: "POST" });
       if (res?.access_token) {
         api.setToken(res.access_token);
-        setSeededMsg("DATA SEEDED");
+        setSeededMsg("SEEDED ✓");
         setTimeout(() => setSeededMsg(null), 3000);
       }
     } catch (e) {
       console.error(e);
+      setSeededMsg("ERR");
+      setTimeout(() => setSeededMsg(null), 3000);
     } finally {
       setIsSeeding(false);
     }
   };
 
   return (
-    <header className="border-b border-obsidian-700 bg-obsidian-900 sticky top-0 z-50 select-none">
-      {/* Primary Command Deck */}
-      <div className="h-12 px-4 flex items-center justify-between gap-4">
-        {/* Brand Terminal Identification */}
+    <header className="border-b-2 border-ink-black bg-vellum-50 select-none sticky top-0 z-50">
+      {/* Editorial Masthead Top Ticker */}
+      <div className="border-b border-vellum-300 px-4 lg:px-8 py-1 flex items-center justify-between text-[10px] font-mono tracking-wider uppercase text-ink-muted bg-vellum-100">
         <div className="flex items-center gap-3">
-          <Link href="/workspace" className="flex items-center gap-2 group">
-            <div className="w-6 h-6 rounded bg-phosphor-cyan text-obsidian-950 flex items-center justify-center font-mono font-black text-xs tracking-tighter shadow-cyanGlow">
-              S
-            </div>
-            <div className="flex items-baseline gap-1.5">
-              <span className="font-mono font-bold text-sm tracking-widest text-terminal-text uppercase">
-                SENTRA
-              </span>
-              <span className="font-mono text-[9px] text-phosphor-cyan tracking-wider">
-                v1.0.0
-              </span>
-            </div>
-          </Link>
+          <span className="font-bold text-ink-black">SENTRA INSTITUTION</span>
+          <span className="text-vellum-400">|</span>
+          <span>HUMAN–MACHINE DECISION INTELLIGENCE & RESEARCH LABORATORY</span>
+        </div>
+        <div className="flex items-center gap-4 text-ink-charcoal">
+          <span>VOL. IV — PROTOCOL ARCHIVE</span>
+          <span className="text-vellum-400">|</span>
+          <div className="flex items-center gap-1.5 font-bold text-spruce">
+            <span className="w-1.5 h-1.5 bg-spruce inline-block" />
+            <span>SYS.STATUS: SYNCHRONIZED</span>
+          </div>
+        </div>
+      </div>
 
-          <div className="hidden lg:flex items-center gap-2 pl-3 border-l border-obsidian-700 text-[10px] font-mono text-terminal-muted">
-            <span className="w-1.5 h-1.5 rounded-full bg-phosphor-green animate-pulse" />
-            <span>NODE: ALPHA-7</span>
-            <span className="text-obsidian-600">/</span>
-            <span className="text-terminal-text">SOC2 AUDITED</span>
+      {/* Primary Broadsheet Masthead */}
+      <div className="px-4 lg:px-8 py-3.5 flex flex-wrap items-center justify-between gap-4">
+        {/* Masthead Title / Emblem */}
+        <div className="flex items-center gap-4">
+          <Link href="/workspace" className="flex items-baseline gap-2 group">
+            <span className="font-serif font-black text-2xl lg:text-3xl tracking-tight text-ink-black uppercase group-hover:text-klein transition-colors">
+              SENTRA
+            </span>
+            <span className="font-mono text-[9px] uppercase font-bold tracking-widest px-1.5 py-0.5 bg-ink-black text-white">
+              DISPATCH № 412
+            </span>
+          </Link>
+          <div className="hidden xl:block pl-4 border-l-2 border-ink-black text-[10px] font-mono leading-tight text-ink-muted">
+            <div className="font-bold text-ink-black uppercase">RESEARCH-GRADE INTELLIGENCE</div>
+            <div>STOCHASTIC OPTIMIZATION & BIAS AUDIT</div>
           </div>
         </div>
 
-        {/* Central Segmented Terminal Navigation Switcher */}
-        <nav className="flex items-center bg-obsidian-850 p-1 rounded border border-obsidian-700/80 gap-1 overflow-x-auto max-w-2xl">
+        {/* Central Broadsheet Tab Navigation */}
+        <nav className="flex items-stretch border-2 border-ink-black bg-vellum-100">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
             return (
@@ -85,72 +96,93 @@ export function Topbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "px-2.5 py-1 rounded text-[11px] font-mono flex items-center gap-1.5 transition-all shrink-0 uppercase tracking-wider font-medium",
+                  "px-3.5 py-2 text-left border-r-2 last:border-r-0 border-ink-black transition-colors relative flex flex-col justify-center",
                   isActive
-                    ? "bg-obsidian-700 text-phosphor-cyan border border-phosphor-cyan/40 shadow-sm"
-                    : "text-terminal-muted hover:text-terminal-text hover:bg-obsidian-800"
+                    ? "bg-ink-black text-white"
+                    : "text-ink-charcoal hover:bg-vellum-200"
                 )}
               >
-                <span className={cn("text-[9px] font-bold", isActive ? "text-phosphor-cyan" : "text-terminal-dim")}>
-                  {item.code}
-                </span>
-                <span>{item.name}</span>
+                <div className="flex items-center gap-1.5">
+                  <span
+                    className={cn(
+                      "text-[9px] font-mono font-bold tracking-wider",
+                      isActive ? "text-klein-border" : "text-ink-muted"
+                    )}
+                  >
+                    {item.code}
+                  </span>
+                  <span className="text-xs font-mono font-bold tracking-tight uppercase">
+                    {item.name}
+                  </span>
+                </div>
+                <div
+                  className={cn(
+                    "hidden 2xl:block text-[9px] font-mono leading-none mt-0.5",
+                    isActive ? "text-vellum-300" : "text-ink-faint"
+                  )}
+                >
+                  {item.subtitle}
+                </div>
               </Link>
             );
           })}
         </nav>
 
-        {/* Right Actions: Seed Demo & Launch Participant Runner */}
-        <div className="flex items-center gap-2.5">
+        {/* Editorial Action Stamps */}
+        <div className="flex items-center gap-3">
           <Button
             variant="secondary"
             size="sm"
             onClick={handleSeedDemo}
             isLoading={isSeeding}
-            className="text-[10px] h-7 px-2.5 gap-1 border-obsidian-700 bg-obsidian-800"
+            className="text-[11px] h-9 px-3 gap-1.5"
           >
-            <Sparkles className="w-3 h-3 text-phosphor-amber" />
-            <span>{seededMsg || "SEED DATA"}</span>
+            <Sparkles className="w-3.5 h-3.5 text-amberacc" />
+            <span>{seededMsg || "SEED COGNITIVE TEST SET"}</span>
           </Button>
 
           <Link href="/experiments/run/exp-inv-001">
-            <Button variant="primary" size="sm" className="h-7 px-3 text-[10px] gap-1.5">
+            <Button
+              variant="primary"
+              size="sm"
+              className="h-9 px-4 text-[11px] gap-2 bg-klein hover:bg-blue-700 text-white border-2 border-ink-black shadow-sharp"
+            >
               <Play className="w-3 h-3 fill-current" />
-              <span>RUN TRIAL</span>
+              <span>RUN PARTICIPANT TRIAL</span>
             </Button>
           </Link>
 
-          <div className="w-7 h-7 rounded border border-obsidian-700 bg-obsidian-800 flex items-center justify-center text-[10px] font-mono font-bold text-terminal-text">
-            EV
+          <div className="h-9 px-2.5 border-2 border-ink-black bg-vellum-200 flex items-center justify-center font-mono font-bold text-xs text-ink-black">
+            EXP-V2
           </div>
         </div>
       </div>
 
-      {/* Sub-Header Live Telemetry Strip */}
-      <div className="h-7 px-4 bg-obsidian-950 border-t border-obsidian-700/60 flex items-center justify-between text-[10px] font-mono text-terminal-muted overflow-x-auto">
-        <div className="flex items-center gap-4 shrink-0">
-          <div className="flex items-center gap-1.5 text-phosphor-green">
-            <span className="w-1.5 h-1.5 rounded-full bg-phosphor-green animate-pulse" />
-            <span>CORE ENGINE: DETERMINISTIC</span>
+      {/* Sub-Masthead Telemetry Teletype */}
+      <div className="border-t border-ink-black px-4 lg:px-8 py-1.5 bg-vellum-100 flex items-center justify-between text-[11px] font-mono text-ink-charcoal overflow-x-auto gap-4">
+        <div className="flex items-center gap-5 shrink-0">
+          <div className="flex items-center gap-1.5">
+            <span className="font-bold text-ink-black uppercase">GROUND TRUTH MODEL:</span>
+            <span className="text-spruce font-bold">DETERMINISTIC NEWVENDOR (F⁻¹(0.667))</span>
           </div>
-          <span className="text-obsidian-600">|</span>
+          <span className="text-vellum-300">|</span>
           <div>
-            N=45 SUBJECTS <span className="text-terminal-text">(225 TRIALS LOGGED)</span>
+            ENROLLED COHORT: <span className="font-bold text-ink-black">N=45 (225 TRIALS LOGGED)</span>
           </div>
-          <span className="text-obsidian-600">|</span>
+          <span className="text-vellum-300">|</span>
           <div>
-            AI AGREEMENT: <span className="text-phosphor-cyan font-bold">76.4%</span>
+            COGNITIVE ALIGNMENT: <span className="font-bold text-klein">76.4% OVER-RELIANCE RATE</span>
           </div>
-          <span className="text-obsidian-600">|</span>
+          <span className="text-vellum-300">|</span>
           <div>
-            ECE: <span className="text-phosphor-amber font-bold">0.034</span>
+            CALIBRATION ERROR (ECE): <span className="font-bold text-vermilion">0.034 (HIGH SKEW)</span>
           </div>
         </div>
 
-        <div className="flex items-center gap-3 shrink-0 text-terminal-dim">
-          <span>LATENCY: 6.2s SERVER CLOCK</span>
-          <span className="text-obsidian-600">|</span>
-          <span className="text-phosphor-cyan">LIVE OPERATIONAL MATRIX</span>
+        <div className="flex items-center gap-3 shrink-0 text-ink-muted">
+          <span>LATENCY: 6.2s SERVER BENCHMARK</span>
+          <span className="text-vellum-300">|</span>
+          <span className="text-ink-black font-bold uppercase">BROADSHEET VIEW 2.0</span>
         </div>
       </div>
     </header>

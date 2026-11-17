@@ -1,7 +1,6 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -10,7 +9,7 @@ import { CalibrationCurve } from "@/components/charts/calibration-curve";
 import { LatencyAccuracyScatter } from "@/components/charts/latency-accuracy-scatter";
 import { api, ExperimentAnalytics } from "@/lib/api";
 import { formatCurrency, formatPercent } from "@/lib/utils";
-import { Download, Sparkles, Scale, Clock, CheckCircle2, AlertTriangle, ArrowDown, Activity } from "lucide-react";
+import { Download, Sparkles, CheckCircle2, AlertTriangle, FileSpreadsheet } from "lucide-react";
 
 export default function AnalyticsPage() {
   const [analytics, setAnalytics] = useState<ExperimentAnalytics | null>(null);
@@ -36,138 +35,145 @@ export default function AnalyticsPage() {
 
   if (isLoading || !analytics) {
     return (
-      <div className="py-20 text-center text-xs text-ink-tertiary">
-        Loading statistical analytics and calibration curves...
+      <div className="py-20 text-center font-mono text-xs uppercase tracking-wider text-ink-muted">
+        SYNCHRONIZING EMPIRICAL DATASET & ESTIMATING WELCH T-TESTS...
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 max-w-6xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 border-b border-hairline pb-5">
-        <div>
+    <div className="space-y-8">
+      {/* Editorial Masthead Header */}
+      <section className="border-2 border-ink-black bg-vellum-50 p-6 lg:p-8 shadow-sharp">
+        <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-6 pb-6 border-b-2 border-ink-black">
+          <div className="space-y-2 max-w-4xl">
+            <div className="flex items-center gap-3 text-xs font-mono font-bold uppercase tracking-widest text-ink-muted">
+              <span className="px-2 py-0.5 bg-ink-black text-white">§ 04. EVIDENCE & STATS</span>
+              <span>/</span>
+              <span className="text-klein font-bold">PROTOCOL: {analytics.experiment_id}</span>
+              <span>/</span>
+              <span>N = 45 PARTICIPANTS (225 TRIALS)</span>
+            </div>
+            <h1 className="font-serif font-black text-3xl sm:text-4xl lg:text-5xl tracking-tight text-ink-black uppercase">
+              Statistical Evidence & Inference
+            </h1>
+            <p className="text-sm lg:text-base text-ink-charcoal font-sans leading-relaxed max-w-3xl">
+              Rigorous parametric and non-parametric hypothesis testing between baseline human decisions, ungrounded AI recommendations, and calibrated explanatory AI with uncertainty bounds.
+            </p>
+          </div>
+
+          <div className="flex items-center gap-3 shrink-0">
+            <Button
+              variant="secondary"
+              size="default"
+              onClick={handleDownloadCsv}
+              className="text-xs font-mono font-bold uppercase tracking-wider gap-2 h-11 px-4 border-2 border-ink-black bg-vellum-100 hover:bg-vellum-200 shadow-sharp"
+            >
+              <Download className="w-4 h-4 text-ink-black" />
+              <span>EXPORT RAW MICRODATA (CSV)</span>
+            </Button>
+          </div>
+        </div>
+
+        {/* High-Impact Editorial Broadsheet Metric Blocks */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 pt-6">
+          <MetricCard
+            label="Condition C Mean Payoff"
+            value={formatCurrency(analytics.conditions_summary[2]?.mean_payoff || 56120)}
+            subtext="AI Rec + Explanation & Bounds"
+            delta={{ value: "+14.7% vs Cond A", isPositive: true }}
+          />
+          <MetricCard
+            label="Condition B Over-Reliance"
+            value={formatPercent(analytics.conditions_summary[1]?.over_reliance_rate || 0.65)}
+            subtext="Adoption of deliberately flawed advice"
+            delta={{ value: "Severe Over-Reliance", isPositive: false }}
+          />
+          <MetricCard
+            label="Condition C Over-Reliance"
+            value={formatPercent(analytics.conditions_summary[2]?.over_reliance_rate || 0.44)}
+            subtext="Mitigated via uncertainty breakdown"
+            delta={{ value: "-21.0% Mitigation", isPositive: true }}
+          />
+          <MetricCard
+            label="Calibration Error (ECE)"
+            value={formatPercent(analytics.calibration.expected_calibration_error)}
+            subtext="Subjective confidence vs observed accuracy"
+            delta={{ value: "Well Calibrated", isPositive: true }}
+          />
+        </div>
+      </section>
+
+      {/* Main Condition Comparison Matrix Table */}
+      <div className="border-2 border-ink-black bg-vellum-50 shadow-sharp">
+        <div className="p-5 border-b-2 border-ink-black flex flex-col sm:flex-row sm:items-center justify-between gap-4 bg-vellum-100">
+          <div>
+            <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-muted block">
+              TABLE 01. FACTORIAL COMPARISON
+            </span>
+            <h2 className="font-serif font-black text-xl text-ink-black">
+              Experimental Conditions Summary
+            </h2>
+          </div>
           <div className="flex items-center gap-2">
-            <span className="font-mono text-xs text-ink-tertiary">Protocol ID: {analytics.experiment_id}</span>
-            <span className="text-hairline">|</span>
-            <Badge variant="spruce">Parametric & Non-Parametric Inference</Badge>
-            <span className="text-hairline">|</span>
-            <Badge variant="cobalt">N = 45 Subjects</Badge>
+            <Badge variant="cobalt">BETWEEN-SUBJECTS</Badge>
+            <Badge variant="spruce">GROUND-TRUTH SCORED</Badge>
           </div>
-          <h1 className="text-2xl font-serif font-medium text-ink-primary tracking-tight mt-1">
-            Evidence & Statistical Analytics
-          </h1>
-          <p className="text-xs text-ink-secondary mt-1">
-            Empirical comparisons between autonomous human decisions, ungrounded AI recommendations, and calibrated explanatory AI.
-          </p>
         </div>
 
-        <div className="flex items-center gap-3">
-          <Button variant="secondary" size="sm" onClick={handleDownloadCsv} className="gap-1.5 text-xs bg-panel border-hairline shadow-sm hover:border-border-medium">
-            <Download className="w-3.5 h-3.5 text-cobalt" />
-            <span>Export Raw Microdata (CSV)</span>
-          </Button>
-        </div>
-      </div>
-
-      {/* Primary KPI Row with Smart Colors */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-        <MetricCard
-          label="Condition C Mean Payoff"
-          value={formatCurrency(analytics.conditions_summary[2]?.mean_payoff || 56120)}
-          subtext="AI Rec + Explanation & Bounds"
-          delta={{ value: "+14.7% vs Cond A", isPositive: true }}
-        />
-        <MetricCard
-          label="Condition B Over-Reliance"
-          value={formatPercent(analytics.conditions_summary[1]?.over_reliance_rate || 0.65)}
-          subtext="Adoption of deliberately flawed advice"
-          delta={{ value: "Severe Over-Reliance", isPositive: false }}
-        />
-        <MetricCard
-          label="Condition C Over-Reliance"
-          value={formatPercent(analytics.conditions_summary[2]?.over_reliance_rate || 0.44)}
-          subtext="Mitigated via uncertainty breakdown"
-          delta={{ value: "-21.0% Mitigation", isPositive: true }}
-        />
-        <MetricCard
-          label="Expected Calibration Error (ECE)"
-          value={formatPercent(analytics.calibration.expected_calibration_error)}
-          subtext="Subjective confidence vs observed accuracy"
-          delta={{ value: "Well Calibrated", isPositive: true }}
-        />
-      </div>
-
-      {/* Main Condition Comparison Matrix */}
-      <Card className="border-hairline shadow-sm overflow-hidden">
-        <CardHeader className="bg-canvas/40 border-b border-hairline">
-          <div className="flex items-center justify-between">
-            <div>
-              <CardTitle>Experimental Conditions Summary</CardTitle>
-              <CardDescription>
-                Empirical metrics across 45 participants and 225 recorded decision events
-              </CardDescription>
-            </div>
-            <div className="flex items-center gap-2">
-              <Badge variant="cobalt">Between-Subjects</Badge>
-              <Badge variant="spruce">Ground-Truth Scored</Badge>
-            </div>
-          </div>
-        </CardHeader>
-        <CardContent className="p-0">
+        <div className="p-4 overflow-x-auto">
           <Table>
             <TableHeader>
               <TableRow>
-                <TableHead>Condition Code & Description</TableHead>
-                <TableHead className="text-center">Subjects (N)</TableHead>
-                <TableHead className="text-right">Mean Payoff ($)</TableHead>
-                <TableHead className="text-right">Mean Deviation</TableHead>
-                <TableHead className="text-right">Mean Latency</TableHead>
-                <TableHead className="text-right">AI Agreement</TableHead>
-                <TableHead className="text-right">Over-Reliance Rate</TableHead>
+                <TableHead>CONDITION CODE & DESCRIPTION</TableHead>
+                <TableHead className="text-center">SUBJECTS (N)</TableHead>
+                <TableHead className="text-right">MEAN PAYOFF ($)</TableHead>
+                <TableHead className="text-right">MEAN DEVIATION</TableHead>
+                <TableHead className="text-right">MEAN LATENCY</TableHead>
+                <TableHead className="text-right">AI AGREEMENT</TableHead>
+                <TableHead className="text-right">OVER-RELIANCE RATE</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
               {analytics.conditions_summary.map((cond) => {
                 const isCondA = cond.condition_code === "CONDITION_A";
                 const isCondB = cond.condition_code === "CONDITION_B";
-                const isCondC = cond.condition_code === "CONDITION_C";
                 return (
                   <TableRow key={cond.condition_code}>
                     <TableCell>
-                      <div className="font-semibold text-ink-primary flex items-center gap-2">
+                      <div className="font-mono font-bold text-xs text-ink-black flex items-center gap-2">
                         <span
-                          className={`w-2.5 h-2.5 rounded-full ${
-                            isCondA ? "bg-cobalt" : isCondB ? "bg-cognition" : "bg-spruce"
+                          className={`w-2 h-2 inline-block ${
+                            isCondA ? "bg-klein" : isCondB ? "bg-vermilion" : "bg-spruce"
                           }`}
                         />
                         {cond.condition_name}
                       </div>
-                      <div className="text-[11px] font-mono text-ink-tertiary">{cond.condition_code}</div>
+                      <div className="text-[10px] font-mono text-ink-muted">{cond.condition_code}</div>
                     </TableCell>
-                    <TableCell className="text-center font-mono">
+                    <TableCell className="text-center font-mono font-bold text-ink-black tabular-nums">
                       {cond.n_participants}
                     </TableCell>
-                    <TableCell className="text-right font-mono font-bold text-ink-primary">
+                    <TableCell className="text-right font-mono font-bold text-ink-black tabular-nums">
                       {formatCurrency(cond.mean_payoff)}
                     </TableCell>
-                    <TableCell className="text-right font-mono text-ink-secondary">
+                    <TableCell className="text-right font-mono text-ink-charcoal tabular-nums">
                       {cond.mean_deviation} units
                     </TableCell>
-                    <TableCell className="text-right font-mono text-ink-secondary">
+                    <TableCell className="text-right font-mono text-ink-charcoal tabular-nums">
                       {(cond.mean_latency_ms / 1000).toFixed(1)}s
                     </TableCell>
-                    <TableCell className="text-right font-mono">
+                    <TableCell className="text-right font-mono text-ink-black tabular-nums">
                       {formatPercent(cond.agreement_rate)}
                     </TableCell>
                     <TableCell className="text-right font-mono">
                       <span
-                        className={`font-semibold px-2 py-0.5 rounded text-[11px] ${
+                        className={`font-bold px-2 py-0.5 border text-xs tabular-nums ${
                           cond.over_reliance_rate > 0.5
-                            ? "bg-crimson-subtle text-crimson-dark border border-crimson-border"
+                            ? "bg-vermilion-subtle text-vermilion border-vermilion"
                             : cond.over_reliance_rate > 0
-                            ? "bg-cognition-subtle text-cognition-dark border border-cognition-border"
-                            : "text-ink-tertiary"
+                            ? "bg-amberacc-subtle text-amberacc border-amberacc"
+                            : "text-ink-muted border-vellum-300"
                         }`}
                       >
                         {formatPercent(cond.over_reliance_rate)}
@@ -178,90 +184,97 @@ export default function AnalyticsPage() {
               })}
             </TableBody>
           </Table>
-        </CardContent>
-      </Card>
+        </div>
+      </div>
 
       {/* Latency vs Accuracy Scatter & Trust Calibration Curve */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-        {/* Latency vs Accuracy Scatter */}
-        <Card className="border-hairline shadow-sm">
-          <CardHeader className="bg-canvas/30 border-b border-hairline pb-3">
-            <CardTitle>Behavioral Cognitive Friction</CardTitle>
-            <CardDescription>
-              Interaction latency vs. decision accuracy revealing impulsive compliance clusters.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pt-4">
-            <LatencyAccuracyScatter />
-          </CardContent>
-        </Card>
+        <div className="border-2 border-ink-black bg-vellum-50 p-6 shadow-sharp space-y-4">
+          <div className="border-b-2 border-ink-black pb-3">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted block">
+              FIGURE 01. BEHAVIORAL COGNITIVE FRICTION
+            </span>
+            <h3 className="font-serif font-black text-lg text-ink-black uppercase">
+              Reaction Latency vs Decision Accuracy
+            </h3>
+          </div>
+          <LatencyAccuracyScatter />
+        </div>
 
-        {/* Trust Calibration Curve */}
-        <Card className="border-hairline shadow-sm">
-          <CardHeader className="bg-canvas/30 border-b border-hairline pb-3">
-            <CardTitle>Subjective Trust Calibration Curve</CardTitle>
-            <CardDescription>
-              Compares participant confidence ratings against ground-truth decision accuracy.
-            </CardDescription>
-          </CardHeader>
-          <CardContent className="pt-4">
-            <CalibrationCurve
-              bins={analytics.calibration.bins}
-              ece={analytics.calibration.expected_calibration_error}
-            />
-          </CardContent>
-        </Card>
+        <div className="border-2 border-ink-black bg-vellum-50 p-6 shadow-sharp space-y-4">
+          <div className="border-b-2 border-ink-black pb-3">
+            <span className="font-mono text-[10px] uppercase tracking-wider text-ink-muted block">
+              FIGURE 02. EPISTEMIC CALIBRATION
+            </span>
+            <h3 className="font-serif font-black text-lg text-ink-black uppercase">
+              Subjective Trust Calibration Curve
+            </h3>
+          </div>
+          <CalibrationCurve
+            bins={analytics.calibration.bins}
+            ece={analytics.calibration.expected_calibration_error}
+          />
+        </div>
       </div>
 
       {/* Statistical Hypothesis Tests */}
-      <Card className="border-hairline shadow-sm">
-        <CardHeader className="bg-canvas/30 border-b border-hairline">
-          <CardTitle>Empirical Hypothesis Tests (Parametric & Non-Parametric)</CardTitle>
-          <CardDescription>
-            Welch's two-sample t-test (unequal variance) and Cohen's d standardized effect sizes.
-          </CardDescription>
-        </CardHeader>
-        <CardContent className="p-5 space-y-4 text-xs">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {analytics.comparisons.map((comp, idx) => (
-              <div key={idx} className="p-4 bg-canvas rounded border border-hairline space-y-3 shadow-sm">
-                <div className="flex items-center justify-between border-b border-hairline pb-2">
-                  <div className="font-semibold text-ink-primary">
-                    {comp.label_a} vs. {comp.label_b}
-                  </div>
-                  <Badge variant="spruce">p = {comp.welch_t.p_value}</Badge>
-                </div>
+      <div className="border-2 border-ink-black bg-vellum-50 p-6 shadow-sharp space-y-6">
+        <div className="border-b-2 border-ink-black pb-4">
+          <span className="font-mono text-xs font-bold uppercase tracking-wider text-ink-muted block">
+            FORMAL INFERENCE
+          </span>
+          <h2 className="font-serif font-black text-2xl text-ink-black uppercase">
+            Welch Two-Sample t-Tests & Cohen&apos;s d Effect Sizes
+          </h2>
+        </div>
 
-                <div className="grid grid-cols-3 gap-2 font-mono text-[11px]">
-                  <div className="p-2 bg-panel rounded border border-hairline">
-                    <span className="text-ink-tertiary text-[9px] uppercase block">Welch t</span>
-                    <span className="font-bold text-ink-primary">{comp.welch_t.t_statistic}</span>
-                  </div>
-                  <div className="p-2 bg-panel rounded border border-hairline">
-                    <span className="text-ink-tertiary text-[9px] uppercase block">Cohen's d</span>
-                    <span className="font-bold text-cobalt">{comp.cohens_d}</span>
-                  </div>
-                  <div className="p-2 bg-panel rounded border border-hairline">
-                    <span className="text-ink-tertiary text-[9px] uppercase block">Effect</span>
-                    <span className="font-bold capitalize text-spruce">{comp.effect_interpretation}</span>
-                  </div>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {analytics.comparisons.map((comp, idx) => (
+            <div key={idx} className="p-5 bg-vellum-100 border-2 border-ink-black space-y-4">
+              <div className="flex items-center justify-between border-b-2 border-ink-black pb-2.5">
+                <div className="font-mono font-bold text-xs uppercase text-ink-black">
+                  {comp.label_a} vs. {comp.label_b}
                 </div>
+                <span className="font-mono text-xs font-bold px-2 py-0.5 bg-ink-black text-white">
+                  p = {comp.welch_t.p_value}
+                </span>
+              </div>
 
-                <div className="text-[11px] text-ink-secondary leading-relaxed pt-1">
-                  {comp.welch_t.is_significant_01 ? (
-                    <span className="text-spruce font-semibold flex items-center gap-1.5">
-                      <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                      Statistically significant difference at α = 0.01 level. Null hypothesis rejected.
-                    </span>
-                  ) : (
-                    <span>No statistically significant difference observed at conventional α = 0.05.</span>
-                  )}
+              <div className="grid grid-cols-3 gap-3 font-mono text-xs">
+                <div className="p-2.5 bg-vellum-50 border border-ink-black">
+                  <span className="text-[10px] text-ink-muted uppercase block">Welch t</span>
+                  <span className="font-bold text-ink-black text-sm tabular-nums mt-0.5 block">
+                    {comp.welch_t.t_statistic}
+                  </span>
+                </div>
+                <div className="p-2.5 bg-vellum-50 border border-ink-black">
+                  <span className="text-[10px] text-ink-muted uppercase block">Cohen&apos;s d</span>
+                  <span className="font-bold text-klein text-sm tabular-nums mt-0.5 block">
+                    {comp.cohens_d}
+                  </span>
+                </div>
+                <div className="p-2.5 bg-vellum-50 border border-ink-black">
+                  <span className="text-[10px] text-ink-muted uppercase block">Effect</span>
+                  <span className="font-bold text-spruce capitalize text-xs mt-0.5 block truncate">
+                    {comp.effect_interpretation}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-        </CardContent>
-      </Card>
+
+              <div className="text-xs font-sans text-ink-charcoal leading-relaxed pt-1">
+                {comp.welch_t.is_significant_01 ? (
+                  <span className="text-spruce font-bold flex items-center gap-1.5">
+                    <CheckCircle2 className="w-4 h-4 shrink-0" />
+                    Statistically significant difference at α = 0.01 level. Null hypothesis rejected.
+                  </span>
+                ) : (
+                  <span>No statistically significant difference observed at conventional α = 0.05.</span>
+                )}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

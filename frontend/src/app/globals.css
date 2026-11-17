@@ -3,16 +3,14 @@
 @tailwind utilities;
 
 :root {
-  --bg-canvas: #0B0E14;
-  --bg-panel: #151B26;
-  --border-line: #222B3D;
-  --text-main: #E6EDF3;
-  --text-muted: #8B949E;
+  --bg-vellum: #F5F3EC;
+  --ink-black: #0C0D0E;
+  --border-rule: #0C0D0E;
 }
 
 body {
-  background-color: #0B0E14;
-  color: #E6EDF3;
+  background-color: #F5F3EC;
+  color: #0C0D0E;
   font-feature-settings: "cv02", "cv03", "cv04", "cv11";
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -23,24 +21,21 @@ body {
   font-variant-numeric: tabular-nums lining-nums;
 }
 
-/* Accessibility focus state */
+/* Sharp focus state */
 :focus-visible {
-  outline: 2px solid #00D4FF;
+  outline: 2px solid #0038FF;
   outline-offset: 1px;
 }
 
-/* Terminal precision scrollbars */
+/* Sharp scrollbars */
 ::-webkit-scrollbar {
   width: 5px;
   height: 5px;
 }
 ::-webkit-scrollbar-track {
-  background: #0B0E14;
+  background: #F5F3EC;
+  border-left: 1px solid #DBD5C5;
 }
 ::-webkit-scrollbar-thumb {
-  background: #222B3D;
-  border-radius: 2px;
-}
-::-webkit-scrollbar-thumb:hover {
-  background: #2D374D;
+  background: #0C0D0E;
 }

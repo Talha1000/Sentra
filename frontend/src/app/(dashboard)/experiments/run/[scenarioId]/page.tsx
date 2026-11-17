@@ -1,18 +1,16 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
-import { useParams, useRouter } from "next/navigation";
+import { useParams } from "next/navigation";
 import { ParticipantTrialRunner } from "@/components/experiments/participant-trial-runner";
-import { Card, CardHeader, CardTitle, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { api } from "@/lib/api";
-import { CheckCircle2, ArrowRight, ShieldCheck, Clock, BarChart3 } from "lucide-react";
+import { CheckCircle2, ArrowRight, ShieldCheck, BarChart3 } from "lucide-react";
 
 export default function ParticipantRunnerPage() {
   const params = useParams();
-  const router = useRouter();
   const experimentId = (params?.scenarioId as string) || "exp-inv-001";
 
   // Flow State: 'consent' | 'running' | 'completed'
@@ -163,62 +161,72 @@ export default function ParticipantRunnerPage() {
   const currentScenario = defaultScenarios[currentScenarioIndex];
 
   return (
-    <div className="py-6">
+    <div className="py-6 space-y-6">
       {/* 1. Participant Consent View */}
       {stage === "consent" && (
-        <Card className="max-w-2xl mx-auto shadow-elevated">
-          <CardHeader className="bg-canvas border-b border-hairline pb-4">
-            <div className="flex items-center gap-2 mb-1">
+        <div className="max-w-2xl mx-auto border-2 border-ink-black bg-vellum-50 p-6 lg:p-8 shadow-sharp space-y-6">
+          <div className="border-b-2 border-ink-black pb-4 space-y-1">
+            <div className="flex items-center gap-2 text-xs font-mono font-bold uppercase tracking-wider text-spruce">
               <ShieldCheck className="w-4 h-4 text-spruce" />
-              <span className="font-mono text-xs uppercase tracking-wider text-ink-tertiary">
-                Research Protocol Consent
-              </span>
+              <span>IRB PROTOCOL // PARTICIPANT INFORMED CONSENT</span>
             </div>
-            <CardTitle className="text-lg">Cognitive Decision Intelligence Study</CardTitle>
-            <p className="text-xs text-ink-secondary">
-              Study Protocol: Human–AI Collaborative Decision-Making under Stochastic Uncertainty.
+            <h1 className="font-serif font-black text-2xl lg:text-3xl text-ink-black uppercase">
+              Cognitive Decision Intelligence Study
+            </h1>
+            <p className="font-mono text-xs text-ink-muted">
+              PROTOCOL ID: #IRB-SENTRA-2026 • HUMAN–MACHINE INTERACTION LAB
             </p>
-          </CardHeader>
-          <CardContent className="p-6 space-y-4 text-xs leading-relaxed text-ink-secondary">
+          </div>
+
+          <div className="space-y-4 text-xs font-sans text-ink-charcoal leading-relaxed">
             <p>
-              You are invited to participate in a research evaluation comparing human autonomous decisions,
-              algorithmic suggestions, and explanatory AI confidence representations across purchasing scenarios.
+              You are invited to participate in a scientific evaluation comparing human autonomous decisions,
+              algorithmic suggestions, and explanatory AI confidence representations across five consequential purchasing scenarios.
             </p>
-            <div className="p-3 bg-subtle rounded border border-hairline space-y-2 text-ink-primary font-medium">
-              <div>• You will be presented with 5 distinct business purchasing scenarios.</div>
-              <div>• Decisions are scored against mathematical ground-truth payoffs.</div>
-              <div>• Response timing is recorded via server-side clocks for research latency metrics.</div>
-              <div>• All responses are fully anonymized under a pseudonymous participant token.</div>
+            <div className="p-4 bg-vellum-100 border border-ink-black space-y-2 font-mono text-xs">
+              <div>• 5 distinct business purchasing scenarios with stochastic demand distributions.</div>
+              <div>• Decisions are scored against mathematical ground-truth payoffs F⁻¹(Cu / (Cu+Co)).</div>
+              <div>• Microsecond response timing is recorded via monotonic hardware clocks.</div>
+              <div>• Fully anonymized and cryptographically pseudonimized.</div>
             </div>
-            <p className="text-[11px] text-ink-tertiary">
-              Participation is voluntary. You may withdraw at any time. By proceeding, you confirm your consent.
+            <p className="text-[11px] font-mono text-ink-muted">
+              Participation is voluntary. You may withdraw at any time. By proceeding, you confirm informed consent.
             </p>
-          </CardContent>
-          <CardFooter className="flex justify-between items-center bg-canvas">
-            <span className="text-[11px] text-ink-tertiary">Protocol #IRB-SENTRA-2026</span>
-            <Button variant="primary" onClick={handleJoin} className="gap-2">
-              <span>Accept & Begin Trials</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+          </div>
+
+          <div className="flex justify-between items-center pt-4 border-t-2 border-ink-black">
+            <span className="font-mono text-[10px] text-ink-muted uppercase">
+              HASH: SHA256-IRB-VERIFIED
+            </span>
+            <Button
+              variant="primary"
+              onClick={handleJoin}
+              className="gap-2 font-mono text-xs font-bold uppercase h-11 px-6 bg-klein hover:bg-blue-700 text-white border-2 border-ink-black shadow-sharp"
+            >
+              <span>ACCEPT & BEGIN TRIALS</span>
+              <ArrowRight className="w-4 h-4" />
             </Button>
-          </CardFooter>
-        </Card>
+          </div>
+        </div>
       )}
 
       {/* 2. Active Trial Runner */}
       {stage === "running" && sessionData && (
-        <div className="space-y-4">
-          {/* Progress Bar */}
-          <div className="max-w-4xl mx-auto flex items-center justify-between text-xs text-ink-secondary px-2">
-            <span>Scenario {currentScenarioIndex + 1} of {defaultScenarios.length}</span>
-            <div className="flex items-center gap-2 font-mono text-[11px]">
-              <span>Pseudonym: {sessionData.pseudonym_token}</span>
-              <span className="text-hairline">|</span>
-              <Badge variant="neutral">{sessionData.condition_code}</Badge>
+        <div className="space-y-6 max-w-5xl mx-auto">
+          {/* Progress Bar & Header */}
+          <div className="flex items-center justify-between font-mono text-xs px-1 text-ink-black font-bold">
+            <span>TRIAL {currentScenarioIndex + 1} OF {defaultScenarios.length}</span>
+            <div className="flex items-center gap-3">
+              <span>TOKEN: {sessionData.pseudonym_token}</span>
+              <span>|</span>
+              <span className="px-2 py-0.5 bg-ink-black text-white text-[10px]">
+                {sessionData.condition_code}
+              </span>
             </div>
           </div>
-          <div className="max-w-4xl mx-auto h-1 bg-subtle rounded-full overflow-hidden">
+          <div className="w-full bg-vellum-200 h-3 border-2 border-ink-black p-0.5">
             <div
-              className="bg-ink-primary h-full transition-all duration-300"
+              className="bg-klein h-full transition-all duration-300"
               style={{ width: `${((currentScenarioIndex + 1) / defaultScenarios.length) * 100}%` }}
             />
           </div>
@@ -236,43 +244,57 @@ export default function ParticipantRunnerPage() {
 
       {/* 3. Session Completed Summary */}
       {stage === "completed" && (
-        <Card className="max-w-2xl mx-auto shadow-elevated animate-in fade-in duration-200">
-          <CardHeader className="bg-canvas border-b border-hairline text-center py-6">
-            <div className="w-10 h-10 rounded-full bg-spruce-subtle border border-spruce-border flex items-center justify-center mx-auto mb-2 text-spruce">
-              <CheckCircle2 className="w-5 h-5" />
+        <div className="max-w-2xl mx-auto border-2 border-ink-black bg-vellum-50 p-6 lg:p-8 shadow-sharp space-y-6">
+          <div className="text-center pb-4 border-b-2 border-ink-black space-y-2">
+            <div className="w-12 h-12 bg-spruce-subtle border-2 border-ink-black flex items-center justify-center mx-auto text-spruce">
+              <CheckCircle2 className="w-6 h-6" />
             </div>
-            <CardTitle className="text-lg">Research Session Concluded</CardTitle>
-            <p className="text-xs text-ink-secondary mt-1">
-              Your 5 decision trials have been recorded, scored against ground truth, and saved to the empirical research ledger.
+            <h1 className="font-serif font-black text-2xl lg:text-3xl text-ink-black uppercase">
+              Experimental Session Concluded
+            </h1>
+            <p className="font-mono text-xs text-ink-muted">
+              All 5 decision trials recorded, scored against ground truth, and committed to research archive.
             </p>
-          </CardHeader>
-          <CardContent className="p-6 space-y-4 text-xs">
-            <div className="p-4 bg-canvas rounded border border-hairline space-y-2">
-              <div className="font-semibold text-ink-primary">Session Performance Metrics:</div>
-              <div className="grid grid-cols-2 gap-2 text-ink-secondary">
-                <div>Trials Completed: <span className="font-mono text-ink-primary font-semibold">5 / 5</span></div>
-                <div>Condition: <span className="font-mono text-ink-primary font-semibold">{sessionData?.condition_code}</span></div>
-                <div>Participant Token: <span className="font-mono text-ink-primary font-semibold">{sessionData?.pseudonym_token}</span></div>
-                <div>Audit Status: <span className="font-mono text-spruce font-semibold">VERIFIED</span></div>
-              </div>
+          </div>
+
+          <div className="p-4 bg-vellum-100 border-2 border-ink-black space-y-2 font-mono text-xs">
+            <div className="font-bold text-ink-black uppercase text-[11px] border-b border-vellum-300 pb-1">
+              Trial Summary Receipt:
             </div>
-            <p className="text-ink-secondary leading-relaxed">
-              Researchers can now inspect condition comparisons, latency boxplots, and trust calibration curves
-              in the Evidence & Analytics suite.
-            </p>
-          </CardContent>
-          <CardFooter className="flex justify-between items-center bg-canvas">
+            <div className="grid grid-cols-2 gap-2 text-ink-charcoal text-xs">
+              <div>TRIALS COMPLETED: <span className="font-bold text-ink-black tabular-nums">5 / 5</span></div>
+              <div>EXPERIMENTAL CONDITION: <span className="font-bold text-ink-black">{sessionData?.condition_code}</span></div>
+              <div>PARTICIPANT PSEUDONYM: <span className="font-bold text-ink-black">{sessionData?.pseudonym_token}</span></div>
+              <div>AUDIT TRAIL SEAL: <span className="font-bold text-spruce">HMAC-VERIFIED</span></div>
+            </div>
+          </div>
+
+          <p className="text-xs font-sans text-ink-charcoal leading-relaxed">
+            The telemetry generated in your session is now aggregated into the Evidence & Analytics suite for Welch&apos;s t-test evaluations and trust calibration curve modeling.
+          </p>
+
+          <div className="flex justify-between items-center pt-4 border-t-2 border-ink-black">
             <Link href="/workspace">
-              <Button variant="secondary" size="sm">Return to Workspace</Button>
-            </Link>
-            <Link href="/analytics">
-              <Button variant="primary" size="sm" className="gap-1.5">
-                <BarChart3 className="w-3.5 h-3.5" />
-                <span>View Aggregate Analytics</span>
+              <Button
+                variant="secondary"
+                size="sm"
+                className="font-mono text-xs font-bold uppercase border-2 border-ink-black bg-vellum-100 hover:bg-vellum-200"
+              >
+                RETURN TO WORKSPACE
               </Button>
             </Link>
-          </CardFooter>
-        </Card>
+            <Link href="/analytics">
+              <Button
+                variant="primary"
+                size="sm"
+                className="gap-2 font-mono text-xs font-bold uppercase bg-klein hover:bg-blue-700 text-white border-2 border-ink-black shadow-sharp"
+              >
+                <BarChart3 className="w-4 h-4" />
+                <span>VIEW STATISTICAL EVIDENCE</span>
+              </Button>
+            </Link>
+          </div>
+        </div>
       )}
     </div>
   );

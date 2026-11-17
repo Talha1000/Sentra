@@ -103,24 +103,24 @@ export function ProfitDistributionChart({
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between text-xs gap-2">
         <div className="flex items-center gap-3">
-          <span className="font-semibold text-ink-primary">Live Expected Profit Surface</span>
-          <span className="font-mono text-[11px] text-spruce font-semibold px-2 py-0.5 rounded bg-spruce-subtle border border-spruce-border">
-            Optimal Q*: {optimalOrder} units ({formatCurrency(maxProfit)})
+          <span className="font-mono font-bold uppercase text-ink-black">FIG 01 // EXPECTED PROFIT ENVELOPE</span>
+          <span className="font-mono text-xs text-spruce font-bold px-2 py-0.5 bg-spruce-subtle border border-spruce">
+            OPTIMAL Q*: {optimalOrder} UNITS ({formatCurrency(maxProfit)})
           </span>
         </div>
-        <div className="flex items-center gap-3 text-[11px]">
-          <span className="flex items-center gap-1.5 text-cobalt">
-            <span className="w-2.5 h-2.5 rounded-full bg-cobalt inline-block" />
-            Selected: {formatNumber(cursorClamped)} units
+        <div className="flex items-center gap-3 text-xs font-mono">
+          <span className="flex items-center gap-1.5 text-klein font-bold">
+            <span className="w-2 h-2 bg-klein inline-block" />
+            Selected: {formatNumber(cursorClamped)}
           </span>
-          <span className="flex items-center gap-1.5 text-crimson">
-            <span className="w-2 h-2 bg-crimson inline-block" />
-            Budget Cap: {formatNumber(budgetMaxQty)}
+          <span className="flex items-center gap-1.5 text-vermilion font-bold">
+            <span className="w-2 h-2 bg-vermilion inline-block" />
+            Cap: {formatNumber(budgetMaxQty)}
           </span>
         </div>
       </div>
 
-      <div className="w-full bg-panel border border-hairline rounded p-3 overflow-x-auto relative shadow-sm">
+      <div className="w-full bg-vellum-100 border-2 border-ink-black p-3 overflow-x-auto relative">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="w-full h-auto select-none overflow-visible font-mono text-[10px]"
