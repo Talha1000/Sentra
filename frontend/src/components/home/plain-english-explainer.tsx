@@ -52,8 +52,8 @@ export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-warm-border bg-white text-xs text-ink-secondary mb-3">
-            <span className="w-2 h-2 rounded-full bg-terracotta" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-warm-border bg-canvas-elevated text-xs text-ink-secondary mb-3">
+            <span className="w-2 h-2 rounded-full bg-terracotta shadow-[0_0_8px_rgba(224,122,95,0.6)]" />
             <span>How Sentra Works</span>
           </div>
           <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-ink-primary tracking-tight leading-tight">
@@ -65,12 +65,12 @@ export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier
         </div>
 
         {/* Tactile Mode Switcher */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-canvas-subtle border border-warm-hairline self-start md:self-auto shrink-0">
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-canvas-elevated border border-warm-border self-start md:self-auto shrink-0">
           <button
             onClick={() => setMode("plain")}
             className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
               mode === "plain"
-                ? "bg-white text-ink-primary shadow-xs font-semibold"
+                ? "bg-ink-primary text-canvas shadow-xs font-semibold"
                 : "text-ink-secondary hover:text-ink-primary"
             }`}
           >
@@ -80,7 +80,7 @@ export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier
             onClick={() => setMode("technical")}
             className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
               mode === "technical"
-                ? "bg-white text-ink-primary shadow-xs font-semibold"
+                ? "bg-ink-primary text-canvas shadow-xs font-semibold"
                 : "text-ink-secondary hover:text-ink-primary"
             }`}
           >
@@ -94,7 +94,7 @@ export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier
         {pillars.map((p) => (
           <div
             key={p.num}
-            className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper hover:shadow-cardHover transition-all flex flex-col justify-between space-y-5"
+            className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper hover:border-warm-borderStrong hover:bg-canvas-elevated transition-all flex flex-col justify-between space-y-5"
           >
             <div className="space-y-3">
               <div className="flex items-center justify-between">
@@ -125,10 +125,10 @@ export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier
       {/* Before / After Contrast Panels */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
         {/* Without Sentra */}
-        <div className="p-8 rounded-2xl border border-warm-border bg-canvas-subtle/70 space-y-4">
+        <div className="p-8 rounded-2xl border border-warm-border bg-canvas-subtle/80 space-y-4">
           <div className="flex items-center justify-between">
             <span className="font-serif text-lg font-bold text-ink-primary flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block" />
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)] inline-block" />
               Without Sentra: The Black Box
             </span>
             <Badge variant="crimson">Unchecked Risk</Badge>
@@ -136,25 +136,25 @@ export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier
 
           <ul className="space-y-3 text-xs sm:text-sm text-ink-secondary leading-relaxed">
             <li className="flex items-start gap-2.5">
-              <span className="text-rose-600 font-bold shrink-0">·</span>
+              <span className="text-rose-400 font-bold shrink-0">·</span>
               <span><strong>Blind Over-Reliance:</strong> Managers defer to articulate AI advice without understanding asymmetric downside risks.</span>
             </li>
             <li className="flex items-start gap-2.5">
-              <span className="text-rose-600 font-bold shrink-0">·</span>
+              <span className="text-rose-400 font-bold shrink-0">·</span>
               <span><strong>Hidden Balance Sheet Loss:</strong> Excess inventory write-downs or catastrophic stockouts eat into margins.</span>
             </li>
             <li className="flex items-start gap-2.5">
-              <span className="text-rose-600 font-bold shrink-0">·</span>
+              <span className="text-rose-400 font-bold shrink-0">·</span>
               <span><strong>Audit Vulnerability:</strong> When questions arise later, there is zero verifiable proof of who decided what or why.</span>
             </li>
           </ul>
         </div>
 
         {/* With Sentra */}
-        <div className="p-8 rounded-2xl border border-sage-border bg-sage-light/60 space-y-4">
+        <div className="p-8 rounded-2xl border border-sage/30 bg-sage/10 space-y-4">
           <div className="flex items-center justify-between">
             <span className="font-serif text-lg font-bold text-sage flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-sage inline-block" />
+              <span className="w-2.5 h-2.5 rounded-full bg-sage shadow-[0_0_8px_rgba(52,211,153,0.6)] inline-block" />
               With Sentra: Calibrated Oversight
             </span>
             <Badge variant="spruce">Empirical Oversight</Badge>
@@ -179,7 +179,7 @@ export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier
 
       {/* Guide CTA Strip */}
       {onOpenDemystifier && (
-        <div className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper flex flex-col sm:flex-row sm:items-center justify-between gap-4">
           <div className="space-y-1">
             <span className="font-serif text-base font-semibold text-ink-primary block">
               Still have questions about terms like "Critical Fractile" or "ECE"?
@@ -193,7 +193,7 @@ export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier
             variant="secondary"
             size="sm"
             onClick={onOpenDemystifier}
-            className="shrink-0 gap-2 border-warm-border"
+            className="shrink-0 gap-2 border-warm-border bg-canvas-elevated hover:bg-canvas-subtle"
           >
             <BookOpen className="w-3.5 h-3.5 text-terracotta" />
             <span>Open Plain English Guide</span>

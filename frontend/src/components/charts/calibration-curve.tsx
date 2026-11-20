@@ -30,7 +30,7 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
         </span>
       </div>
 
-      <div className="border border-hairline rounded bg-panel p-2 flex items-center justify-center">
+      <div className="border border-warm-hairline rounded-2xl bg-canvas-elevated/60 p-3 flex items-center justify-center shadow-paper">
         <svg width={width} height={height} className="overflow-visible select-none text-[10px] font-mono">
           {/* Grid lines */}
           {[0.2, 0.4, 0.6, 0.8, 1.0].map((v) => (
@@ -41,10 +41,10 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
                 y1={getY(v)}
                 x2={width - padding}
                 y2={getY(v)}
-                stroke="#E5E2D9"
+                stroke="rgba(255,255,255,0.08)"
                 strokeDasharray="2,2"
               />
-              <text x={padding - 6} y={getY(v) + 3} textAnchor="end" fill="#7A8494">
+              <text x={padding - 6} y={getY(v) + 3} textAnchor="end" fill="#94A3B8">
                 {Math.round(v * 100)}%
               </text>
               {/* Vertical line */}
@@ -53,10 +53,10 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
                 y1={padding}
                 x2={getX(v)}
                 y2={height - padding}
-                stroke="#E5E2D9"
+                stroke="rgba(255,255,255,0.08)"
                 strokeDasharray="2,2"
               />
-              <text x={getX(v)} y={height - padding + 14} textAnchor="middle" fill="#7A8494">
+              <text x={getX(v)} y={height - padding + 14} textAnchor="middle" fill="#94A3B8">
                 {Math.round(v * 100)}%
               </text>
             </g>
@@ -68,7 +68,7 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
             y1={getY(0)}
             x2={width - padding}
             y2={getY(0)}
-            stroke="#12151A"
+            stroke="rgba(255,255,255,0.2)"
             strokeWidth="1.5"
           />
           <line
@@ -76,7 +76,7 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
             y1={padding}
             x2={padding}
             y2={height - padding}
-            stroke="#12151A"
+            stroke="rgba(255,255,255,0.2)"
             strokeWidth="1.5"
           />
 
@@ -86,7 +86,7 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
             y1={getY(0)}
             x2={getX(1)}
             y2={getY(1)}
-            stroke="#7A8494"
+            stroke="#94A3B8"
             strokeWidth="1.5"
             strokeDasharray="4,4"
           />
@@ -97,7 +97,7 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
               {/* Line connecting points */}
               <polyline
                 fill="none"
-                stroke="#B45309"
+                stroke="#E07A5F"
                 strokeWidth="2"
                 points={bins.map((b) => `${getX(b.mean_confidence)},${getY(b.observed_accuracy)}`).join(" ")}
               />
@@ -108,8 +108,8 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
                     cx={getX(b.mean_confidence)}
                     cy={getY(b.observed_accuracy)}
                     r="4"
-                    fill="#B45309"
-                    stroke="#FFFFFF"
+                    fill="#E07A5F"
+                    stroke="#0A0D12"
                     strokeWidth="1.5"
                   />
                   {/* Calibration gap indicator */}
@@ -118,9 +118,9 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
                     y1={getY(b.mean_confidence)}
                     x2={getX(b.mean_confidence)}
                     y2={getY(b.observed_accuracy)}
-                    stroke="#9E2A2B"
+                    stroke="#F43F5E"
                     strokeWidth="1"
-                    strokeOpacity="0.5"
+                    strokeOpacity="0.6"
                   />
                 </g>
               ))}
@@ -132,7 +132,7 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
             x={width / 2}
             y={height - 6}
             textAnchor="middle"
-            fill="#484F59"
+            fill="#94A3B8"
             className="font-sans text-[11px] font-medium"
           >
             Subjective Reported Confidence
@@ -142,7 +142,7 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
             y={12}
             transform="rotate(-90)"
             textAnchor="middle"
-            fill="#484F59"
+            fill="#94A3B8"
             className="font-sans text-[11px] font-medium"
           >
             Observed Accuracy

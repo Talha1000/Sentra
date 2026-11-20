@@ -170,8 +170,8 @@ export function ModuleTabsShowcase() {
               onClick={() => setActiveTab(m.id)}
               className={`px-4 py-2 rounded-xl text-xs transition-all duration-150 whitespace-nowrap ${
                 isActive
-                  ? "bg-ink-primary text-white shadow-xs font-medium"
-                  : "bg-white text-ink-secondary border border-warm-border hover:bg-canvas-subtle"
+                  ? "bg-ink-primary text-canvas shadow-xs font-semibold"
+                  : "bg-canvas-elevated text-ink-secondary border border-warm-border hover:bg-canvas-subtle hover:text-ink-primary"
               }`}
             >
               {m.name}
@@ -181,7 +181,7 @@ export function ModuleTabsShowcase() {
       </div>
 
       {/* Module Card */}
-      <div className="rounded-2xl border border-warm-border bg-white shadow-paper p-6 sm:p-10">
+      <div className="rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper p-6 sm:p-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           {/* Left Details */}
           <div className="lg:col-span-7 space-y-5">
@@ -201,7 +201,7 @@ export function ModuleTabsShowcase() {
             </p>
 
             {/* Human Benefit Quote */}
-            <div className="p-4 rounded-xl bg-canvas-subtle/80 border border-warm-hairline text-xs space-y-1">
+            <div className="p-4 rounded-xl bg-canvas-elevated/70 border border-warm-hairline text-xs space-y-1">
               <span className="font-semibold text-ink-primary block">
                 The Human Benefit:
               </span>
@@ -237,7 +237,7 @@ export function ModuleTabsShowcase() {
           </div>
 
           {/* Right Metrics Folio */}
-          <div className="lg:col-span-5 p-6 rounded-2xl bg-canvas-subtle/70 border border-warm-hairline space-y-4">
+          <div className="lg:col-span-5 p-6 rounded-2xl bg-canvas-elevated/40 border border-warm-hairline space-y-4">
             <span className="text-[11px] font-sans text-ink-muted uppercase tracking-wider block">
               System Benchmarks
             </span>
@@ -246,7 +246,7 @@ export function ModuleTabsShowcase() {
               {mod.metrics.map((m, i) => (
                 <div
                   key={i}
-                  className="p-3.5 rounded-xl bg-white border border-warm-hairline shadow-paper flex items-center justify-between"
+                  className="p-3.5 rounded-xl bg-canvas-elevated border border-warm-hairline shadow-paper flex items-center justify-between"
                 >
                   <span className="text-xs text-ink-secondary">{m.label}</span>
                   <span className="font-serif text-sm font-bold text-ink-primary">{m.value}</span>
@@ -254,7 +254,7 @@ export function ModuleTabsShowcase() {
               ))}
             </div>
 
-            <div className="p-3 rounded-xl bg-white border border-warm-hairline text-[11px] text-ink-muted space-y-1">
+            <div className="p-3 rounded-xl bg-canvas-elevated border border-warm-hairline text-[11px] text-ink-muted space-y-1">
               <div className="text-sage font-medium">✓ Engine verified: Deterministic execution</div>
               <div>Provenance hash sealed on local SQLite database</div>
             </div>

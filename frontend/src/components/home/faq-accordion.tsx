@@ -76,8 +76,8 @@ export function FAQAccordion() {
               key={idx}
               className={`rounded-2xl border transition-all ${
                 isOpen
-                  ? "border-warm-border bg-white shadow-paper"
-                  : "border-warm-hairline bg-white/70 hover:bg-white"
+                  ? "border-warm-borderStrong bg-canvas-subtle shadow-paper"
+                  : "border-warm-hairline bg-canvas-subtle/50 hover:bg-canvas-subtle hover:border-warm-border"
               }`}
             >
               <button
@@ -103,7 +103,7 @@ export function FAQAccordion() {
                 <div className="px-6 pb-6 pt-1 space-y-3.5 text-xs sm:text-sm text-ink-secondary border-t border-warm-hairline">
                   <p className="leading-relaxed text-ink-secondary">{faq.a}</p>
 
-                  <div className="p-3.5 rounded-xl bg-canvas-subtle/80 border border-warm-hairline text-xs font-sans text-ink-primary flex items-start gap-2">
+                  <div className="p-3.5 rounded-xl bg-canvas-elevated border border-warm-hairline text-xs font-sans text-ink-primary flex items-start gap-2">
                     <span className="text-terracotta font-bold shrink-0">·</span>
                     <span>
                       <strong className="text-ink-primary">The Key Takeaway:</strong> {faq.humanNote}

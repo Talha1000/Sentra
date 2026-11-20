@@ -163,7 +163,7 @@ export function ConceptDemystifierModal({
     >
       <div className="p-6 sm:p-8 space-y-6">
         {/* Intro */}
-        <div className="p-5 rounded-2xl bg-terracotta-light border border-terracotta-border space-y-1.5">
+        <div className="p-5 rounded-2xl bg-terracotta/10 border border-terracotta/30 space-y-1.5">
           <span className="font-serif text-base font-bold text-ink-primary block">
             Complex Ideas, Explained in Clear Words
           </span>
@@ -182,7 +182,7 @@ export function ConceptDemystifierModal({
               placeholder="Search concepts or analogies (e.g., 'fractile', 'over-reliance', 'audit')..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-warm-border bg-white text-xs text-ink-primary placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-terracotta"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-warm-border bg-canvas-elevated text-xs text-ink-primary placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-terracotta"
             />
           </div>
 
@@ -193,8 +193,8 @@ export function ConceptDemystifierModal({
                 onClick={() => setSelectedCat(cat)}
                 className={`px-3 py-1 rounded-lg text-xs transition-colors ${
                   selectedCat === cat
-                    ? "bg-ink-primary text-white font-medium"
-                    : "bg-white text-ink-secondary border border-warm-hairline hover:bg-canvas-subtle"
+                    ? "bg-ink-primary text-canvas font-semibold"
+                    : "bg-canvas-elevated text-ink-secondary border border-warm-border hover:bg-canvas-subtle hover:text-ink-primary"
                 }`}
               >
                 {cat}
@@ -212,8 +212,8 @@ export function ConceptDemystifierModal({
                 key={item.id}
                 className={`rounded-2xl border transition-all ${
                   isExpanded
-                    ? "border-warm-border bg-white shadow-paper"
-                    : "border-warm-hairline bg-white/70 hover:bg-white"
+                    ? "border-warm-borderStrong bg-canvas-subtle shadow-paper"
+                    : "border-warm-hairline bg-canvas-subtle/50 hover:bg-canvas-subtle hover:border-warm-border"
                 }`}
               >
                 <button
@@ -239,7 +239,7 @@ export function ConceptDemystifierModal({
 
                 {isExpanded && (
                   <div className="px-5 pb-5 pt-1 space-y-3.5 text-xs text-ink-secondary border-t border-warm-hairline">
-                    <div className="p-3.5 rounded-xl bg-canvas-subtle/70 border border-warm-hairline space-y-1">
+                    <div className="p-3.5 rounded-xl bg-canvas-elevated/70 border border-warm-hairline space-y-1">
                       <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-ink-muted block">
                         In Plain English
                       </span>
@@ -248,8 +248,8 @@ export function ConceptDemystifierModal({
                       </p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-terracotta-light border border-terracotta-border space-y-1">
-                      <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-terracotta-dark block">
+                    <div className="p-3.5 rounded-xl bg-terracotta/10 border border-terracotta/30 space-y-1">
+                      <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-terracotta block">
                         Real-World Analogy
                       </span>
                       <p className="text-ink-primary italic leading-relaxed text-xs">
@@ -257,7 +257,7 @@ export function ConceptDemystifierModal({
                       </p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-sage-light border border-sage-border space-y-1">
+                    <div className="p-3.5 rounded-xl bg-sage/10 border border-sage/30 space-y-1">
                       <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-sage block">
                         Why It Matters To Your Bottom Line
                       </span>
@@ -266,7 +266,7 @@ export function ConceptDemystifierModal({
                       </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-canvas-subtle/90 font-mono text-[11px] text-ink-muted space-y-1">
+                    <div className="p-3 rounded-xl bg-canvas/90 border border-warm-hairline font-mono text-[11px] text-ink-muted space-y-1">
                       <span className="font-sans text-[10px] uppercase font-semibold text-ink-muted block">
                         Formal Definition
                       </span>

@@ -47,22 +47,22 @@ export default function AnalyticsPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">
             <span>Protocol: {analytics.experiment_id}</span>
             <span>•</span>
-            <span className="text-emerald-600 font-semibold">Welch Inference Online</span>
+            <span className="text-sage font-semibold">Welch Inference Online</span>
           </div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+          <h1 className="font-serif text-2xl lg:text-3xl font-bold text-ink-primary tracking-tight">
             Evidence & Statistical Analytics
           </h1>
-          <p className="text-sm text-slate-600 mt-1 max-w-3xl">
+          <p className="text-sm text-ink-secondary mt-1 max-w-3xl">
             Empirical comparisons between autonomous human decisions, ungrounded AI recommendations, and calibrated explanatory AI with uncertainty bounds.
           </p>
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
-          <Button variant="secondary" onClick={handleDownloadCsv} className="gap-2">
-            <Download className="w-4 h-4 text-slate-600" />
+          <Button variant="secondary" onClick={handleDownloadCsv} className="gap-2 border-warm-border">
+            <Download className="w-4 h-4 text-ink-secondary" />
             <span>Export Raw Microdata (CSV)</span>
           </Button>
         </div>
@@ -130,29 +130,29 @@ export default function AnalyticsPage() {
                 return (
                   <TableRow key={cond.condition_code}>
                     <TableCell>
-                      <div className="font-semibold text-slate-900 flex items-center gap-2">
+                      <div className="font-semibold text-ink-primary flex items-center gap-2">
                         <span
                           className={`w-2 h-2 rounded-full ${
-                            isCondA ? "bg-blue-600" : isCondB ? "bg-rose-600" : "bg-emerald-600"
+                            isCondA ? "bg-terracotta" : isCondB ? "bg-rose-500" : "bg-sage"
                           }`}
                         />
                         {cond.condition_name}
                       </div>
-                      <div className="text-xs text-slate-400 font-mono mt-0.5">{cond.condition_code}</div>
+                      <div className="text-xs text-ink-muted font-mono mt-0.5">{cond.condition_code}</div>
                     </TableCell>
-                    <TableCell className="text-center font-mono font-semibold text-slate-800 tabular-nums">
+                    <TableCell className="text-center font-mono font-semibold text-ink-primary tabular-nums">
                       {cond.n_participants}
                     </TableCell>
-                    <TableCell className="text-right font-mono font-bold text-slate-900 tabular-nums">
+                    <TableCell className="text-right font-mono font-bold text-ink-primary tabular-nums">
                       {formatCurrency(cond.mean_payoff)}
                     </TableCell>
-                    <TableCell className="text-right font-mono text-slate-600 tabular-nums">
+                    <TableCell className="text-right font-mono text-ink-secondary tabular-nums">
                       {cond.mean_deviation} units
                     </TableCell>
-                    <TableCell className="text-right font-mono text-slate-600 tabular-nums">
+                    <TableCell className="text-right font-mono text-ink-secondary tabular-nums">
                       {(cond.mean_latency_ms / 1000).toFixed(1)}s
                     </TableCell>
-                    <TableCell className="text-right font-mono font-semibold text-slate-800 tabular-nums">
+                    <TableCell className="text-right font-mono font-semibold text-ink-primary tabular-nums">
                       {formatPercent(cond.agreement_rate)}
                     </TableCell>
                     <TableCell className="text-right font-mono">
@@ -217,38 +217,38 @@ export default function AnalyticsPage() {
         <CardContent className="space-y-4 pt-0">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             {analytics.comparisons.map((comp, idx) => (
-              <div key={idx} className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-3">
-                <div className="flex items-center justify-between border-b border-slate-200/60 pb-2.5">
-                  <span className="font-semibold text-xs text-slate-800">
+              <div key={idx} className="p-4 bg-canvas-elevated rounded-2xl border border-warm-hairline space-y-3">
+                <div className="flex items-center justify-between border-b border-warm-hairline pb-2.5">
+                  <span className="font-semibold text-xs text-ink-primary">
                     {comp.label_a} vs. {comp.label_b}
                   </span>
                   <Badge variant="spruce">p = {comp.welch_t.p_value}</Badge>
                 </div>
 
                 <div className="grid grid-cols-3 gap-2 font-mono text-xs">
-                  <div className="p-2.5 bg-white rounded-lg border border-slate-200/60">
-                    <span className="text-[10px] text-slate-400 uppercase block">Welch t</span>
-                    <span className="font-bold text-slate-900 mt-0.5 block tabular-nums">
+                  <div className="p-2.5 bg-canvas/80 rounded-xl border border-warm-hairline">
+                    <span className="text-[10px] text-ink-muted uppercase block">Welch t</span>
+                    <span className="font-bold text-ink-primary mt-0.5 block tabular-nums">
                       {comp.welch_t.t_statistic}
                     </span>
                   </div>
-                  <div className="p-2.5 bg-white rounded-lg border border-slate-200/60">
-                    <span className="text-[10px] text-slate-400 uppercase block">Cohen&apos;s d</span>
-                    <span className="font-bold text-blue-600 mt-0.5 block tabular-nums">
+                  <div className="p-2.5 bg-canvas/80 rounded-xl border border-warm-hairline">
+                    <span className="text-[10px] text-ink-muted uppercase block">Cohen&apos;s d</span>
+                    <span className="font-bold text-terracotta mt-0.5 block tabular-nums">
                       {comp.cohens_d}
                     </span>
                   </div>
-                  <div className="p-2.5 bg-white rounded-lg border border-slate-200/60">
-                    <span className="text-[10px] text-slate-400 uppercase block">Effect</span>
-                    <span className="font-bold text-emerald-700 capitalize mt-0.5 block truncate text-[11px]">
+                  <div className="p-2.5 bg-canvas/80 rounded-xl border border-warm-hairline">
+                    <span className="text-[10px] text-ink-muted uppercase block">Effect</span>
+                    <span className="font-bold text-sage capitalize mt-0.5 block truncate text-[11px]">
                       {comp.effect_interpretation}
                     </span>
                   </div>
                 </div>
 
-                <div className="text-xs text-slate-600 leading-relaxed pt-1">
+                <div className="text-xs text-ink-secondary leading-relaxed pt-1">
                   {comp.welch_t.is_significant_01 ? (
-                    <span className="text-emerald-700 font-medium flex items-center gap-1.5">
+                    <span className="text-sage font-medium flex items-center gap-1.5">
                       <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
                       Statistically significant difference at α = 0.01 level. Null hypothesis rejected.
                     </span>

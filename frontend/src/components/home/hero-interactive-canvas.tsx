@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Compass, Sparkles, Scale, Info } from "lucide-react";
+import { Info } from "lucide-react";
 
 export function HeroInteractiveCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,12 +34,12 @@ export function HeroInteractiveCanvas() {
       t += 0.012;
       ctx.clearRect(0, 0, width, height);
 
-      // Warm paper background fill
-      ctx.fillStyle = "#FAF7F2";
+      // Deep obsidian background fill
+      ctx.fillStyle = "#0A0D12";
       ctx.fillRect(0, 0, width, height);
 
-      // Soft architectural drafting grid (warm sandstone lines)
-      ctx.strokeStyle = "#EBE4DA";
+      // Soft architectural drafting grid (fine glass lines)
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
       ctx.lineWidth = 1;
 
       // Vertical grid
@@ -65,7 +65,7 @@ export function HeroInteractiveCanvas() {
       const aiX = width * 0.70;      // 1,750 units (+23% bias)
       const stdWidth = width * 0.15;
 
-      // 1. Draw True Demand Gaussian Bell Curve (Warm Forest Sage)
+      // 1. Draw True Demand Gaussian Bell Curve (Luminous Emerald Sage)
       ctx.beginPath();
       ctx.moveTo(0, baselineY);
 
@@ -77,19 +77,22 @@ export function HeroInteractiveCanvas() {
       ctx.lineTo(width, baselineY);
       ctx.closePath();
 
-      // Soft natural wash fill
+      // Glowing emerald gradient fill
       const sageGrad = ctx.createLinearGradient(0, 0, 0, baselineY);
-      sageGrad.addColorStop(0, "rgba(61, 107, 82, 0.14)");
-      sageGrad.addColorStop(1, "rgba(61, 107, 82, 0.01)");
+      sageGrad.addColorStop(0, "rgba(52, 211, 153, 0.18)");
+      sageGrad.addColorStop(1, "rgba(52, 211, 153, 0.01)");
       ctx.fillStyle = sageGrad;
       ctx.fill();
 
-      // Sage curve line
-      ctx.strokeStyle = "#3D6B52";
-      ctx.lineWidth = 2;
+      // Sage curve line with subtle ambient glow
+      ctx.shadowColor = "rgba(52, 211, 153, 0.4)";
+      ctx.shadowBlur = 8;
+      ctx.strokeStyle = "#34D399";
+      ctx.lineWidth = 2.2;
       ctx.stroke();
+      ctx.shadowBlur = 0; // Reset shadow
 
-      // 2. Draw Biased AI Distribution (Terracotta Dashed Curve)
+      // 2. Draw Biased AI Distribution (Glowing Terracotta Dashed Curve)
       ctx.beginPath();
       ctx.setLineDash([4, 4]);
       for (let x = 0; x <= width; x += 3) {
@@ -98,55 +101,60 @@ export function HeroInteractiveCanvas() {
         if (x === 0) ctx.moveTo(x, bellY);
         else ctx.lineTo(x, bellY);
       }
-      ctx.strokeStyle = "rgba(204, 120, 92, 0.75)";
+      ctx.strokeStyle = "rgba(224, 122, 95, 0.85)";
       ctx.lineWidth = 1.8;
       ctx.stroke();
       ctx.setLineDash([]); // Reset dash
 
       // Baseline ground line
-      ctx.strokeStyle = "#D6CABE";
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
       ctx.lineWidth = 1.5;
       ctx.beginPath();
       ctx.moveTo(0, baselineY);
       ctx.lineTo(width, baselineY);
       ctx.stroke();
 
-      // 3. Mathematical Optimum Point (Spruce pin with subtle breathing halo)
+      // 3. Mathematical Optimum Point (Spruce pin with breathing halo)
       const optPeakY = baselineY - height * 0.58;
-      const breathingRadius = 4 + Math.sin(t * 2) * 1;
+      const breathingRadius = 4.5 + Math.sin(t * 2) * 1.2;
+
+      ctx.beginPath();
+      ctx.arc(optimalX, optPeakY, breathingRadius + 3, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(52, 211, 153, 0.25)";
+      ctx.fill();
 
       ctx.beginPath();
       ctx.arc(optimalX, optPeakY, breathingRadius, 0, Math.PI * 2);
-      ctx.fillStyle = "#3D6B52";
+      ctx.fillStyle = "#34D399";
       ctx.fill();
       ctx.strokeStyle = "#FFFFFF";
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.8;
       ctx.stroke();
 
       // 4. Biased AI Anchor Point (Terracotta pin)
       const aiPeakY = baselineY - height * 0.46;
       ctx.beginPath();
       ctx.arc(aiX, aiPeakY, 4.5, 0, Math.PI * 2);
-      ctx.fillStyle = "#CC785C";
+      ctx.fillStyle = "#E07A5F";
       ctx.fill();
       ctx.strokeStyle = "#FFFFFF";
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1.8;
       ctx.stroke();
 
-      // Delicate typography annotations on canvas
+      // Typography annotations on canvas
       ctx.font = "500 11px Inter, sans-serif";
 
       // Optimum label
-      ctx.fillStyle = "#2D503C";
+      ctx.fillStyle = "#34D399";
       ctx.fillText("True Sweet Spot: 1,420 units", optimalX - 65, optPeakY - 14);
 
       // AI label
-      ctx.fillStyle = "#A85338";
+      ctx.fillStyle = "#E07A5F";
       ctx.fillText("AI Suggestion: 1,750 units (+23%)", aiX - 85, aiPeakY - 14);
 
       // Axis ticks and labels
       ctx.font = "400 10px Inter, sans-serif";
-      ctx.fillStyle = "#78716C";
+      ctx.fillStyle = "#64748B";
       ctx.fillText("1,000", width * 0.15, baselineY + 18);
       ctx.fillText("1,420 (Q*)", optimalX - 18, baselineY + 18);
       ctx.fillText("1,750 (AI)", aiX - 18, baselineY + 18);
@@ -158,14 +166,14 @@ export function HeroInteractiveCanvas() {
         ctx.setLineDash([2, 3]);
         ctx.moveTo(cursorX, 20);
         ctx.lineTo(cursorX, baselineY);
-        ctx.strokeStyle = "#44403C";
+        ctx.strokeStyle = "rgba(248, 250, 252, 0.6)";
         ctx.lineWidth = 1;
         ctx.stroke();
         ctx.setLineDash([]);
 
         ctx.beginPath();
         ctx.arc(cursorX, baselineY, 3.5, 0, Math.PI * 2);
-        ctx.fillStyle = "#1C1917";
+        ctx.fillStyle = "#FFFFFF";
         ctx.fill();
       }
 
@@ -188,7 +196,6 @@ export function HeroInteractiveCanvas() {
     setCursorX(x);
     setIsHovering(true);
 
-    // Map x to unit order range [1000, 2000]
     const ratio = Math.max(0, Math.min(1, x / canvas.width));
     const calculatedQty = Math.round(1000 + ratio * 1000);
     setHoverQty(calculatedQty);
@@ -206,9 +213,9 @@ export function HeroInteractiveCanvas() {
   };
 
   return (
-    <div className="rounded-2xl border border-warm-border bg-white shadow-paper overflow-hidden transition-all">
+    <div className="rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper overflow-hidden transition-all">
       {/* Editorial Header Strip */}
-      <div className="px-6 py-4 border-b border-warm-hairline flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-canvas-subtle/50">
+      <div className="px-6 py-4 border-b border-warm-hairline flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-canvas/40">
         <div className="flex items-center gap-2.5">
           <span className="w-2 h-2 rounded-full bg-terracotta" />
           <span className="font-serif text-sm font-semibold text-ink-primary tracking-tight">
@@ -218,7 +225,7 @@ export function HeroInteractiveCanvas() {
           <span className="text-xs text-ink-muted">Q4 Semiconductor Allocation</span>
         </div>
 
-        <div className="flex items-center gap-3 text-xs text-ink-secondary">
+        <div className="flex items-center gap-4 text-xs text-ink-secondary">
           <div className="flex items-center gap-1.5">
             <span className="w-2.5 h-2.5 rounded-full bg-sage inline-block" />
             <span>Optimal Demand (1,420)</span>
@@ -242,12 +249,12 @@ export function HeroInteractiveCanvas() {
         {/* Floating human-centric tooltip */}
         {isHovering && cursorX !== null && (
           <div
-            className="absolute pointer-events-none transform -translate-x-1/2 -translate-y-12 bg-ink-primary text-white px-3.5 py-1.5 rounded-xl text-xs font-sans shadow-md flex items-center gap-2 z-10"
+            className="absolute pointer-events-none transform -translate-x-1/2 -translate-y-12 bg-white text-slate-950 px-3.5 py-1.5 rounded-xl text-xs font-sans shadow-lg flex items-center gap-2 z-10"
             style={{ left: cursorX, top: 40 }}
           >
-            <span className="font-medium">{hoverQty.toLocaleString()} units</span>
-            <span className="text-stone-400">·</span>
-            <span className={Math.abs(hoverQty - 1420) <= 35 ? "text-emerald-300" : "text-amber-200"}>
+            <span className="font-semibold">{hoverQty.toLocaleString()} units</span>
+            <span className="text-slate-400">·</span>
+            <span className={Math.abs(hoverQty - 1420) <= 35 ? "text-emerald-700 font-bold" : "text-amber-700 font-bold"}>
               ${hoverProfit.toLocaleString()} expected return
             </span>
           </div>
@@ -255,7 +262,7 @@ export function HeroInteractiveCanvas() {
       </div>
 
       {/* Descriptive Handcrafted Footer Ribbon */}
-      <div className="px-6 py-3.5 border-t border-warm-hairline bg-canvas-subtle/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-ink-secondary">
+      <div className="px-6 py-3.5 border-t border-warm-hairline bg-canvas/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-ink-secondary">
         <div className="flex items-center gap-2">
           <Info className="w-3.5 h-3.5 text-terracotta shrink-0" />
           <span>

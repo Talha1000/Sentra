@@ -12,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-canvas text-ink-primary min-h-screen selection:bg-cognition-subtle selection:text-cognition">
+    <html lang="en" className="dark">
+      <body className="bg-canvas text-ink-primary min-h-screen selection:bg-terracotta/20 selection:text-terracotta">
         {children}
       </body>
     </html>

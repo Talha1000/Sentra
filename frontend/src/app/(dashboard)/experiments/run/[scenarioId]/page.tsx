@@ -165,39 +165,39 @@ export default function ParticipantRunnerPage() {
     <div className="py-6 space-y-6">
       {/* 1. Participant Consent View */}
       {stage === "consent" && (
-        <Card className="max-w-2xl mx-auto shadow-sm">
-          <CardHeader className="pb-4 border-b border-slate-100">
+        <Card className="max-w-2xl mx-auto shadow-paper">
+          <CardHeader className="pb-4 border-b border-warm-hairline">
             <div className="flex items-center gap-2 mb-1">
-              <ShieldCheck className="w-4 h-4 text-emerald-600" />
-              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+              <ShieldCheck className="w-4 h-4 text-sage" />
+              <span className="text-xs font-semibold text-ink-muted uppercase tracking-wider">
                 Research Protocol Informed Consent
               </span>
             </div>
-            <CardTitle className="text-xl">Human–AI Decision Collaboration Study</CardTitle>
-            <p className="text-xs text-slate-500 mt-1">
+            <CardTitle className="text-xl font-serif">Human–AI Decision Collaboration Study</CardTitle>
+            <p className="text-xs text-ink-muted mt-1">
               Protocol: Human Decision Quality & Reliance Under Stochastic Demand Uncertainty.
             </p>
           </CardHeader>
 
-          <CardContent className="space-y-4 text-xs text-slate-600 leading-relaxed pt-5">
+          <CardContent className="space-y-4 text-xs text-ink-secondary leading-relaxed pt-5">
             <p>
               You are participating in an empirical research evaluation assessing how business professionals evaluate risk,
               calibrate confidence, and verify algorithmic recommendations across purchasing scenarios.
             </p>
-            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-2 text-slate-800">
+            <div className="p-4 bg-canvas-elevated rounded-xl border border-warm-hairline space-y-2 text-ink-primary">
               <div>• You will complete 5 distinct business inventory purchasing scenarios.</div>
               <div>• Decisions are scored against mathematical ground-truth payoffs F⁻¹(Cu / (Cu+Co)).</div>
               <div>• Microsecond reaction time is recorded via server-side monotonic timing.</div>
               <div>• All responses are fully anonymized under a cryptographic token.</div>
             </div>
-            <p className="text-[11px] text-slate-500">
+            <p className="text-[11px] text-ink-muted">
               Participation is voluntary. You may withdraw at any time. By proceeding, you confirm your consent.
             </p>
           </CardContent>
 
-          <CardFooter className="flex justify-between items-center bg-slate-50/70 border-t border-slate-100">
-            <span className="text-[11px] text-slate-400 font-mono">Protocol #IRB-SENTRA-2026</span>
-            <Button variant="brand" onClick={handleJoin} className="gap-2 shadow-xs">
+          <CardFooter className="flex justify-between items-center bg-canvas-elevated border-t border-warm-hairline">
+            <span className="text-[11px] text-ink-muted font-mono">Protocol #IRB-SENTRA-2026</span>
+            <Button variant="terracotta" onClick={handleJoin} className="gap-2 shadow-xs">
               <span>Accept & Begin Trials</span>
               <ArrowRight className="w-4 h-4" />
             </Button>
@@ -209,18 +209,18 @@ export default function ParticipantRunnerPage() {
       {stage === "running" && sessionData && (
         <div className="space-y-6 max-w-5xl mx-auto">
           {/* Progress Bar & Header */}
-          <div className="flex items-center justify-between text-xs px-1 text-slate-700">
+          <div className="flex items-center justify-between text-xs px-1 text-ink-primary">
             <span className="font-semibold">Scenario {currentScenarioIndex + 1} of {defaultScenarios.length}</span>
             <div className="flex items-center gap-2">
-              <span className="text-slate-500">Subject Token:</span>
-              <span className="font-mono font-bold text-slate-900">{sessionData.pseudonym_token}</span>
-              <span className="text-slate-300">•</span>
-              <Badge variant="cobalt">{sessionData.condition_code}</Badge>
+              <span className="text-ink-muted">Subject Token:</span>
+              <span className="font-mono font-bold text-ink-primary">{sessionData.pseudonym_token}</span>
+              <span className="text-warm-hairline">•</span>
+              <Badge variant="terracotta">{sessionData.condition_code}</Badge>
             </div>
           </div>
-          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+          <div className="w-full bg-canvas-elevated h-2 rounded-full overflow-hidden border border-warm-hairline">
             <div
-              className="bg-brand-600 h-full transition-all duration-300 rounded-full"
+              className="bg-terracotta h-full transition-all duration-300 rounded-full shadow-[0_0_8px_rgba(224,122,95,0.6)]"
               style={{ width: `${((currentScenarioIndex + 1) / defaultScenarios.length) * 100}%` }}
             />
           </div>
@@ -238,38 +238,38 @@ export default function ParticipantRunnerPage() {
 
       {/* 3. Session Completed Summary */}
       {stage === "completed" && (
-        <Card className="max-w-2xl mx-auto shadow-sm">
-          <CardHeader className="text-center py-6 border-b border-slate-100">
-            <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto mb-2 text-emerald-600">
+        <Card className="max-w-2xl mx-auto shadow-paper">
+          <CardHeader className="text-center py-6 border-b border-warm-hairline">
+            <div className="w-12 h-12 rounded-full bg-sage/15 border border-sage/30 flex items-center justify-center mx-auto mb-2 text-sage">
               <CheckCircle2 className="w-6 h-6" />
             </div>
-            <CardTitle className="text-xl">Research Session Concluded</CardTitle>
-            <p className="text-xs text-slate-500 mt-1">
+            <CardTitle className="text-xl font-serif">Research Session Concluded</CardTitle>
+            <p className="text-xs text-ink-muted mt-1">
               All 5 decision trials recorded, scored against ground truth, and committed to research ledger.
             </p>
           </CardHeader>
 
           <CardContent className="space-y-4 text-xs pt-5">
-            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200/80 space-y-2">
-              <div className="font-semibold text-slate-900">Session Performance Metrics:</div>
-              <div className="grid grid-cols-2 gap-2 text-slate-600">
-                <div>Trials Completed: <span className="font-mono text-slate-900 font-bold">5 / 5</span></div>
-                <div>Condition: <span className="font-mono text-slate-900 font-semibold">{sessionData?.condition_code}</span></div>
-                <div>Participant Token: <span className="font-mono text-slate-900 font-semibold">{sessionData?.pseudonym_token}</span></div>
-                <div>Audit Status: <span className="font-mono text-emerald-600 font-bold">HMAC-VERIFIED</span></div>
+            <div className="p-4 bg-canvas-elevated rounded-xl border border-warm-hairline space-y-2">
+              <div className="font-semibold text-ink-primary">Session Performance Metrics:</div>
+              <div className="grid grid-cols-2 gap-2 text-ink-secondary">
+                <div>Trials Completed: <span className="font-mono text-ink-primary font-bold">5 / 5</span></div>
+                <div>Condition: <span className="font-mono text-ink-primary font-semibold">{sessionData?.condition_code}</span></div>
+                <div>Participant Token: <span className="font-mono text-ink-primary font-semibold">{sessionData?.pseudonym_token}</span></div>
+                <div>Audit Status: <span className="font-mono text-sage font-bold">HMAC-VERIFIED</span></div>
               </div>
             </div>
-            <p className="text-slate-600 leading-relaxed">
+            <p className="text-ink-secondary leading-relaxed">
               Your response latency and allocation choices have been added to the Evidence & Analytics dataset for parametric hypothesis testing and trust calibration analysis.
             </p>
           </CardContent>
 
-          <CardFooter className="flex justify-between items-center bg-slate-50/70 border-t border-slate-100">
+          <CardFooter className="flex justify-between items-center bg-canvas-elevated border-t border-warm-hairline">
             <Link href="/workspace">
-              <Button variant="secondary" size="sm">Return to Workspace</Button>
+              <Button variant="secondary" size="sm" className="border-warm-border">Return to Workspace</Button>
             </Link>
             <Link href="/analytics">
-              <Button variant="brand" size="sm" className="gap-2 shadow-xs">
+              <Button variant="terracotta" size="sm" className="gap-2 shadow-xs">
                 <BarChart3 className="w-4 h-4" />
                 <span>View Aggregate Analytics</span>
               </Button>

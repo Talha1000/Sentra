@@ -14,14 +14,9 @@ import {
   FlaskConical,
   BarChart3,
   ShieldCheck,
-  Compass,
   Play,
   Menu,
   X,
-  Sparkles,
-  Layers,
-  Activity,
-  CheckCircle2,
 } from "lucide-react";
 
 interface SiteHeaderProps {
@@ -80,7 +75,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const dropdownTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  // Track scroll position to morph navbar into floating paper capsule
+  // Track scroll position to morph navbar into floating frosted obsidian capsule
   useEffect(() => {
     const handleScroll = () => {
       if (window.scrollY > 30) {
@@ -109,13 +104,13 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ease-out select-none ${
         isScrolled
           ? "py-3 px-4 sm:px-6"
-          : "py-4 px-6 bg-canvas/85 backdrop-blur-md border-b border-warm-hairline"
+          : "py-4 px-6 bg-canvas/80 backdrop-blur-md border-b border-warm-hairline"
       }`}
     >
       <div
         className={`mx-auto transition-all duration-300 ${
           isScrolled
-            ? "max-w-6xl bg-white/95 backdrop-blur-md border border-warm-border shadow-paper-md rounded-2xl px-5 h-16 flex items-center justify-between"
+            ? "max-w-6xl bg-canvas-subtle/95 backdrop-blur-xl border border-warm-border shadow-paper-lg rounded-2xl px-5 h-16 flex items-center justify-between"
             : "max-w-7xl flex items-center justify-between h-12"
         }`}
       >
@@ -125,7 +120,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
             <motion.div
               whileHover={{ scale: 1.05, rotate: -2 }}
               whileTap={{ scale: 0.95 }}
-              className="w-8 h-8 rounded-xl bg-ink-primary text-white flex items-center justify-center font-serif font-bold text-sm tracking-tight shadow-xs transition-colors group-hover:bg-terracotta"
+              className="w-8 h-8 rounded-xl bg-white text-slate-950 flex items-center justify-center font-serif font-bold text-sm tracking-tight shadow-xs transition-colors group-hover:bg-terracotta group-hover:text-white"
             >
               S
             </motion.div>
@@ -133,7 +128,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
               <span className="font-serif font-bold text-lg tracking-tight text-ink-primary">
                 SENTRA
               </span>
-              <span className="hidden sm:inline-block text-[10px] font-sans font-medium uppercase px-2 py-0.5 rounded-full bg-canvas-subtle text-ink-secondary border border-warm-hairline">
+              <span className="hidden sm:inline-block text-[10px] font-sans font-medium uppercase px-2.5 py-0.5 rounded-full bg-white/[0.06] text-ink-secondary border border-warm-hairline">
                 Decision Intelligence
               </span>
             </div>
@@ -177,7 +172,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.97 }}
                   transition={{ duration: 0.18, ease: "easeOut" }}
-                  className="absolute top-full left-0 mt-2 w-80 p-4 rounded-2xl bg-white border border-warm-border shadow-paper-lg z-50 space-y-3"
+                  className="absolute top-full left-0 mt-2 w-80 p-4 rounded-2xl bg-canvas-subtle border border-warm-border shadow-paper-lg z-50 space-y-3"
                 >
                   <div className="flex items-center justify-between pb-2 border-b border-warm-hairline text-xs">
                     <span className="font-serif font-semibold text-ink-primary">
@@ -190,7 +185,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
                     {HOW_IT_WORKS_STEPS.map((st) => (
                       <div
                         key={st.step}
-                        className="p-2.5 rounded-xl hover:bg-canvas-subtle/80 transition-colors flex items-start gap-3"
+                        className="p-2.5 rounded-xl hover:bg-canvas transition-colors flex items-start gap-3"
                       >
                         <span className="font-serif font-bold text-xs text-terracotta mt-0.5">
                           {st.step}
@@ -282,7 +277,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
                   animate={{ opacity: 1, y: 0, scale: 1 }}
                   exit={{ opacity: 0, y: 8, scale: 0.97 }}
                   transition={{ duration: 0.18, ease: "easeOut" }}
-                  className="absolute top-full -left-20 mt-2 w-[440px] p-4 rounded-2xl bg-white border border-warm-border shadow-paper-lg z-50 space-y-3"
+                  className="absolute top-full -left-20 mt-2 w-[440px] p-4 rounded-2xl bg-canvas-subtle border border-warm-border shadow-paper-lg z-50 space-y-3"
                 >
                   <div className="flex items-center justify-between pb-2 border-b border-warm-hairline text-xs">
                     <span className="font-serif font-semibold text-ink-primary">
@@ -298,9 +293,9 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
                         <Link
                           key={sys.name}
                           href={sys.href}
-                          className="p-2.5 rounded-xl hover:bg-canvas-subtle/80 transition-colors flex items-start gap-3 group"
+                          className="p-2.5 rounded-xl hover:bg-canvas transition-colors flex items-start gap-3 group"
                         >
-                          <div className="p-2 rounded-lg bg-canvas border border-warm-hairline group-hover:bg-white transition-colors shrink-0 mt-0.5">
+                          <div className="p-2 rounded-lg bg-canvas border border-warm-hairline group-hover:border-terracotta/40 transition-colors shrink-0 mt-0.5">
                             <Icon className="w-4 h-4 text-terracotta" />
                           </div>
                           <div>
@@ -308,7 +303,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
                               <span className="text-xs font-semibold text-ink-primary group-hover:text-terracotta transition-colors">
                                 {sys.name}
                               </span>
-                              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-canvas text-ink-muted border border-warm-hairline">
+                              <span className="text-[9px] font-mono px-1.5 py-0.2 rounded bg-white/[0.06] text-ink-muted border border-warm-hairline">
                                 {sys.badge}
                               </span>
                             </div>
@@ -373,7 +368,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
             {hoveredNav && (
               <motion.div
                 layoutId="nav-hover-pill"
-                className="absolute inset-y-0 rounded-xl bg-canvas-subtle/80 border border-warm-hairline pointer-events-none -z-0"
+                className="absolute inset-y-0 rounded-xl bg-white/[0.08] border border-white/10 pointer-events-none -z-0"
                 initial={{ opacity: 0 }}
                 animate={{ opacity: 1 }}
                 exit={{ opacity: 0 }}
@@ -386,7 +381,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
         {/* Right Action Controls & Live Status Indicator */}
         <div className="flex items-center gap-2.5 sm:gap-3">
           {/* Subtle Live Engine Indicator */}
-          <div className="hidden xl:flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-sage-light border border-sage-border text-[11px] text-sage font-medium">
+          <div className="hidden xl:flex items-center gap-1.5 px-3 py-1 rounded-full bg-sage-light border border-sage-border text-[11px] text-sage font-medium">
             <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
             <span>Engine Online</span>
           </div>
@@ -418,7 +413,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
           {/* Run Trial CTA Button */}
           <Link href="/experiments/run/exp-inv-001">
             <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button variant="terracotta" size="sm" className="gap-1.5 shadow-xs text-xs font-medium px-4">
+              <Button variant="terracotta" size="sm" className="gap-1.5 shadow-xs text-xs font-semibold px-4">
                 <span>Run a Trial</span>
                 <ArrowRight className="w-3.5 h-3.5" />
               </Button>
@@ -444,7 +439,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.22, ease: "easeOut" }}
-            className="lg:hidden overflow-hidden mt-3 mx-2 sm:mx-4 bg-white border border-warm-border rounded-2xl shadow-paper-lg p-5 space-y-4"
+            className="lg:hidden overflow-hidden mt-3 mx-2 sm:mx-4 bg-canvas-subtle border border-warm-border rounded-2xl shadow-paper-lg p-5 space-y-4"
           >
             <div className="flex items-center justify-between pb-3 border-b border-warm-hairline text-xs">
               <span className="font-serif font-semibold text-ink-primary">Navigation</span>
@@ -458,7 +453,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
               <a
                 href="#how-it-works"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-xl hover:bg-canvas-subtle hover:text-ink-primary transition-colors flex items-center justify-between"
+                className="p-2.5 rounded-xl hover:bg-canvas hover:text-ink-primary transition-colors flex items-center justify-between"
               >
                 <span>How It Works</span>
                 <span className="text-xs text-ink-muted">01–04 Protocol</span>
@@ -466,7 +461,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
               <a
                 href="#visual-tour"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-xl hover:bg-canvas-subtle hover:text-ink-primary transition-colors flex items-center justify-between"
+                className="p-2.5 rounded-xl hover:bg-canvas hover:text-ink-primary transition-colors flex items-center justify-between"
               >
                 <span>Visual Walkthrough Tour</span>
                 <Play className="w-3.5 h-3.5 text-terracotta fill-current" />
@@ -474,7 +469,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
               <a
                 href="#simulator"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-xl hover:bg-canvas-subtle hover:text-ink-primary transition-colors flex items-center justify-between"
+                className="p-2.5 rounded-xl hover:bg-canvas hover:text-ink-primary transition-colors flex items-center justify-between"
               >
                 <span>Interactive Stressor</span>
                 <span className="text-xs text-sage font-mono">Q* Simulator</span>
@@ -482,7 +477,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
               <a
                 href="#systems"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-xl hover:bg-canvas-subtle hover:text-ink-primary transition-colors flex items-center justify-between"
+                className="p-2.5 rounded-xl hover:bg-canvas hover:text-ink-primary transition-colors flex items-center justify-between"
               >
                 <span>Platform Systems</span>
                 <span className="text-xs text-ink-muted">5 Modules</span>
@@ -490,7 +485,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
               <a
                 href="#cases"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-xl hover:bg-canvas-subtle hover:text-ink-primary transition-colors flex items-center justify-between"
+                className="p-2.5 rounded-xl hover:bg-canvas hover:text-ink-primary transition-colors flex items-center justify-between"
               >
                 <span>Case Studies</span>
                 <span className="text-xs text-ink-muted">Industry ROI</span>
@@ -498,7 +493,7 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
               <a
                 href="#faq"
                 onClick={() => setMobileMenuOpen(false)}
-                className="p-2.5 rounded-xl hover:bg-canvas-subtle hover:text-ink-primary transition-colors flex items-center justify-between"
+                className="p-2.5 rounded-xl hover:bg-canvas hover:text-ink-primary transition-colors flex items-center justify-between"
               >
                 <span>Questions & Answers</span>
               </a>

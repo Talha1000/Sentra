@@ -32,27 +32,30 @@ export function Modal({ isOpen, onClose, title, description, children, className
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Subtle Backdrop */}
+      {/* Dark Velvet Obsidian Backdrop */}
       <div
-        className="fixed inset-0 bg-slate-900/40 backdrop-blur-xs transition-opacity animate-in fade-in"
+        className="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity animate-in fade-in"
         onClick={onClose}
       />
 
       {/* Modal Dialog Card */}
       <div
         className={cn(
-          "relative w-full max-w-lg bg-white rounded-2xl shadow-popover border border-slate-200/80 overflow-hidden z-10 animate-in zoom-in-95 duration-200",
+          "relative w-full max-w-lg bg-canvas-subtle rounded-2xl shadow-popover border border-warm-border overflow-hidden z-10 animate-in zoom-in-95 duration-200",
           className
         )}
       >
-        <div className="flex items-center justify-between p-5 border-b border-slate-100 bg-white">
+        <div className="flex items-center justify-between p-6 border-b border-warm-hairline bg-canvas-subtle">
           <div>
-            <h3 className="text-base font-semibold text-slate-900">{title}</h3>
-            {description && <p className="text-xs text-slate-500 mt-0.5">{description}</p>}
+            <h3 className="text-base font-serif font-bold text-ink-primary">{title}</h3>
+            {description && (
+              <p className="text-xs text-ink-secondary mt-1">{description}</p>
+            )}
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 text-slate-400 hover:text-slate-600 rounded-lg hover:bg-slate-100 transition-colors"
+            className="p-1.5 rounded-lg text-ink-muted hover:text-ink-primary hover:bg-canvas transition-colors"
+            title="Close"
           >
             <X className="w-4 h-4" />
           </button>

@@ -85,22 +85,22 @@ export default function DecisionsPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">
             <span>Stochastic Engine</span>
             <span>•</span>
-            <span className="text-brand-600">Analytical Newsvendor Protocol</span>
+            <span className="text-terracotta">Analytical Newsvendor Protocol</span>
           </div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+          <h1 className="font-serif text-2xl lg:text-3xl font-bold text-ink-primary tracking-tight">
             Decision Intelligence Studio
           </h1>
-          <p className="text-sm text-slate-600 mt-1 max-w-3xl">
+          <p className="text-sm text-ink-secondary mt-1 max-w-3xl">
             Simulate expected payoffs under demand uncertainty, benchmark strategies against ground truth, and inspect calibrated AI recommendations.
           </p>
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
           <Button
-            variant="brand"
+            variant="terracotta"
             size="default"
             onClick={handleCommit}
             disabled={isBudgetExceeded || isCommitted}
@@ -114,9 +114,9 @@ export default function DecisionsPage() {
 
       {/* Confirmation Banner */}
       {isCommitted && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-xs text-emerald-900 shadow-xs">
+        <div className="p-4 bg-sage/10 border border-sage/30 rounded-2xl flex items-center justify-between text-xs text-sage shadow-xs">
           <div className="flex items-center gap-2 font-medium">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <CheckCircle2 className="w-4 h-4 text-sage" />
             <span>
               Decision authorized by Decision Lead. SHA-256 seal logged to enterprise compliance audit trail.
             </span>
@@ -126,33 +126,33 @@ export default function DecisionsPage() {
       )}
 
       {/* Strategy Presets Strip */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-3 bg-white border border-slate-200 rounded-xl shadow-xs">
-        <div className="flex items-center gap-2 text-xs font-semibold text-slate-800">
-          <Zap className="w-4 h-4 text-amber-500" />
+      <div className="flex flex-wrap items-center justify-between gap-3 p-3.5 bg-canvas-subtle border border-warm-border rounded-2xl shadow-xs">
+        <div className="flex items-center gap-2 text-xs font-semibold text-ink-primary">
+          <Zap className="w-4 h-4 text-terracotta" />
           <span>Quick Strategy Presets:</span>
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <button
             onClick={() => applyStrategy("lean")}
-            className="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 transition-colors"
+            className="px-3 py-1.5 rounded-xl text-xs font-medium bg-canvas-elevated text-ink-secondary hover:text-ink-primary border border-warm-border transition-colors"
           >
             Lean JIT (Min Holding)
           </button>
           <button
             onClick={() => applyStrategy("optimal")}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-800 hover:bg-emerald-100 border border-emerald-200 transition-colors"
+            className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-sage/15 text-sage hover:bg-sage/25 border border-sage/30 transition-colors"
           >
             ★ Analytical Optimum
           </button>
           <button
             onClick={() => applyStrategy("ai")}
-            className="px-3 py-1.5 rounded-lg text-xs font-semibold bg-blue-50 text-blue-800 hover:bg-blue-100 border border-blue-200 transition-colors"
+            className="px-3 py-1.5 rounded-xl text-xs font-semibold bg-terracotta/15 text-terracotta hover:bg-terracotta/25 border border-terracotta/30 transition-colors"
           >
             AI Recommendation
           </button>
           <button
             onClick={() => applyStrategy("buffer")}
-            className="px-3 py-1.5 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 transition-colors"
+            className="px-3 py-1.5 rounded-xl text-xs font-medium bg-canvas-elevated text-ink-secondary hover:text-ink-primary border border-warm-border transition-colors"
           >
             Conservative Buffer
           </button>
@@ -171,8 +171,8 @@ export default function DecisionsPage() {
             <CardContent className="space-y-4 pt-0">
               <div>
                 <div className="flex justify-between mb-1.5 text-xs font-medium">
-                  <span className="text-slate-600">Mean Demand (μ)</span>
-                  <span className="font-mono font-bold text-slate-900">{meanDemand} units</span>
+                  <span className="text-ink-secondary">Mean Demand (μ)</span>
+                  <span className="font-mono font-bold text-ink-primary">{meanDemand} units</span>
                 </div>
                 <input
                   type="range"
@@ -181,14 +181,14 @@ export default function DecisionsPage() {
                   step="50"
                   value={meanDemand}
                   onChange={(e) => setMeanDemand(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-200 rounded-lg cursor-pointer accent-slate-900"
+                  className="w-full h-1.5 bg-warm-hairline rounded-lg cursor-pointer accent-terracotta"
                 />
               </div>
 
               <div>
                 <div className="flex justify-between mb-1.5 text-xs font-medium">
-                  <span className="text-slate-600">Demand Uncertainty (σ)</span>
-                  <span className="font-mono font-bold text-blue-600">±{stdDemand} units</span>
+                  <span className="text-ink-secondary">Demand Uncertainty (σ)</span>
+                  <span className="font-mono font-bold text-terracotta">±{stdDemand} units</span>
                 </div>
                 <input
                   type="range"
@@ -197,14 +197,14 @@ export default function DecisionsPage() {
                   step="10"
                   value={stdDemand}
                   onChange={(e) => setStdDemand(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-200 rounded-lg cursor-pointer accent-blue-600"
+                  className="w-full h-1.5 bg-warm-hairline rounded-lg cursor-pointer accent-terracotta"
                 />
               </div>
 
               <div>
                 <div className="flex justify-between mb-1.5 text-xs font-medium">
-                  <span className="text-slate-600">On-Hand Stock</span>
-                  <span className="font-mono font-bold text-emerald-600">{currentStock} units</span>
+                  <span className="text-ink-secondary">On-Hand Stock</span>
+                  <span className="font-mono font-bold text-sage">{currentStock} units</span>
                 </div>
                 <input
                   type="range"
@@ -213,7 +213,7 @@ export default function DecisionsPage() {
                   step="25"
                   value={currentStock}
                   onChange={(e) => setCurrentStock(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-200 rounded-lg cursor-pointer accent-emerald-600"
+                  className="w-full h-1.5 bg-warm-hairline rounded-lg cursor-pointer accent-sage"
                 />
               </div>
             </CardContent>
@@ -234,23 +234,23 @@ export default function DecisionsPage() {
               <CardDescription>Marginal economics and working capital ceiling</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2.5 text-xs pt-0">
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Unit Acquisition Cost</span>
-                <span className="font-mono font-semibold text-slate-800">{formatCurrency(unitCost)}</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Unit Acquisition Cost</span>
+                <span className="font-mono font-semibold text-ink-primary">{formatCurrency(unitCost)}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Selling Price</span>
-                <span className="font-mono font-bold text-emerald-600">{formatCurrency(sellingPrice)}</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Selling Price</span>
+                <span className="font-mono font-bold text-sage">{formatCurrency(sellingPrice)}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Gross Margin</span>
-                <span className="font-mono font-bold text-emerald-600">{grossMargin.toFixed(1)}%</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Gross Margin</span>
+                <span className="font-mono font-bold text-sage">{grossMargin.toFixed(1)}%</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Stockout Penalty</span>
-                <span className="font-mono font-semibold text-rose-600">{formatCurrency(stockoutPenalty)}</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Stockout Penalty</span>
+                <span className="font-mono font-semibold text-rose-400">{formatCurrency(stockoutPenalty)}</span>
               </div>
-              <div className="flex justify-between py-1.5 font-semibold text-slate-900">
+              <div className="flex justify-between py-1.5 font-semibold text-ink-primary">
                 <span>Working Capital Cap</span>
                 <span className="font-mono tabular-nums">{formatCurrency(budgetLimit)}</span>
               </div>
@@ -285,7 +285,7 @@ export default function DecisionsPage() {
                 <CardDescription>Drag to simulate continuous financial tradeoff</CardDescription>
               </div>
               <div className="flex items-center gap-2">
-                <Badge variant="cobalt">{formatNumber(proposedOrder)} Units</Badge>
+                <Badge variant="terracotta">{formatNumber(proposedOrder)} Units</Badge>
                 <Badge variant={isBudgetExceeded ? "crimson" : "spruce"}>
                   {formatCurrency(totalCapitalRequired)}
                 </Badge>
@@ -299,11 +299,11 @@ export default function DecisionsPage() {
                 step="25"
                 value={proposedOrder}
                 onChange={(e) => setProposedOrder(Number(e.target.value))}
-                className="w-full h-2 bg-slate-200 rounded-lg cursor-pointer accent-brand-600"
+                className="w-full h-2 bg-warm-hairline rounded-lg cursor-pointer accent-terracotta"
               />
 
               {isBudgetExceeded && (
-                <div className="p-3 bg-rose-50 border border-rose-200 rounded-xl flex items-center gap-2 text-rose-800 text-xs font-medium">
+                <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl flex items-center gap-2 text-rose-400 text-xs font-medium">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>
                     Budget violation: Order capital of {formatCurrency(totalCapitalRequired)} exceeds limit of {formatCurrency(budgetLimit)}.
@@ -313,21 +313,21 @@ export default function DecisionsPage() {
 
               {/* Diagnostic Metrics Matrix */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                  <span className="text-[11px] font-medium text-slate-500 uppercase block">Service Level</span>
-                  <span className="font-mono text-sm font-bold text-emerald-600 mt-0.5 block tabular-nums">
+                <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline">
+                  <span className="text-[11px] font-medium text-ink-muted uppercase block">Service Level</span>
+                  <span className="font-mono text-sm font-bold text-sage mt-0.5 block tabular-nums">
                     {formatPercent(Math.min(0.999, (currentStock + proposedOrder) / (meanDemand + 1.2 * stdDemand)))}
                   </span>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                  <span className="text-[11px] font-medium text-slate-500 uppercase block">Remaining Liquidity</span>
-                  <span className="font-mono text-sm font-bold text-slate-900 mt-0.5 block tabular-nums">
+                <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline">
+                  <span className="text-[11px] font-medium text-ink-muted uppercase block">Remaining Liquidity</span>
+                  <span className="font-mono text-sm font-bold text-ink-primary mt-0.5 block tabular-nums">
                     {formatCurrency(Math.max(0, budgetLimit - totalCapitalRequired))}
                   </span>
                 </div>
-                <div className="p-3 bg-slate-50 rounded-lg border border-slate-100">
-                  <span className="text-[11px] font-medium text-slate-500 uppercase block">Stockout Exposure</span>
-                  <span className="font-mono text-sm font-bold text-rose-600 mt-0.5 block tabular-nums">
+                <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline">
+                  <span className="text-[11px] font-medium text-ink-muted uppercase block">Stockout Exposure</span>
+                  <span className="font-mono text-sm font-bold text-rose-400 mt-0.5 block tabular-nums">
                     {formatPercent(Math.max(0, 1 - (currentStock + proposedOrder) / meanDemand))}
                   </span>
                 </div>
@@ -335,14 +335,14 @@ export default function DecisionsPage() {
 
               {/* Human Decision Rationale */}
               <div className="space-y-1.5 pt-2">
-                <label className="block text-xs font-semibold text-slate-700">
+                <label className="block text-xs font-semibold text-ink-primary">
                   Human Deliberative Rationale & Audit Sign-Off
                 </label>
                 <textarea
                   rows={2}
                   value={humanRationale}
                   onChange={(e) => setHumanRationale(e.target.value)}
-                  className="w-full px-3.5 py-2.5 text-xs rounded-lg border border-slate-200 text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-500"
+                  className="w-full px-3.5 py-2.5 text-xs rounded-xl border border-warm-border bg-canvas-elevated text-ink-primary focus:outline-none focus:ring-2 focus:ring-terracotta"
                   placeholder="Record formal justification for this order commitment..."
                 />
               </div>
@@ -351,46 +351,46 @@ export default function DecisionsPage() {
 
           {/* Calibrated AI Recommendation Card */}
           {aiRec && (
-            <Card className="border-blue-200 bg-blue-50/20">
-              <CardHeader className="pb-3 flex flex-row items-center justify-between border-b border-blue-100 bg-blue-50/50">
+            <Card className="border-terracotta/30 bg-terracotta/10">
+              <CardHeader className="pb-3 flex flex-row items-center justify-between border-b border-terracotta/20 bg-terracotta/15">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-brand-600" />
-                  <CardTitle className="text-xs font-semibold text-slate-900">
+                  <Sparkles className="w-4 h-4 text-terracotta" />
+                  <CardTitle className="text-xs font-semibold text-ink-primary">
                     Calibrated AI Recommendation
                   </CardTitle>
                 </div>
-                <Badge variant="cobalt">Confidence: {Math.round(aiRec.confidence_score * 100)}%</Badge>
+                <Badge variant="terracotta">Confidence: {Math.round(aiRec.confidence_score * 100)}%</Badge>
               </CardHeader>
               <CardContent className="space-y-3 pt-4 text-xs">
-                <div className="flex items-center justify-between border-b border-blue-100 pb-3">
-                  <span className="text-slate-600">Optimal Model Suggestion:</span>
+                <div className="flex items-center justify-between border-b border-terracotta/20 pb-3">
+                  <span className="text-ink-secondary">Optimal Model Suggestion:</span>
                   <div className="flex items-center gap-2">
-                    <span className="font-mono text-xl font-bold text-slate-900 tabular-nums">
+                    <span className="font-mono text-xl font-bold text-terracotta tabular-nums">
                       {aiRec.suggested_value} units
                     </span>
                     <Button
                       variant="secondary"
                       size="sm"
                       onClick={() => setProposedOrder(aiRec.suggested_value)}
-                      className="text-xs h-7"
+                      className="text-xs h-7 border-warm-border bg-canvas-elevated hover:bg-canvas-subtle"
                     >
                       Apply
                     </Button>
                   </div>
                 </div>
 
-                <p className="text-slate-600 leading-relaxed bg-white p-3.5 rounded-lg border border-blue-100">
+                <p className="text-ink-secondary leading-relaxed bg-canvas-elevated p-3.5 rounded-xl border border-warm-hairline">
                   {aiRec.rationale}
                 </p>
 
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-1">
-                  <div className="p-3 bg-white rounded-lg border border-blue-100">
-                    <span className="font-semibold text-slate-800 block mb-0.5">Model Uncertainty</span>
-                    <span className="text-slate-500 text-xs">{aiRec.uncertainty.model_uncertainty}</span>
+                  <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline">
+                    <span className="font-semibold text-ink-primary block mb-0.5">Model Uncertainty</span>
+                    <span className="text-ink-muted text-xs">{aiRec.uncertainty.model_uncertainty}</span>
                   </div>
-                  <div className="p-3 bg-white rounded-lg border border-blue-100">
-                    <span className="font-semibold text-slate-800 block mb-0.5">Data Uncertainty</span>
-                    <span className="text-slate-500 text-xs">{aiRec.uncertainty.data_uncertainty}</span>
+                  <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline">
+                    <span className="font-semibold text-ink-primary block mb-0.5">Data Uncertainty</span>
+                    <span className="text-ink-muted text-xs">{aiRec.uncertainty.data_uncertainty}</span>
                   </div>
                 </div>
               </CardContent>

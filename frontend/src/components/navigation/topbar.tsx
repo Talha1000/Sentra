@@ -90,7 +90,7 @@ export function Topbar() {
             <motion.div
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
-              className="w-8 h-8 rounded-xl bg-ink-primary text-white flex items-center justify-center font-serif font-bold text-sm tracking-tight shadow-xs group-hover:bg-terracotta transition-colors"
+              className="w-8 h-8 rounded-xl bg-ink-primary text-canvas flex items-center justify-center font-serif font-bold text-sm tracking-tight shadow-xs group-hover:bg-terracotta transition-colors"
             >
               S
             </motion.div>
@@ -129,7 +129,7 @@ export function Topbar() {
                 {isActive && (
                   <motion.div
                     layoutId="topbar-active-pill"
-                    className="absolute inset-0 rounded-lg bg-white shadow-xs border border-warm-border -z-10"
+                    className="absolute inset-0 rounded-lg bg-canvas-elevated shadow-xs border border-warm-borderStrong -z-10"
                     transition={{ type: "spring", stiffness: 450, damping: 35 }}
                   />
                 )}
@@ -230,7 +230,7 @@ export function Topbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden overflow-hidden border-t border-warm-hairline bg-white p-4 space-y-2 shadow-paper-lg"
+            className="md:hidden overflow-hidden border-t border-warm-border bg-canvas-subtle p-4 space-y-2 shadow-paper-lg"
           >
             {navItems.map((item) => {
               const isActive = pathname.startsWith(item.href);

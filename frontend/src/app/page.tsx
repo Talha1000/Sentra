@@ -36,8 +36,8 @@ export default function LandingPage() {
       <main className="space-y-28 pb-24 pt-20 sm:pt-24">
         {/* 1. Hero Section: Poetic, Human, Authoritative */}
         <section className="max-w-5xl mx-auto px-6 pt-12 sm:pt-16 text-center space-y-6">
-          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-warm-hairline bg-white shadow-xs text-xs text-ink-secondary">
-            <span className="w-2 h-2 rounded-full bg-terracotta" />
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-warm-border bg-canvas-elevated shadow-xs text-xs text-ink-secondary">
+            <span className="w-2 h-2 rounded-full bg-terracotta shadow-[0_0_8px_rgba(224,122,95,0.6)]" />
             <span className="font-medium">Calibrated Human–AI Collaboration</span>
           </div>
 
@@ -133,9 +133,9 @@ export default function LandingPage() {
 
         {/* 8. Thoughtful Invitation Banner */}
         <section className="max-w-4xl mx-auto px-6">
-          <div className="rounded-3xl border border-warm-border bg-white shadow-paper p-8 sm:p-14 text-center space-y-6">
-            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-canvas-subtle border border-warm-hairline text-xs text-ink-secondary">
-              <span className="w-2 h-2 rounded-full bg-sage" />
+          <div className="rounded-3xl border border-warm-border bg-canvas-subtle shadow-paper p-8 sm:p-14 text-center space-y-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-canvas-elevated border border-warm-border text-xs text-ink-secondary">
+              <span className="w-2 h-2 rounded-full bg-sage shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
               <span>Ready for Immediate Evaluation</span>
             </div>
 
@@ -155,7 +155,7 @@ export default function LandingPage() {
                 </Button>
               </Link>
               <Link href="/experiments/run/exp-inv-001">
-                <Button variant="secondary" size="lg" className="px-8">
+                <Button variant="secondary" size="lg" className="px-8 border-warm-border bg-canvas-elevated hover:bg-canvas-subtle">
                   Run a Decision Trial
                 </Button>
               </Link>
@@ -165,13 +165,13 @@ export default function LandingPage() {
       </main>
 
       {/* Literary, Thoughtful Footer */}
-      <footer className="border-t border-warm-hairline bg-white py-14 px-6 lg:px-8">
+      <footer className="border-t border-warm-border bg-canvas-subtle/40 py-14 px-6 lg:px-8">
         <div className="max-w-6xl mx-auto space-y-10">
           <div className="grid grid-cols-1 md:grid-cols-5 gap-8 text-xs text-ink-secondary">
             {/* Brand Col */}
             <div className="md:col-span-2 space-y-3">
               <div className="flex items-center gap-2.5">
-                <div className="w-6 h-6 rounded-lg bg-ink-primary text-white flex items-center justify-center font-serif font-bold text-xs">
+                <div className="w-6 h-6 rounded-lg bg-ink-primary text-canvas flex items-center justify-center font-serif font-bold text-xs">
                   S
                 </div>
                 <span className="font-serif font-bold text-base text-ink-primary">SENTRA</span>

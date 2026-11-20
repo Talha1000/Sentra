@@ -91,10 +91,10 @@ export function LatencyAccuracyScatter() {
             <button
               key={c.id}
               onClick={() => setActiveCondition(c.id)}
-              className={`px-2 py-0.5 rounded text-[10px] font-medium transition-colors ${
+              className={`px-2 py-0.5 rounded-lg text-[10px] font-medium transition-colors ${
                 activeCondition === c.id
-                  ? "bg-ink-primary text-white"
-                  : "bg-subtle text-ink-secondary hover:bg-surface-hover"
+                  ? "bg-ink-primary text-canvas font-semibold shadow-xs"
+                  : "bg-canvas-elevated text-ink-secondary border border-warm-hairline hover:text-ink-primary"
               }`}
             >
               {c.label}
@@ -103,15 +103,15 @@ export function LatencyAccuracyScatter() {
         </div>
       </div>
 
-      <div className="bg-panel border border-hairline rounded p-2 overflow-x-auto relative shadow-sm">
+      <div className="bg-canvas-elevated/60 border border-warm-hairline rounded-2xl p-3 overflow-x-auto relative shadow-paper">
         <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto select-none font-mono text-[9px]">
           {/* Y-axis grid */}
           {[0.4, 0.6, 0.8, 1.0].map((acc) => {
             const y = scaleY(acc);
             return (
               <g key={acc}>
-                <line x1={padL} y1={y} x2={width - padR} y2={y} stroke="#E3DFD5" strokeDasharray="3,3" />
-                <text x={padL - 6} y={y + 3} textAnchor="end" fill="#727D8D">
+                <line x1={padL} y1={y} x2={width - padR} y2={y} stroke="rgba(255,255,255,0.08)" strokeDasharray="3,3" />
+                <text x={padL - 6} y={y + 3} textAnchor="end" fill="#94A3B8">
                   {Math.round(acc * 100)}%
                 </text>
               </g>
@@ -123,8 +123,8 @@ export function LatencyAccuracyScatter() {
             const x = scaleX(s);
             return (
               <g key={s}>
-                <line x1={x} y1={padT} x2={x} y2={height - padB} stroke="#E3DFD5" strokeDasharray="3,3" />
-                <text x={x} y={height - padB + 14} textAnchor="middle" fill="#727D8D">
+                <line x1={x} y1={padT} x2={x} y2={height - padB} stroke="rgba(255,255,255,0.08)" strokeDasharray="3,3" />
+                <text x={x} y={height - padB + 14} textAnchor="middle" fill="#94A3B8">
                   {s}s
                 </text>
               </g>
@@ -137,16 +137,15 @@ export function LatencyAccuracyScatter() {
             y={scaleY(0.6)}
             width={scaleX(5.5) - scaleX(2)}
             height={scaleY(0.35) - scaleY(0.6)}
-            fill="#FFF1F2"
-            stroke="#FECDD3"
-            rx="4"
-            opacity="0.8"
+            fill="rgba(244,63,94,0.12)"
+            stroke="rgba(244,63,94,0.3)"
+            rx="6"
           />
           <text
             x={scaleX(3.75)}
             y={scaleY(0.37)}
             textAnchor="middle"
-            fill="#BE123C"
+            fill="#F43F5E"
             className="font-sans font-semibold text-[8px]"
           >
             FAST OVER-RELIANCE CLUSTER
@@ -167,7 +166,7 @@ export function LatencyAccuracyScatter() {
                   cy={scaleY(pt.accuracy)}
                   r={isHovered ? 7 : 4.5}
                   fill={getColor(pt)}
-                  stroke="#FFFFFF"
+                  stroke="#0A0D12"
                   strokeWidth={1.5}
                   className="transition-all duration-150"
                 />
@@ -176,7 +175,7 @@ export function LatencyAccuracyScatter() {
           })}
 
           {/* Axis labels */}
-          <text x={width / 2} y={height - 8} textAnchor="middle" fill="#434B56" className="font-sans text-[10px]">
+          <text x={width / 2} y={height - 8} textAnchor="middle" fill="#94A3B8" className="font-sans text-[10px]">
             Decision Latency (Seconds)
           </text>
           <text

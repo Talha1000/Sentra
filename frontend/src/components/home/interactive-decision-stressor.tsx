@@ -109,12 +109,12 @@ export function InteractiveDecisionStressor() {
   const financialRegret = Math.max(0, maxProfit - expectedProfit);
 
   return (
-    <div className="rounded-2xl border border-warm-border bg-white shadow-paper overflow-hidden">
+    <div className="rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper overflow-hidden">
       {/* Header */}
-      <div className="p-6 sm:p-8 border-b border-warm-hairline bg-canvas/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 sm:p-8 border-b border-warm-hairline bg-canvas/60 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="w-2 h-2 rounded-full bg-terracotta" />
+            <span className="w-2 h-2 rounded-full bg-terracotta shadow-[0_0_8px_rgba(224,122,95,0.6)]" />
             <span className="text-xs font-sans font-medium text-terracotta uppercase tracking-wide">
               Hands-On Simulation
             </span>
@@ -135,8 +135,8 @@ export function InteractiveDecisionStressor() {
               onClick={() => handleSelectScenario(sc)}
               className={`px-3.5 py-2 rounded-xl text-xs transition-all ${
                 activeScenario.id === sc.id
-                  ? "bg-ink-primary text-white shadow-xs font-medium"
-                  : "bg-white text-ink-secondary border border-warm-border hover:bg-canvas-subtle"
+                  ? "bg-ink-primary text-canvas shadow-xs font-semibold"
+                  : "bg-canvas-elevated text-ink-secondary border border-warm-border hover:bg-canvas-subtle hover:text-ink-primary"
               }`}
             >
               {sc.name.split(" ")[0]}
@@ -148,7 +148,7 @@ export function InteractiveDecisionStressor() {
       <div className="p-6 sm:p-8 space-y-6">
         {/* Three Reference Benchmarks */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-xl border border-warm-hairline bg-canvas-subtle/50 space-y-1">
+          <div className="p-4 rounded-xl border border-warm-hairline bg-canvas-elevated/70 space-y-1">
             <span className="text-[11px] font-sans text-ink-muted uppercase tracking-wider block">
               Market Demand
             </span>
@@ -160,16 +160,16 @@ export function InteractiveDecisionStressor() {
             </span>
           </div>
 
-          <div className="p-4 rounded-xl border border-warm-border bg-terracotta-light space-y-1">
+          <div className="p-4 rounded-xl border border-terracotta/30 bg-terracotta/10 space-y-1">
             <div className="flex justify-between items-center">
-              <span className="text-[11px] font-sans text-terracotta-dark font-medium uppercase tracking-wider">
+              <span className="text-[11px] font-sans text-terracotta font-medium uppercase tracking-wider">
                 AI Suggestion
               </span>
-              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white text-terracotta-dark border border-terracotta-border">
+              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-terracotta/20 text-terracotta border border-terracotta/40">
                 +23% Skew
               </span>
             </div>
-            <div className="font-serif text-xl font-bold text-terracotta-dark">
+            <div className="font-serif text-xl font-bold text-terracotta">
               {aiSuggested.toLocaleString()} units
             </div>
             <span className="text-xs text-ink-secondary block">
@@ -177,12 +177,12 @@ export function InteractiveDecisionStressor() {
             </span>
           </div>
 
-          <div className="p-4 rounded-xl border border-sage-border bg-sage-light space-y-1">
+          <div className="p-4 rounded-xl border border-sage/30 bg-sage/10 space-y-1">
             <div className="flex justify-between items-center">
               <span className="text-[11px] font-sans text-sage font-medium uppercase tracking-wider">
                 Mathematical Sweet Spot
               </span>
-              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white text-sage border border-sage-border">
+              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-sage/20 text-sage border border-sage/40">
                 Optimal Q*
               </span>
             </div>
@@ -196,7 +196,7 @@ export function InteractiveDecisionStressor() {
         </div>
 
         {/* Tactile Slider Box */}
-        <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle/40 space-y-4">
+        <div className="p-6 rounded-2xl border border-warm-border bg-canvas-elevated/50 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
               <span className="text-xs font-semibold text-ink-primary uppercase tracking-wide block">
@@ -234,7 +234,7 @@ export function InteractiveDecisionStressor() {
         </div>
 
         {/* Human Feedback Card */}
-        <div className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper space-y-4">
+        <div className="p-6 rounded-2xl border border-warm-border bg-canvas-elevated shadow-paper space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-warm-hairline pb-4">
             <div>
               <span className="text-[11px] text-ink-muted uppercase tracking-wider block">
@@ -262,7 +262,7 @@ export function InteractiveDecisionStressor() {
               <div className="font-serif text-2xl font-bold text-ink-primary mt-0.5 tabular-nums">
                 {formatCurrency(expectedProfit)}
                 {financialRegret > 150 && (
-                  <span className="text-xs text-rose-700 font-sans font-medium ml-2">
+                  <span className="text-xs text-rose-400 font-sans font-medium ml-2">
                     (-{formatCurrency(financialRegret)} regret vs optimal)
                   </span>
                 )}

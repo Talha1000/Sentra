@@ -10,11 +10,6 @@ import {
   SkipForward,
   CheckCircle2,
   AlertCircle,
-  ShieldCheck,
-  BookOpen,
-  ArrowRight,
-  TrendingDown,
-  TrendingUp,
 } from "lucide-react";
 
 interface StoryChapter {
@@ -129,9 +124,9 @@ export function MotionSimulationShowcase() {
   };
 
   return (
-    <div className="rounded-2xl border border-warm-border bg-white shadow-paper overflow-hidden">
+    <div className="rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper overflow-hidden">
       {/* Top Media Bar */}
-      <div className="px-6 py-4 border-b border-warm-hairline bg-canvas-subtle/50 flex flex-wrap items-center justify-between gap-4">
+      <div className="px-6 py-4 border-b border-warm-hairline bg-canvas/40 flex flex-wrap items-center justify-between gap-4">
         <div className="flex items-center gap-3">
           <span className="font-serif text-sm font-semibold text-ink-primary">
             Visual Walkthrough: The Sentra Decision Cycle
@@ -139,11 +134,11 @@ export function MotionSimulationShowcase() {
           <Badge variant="terracotta">Interactive Tour</Badge>
         </div>
 
-        {/* Tactile Human Play Controls */}
+        {/* Tactile Play Controls */}
         <div className="flex items-center gap-2">
           <button
             onClick={() => setIsPlaying(!isPlaying)}
-            className="p-1.5 rounded-lg border border-warm-border bg-white hover:bg-canvas-subtle text-ink-primary transition-colors"
+            className="p-1.5 rounded-lg border border-warm-border bg-canvas hover:bg-canvas-muted text-ink-primary transition-colors"
             title={isPlaying ? "Pause Tour" : "Play Tour"}
           >
             {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current text-terracotta" />}
@@ -153,7 +148,7 @@ export function MotionSimulationShowcase() {
               setProgress(0);
               setActiveIdx(0);
             }}
-            className="p-1.5 rounded-lg border border-warm-border bg-white hover:bg-canvas-subtle text-ink-secondary transition-colors"
+            className="p-1.5 rounded-lg border border-warm-border bg-canvas hover:bg-canvas-muted text-ink-secondary transition-colors"
             title="Restart from Beginning"
           >
             <RotateCcw className="w-3.5 h-3.5" />
@@ -163,7 +158,7 @@ export function MotionSimulationShowcase() {
               setActiveIdx((i) => (i + 1) % CHAPTERS.length);
               setProgress(0);
             }}
-            className="p-1.5 rounded-lg border border-warm-border bg-white hover:bg-canvas-subtle text-ink-secondary transition-colors"
+            className="p-1.5 rounded-lg border border-warm-border bg-canvas hover:bg-canvas-muted text-ink-secondary transition-colors"
             title="Next Chapter"
           >
             <SkipForward className="w-3.5 h-3.5" />
@@ -174,7 +169,7 @@ export function MotionSimulationShowcase() {
       {/* Main Two-Column Editorial Display */}
       <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[420px]">
         {/* Left Column: Visual Exhibition (7 cols) */}
-        <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-warm-hairline bg-canvas/60">
+        <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-warm-hairline bg-canvas/30">
           <div>
             <div className="flex items-center justify-between text-xs text-ink-muted mb-6">
               <span className="font-sans font-medium text-terracotta tracking-wide uppercase text-[11px]">
@@ -188,14 +183,14 @@ export function MotionSimulationShowcase() {
             {/* Illustration Display for each chapter */}
             <div className="my-auto py-4">
               {currentChapter.illustrationType === "recommendation" && (
-                <div className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper space-y-4">
+                <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper space-y-4">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-serif text-sm font-semibold text-ink-primary">
                       AI Generated Memo
                     </span>
                     <Badge variant="amber">94% Confidence</Badge>
                   </div>
-                  <div className="p-4 rounded-xl bg-canvas-subtle/70 border border-warm-hairline text-xs text-ink-secondary leading-relaxed font-sans space-y-2">
+                  <div className="p-4 rounded-xl bg-canvas border border-warm-hairline text-xs text-ink-secondary leading-relaxed font-sans space-y-2">
                     <p className="italic text-ink-primary">
                       “Based on historical Q3 velocity, we recommend committing <strong className="text-terracotta">1,750 units</strong> to maximize revenue capture.”
                     </p>
@@ -207,7 +202,7 @@ export function MotionSimulationShowcase() {
               )}
 
               {currentChapter.illustrationType === "simulation" && (
-                <div className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper space-y-4">
+                <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper space-y-4">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-serif text-sm font-semibold text-ink-primary">
                       Sentra Stochastic Math
@@ -219,10 +214,10 @@ export function MotionSimulationShowcase() {
                     <div className="space-y-1 text-xs">
                       <div className="flex justify-between">
                         <span className="text-ink-secondary">AI Recommendation (1,750 units)</span>
-                        <span className="font-medium text-rose-700">$50,695 expected profit</span>
+                        <span className="font-medium text-rose-400">$50,695 expected profit</span>
                       </div>
-                      <div className="w-full h-2 rounded-full bg-canvas-muted overflow-hidden">
-                        <div className="h-full bg-rose-400 w-[78%]" />
+                      <div className="w-full h-2 rounded-full bg-canvas overflow-hidden">
+                        <div className="h-full bg-rose-500 w-[78%]" />
                       </div>
                     </div>
 
@@ -231,7 +226,7 @@ export function MotionSimulationShowcase() {
                         <span className="text-ink-primary font-medium">Mathematical Sweet Spot (1,420 units)</span>
                         <span className="font-semibold text-sage">$56,800 expected profit</span>
                       </div>
-                      <div className="w-full h-2 rounded-full bg-canvas-muted overflow-hidden">
+                      <div className="w-full h-2 rounded-full bg-canvas overflow-hidden">
                         <div className="h-full bg-sage w-[96%]" />
                       </div>
                     </div>
@@ -245,7 +240,7 @@ export function MotionSimulationShowcase() {
               )}
 
               {currentChapter.illustrationType === "override" && (
-                <div className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper space-y-4">
+                <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper space-y-4">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-serif text-sm font-semibold text-ink-primary">
                       Cognitive Guardrail Active
@@ -254,7 +249,7 @@ export function MotionSimulationShowcase() {
                   </div>
 
                   <div className="p-4 rounded-xl bg-terracotta-light border border-terracotta-border text-xs text-ink-primary space-y-2">
-                    <div className="font-medium text-terracotta-dark flex items-center gap-1.5">
+                    <div className="font-medium text-terracotta flex items-center gap-1.5">
                       <AlertCircle className="w-4 h-4 text-terracotta shrink-0" />
                       <span>Over-reliance Warning Intercept</span>
                     </div>
@@ -266,7 +261,7 @@ export function MotionSimulationShowcase() {
               )}
 
               {currentChapter.illustrationType === "certificate" && (
-                <div className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper space-y-4">
+                <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper space-y-4">
                   <div className="flex items-center justify-between text-xs">
                     <span className="font-serif text-sm font-semibold text-ink-primary">
                       Tamper-Evident Digital Seal
@@ -274,7 +269,7 @@ export function MotionSimulationShowcase() {
                     <Badge variant="spruce">Cryptographically Sealed</Badge>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-canvas-subtle/80 border border-warm-hairline font-mono text-[11px] text-ink-secondary space-y-1.5">
+                  <div className="p-4 rounded-xl bg-canvas border border-warm-hairline font-mono text-[11px] text-ink-secondary space-y-1.5">
                     <div>CERTIFICATE: 0x9e4b7c10d3f82a45e9981240cdae331b</div>
                     <div>TIMESTAMP: November 2026 · 17:00:24 UTC</div>
                     <div className="text-sage font-sans font-medium">✓ Irrefutable proof of diligent human oversight</div>
@@ -286,7 +281,7 @@ export function MotionSimulationShowcase() {
 
           {/* Scrubber Progress Bar */}
           <div className="mt-6 space-y-1.5">
-            <div className="w-full bg-canvas-muted h-1 rounded-full overflow-hidden">
+            <div className="w-full bg-canvas h-1.5 rounded-full overflow-hidden">
               <div
                 className="bg-terracotta h-full transition-all duration-75"
                 style={{ width: `${progress}%` }}
@@ -300,7 +295,7 @@ export function MotionSimulationShowcase() {
         </div>
 
         {/* Right Column: Editorial Narrative (5 cols) */}
-        <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-white">
+        <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-canvas-subtle">
           <div className="space-y-4">
             <div>
               <span className="text-xs font-sans font-medium text-terracotta uppercase tracking-wider block">
@@ -316,7 +311,7 @@ export function MotionSimulationShowcase() {
             </p>
 
             {/* Human Takeaway Card */}
-            <div className="p-3.5 rounded-xl bg-canvas-subtle/70 border border-warm-hairline text-xs text-ink-primary">
+            <div className="p-4 rounded-xl bg-canvas border border-warm-hairline text-xs text-ink-primary">
               <span className="font-semibold text-ink-primary block mb-1">
                 Why this matters:
               </span>
@@ -330,7 +325,7 @@ export function MotionSimulationShowcase() {
               {currentChapter.dataPoints.map((dp, i) => (
                 <div
                   key={i}
-                  className="p-3 rounded-xl border border-warm-hairline bg-canvas/40 flex items-center justify-between text-xs"
+                  className="p-3 rounded-xl border border-warm-hairline bg-canvas/60 flex items-center justify-between text-xs"
                 >
                   <div>
                     <span className="text-ink-muted block text-[11px]">{dp.label}</span>
@@ -348,10 +343,10 @@ export function MotionSimulationShowcase() {
               <button
                 key={chap.id}
                 onClick={() => handleSelectChapter(idx)}
-                className={`p-2 rounded-xl text-left transition-all ${
+                className={`p-2.5 rounded-xl text-left transition-all ${
                   activeIdx === idx
-                    ? "bg-canvas-subtle border border-warm-border text-ink-primary font-medium"
-                    : "hover:bg-canvas-subtle/50 text-ink-muted"
+                    ? "bg-canvas border border-warm-border text-ink-primary font-medium"
+                    : "hover:bg-canvas/50 text-ink-muted"
                 }`}
               >
                 <div className="text-[10px] font-mono">0{chap.id}</div>

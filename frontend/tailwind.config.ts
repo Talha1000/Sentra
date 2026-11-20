@@ -10,42 +10,42 @@ const config: Config = {
     extend: {
       colors: {
         canvas: {
-          DEFAULT: "#FAF7F2", // Claude warm unbleached paper
-          subtle: "#F4EFEA",  // Secondary warm card surface
-          muted: "#EDE6DD",   // Deeper tactile sand
+          DEFAULT: "#0A0D12", // Deep obsidian noir
+          subtle: "#111622",  // Elevated card surface
+          muted: "#161D2B",   // Secondary panel
         },
         terracotta: {
-          DEFAULT: "#CC785C", // Claude signature terracotta
-          hover: "#B85D3B",
-          dark: "#9E4828",
-          light: "#FDF5F2",
-          border: "#F5DDD4",
+          DEFAULT: "#E07A5F", // Luminous warm terracotta
+          hover: "#CC684D",
+          dark: "#F49D85",
+          light: "rgba(224, 122, 95, 0.12)",
+          border: "rgba(224, 122, 95, 0.28)",
         },
         ink: {
-          primary: "#1C1917",   // Warm charcoal / deep espresso
-          secondary: "#44403C", // Warm stone 700 body
-          muted: "#78716C",     // Warm stone 500 metadata
-          light: "#A8A29E",     // Warm stone 400
+          primary: "#F8FAFC",   // Crisp glowing white
+          secondary: "#94A3B8", // Elegant slate 400
+          muted: "#64748B",     // Refined slate 500
+          light: "#475569",     // Subdued slate 600
         },
         warm: {
-          hairline: "#EBE5DC",  // Soft paper divider
-          border: "#E0D7CB",    // Card border
-          active: "#D6CABE",    // Focused border
+          hairline: "rgba(255, 255, 255, 0.08)",  // Soft 1px glass divider
+          border: "rgba(255, 255, 255, 0.12)",    // Card border
+          active: "rgba(255, 255, 255, 0.22)",    // Active focus border
         },
         sage: {
-          DEFAULT: "#3D6B52",   // Muted organic green
-          light: "#EBF3ED",
-          border: "#C4DEC9",
+          DEFAULT: "#34D399",   // Luminous emerald truth
+          light: "rgba(52, 211, 153, 0.12)",
+          border: "rgba(52, 211, 153, 0.28)",
         },
         ochre: {
-          DEFAULT: "#B45309",   // Warm amber ochre
-          light: "#FEF3C7",
-          border: "#FDE68A",
+          DEFAULT: "#F59E0B",   // Warm amber ochre
+          light: "rgba(245, 158, 11, 0.12)",
+          border: "rgba(245, 158, 11, 0.28)",
         },
         clay: {
-          DEFAULT: "#A85338",
-          light: "#FDF1ED",
-          border: "#F5D6CB",
+          DEFAULT: "#E07A5F",
+          light: "rgba(224, 122, 95, 0.12)",
+          border: "rgba(224, 122, 95, 0.28)",
         },
       },
       fontFamily: {
@@ -83,12 +83,12 @@ const config: Config = {
         full: "9999px",
       },
       boxShadow: {
-        xs: "0 1px 2px 0 rgba(45, 35, 25, 0.03)",
-        sm: "0 1px 3px 0 rgba(45, 35, 25, 0.04), 0 1px 2px -1px rgba(45, 35, 25, 0.04)",
-        card: "0 1px 3px 0 rgba(45, 35, 25, 0.04), 0 1px 2px -1px rgba(45, 35, 25, 0.04)",
-        cardHover: "0 6px 16px -2px rgba(45, 35, 25, 0.06), 0 2px 4px -2px rgba(45, 35, 25, 0.03)",
-        dropdown: "0 10px 20px -3px rgba(45, 35, 25, 0.07), 0 4px 6px -4px rgba(45, 35, 25, 0.04)",
-        popover: "0 20px 30px -5px rgba(45, 35, 25, 0.09), 0 8px 12px -6px rgba(45, 35, 25, 0.04)",
+        xs: "0 1px 2px 0 rgba(0, 0, 0, 0.4)",
+        sm: "0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.4)",
+        card: "0 4px 16px 0 rgba(0, 0, 0, 0.45), 0 1px 2px 0 rgba(0, 0, 0, 0.3)",
+        cardHover: "0 8px 24px -2px rgba(0, 0, 0, 0.6), 0 2px 6px -1px rgba(0, 0, 0, 0.4)",
+        dropdown: "0 14px 28px -4px rgba(0, 0, 0, 0.7), 0 6px 12px -2px rgba(0, 0, 0, 0.5)",
+        popover: "0 24px 38px -6px rgba(0, 0, 0, 0.8), 0 10px 16px -4px rgba(0, 0, 0, 0.6)",
       },
     },
   },

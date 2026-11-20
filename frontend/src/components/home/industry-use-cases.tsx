@@ -88,8 +88,8 @@ export function IndustryUseCases() {
               onClick={() => setActiveId(c.id)}
               className={`p-5 rounded-2xl border text-left transition-all ${
                 isSelected
-                  ? "border-terracotta bg-white shadow-paper ring-1 ring-terracotta/20"
-                  : "border-warm-border bg-white/70 hover:bg-white text-ink-secondary"
+                  ? "border-terracotta bg-canvas-elevated shadow-paper ring-1 ring-terracotta/40"
+                  : "border-warm-border bg-canvas-subtle hover:bg-canvas-elevated hover:border-warm-borderStrong text-ink-secondary"
               }`}
             >
               <span className="text-[10px] font-sans font-medium text-terracotta uppercase tracking-wider block mb-1">
@@ -104,7 +104,7 @@ export function IndustryUseCases() {
       </div>
 
       {/* Deep-Dive Card */}
-      <div className="p-8 sm:p-10 rounded-2xl border border-warm-border bg-white shadow-paper">
+      <div className="p-8 sm:p-10 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
           <div className="lg:col-span-8 space-y-4">
             <span className="text-xs font-sans font-medium text-terracotta uppercase tracking-wider">
@@ -115,21 +115,21 @@ export function IndustryUseCases() {
             </h3>
 
             <div className="space-y-3 pt-2 text-xs sm:text-sm">
-              <div className="p-4 rounded-xl bg-canvas-subtle/70 border border-warm-hairline">
+              <div className="p-4 rounded-xl bg-canvas-elevated/70 border border-warm-hairline">
                 <span className="font-semibold text-ink-primary block text-xs mb-1">
                   The Consequential Dilemma:
                 </span>
                 <p className="text-ink-secondary leading-relaxed">{study.challenge}</p>
               </div>
 
-              <div className="p-4 rounded-xl bg-terracotta-light border border-terracotta-border">
-                <span className="font-semibold text-terracotta-dark block text-xs mb-1">
+              <div className="p-4 rounded-xl bg-terracotta/10 border border-terracotta/30">
+                <span className="font-semibold text-terracotta block text-xs mb-1">
                   The Fluent AI Pitfall:
                 </span>
                 <p className="text-ink-secondary leading-relaxed">{study.theAITrap}</p>
               </div>
 
-              <div className="p-4 rounded-xl bg-sage-light border border-sage-border">
+              <div className="p-4 rounded-xl bg-sage/10 border border-sage/30">
                 <span className="font-semibold text-sage block text-xs mb-1">
                   The Sentra Resolution:
                 </span>
@@ -139,7 +139,7 @@ export function IndustryUseCases() {
           </div>
 
           {/* Measured Benefit Plaque */}
-          <div className="lg:col-span-4 p-8 rounded-2xl bg-canvas-subtle/90 border border-warm-hairline space-y-4 text-center lg:text-left">
+          <div className="lg:col-span-4 p-8 rounded-2xl bg-canvas-elevated/50 border border-warm-hairline space-y-4 text-center lg:text-left">
             <span className="text-[11px] font-sans text-ink-muted uppercase tracking-wider block">
               Measured Business Return
             </span>

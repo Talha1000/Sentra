@@ -103,24 +103,24 @@ export function ProfitDistributionChart({
     <div className="space-y-3">
       <div className="flex flex-wrap items-center justify-between text-xs gap-2">
         <div className="flex items-center gap-3">
-          <span className="font-semibold text-slate-800">Expected Profit Curve</span>
-          <span className="font-mono text-xs text-emerald-700 font-semibold px-2.5 py-0.5 rounded-full bg-emerald-50 border border-emerald-200">
+          <span className="font-semibold text-ink-primary">Expected Profit Curve</span>
+          <span className="font-mono text-xs text-sage font-semibold px-2.5 py-0.5 rounded-full bg-sage/15 border border-sage/30">
             Optimal Q*: {optimalOrder} units ({formatCurrency(maxProfit)})
           </span>
         </div>
         <div className="flex items-center gap-3 text-xs">
-          <span className="flex items-center gap-1.5 text-blue-700 font-medium">
-            <span className="w-2 h-2 rounded-full bg-blue-600 inline-block" />
+          <span className="flex items-center gap-1.5 text-terracotta font-medium">
+            <span className="w-2 h-2 rounded-full bg-terracotta inline-block shadow-[0_0_8px_rgba(224,122,95,0.6)]" />
             Selected: {formatNumber(cursorClamped)} units
           </span>
-          <span className="flex items-center gap-1.5 text-rose-700 font-medium">
-            <span className="w-2 h-2 rounded-full bg-rose-600 inline-block" />
+          <span className="flex items-center gap-1.5 text-rose-400 font-medium">
+            <span className="w-2 h-2 rounded-full bg-rose-500 inline-block shadow-[0_0_8px_rgba(244,63,94,0.6)]" />
             Cap: {formatNumber(budgetMaxQty)}
           </span>
         </div>
       </div>
 
-      <div className="w-full bg-white border border-slate-200/80 rounded-xl p-3 overflow-x-auto relative">
+      <div className="w-full bg-canvas-elevated/60 border border-warm-hairline rounded-2xl p-3 overflow-x-auto relative shadow-paper">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="w-full h-auto select-none overflow-visible font-mono text-[10px]"
@@ -141,9 +141,9 @@ export function ProfitDistributionChart({
         >
           <defs>
             <linearGradient id="profitGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#0F766E" stopOpacity="0.25" />
-              <stop offset="60%" stopColor="#1D4ED8" stopOpacity="0.08" />
-              <stop offset="100%" stopColor="#BE123C" stopOpacity="0.02" />
+              <stop offset="0%" stopColor="#34D399" stopOpacity="0.25" />
+              <stop offset="60%" stopColor="#E07A5F" stopOpacity="0.10" />
+              <stop offset="100%" stopColor="#F43F5E" stopOpacity="0.02" />
             </linearGradient>
           </defs>
 
@@ -153,8 +153,8 @@ export function ProfitDistributionChart({
             const y = scaleY(profitVal);
             return (
               <g key={frac}>
-                <line x1={padL} y1={y} x2={width - padR} y2={y} stroke="#E3DFD5" strokeDasharray="3,3" />
-                <text x={padL - 6} y={y + 3} textAnchor="end" fill="#727D8D">
+                <line x1={padL} y1={y} x2={width - padR} y2={y} stroke="rgba(255,255,255,0.08)" strokeDasharray="3,3" />
+                <text x={padL - 6} y={y + 3} textAnchor="end" fill="#94A3B8">
                   {formatCurrency(profitVal)}
                 </text>
               </g>
@@ -169,14 +169,14 @@ export function ProfitDistributionChart({
                 y1={padT}
                 x2={scaleX(budgetMaxQty)}
                 y2={padT + chartH}
-                stroke="#BE123C"
+                stroke="#F43F5E"
                 strokeWidth="1.5"
                 strokeDasharray="4,4"
               />
               <text
                 x={scaleX(budgetMaxQty) + 4}
                 y={padT + 12}
-                fill="#BE123C"
+                fill="#F43F5E"
                 className="font-sans font-bold text-[9px]"
               >
                 BUDGET CEILING
@@ -190,7 +190,7 @@ export function ProfitDistributionChart({
             y1={padT}
             x2={scaleX(optimalOrder)}
             y2={padT + chartH}
-            stroke="#0F766E"
+            stroke="#34D399"
             strokeWidth="1.5"
             strokeDasharray="2,2"
           />
@@ -198,7 +198,7 @@ export function ProfitDistributionChart({
             x={scaleX(optimalOrder)}
             y={padT - 6}
             textAnchor="middle"
-            fill="#0F766E"
+            fill="#34D399"
             className="font-bold text-[10px]"
           >
             ★ MAX PROFIT
@@ -206,7 +206,7 @@ export function ProfitDistributionChart({
 
           {/* Profit Curve Area & Stroke */}
           <path d={areaD} fill="url(#profitGrad)" />
-          <path d={pathD} fill="none" stroke="#1D4ED8" strokeWidth="2.5" />
+          <path d={pathD} fill="none" stroke="#34D399" strokeWidth="2.5" />
 
           {/* Dynamic Interactive Cursor Line */}
           <line
@@ -214,15 +214,15 @@ export function ProfitDistributionChart({
             y1={padT}
             x2={scaleX(cursorClamped)}
             y2={padT + chartH}
-            stroke="#111418"
+            stroke="#F8FAFC"
             strokeWidth="1.5"
           />
           <circle
             cx={scaleX(cursorClamped)}
             cy={scaleY(currentPt.profit)}
             r="5"
-            fill="#1D4ED8"
-            stroke="#FFFFFF"
+            fill="#E07A5F"
+            stroke="#0A0D12"
             strokeWidth="2"
             className="shadow-sm"
           />
@@ -234,11 +234,12 @@ export function ProfitDistributionChart({
               y="-14"
               width="96"
               height="20"
-              rx="4"
-              fill="#111418"
+              rx="6"
+              fill="#0A0D12"
+              stroke="rgba(255,255,255,0.2)"
               opacity="0.95"
             />
-            <text x="0" y="0" textAnchor="middle" fill="#FFFFFF" className="font-mono text-[9px] font-bold">
+            <text x="0" y="0" textAnchor="middle" fill="#F8FAFC" className="font-mono text-[9px] font-bold">
               {formatCurrency(currentPt.profit)}
             </text>
           </g>
@@ -246,13 +247,13 @@ export function ProfitDistributionChart({
           {/* X Axis ticks */}
           {[minOrder, 500, 1000, 1500, 2000, maxOrder].map((q) => (
             <g key={q} transform={`translate(${scaleX(q)}, ${height - padB})`}>
-              <line y1="0" y2="4" stroke="#111418" />
-              <text y="14" textAnchor="middle" fill="#434B56">
+              <line y1="0" y2="4" stroke="rgba(255,255,255,0.2)" />
+              <text y="14" textAnchor="middle" fill="#94A3B8">
                 {q}
               </text>
             </g>
           ))}
-          <text x={width / 2} y={height - 8} textAnchor="middle" fill="#434B56" className="font-sans text-[11px] font-medium">
+          <text x={width / 2} y={height - 8} textAnchor="middle" fill="#94A3B8" className="font-sans text-[11px] font-medium">
             Purchase Quantity (Units) — Click or hover to simulate
           </text>
         </svg>

@@ -128,15 +128,15 @@ export default function ExperimentsDashboardPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">
             <span>Research Laboratory</span>
             <span>•</span>
-            <span className="text-brand-600">Double-Blind Protocols</span>
+            <span className="text-terracotta">Double-Blind Protocols</span>
           </div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+          <h1 className="font-serif text-2xl lg:text-3xl font-bold text-ink-primary tracking-tight">
             Experimental Laboratory
           </h1>
-          <p className="text-sm text-slate-600 mt-1 max-w-3xl">
+          <p className="text-sm text-ink-secondary mt-1 max-w-3xl">
             Design, deploy, and evaluate randomized behavioral trials measuring human reliance, reaction speed, and verification quality when interacting with AI recommendations.
           </p>
         </div>
@@ -145,14 +145,14 @@ export default function ExperimentsDashboardPage() {
           <Button
             variant="secondary"
             onClick={() => setIsBuilderOpen(true)}
-            className="gap-2"
+            className="gap-2 border-warm-border"
           >
-            <Sliders className="w-4 h-4 text-slate-600" />
+            <Sliders className="w-4 h-4 text-ink-secondary" />
             <span>New Protocol</span>
           </Button>
 
           <Link href="/experiments/run/exp-inv-001">
-            <Button variant="brand" className="gap-2 shadow-xs">
+            <Button variant="terracotta" className="gap-2 shadow-xs">
               <Play className="w-4 h-4 fill-current" />
               <span>Launch Participant Battery</span>
             </Button>
@@ -277,7 +277,7 @@ export default function ExperimentsDashboardPage() {
         {/* Left 8 Columns: Filter Bar & Protocols */}
         <div className="lg:col-span-8 space-y-4">
           {/* Filter & Search Bar */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-canvas-subtle p-3 rounded-2xl border border-warm-border shadow-xs">
             <div className="flex items-center gap-1 overflow-x-auto">
               {[
                 { id: "ALL", label: "All Protocols" },
@@ -290,8 +290,8 @@ export default function ExperimentsDashboardPage() {
                   onClick={() => setFilterType(tab.id)}
                   className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap ${
                     filterType === tab.id
-                      ? "bg-slate-900 text-white font-semibold shadow-xs"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
+                      ? "bg-ink-primary text-canvas font-semibold shadow-xs"
+                      : "text-ink-secondary hover:text-ink-primary hover:bg-canvas-elevated"
                   }`}
                 >
                   {tab.label}
@@ -300,13 +300,13 @@ export default function ExperimentsDashboardPage() {
             </div>
 
             <div className="relative min-w-[200px]">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-ink-muted absolute left-3 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search protocols..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-8 pr-3 py-1.5 text-xs rounded-lg border border-slate-200 text-slate-800 placeholder:text-slate-400 focus:outline-none focus:ring-1 focus:ring-brand-500"
+                className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl border border-warm-border bg-canvas-elevated text-ink-primary placeholder:text-ink-muted focus:outline-none focus:ring-1 focus:ring-terracotta"
               />
             </div>
           </div>
@@ -317,28 +317,28 @@ export default function ExperimentsDashboardPage() {
               <Card key={exp.id} className="hover:shadow-cardHover transition-all">
                 <CardContent className="p-6 space-y-4">
                   {/* Top Meta Row */}
-                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-warm-hairline">
                     <div className="flex flex-wrap items-center gap-2">
-                      <span className="font-mono text-xs font-semibold text-slate-900">
+                      <span className="font-mono text-xs font-semibold text-ink-primary">
                         {exp.id}
                       </span>
-                      <span className="text-slate-300">•</span>
+                      <span className="text-ink-muted">•</span>
                       <Badge variant={exp.status === "Active" ? "spruce" : "neutral"}>
                         {exp.status}
                       </Badge>
-                      <Badge variant="cobalt">{exp.domain}</Badge>
-                      <span className="text-xs text-slate-500 font-medium">{exp.protocol}</span>
+                      <Badge variant="terracotta">{exp.domain}</Badge>
+                      <span className="text-xs text-ink-secondary font-medium">{exp.protocol}</span>
                     </div>
 
                     <div className="flex items-center gap-2 shrink-0">
                       <Link href="/analytics">
-                        <Button variant="secondary" size="sm" className="gap-1.5">
+                        <Button variant="secondary" size="sm" className="gap-1.5 border-warm-border">
                           <span>Evidence</span>
-                          <ArrowUpRight className="w-3.5 h-3.5 text-slate-400" />
+                          <ArrowUpRight className="w-3.5 h-3.5 text-ink-muted" />
                         </Button>
                       </Link>
                       <Link href={`/experiments/run/${exp.id}`}>
-                        <Button variant="brand" size="sm" className="gap-1.5">
+                        <Button variant="terracotta" size="sm" className="gap-1.5 shadow-xs">
                           <Play className="w-3.5 h-3.5 fill-current" />
                           <span>Run Trial</span>
                         </Button>
@@ -348,11 +348,11 @@ export default function ExperimentsDashboardPage() {
 
                   {/* Title & Hypothesis Statement */}
                   <div className="space-y-2">
-                    <h3 className="text-base font-semibold text-slate-900 tracking-tight leading-snug">
+                    <h3 className="font-serif text-base font-semibold text-ink-primary tracking-tight leading-snug">
                       {exp.title}
                     </h3>
-                    <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-100 text-xs text-slate-600 leading-relaxed">
-                      <strong className="text-slate-800 font-medium uppercase tracking-wider text-[11px] block mb-1">
+                    <div className="p-3.5 bg-canvas-elevated rounded-xl border border-warm-hairline text-xs text-ink-secondary leading-relaxed">
+                      <strong className="text-ink-primary font-medium uppercase tracking-wider text-[11px] block mb-1">
                         Hypothesis Statement:
                       </strong>
                       {exp.hypothesis}
@@ -361,30 +361,30 @@ export default function ExperimentsDashboardPage() {
 
                   {/* High Density Metric Cells */}
                   <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-1">
-                    <div className="p-3 bg-white rounded-lg border border-slate-200/80">
-                      <span className="text-[11px] font-medium text-slate-500 uppercase block">Study Design</span>
-                      <span className="font-semibold text-slate-900 text-xs mt-0.5 block">
+                    <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline">
+                      <span className="text-[11px] font-medium text-ink-muted uppercase block">Study Design</span>
+                      <span className="font-semibold text-ink-primary text-xs mt-0.5 block">
                         {exp.conditionsCount} Conditions (A / B / C)
                       </span>
                     </div>
 
-                    <div className="p-3 bg-white rounded-lg border border-slate-200/80">
-                      <span className="text-[11px] font-medium text-slate-500 uppercase block">Test Battery</span>
-                      <span className="font-semibold text-slate-900 text-xs mt-0.5 block">
+                    <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline">
+                      <span className="text-[11px] font-medium text-ink-muted uppercase block">Test Battery</span>
+                      <span className="font-semibold text-ink-primary text-xs mt-0.5 block">
                         {exp.scenariosCount} Consequential Scenarios
                       </span>
                     </div>
 
-                    <div className="p-3 bg-white rounded-lg border border-slate-200/80">
-                      <span className="text-[11px] font-medium text-slate-500 uppercase block">Cohort Enrolled</span>
-                      <span className="font-semibold text-blue-700 text-xs mt-0.5 block tabular-nums">
+                    <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline">
+                      <span className="text-[11px] font-medium text-ink-muted uppercase block">Cohort Enrolled</span>
+                      <span className="font-semibold text-terracotta text-xs mt-0.5 block tabular-nums">
                         N = {exp.participantsEnrolled} ({exp.completedTrials} trials)
                       </span>
                     </div>
 
-                    <div className="p-3 bg-white rounded-lg border border-slate-200/80">
-                      <span className="text-[11px] font-medium text-slate-500 uppercase block">Stress Test</span>
-                      <span className="font-semibold text-amber-700 text-xs mt-0.5 block truncate">
+                    <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline">
+                      <span className="text-[11px] font-medium text-ink-muted uppercase block">Stress Test</span>
+                      <span className="font-semibold text-sage text-xs mt-0.5 block truncate">
                         {exp.biasInjected}
                       </span>
                     </div>
@@ -401,13 +401,13 @@ export default function ExperimentsDashboardPage() {
           <Card>
             <CardHeader className="pb-3 flex flex-row items-center justify-between">
               <div className="flex items-center gap-2">
-                <Activity className="w-4 h-4 text-emerald-600 animate-pulse" />
+                <Activity className="w-4 h-4 text-sage animate-pulse" />
                 <CardTitle className="text-sm">Live Participant Stream</CardTitle>
               </div>
               <Badge variant="spruce">Active Recording</Badge>
             </CardHeader>
             <CardContent className="space-y-3 pt-0">
-              <div className="text-[11px] font-medium text-slate-400 flex justify-between px-1">
+              <div className="text-[11px] font-medium text-ink-muted flex justify-between px-1">
                 <span>Subject Token</span>
                 <span>Latency / Verdict</span>
               </div>
@@ -416,17 +416,17 @@ export default function ExperimentsDashboardPage() {
                 {liveTelemetry.map((t) => (
                   <div
                     key={t.id}
-                    className="p-3 rounded-lg bg-slate-50 border border-slate-100 flex items-center justify-between text-xs transition-colors hover:bg-slate-100/60"
+                    className="p-3 rounded-xl bg-canvas-elevated border border-warm-hairline flex items-center justify-between text-xs transition-colors hover:bg-canvas-subtle"
                   >
                     <div className="space-y-0.5">
-                      <div className="font-semibold text-slate-800">{t.token}</div>
-                      <div className="text-[11px] text-slate-500">
-                        {t.cond} • Order: <strong className="text-slate-700">{t.action}</strong>
+                      <div className="font-semibold text-ink-primary">{t.token}</div>
+                      <div className="text-[11px] text-ink-muted">
+                        {t.cond} • Order: <strong className="text-ink-primary">{t.action}</strong>
                       </div>
                     </div>
 
                     <div className="text-right space-y-1">
-                      <div className="font-mono text-xs font-medium text-slate-700 tabular-nums">
+                      <div className="font-mono text-xs font-medium text-ink-secondary tabular-nums">
                         {t.latency}
                       </div>
                       <Badge variant={t.variant}>{t.status}</Badge>
@@ -435,39 +435,39 @@ export default function ExperimentsDashboardPage() {
                 ))}
               </div>
             </CardContent>
-            <CardFooter className="text-slate-500 text-[11px]">
+            <CardFooter className="text-ink-muted text-[11px]">
               <span>Hardware clock: performance.now()</span>
-              <span className="font-semibold text-slate-700">±0.1ms accuracy</span>
+              <span className="font-semibold text-ink-secondary">±0.1ms accuracy</span>
             </CardFooter>
           </Card>
 
           {/* Epistemic Protocol Rigor Declaration */}
           <Card>
             <CardHeader className="pb-3 flex flex-row items-center gap-2">
-              <ShieldCheck className="w-4 h-4 text-brand-600" />
+              <ShieldCheck className="w-4 h-4 text-terracotta" />
               <CardTitle className="text-sm">Research Rigor Standards</CardTitle>
             </CardHeader>
-            <CardContent className="space-y-3.5 text-xs text-slate-600 leading-relaxed pt-0">
+            <CardContent className="space-y-3.5 text-xs text-ink-secondary leading-relaxed pt-0">
               <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-sage mt-0.5 shrink-0" />
                 <div>
-                  <strong className="text-slate-900 block font-medium">Analytical Ground Truths</strong>
+                  <strong className="text-ink-primary block font-medium">Analytical Ground Truths</strong>
                   Payoffs are determined via mathematical newsvendor equations F⁻¹(Cu/(Cu+Co)), not generative heuristics.
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-sage mt-0.5 shrink-0" />
                 <div>
-                  <strong className="text-slate-900 block font-medium">Monotonic Latency Capture</strong>
+                  <strong className="text-ink-primary block font-medium">Monotonic Latency Capture</strong>
                   Participant deliberation time is clocked independently of browser DOM rendering cycles.
                 </div>
               </div>
 
               <div className="flex items-start gap-2.5">
-                <CheckCircle2 className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+                <CheckCircle2 className="w-4 h-4 text-terracotta mt-0.5 shrink-0" />
                 <div>
-                  <strong className="text-slate-900 block font-medium">Controlled Over-Reliance Stressing</strong>
+                  <strong className="text-ink-primary block font-medium">Controlled Over-Reliance Stressing</strong>
                   Controlled deviations (+35% bias) isolate uncritical trust decay from genuine human competence.
                 </div>
               </div>

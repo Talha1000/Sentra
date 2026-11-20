@@ -14,16 +14,16 @@ export const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(
       "inline-flex items-center justify-center font-medium transition-all duration-150 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-terracotta focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none rounded-xl select-none";
 
     const variants = {
-      // Claude dark charcoal button
-      primary: "bg-ink-primary text-white hover:bg-stone-800 shadow-xs active:scale-[0.99]",
-      // Claude signature terracotta button
-      terracotta: "bg-terracotta text-white hover:bg-terracotta-hover shadow-xs active:scale-[0.99]",
-      brand: "bg-terracotta text-white hover:bg-terracotta-hover shadow-xs active:scale-[0.99]",
-      // Claude tactile paper secondary button
-      secondary: "bg-white text-ink-primary border border-warm-hairline hover:bg-canvas-subtle hover:border-warm-border shadow-xs active:scale-[0.99]",
+      // Crisp white button for primary actions on obsidian background
+      primary: "bg-white text-slate-950 hover:bg-slate-200 shadow-xs active:scale-[0.99] font-semibold",
+      // Luminous warm terracotta button
+      terracotta: "bg-terracotta text-white hover:bg-terracotta-hover shadow-xs active:scale-[0.99] font-semibold",
+      brand: "bg-terracotta text-white hover:bg-terracotta-hover shadow-xs active:scale-[0.99] font-semibold",
+      // Dark elevated surface secondary button
+      secondary: "bg-canvas-subtle text-ink-primary border border-warm-hairline hover:bg-canvas-muted hover:border-warm-border shadow-xs active:scale-[0.99]",
       outline: "border border-warm-border bg-transparent text-ink-primary hover:bg-canvas-subtle",
       ghost: "text-ink-secondary hover:text-ink-primary hover:bg-canvas-subtle",
-      destructive: "bg-rose-700 text-white hover:bg-rose-800 shadow-xs active:scale-[0.99]",
+      destructive: "bg-rose-600 text-white hover:bg-rose-700 shadow-xs active:scale-[0.99]",
     };
 
     const sizes = {

@@ -70,28 +70,28 @@ export default function WorkspacePage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">
             <span>Enterprise Portfolio</span>
             <span>•</span>
-            <span className="text-emerald-600 font-semibold">Active Calibrated Deck</span>
+            <span className="text-sage font-semibold">Active Calibrated Deck</span>
           </div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+          <h1 className="font-serif text-2xl lg:text-3xl font-bold text-ink-primary tracking-tight">
             Decision Intelligence Workspace
           </h1>
-          <p className="text-sm text-slate-600 mt-1 max-w-3xl">
+          <p className="text-sm text-ink-secondary mt-1 max-w-3xl">
             Real-time oversight across human authorizations, algorithmic suggestions, and verified financial outcomes.
           </p>
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
           <Link href="/decisions">
-            <Button variant="secondary" className="gap-2">
-              <Plus className="w-4 h-4 text-slate-600" />
+            <Button variant="secondary" className="gap-2 border-warm-border">
+              <Plus className="w-4 h-4 text-ink-secondary" />
               <span>New Decision Case</span>
             </Button>
           </Link>
           <Link href="/experiments/run/exp-inv-001">
-            <Button variant="brand" className="gap-2 shadow-xs">
+            <Button variant="terracotta" className="gap-2 shadow-xs">
               <Play className="w-4 h-4 fill-current" />
               <span>Launch Experiment</span>
             </Button>
@@ -141,15 +141,15 @@ export default function WorkspacePage() {
               </div>
 
               {/* Domain Filter Pills */}
-              <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg">
+              <div className="flex items-center gap-1 bg-canvas-elevated p-1 rounded-xl border border-warm-border">
                 {["all", "inventory", "capital", "operations"].map((d) => (
                   <button
                     key={d}
                     onClick={() => setFilterDomain(d)}
-                    className={`px-3 py-1 rounded-md text-xs font-medium capitalize transition-colors ${
+                    className={`px-3 py-1 rounded-lg text-xs font-medium capitalize transition-colors ${
                       filterDomain === d
-                        ? "bg-white text-slate-900 font-semibold shadow-xs"
-                        : "text-slate-600 hover:text-slate-900"
+                        ? "bg-ink-primary text-canvas font-semibold shadow-xs"
+                        : "text-ink-secondary hover:text-ink-primary"
                     }`}
                   >
                     {d}
@@ -175,18 +175,18 @@ export default function WorkspacePage() {
                   {filteredDecisions.map((d) => (
                     <TableRow key={d.id}>
                       <TableCell>
-                        <div className="font-semibold text-slate-900">{d.title}</div>
-                        <div className="text-xs text-slate-500 font-mono mt-0.5">
+                        <div className="font-semibold text-ink-primary">{d.title}</div>
+                        <div className="text-xs text-ink-muted font-mono mt-0.5">
                           {d.id} • {d.date}
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="cobalt">{d.domain}</Badge>
+                        <Badge variant="terracotta">{d.domain}</Badge>
                       </TableCell>
-                      <TableCell className="text-right font-mono font-semibold text-slate-900 tabular-nums">
+                      <TableCell className="text-right font-mono font-semibold text-ink-primary tabular-nums">
                         {d.humanAction}
                       </TableCell>
-                      <TableCell className="text-right font-mono text-slate-500 tabular-nums">
+                      <TableCell className="text-right font-mono text-ink-muted tabular-nums">
                         {d.aiSuggested}
                       </TableCell>
                       <TableCell>
@@ -196,7 +196,7 @@ export default function WorkspacePage() {
                           <Badge variant="spruce">Override</Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-right font-mono font-semibold text-emerald-600 tabular-nums">
+                      <TableCell className="text-right font-mono font-semibold text-sage tabular-nums">
                         {formatCurrency(d.payoff)}
                       </TableCell>
                       <TableCell>
@@ -218,32 +218,32 @@ export default function WorkspacePage() {
               <CardDescription>Continuous participant enrollment tracker</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 pt-0">
-              <div className="p-3 bg-slate-50 rounded-lg border border-slate-100 space-y-1">
-                <span className="text-[10px] uppercase font-semibold text-slate-400 block font-mono">
+              <div className="p-3 bg-canvas-elevated rounded-xl border border-warm-hairline space-y-1">
+                <span className="text-[10px] uppercase font-semibold text-ink-muted block font-mono">
                   EXP-INV-001
                 </span>
-                <div className="font-semibold text-slate-900 text-xs">
+                <div className="font-semibold text-ink-primary text-xs">
                   Inventory Purchasing Battery
                 </div>
-                <div className="text-slate-500 text-xs">
+                <div className="text-ink-secondary text-xs">
                   3 Conditions (Between-subjects) • 5 Stochastic Scenarios
                 </div>
               </div>
 
               <div className="space-y-1.5">
                 <div className="flex justify-between text-xs">
-                  <span className="text-slate-500">Sample Enrolled:</span>
-                  <span className="font-semibold text-blue-700 font-mono">225 / 300 Trials</span>
+                  <span className="text-ink-secondary">Sample Enrolled:</span>
+                  <span className="font-semibold text-terracotta font-mono">225 / 300 Trials</span>
                 </div>
-                <div className="w-full bg-slate-100 h-2 rounded-full overflow-hidden border border-slate-200">
-                  <div className="bg-brand-600 h-full w-[75%] rounded-full" />
+                <div className="w-full bg-canvas-elevated h-2 rounded-full overflow-hidden border border-warm-hairline">
+                  <div className="bg-terracotta h-full w-[75%] rounded-full shadow-[0_0_8px_rgba(224,122,95,0.6)]" />
                 </div>
               </div>
 
               <Link href="/analytics" className="block pt-1">
-                <Button variant="outline" size="sm" className="w-full justify-between">
+                <Button variant="secondary" size="sm" className="w-full justify-between border-warm-border">
                   <span>View Statistical Evidence</span>
-                  <ArrowUpRight className="w-3.5 h-3.5 text-slate-400" />
+                  <ArrowUpRight className="w-3.5 h-3.5 text-ink-muted" />
                 </Button>
               </Link>
             </CardContent>
@@ -255,21 +255,21 @@ export default function WorkspacePage() {
               <CardDescription>Live telemetry security and bias checks</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 pt-0">
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-emerald-50/60 border border-emerald-100">
-                <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-sage/10 border border-sage/30">
+                <CheckCircle2 className="w-4 h-4 text-sage mt-0.5 shrink-0" />
                 <div>
-                  <div className="font-semibold text-slate-900 text-xs">Ground Truth Verified</div>
-                  <div className="text-slate-600 text-xs mt-0.5">
+                  <div className="font-semibold text-ink-primary text-xs">Ground Truth Verified</div>
+                  <div className="text-ink-secondary text-xs mt-0.5">
                     Deterministic newsvendor critical fractile checks passed.
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-3 rounded-lg bg-amber-50/60 border border-amber-100">
-                <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
+              <div className="flex items-start gap-3 p-3 rounded-xl bg-terracotta/10 border border-terracotta/30">
+                <AlertTriangle className="w-4 h-4 text-terracotta mt-0.5 shrink-0" />
                 <div>
-                  <div className="font-semibold text-amber-900 text-xs">Over-Reliance Warning</div>
-                  <div className="text-amber-800 text-xs mt-0.5">
+                  <div className="font-semibold text-terracotta text-xs">Over-Reliance Warning</div>
+                  <div className="text-ink-secondary text-xs mt-0.5">
                     Condition B cohort demonstrates 76.4% compliance under deliberate +35% bias.
                   </div>
                 </div>

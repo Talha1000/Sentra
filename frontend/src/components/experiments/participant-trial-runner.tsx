@@ -108,23 +108,23 @@ export function ParticipantTrialRunner({
       {/* Scenario Header */}
       <Card>
         <CardContent className="p-6">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-slate-100">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-warm-hairline">
             <div className="flex items-center gap-2">
-              <span className="font-semibold text-xs px-2.5 py-0.5 rounded-full bg-slate-900 text-white">
+              <span className="font-semibold text-xs px-2.5 py-0.5 rounded-full bg-ink-primary text-canvas">
                 Scenario {scenario.order_index} of 5
               </span>
-              <span className="text-slate-300">•</span>
-              <Badge variant="cobalt">
+              <span className="text-ink-muted">•</span>
+              <Badge variant="terracotta">
                 {conditionCode.replace("_", " ")}
               </Badge>
             </div>
-            <span className="text-xs text-slate-400 font-mono">
+            <span className="text-xs text-ink-muted font-mono">
               Server-Clock Latency Active
             </span>
           </div>
 
           <div className="pt-3">
-            <h2 className="text-xl font-bold text-slate-900 tracking-tight">
+            <h2 className="font-serif text-xl font-bold text-ink-primary tracking-tight">
               {scenario.title}
             </h2>
           </div>
@@ -137,50 +137,50 @@ export function ParticipantTrialRunner({
         <div className="space-y-6">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-xs uppercase tracking-wider text-slate-500 font-medium">
+              <CardTitle className="text-xs uppercase tracking-wider text-ink-muted font-medium">
                 Demand Parameters
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-xs pt-0">
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Mean Demand (μ)</span>
-                <span className="font-mono font-bold text-slate-900 tabular-nums">{p.mean_demand} units</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Mean Demand (μ)</span>
+                <span className="font-mono font-bold text-ink-primary tabular-nums">{p.mean_demand} units</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Std. Deviation (σ)</span>
-                <span className="font-mono font-bold text-blue-600 tabular-nums">±{p.std_demand} units</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Std. Deviation (σ)</span>
+                <span className="font-mono font-bold text-terracotta tabular-nums">±{p.std_demand} units</span>
               </div>
               <div className="flex justify-between py-1.5">
-                <span className="text-slate-500">Warehouse Stock</span>
-                <span className="font-mono font-bold text-slate-900 tabular-nums">{p.current_stock} units</span>
+                <span className="text-ink-muted">Warehouse Stock</span>
+                <span className="font-mono font-bold text-ink-primary tabular-nums">{p.current_stock} units</span>
               </div>
             </CardContent>
           </Card>
 
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-xs uppercase tracking-wider text-slate-500 font-medium">
+              <CardTitle className="text-xs uppercase tracking-wider text-ink-muted font-medium">
                 Financial Constraints
               </CardTitle>
             </CardHeader>
             <CardContent className="space-y-2 text-xs pt-0">
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Acquisition Cost</span>
-                <span className="font-mono font-bold text-slate-900 tabular-nums">{formatCurrency(p.unit_cost)}</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Acquisition Cost</span>
+                <span className="font-mono font-bold text-ink-primary tabular-nums">{formatCurrency(p.unit_cost)}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Selling Price</span>
-                <span className="font-mono font-bold text-emerald-600 tabular-nums">{formatCurrency(p.selling_price)}</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Selling Price</span>
+                <span className="font-mono font-bold text-sage tabular-nums">{formatCurrency(p.selling_price)}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Salvage Value</span>
-                <span className="font-mono text-slate-500 tabular-nums">{formatCurrency(p.salvage_value)}</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Salvage Value</span>
+                <span className="font-mono text-ink-muted tabular-nums">{formatCurrency(p.salvage_value)}</span>
               </div>
-              <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-500">Stockout Penalty</span>
-                <span className="font-mono font-bold text-rose-600 tabular-nums">{formatCurrency(p.stockout_penalty)}</span>
+              <div className="flex justify-between py-1.5 border-b border-warm-hairline">
+                <span className="text-ink-muted">Stockout Penalty</span>
+                <span className="font-mono font-bold text-rose-400 tabular-nums">{formatCurrency(p.stockout_penalty)}</span>
               </div>
-              <div className="flex justify-between py-1.5 font-semibold text-slate-900">
+              <div className="flex justify-between py-1.5 font-semibold text-ink-primary">
                 <span>Budget Cap</span>
                 <span className="font-mono tabular-nums">{formatCurrency(p.budget_limit)}</span>
               </div>
@@ -191,42 +191,42 @@ export function ParticipantTrialRunner({
         {/* Right 2 Columns: AI Assistance & Input Deck */}
         <div className="md:col-span-2 space-y-6">
           {conditionCode === "CONDITION_A" ? (
-            <Card className="border-dashed bg-slate-50/60">
+            <Card className="border-dashed bg-canvas-elevated/40">
               <CardContent className="p-6 text-center space-y-2">
-                <Info className="w-5 h-5 text-blue-600 mx-auto" />
-                <h4 className="font-semibold text-sm text-slate-900">
+                <Info className="w-5 h-5 text-terracotta mx-auto" />
+                <h4 className="font-serif font-semibold text-sm text-ink-primary">
                   Condition A: Autonomous Human Deliberation
                 </h4>
-                <p className="text-xs text-slate-500 max-w-sm mx-auto">
+                <p className="text-xs text-ink-secondary max-w-sm mx-auto">
                   Evaluate parameters independently. You are operating in the unassisted control condition.
                 </p>
               </CardContent>
             </Card>
           ) : scenario.ai_assistance ? (
-            <Card className="border-blue-200 bg-blue-50/20">
-              <CardHeader className="pb-3 flex flex-row items-center justify-between border-b border-blue-100 bg-blue-50/50">
+            <Card className="border-terracotta/30 bg-terracotta/10">
+              <CardHeader className="pb-3 flex flex-row items-center justify-between border-b border-terracotta/20 bg-terracotta/15">
                 <div className="flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-brand-600" />
-                  <CardTitle className="text-xs font-semibold text-slate-900">
+                  <Sparkles className="w-4 h-4 text-terracotta" />
+                  <CardTitle className="text-xs font-semibold text-ink-primary">
                     AI Decision Recommendation
                   </CardTitle>
                 </div>
-                <Badge variant="cobalt">
+                <Badge variant="terracotta">
                   Confidence: {Math.round(scenario.ai_assistance.confidence_score * 100)}%
                 </Badge>
               </CardHeader>
               <CardContent className="space-y-3 pt-4 text-xs">
-                <div className="flex items-baseline justify-between border-b border-blue-100 pb-3">
-                  <span className="text-slate-600 font-medium">Recommended Purchase Order:</span>
-                  <span className="font-mono text-2xl font-bold text-slate-900 tabular-nums">
+                <div className="flex items-baseline justify-between border-b border-terracotta/20 pb-3">
+                  <span className="text-ink-secondary font-medium">Recommended Purchase Order:</span>
+                  <span className="font-mono text-2xl font-bold text-terracotta tabular-nums">
                     {formatNumber(scenario.ai_assistance.suggested_value)} units
                   </span>
                 </div>
 
                 {scenario.ai_assistance.explanation && (
-                  <div className="p-3.5 bg-white rounded-lg border border-blue-100 space-y-1">
-                    <span className="text-[11px] font-semibold text-slate-700 block">Model Rationale:</span>
-                    <p className="text-slate-600 leading-relaxed text-xs">
+                  <div className="p-3.5 bg-canvas-elevated rounded-xl border border-warm-hairline space-y-1">
+                    <span className="text-[11px] font-semibold text-ink-primary block">Model Rationale:</span>
+                    <p className="text-ink-secondary leading-relaxed text-xs">
                       {scenario.ai_assistance.explanation}
                     </p>
                   </div>
@@ -243,7 +243,7 @@ export function ParticipantTrialRunner({
                 <CardDescription>Select order quantity for this scenario</CardDescription>
               </div>
               <div className="flex items-center gap-2 font-mono text-xs">
-                <Badge variant="cobalt">{formatNumber(orderQuantity)} Units</Badge>
+                <Badge variant="terracotta">{formatNumber(orderQuantity)} Units</Badge>
                 <Badge variant={isBudgetExceeded ? "crimson" : "spruce"}>
                   {formatCurrency(totalCost)}
                 </Badge>
@@ -259,11 +259,11 @@ export function ParticipantTrialRunner({
                 value={orderQuantity}
                 disabled={!!submittedResult || isSubmitting}
                 onChange={(e) => setOrderQuantity(Number(e.target.value))}
-                className="w-full h-2 bg-slate-200 rounded-lg cursor-pointer accent-brand-600"
+                className="w-full h-2 bg-warm-hairline rounded-lg cursor-pointer accent-terracotta"
               />
 
               {isBudgetExceeded && (
-                <div className="p-3 bg-rose-50 border border-rose-200 rounded-lg text-rose-800 text-xs font-medium flex items-center gap-2">
+                <div className="p-3 bg-rose-500/10 border border-rose-500/30 rounded-xl text-rose-400 text-xs font-medium flex items-center gap-2">
                   <AlertCircle className="w-4 h-4 shrink-0" />
                   <span>
                     Budget exceeded: Cost {formatCurrency(totalCost)} exceeds limit of {formatCurrency(p.budget_limit)}.
@@ -272,10 +272,10 @@ export function ParticipantTrialRunner({
               )}
 
               {/* Confidence Gauge */}
-              <div className="p-4 bg-slate-50 rounded-xl border border-slate-100 space-y-2">
+              <div className="p-4 bg-canvas-elevated rounded-xl border border-warm-hairline space-y-2">
                 <div className="flex justify-between items-center text-xs">
-                  <span className="font-semibold text-slate-700">Subjective Confidence in Decision:</span>
-                  <span className="font-mono font-bold text-blue-700">{Math.round(confidence * 100)}%</span>
+                  <span className="font-semibold text-ink-primary">Subjective Confidence in Decision:</span>
+                  <span className="font-mono font-bold text-terracotta">{Math.round(confidence * 100)}%</span>
                 </div>
                 <input
                   type="range"
@@ -285,30 +285,30 @@ export function ParticipantTrialRunner({
                   value={confidence}
                   disabled={!!submittedResult || isSubmitting}
                   onChange={(e) => setConfidence(Number(e.target.value))}
-                  className="w-full h-1.5 bg-slate-200 rounded-lg cursor-pointer accent-brand-600"
+                  className="w-full h-1.5 bg-warm-hairline rounded-lg cursor-pointer accent-terracotta"
                 />
               </div>
 
               {/* Result Reveal */}
               {submittedResult && (
-                <div className="p-4 bg-emerald-50/70 border border-emerald-200 rounded-xl space-y-3 text-xs">
-                  <div className="flex items-center justify-between border-b border-emerald-200 pb-2">
-                    <span className="font-semibold text-emerald-900 flex items-center gap-2">
-                      <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                <div className="p-4 bg-sage/10 border border-sage/30 rounded-xl space-y-3 text-xs">
+                  <div className="flex items-center justify-between border-b border-sage/20 pb-2">
+                    <span className="font-semibold text-sage flex items-center gap-2">
+                      <CheckCircle2 className="w-4 h-4 text-sage" />
                       Trial Outcome Recorded
                     </span>
-                    <span className="font-mono font-bold text-emerald-700 tabular-nums">
+                    <span className="font-mono font-bold text-sage tabular-nums">
                       Payoff: {formatCurrency(submittedResult.actual_payoff)}
                     </span>
                   </div>
-                  <div className="grid grid-cols-2 gap-3 text-slate-700">
+                  <div className="grid grid-cols-2 gap-3 text-ink-secondary">
                     <div>
-                      <span className="text-slate-500 text-[11px] block">Analytical Optimum:</span>
-                      <span className="font-mono font-bold">{submittedResult.optimal_action} units</span>
+                      <span className="text-ink-muted text-[11px] block">Analytical Optimum:</span>
+                      <span className="font-mono font-bold text-ink-primary">{submittedResult.optimal_action} units</span>
                     </div>
                     <div>
-                      <span className="text-slate-500 text-[11px] block">Deviation:</span>
-                      <span className="font-mono font-bold">{submittedResult.deviation_from_optimal} units</span>
+                      <span className="text-ink-muted text-[11px] block">Deviation:</span>
+                      <span className="font-mono font-bold text-ink-primary">{submittedResult.deviation_from_optimal} units</span>
                     </div>
                   </div>
                 </div>
@@ -318,7 +318,7 @@ export function ParticipantTrialRunner({
               <div className="pt-2 flex justify-end">
                 {!submittedResult ? (
                   <Button
-                    variant="brand"
+                    variant="terracotta"
                     disabled={isBudgetExceeded || isSubmitting}
                     onClick={handleSubmit}
                     className="shadow-xs"

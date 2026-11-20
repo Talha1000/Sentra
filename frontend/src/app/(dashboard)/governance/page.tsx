@@ -54,15 +54,15 @@ export default function GovernancePage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-ink-muted uppercase tracking-wider mb-1">
             <span>Governance & Audit</span>
             <span>•</span>
-            <span className="text-emerald-600 font-semibold">HMAC-SHA256 Sealed</span>
+            <span className="text-sage font-semibold">HMAC-SHA256 Sealed</span>
           </div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+          <h1 className="font-serif text-2xl lg:text-3xl font-bold text-ink-primary tracking-tight">
             Model Provenance & Audit Registry
           </h1>
-          <p className="text-sm text-slate-600 mt-1 max-w-3xl">
+          <p className="text-sm text-ink-secondary mt-1 max-w-3xl">
             Immutable system activity ledgers, model weight provenance cards, prompt template versioning, and row-level tenant access controls.
           </p>
         </div>
@@ -123,18 +123,18 @@ export default function GovernancePage() {
               {models.map((m) => (
                 <TableRow key={m.id}>
                   <TableCell>
-                    <div className="font-semibold text-slate-900">{m.id}</div>
+                    <div className="font-semibold text-ink-primary">{m.id}</div>
                   </TableCell>
-                  <TableCell className="text-slate-600 font-mono text-xs">
+                  <TableCell className="text-ink-secondary font-mono text-xs">
                     {m.provider} • {m.version} (t={m.temperature})
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-blue-600 font-medium">
+                  <TableCell className="font-mono text-xs text-terracotta font-medium">
                     {m.promptVersion}
                   </TableCell>
-                  <TableCell className="text-right font-mono font-semibold text-slate-900 tabular-nums">
+                  <TableCell className="text-right font-mono font-semibold text-ink-primary tabular-nums">
                     {m.agreementRate}
                   </TableCell>
-                  <TableCell className="text-right font-mono text-xs text-slate-500 tabular-nums">
+                  <TableCell className="text-right font-mono text-xs text-ink-muted tabular-nums">
                     {m.calibrationError}
                   </TableCell>
                   <TableCell>
@@ -174,19 +174,19 @@ export default function GovernancePage() {
             <TableBody>
               {auditLogs.map((log) => (
                 <TableRow key={log.id}>
-                  <TableCell className="font-mono text-xs text-slate-500 tabular-nums">
+                  <TableCell className="font-mono text-xs text-ink-muted tabular-nums">
                     {log.created_at}
                   </TableCell>
-                  <TableCell className="font-medium text-slate-900">
+                  <TableCell className="font-medium text-ink-primary">
                     {log.actor_email || "system-scheduler"}
                   </TableCell>
                   <TableCell>
                     <Badge variant="neutral">{log.action}</Badge>
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-slate-600">
+                  <TableCell className="font-mono text-xs text-ink-secondary">
                     {log.entity_type} • {log.entity_id.substring(0, 8)}
                   </TableCell>
-                  <TableCell className="font-mono text-xs text-slate-500 truncate max-w-xs">
+                  <TableCell className="font-mono text-xs text-ink-muted truncate max-w-xs">
                     {JSON.stringify(log.payload)}
                   </TableCell>
                 </TableRow>
