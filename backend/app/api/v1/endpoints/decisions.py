@@ -16,11 +16,93 @@ from app.schemas.decision import (
     DecisionResponse,
     DecisionCommit,
     SimulationRequest,
+    QuickSimRequest,
 )
 from app.services.inventory_evaluator import InventoryEvaluator
 from app.services.ai_provider import get_ai_provider
 
 router = APIRouter()
+
+@router.post("/quick-simulate")
+async def quick_simulate(sim: QuickSimRequest):
+    """
+    Public interactive Monte Carlo simulation endpoint.
+    Computes mathematical optimum, user expected profit, simulated risk metrics,
+    and cognitive alignment without requiring authentication.
+    """
+    optimal = InventoryEvaluator.calculate_optimal_order(
+        mean_demand=sim.mean_demand,
+        std_demand=sim.std_demand,
+        current_stock=sim.current_stock,
+        unit_cost=sim.unit_cost,
+        selling_price=sim.selling_price,
+        salvage_value=sim.salvage_value,
+        stockout_penalty=sim.stockout_penalty,
+        budget_limit=sim.budget_limit,
+    )
+    
+    user_expected_profit = InventoryEvaluator.simulate_expected_profit(
+        purchase_quantity=sim.purchase_quantity,
+        mean_demand=sim.mean_demand,
+        std_demand=sim.std_demand,
+        current_stock=sim.current_stock,
+        unit_cost=sim.unit_cost,
+        selling_price=sim.selling_price,
+        salvage_value=sim.salvage_value,
+        stockout_penalty=sim.stockout_penalty,
+        n_simulations=sim.n_simulations,
+    )
+
+    opt_qty = optimal["optimal_order_quantity"]
+    ai_suggested = round(opt_qty * 1.23) # Injected +23% overconfidence bias
+    deviation_from_opt = abs(sim.purchase_quantity - opt_qty)
+    deviation_from_ai = abs(sim.purchase_quantity - ai_suggested)
+
+    # Payoff at mean demand
+    payoff_mean = InventoryEvaluator.calculate_payoff(
+        purchase_quantity=sim.purchase_quantity,
+        realized_demand=sim.mean_demand,
+        current_stock=sim.current_stock,
+        unit_cost=sim.unit_cost,
+        selling_price=sim.selling_price,
+        salvage_value=sim.salvage_value,
+        stockout_penalty=sim.stockout_penalty,
+    )
+
+    # Determine cognitive diagnosis
+    if deviation_from_opt <= 35:
+        cognitive_diagnosis = "OPTIMAL_CALIBRATED"
+        verdict_badge = "Calibrated Oversight"
+        verdict_explanation = "Excellent! You adjusted correctly to the mathematical critical fractile, avoiding both under-supply and AI over-confidence."
+    elif deviation_from_ai <= 35:
+        cognitive_diagnosis = "AI_OVER_RELIANCE"
+        verdict_badge = "Uncritical AI Over-reliance"
+        verdict_explanation = "Warning: You anchored heavily to the AI's recommendation (+23% skewed), incurring excessive holding and depreciation penalties."
+    elif sim.purchase_quantity < opt_qty:
+        cognitive_diagnosis = "RISK_AVERSE"
+        verdict_badge = "Excessive Conservatism"
+        verdict_explanation = "You under-ordered relative to the profit-maximizing point, leaving significant unmet customer demand and stockout penalties on the table."
+    else:
+        cognitive_diagnosis = "OVER_BUFFERED"
+        verdict_badge = "Excessive Buffer"
+        verdict_explanation = "You ordered well above the optimal fractile, unnecessarily tying up working capital in unsold inventory."
+
+    return {
+        "status": "success",
+        "purchase_quantity": sim.purchase_quantity,
+        "optimal_order_quantity": opt_qty,
+        "ai_suggested_quantity": ai_suggested,
+        "critical_fractile": optimal["critical_fractile"],
+        "target_inventory_level": optimal["target_inventory_level"],
+        "expected_user_profit": round(user_expected_profit, 2),
+        "expected_max_profit": optimal["expected_max_profit"],
+        "profit_efficiency_pct": round((user_expected_profit / optimal["expected_max_profit"]) * 100, 1) if optimal["expected_max_profit"] > 0 else 0.0,
+        "deviation_from_opt": round(deviation_from_opt, 1),
+        "cognitive_diagnosis": cognitive_diagnosis,
+        "verdict_badge": verdict_badge,
+        "verdict_explanation": verdict_explanation,
+        "payoff_at_mean": payoff_mean,
+    }
 
 @router.get("/projects", response_model=List[ProjectResponse])
 async def list_projects(

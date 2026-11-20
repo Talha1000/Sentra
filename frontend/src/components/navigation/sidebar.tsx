@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
+import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
 import {
   LayoutDashboard,
   Cpu,
@@ -16,11 +17,13 @@ import {
   Layers,
   Settings,
   HelpCircle,
+  Lightbulb,
 } from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
+  const [isDemystifierOpen, setIsDemystifierOpen] = useState(false);
 
   const navigation = [
     { name: "Workspace", href: "/workspace", icon: LayoutDashboard },
@@ -92,6 +95,18 @@ export function Sidebar() {
 
       {/* Footer Info & Protocol Badge */}
       <div className="p-3 border-t border-hairline space-y-2">
+        <button
+          onClick={() => setIsDemystifierOpen(true)}
+          className={cn(
+            "w-full py-1.5 px-2 rounded-lg text-xs font-medium flex items-center gap-2 transition-colors bg-amber-50/80 text-amber-900 border border-amber-200 hover:bg-amber-100",
+            isCollapsed && "justify-center px-1"
+          )}
+          title="Explain in Plain English"
+        >
+          <Lightbulb className="w-3.5 h-3.5 text-amber-600 shrink-0" />
+          {!isCollapsed && <span>Plain English Guide</span>}
+        </button>
+
         {!isCollapsed && (
           <div className="px-3 py-2 rounded bg-subtle border border-hairline">
             <div className="text-[10px] font-mono text-ink-tertiary uppercase flex items-center justify-between">
@@ -105,11 +120,20 @@ export function Sidebar() {
         )}
         <div className="flex items-center justify-between px-2 pt-1 text-xs text-ink-tertiary">
           {!isCollapsed && <span className="text-[11px]">v1.0.0-prod</span>}
-          <Link href="/governance" className="hover:text-ink-primary">
+          <button
+            onClick={() => setIsDemystifierOpen(true)}
+            className="hover:text-ink-primary"
+            title="Help & Concept Guide"
+          >
             <HelpCircle className="w-4 h-4" />
-          </Link>
+          </button>
         </div>
       </div>
+
+      <ConceptDemystifierModal
+        isOpen={isDemystifierOpen}
+        onClose={() => setIsDemystifierOpen(false)}
+      />
     </aside>
   );
 }

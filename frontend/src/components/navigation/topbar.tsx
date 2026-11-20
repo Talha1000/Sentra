@@ -1,11 +1,12 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
 import { api } from "@/lib/api";
 import {
   LayoutDashboard,
@@ -17,12 +18,37 @@ import {
   Cpu,
   Layers,
   ChevronRight,
+  BookOpen,
+  Lightbulb,
 } from "lucide-react";
 
 export function Topbar() {
   const pathname = usePathname();
   const [isSeeding, setIsSeeding] = useState(false);
   const [seededMsg, setSeededMsg] = useState<string | null>(null);
+  const [isDemystifierOpen, setIsDemystifierOpen] = useState(false);
+  const [telemetry, setTelemetry] = useState<any>({
+    engine_status: "ONLINE_DETERMINISTIC",
+    active_cohort_count: 45,
+    total_trials_conducted: 225,
+    ai_agreement_rate_pct: 76.4,
+    calibration_error_ece: 0.034,
+    benchmark_latency_sec: 6.2,
+  });
+
+  useEffect(() => {
+    let isMounted = true;
+    api.fetch("/analytics/telemetry-overview")
+      .then((data) => {
+        if (isMounted && data?.active_cohort_count) {
+          setTelemetry(data);
+        }
+      })
+      .catch(() => {});
+    return () => {
+      isMounted = false;
+    };
+  }, []);
 
   const navItems = [
     { name: "Workspace", href: "/workspace", icon: LayoutDashboard },
@@ -97,7 +123,19 @@ export function Topbar() {
         </nav>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setIsDemystifierOpen(true)}
+            className="text-xs font-medium text-slate-700 bg-amber-50 hover:bg-amber-100 border-amber-200 gap-1.5"
+            title="Open Plain English Guide & Concept Demystifier"
+          >
+            <Lightbulb className="w-3.5 h-3.5 text-amber-600" />
+            <span className="hidden sm:inline">Plain English Guide</span>
+            <span className="sm:hidden">Guide</span>
+          </Button>
+
           <Button
             variant="secondary"
             size="sm"
@@ -131,28 +169,34 @@ export function Topbar() {
         <div className="flex items-center gap-4 shrink-0 text-[11px]">
           <div className="flex items-center gap-1.5 font-medium text-emerald-700">
             <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
-            <span>Engine: Deterministic Online</span>
+            <span>Engine: {telemetry.engine_status}</span>
           </div>
           <span className="text-slate-300">|</span>
           <div>
-            Enrolled Cohort: <strong className="text-slate-700 font-semibold">N = 45 Subjects (225 Trials)</strong>
+            Enrolled Cohort: <strong className="text-slate-700 font-semibold">N = {telemetry.active_cohort_count} Subjects ({telemetry.total_trials_conducted} Trials)</strong>
           </div>
           <span className="text-slate-300">|</span>
           <div>
-            AI Agreement: <strong className="text-blue-700 font-semibold">76.4%</strong>
+            AI Agreement: <strong className="text-blue-700 font-semibold">{telemetry.ai_agreement_rate_pct}%</strong>
           </div>
           <span className="text-slate-300">|</span>
           <div>
-            Calibration Error (ECE): <strong className="text-emerald-700 font-semibold">0.034</strong>
+            Calibration Error (ECE): <strong className="text-emerald-700 font-semibold">{telemetry.calibration_error_ece}</strong>
           </div>
         </div>
 
         <div className="hidden sm:flex items-center gap-3 shrink-0 text-[11px] text-slate-400">
-          <span>Latency: 6.2s Benchmark</span>
+          <span>Latency: {telemetry.benchmark_latency_sec}s Benchmark</span>
           <span>•</span>
           <span>SOC2 Audited</span>
         </div>
       </div>
+
+      {/* Omnipresent Concept Demystifier Modal */}
+      <ConceptDemystifierModal
+        isOpen={isDemystifierOpen}
+        onClose={() => setIsDemystifierOpen(false)}
+      />
     </header>
   );
 }

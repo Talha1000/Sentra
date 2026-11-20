@@ -40,6 +40,18 @@ class SimulationRequest(BaseModel):
     stockout_penalty: float
     n_simulations: int = 1000
 
+class QuickSimRequest(BaseModel):
+    purchase_quantity: float = 1420.0
+    mean_demand: float = 1400.0
+    std_demand: float = 220.0
+    current_stock: float = 0.0
+    unit_cost: float = 45.0
+    selling_price: float = 85.0
+    salvage_value: float = 25.0
+    stockout_penalty: float = 20.0
+    budget_limit: float = 250000.0
+    n_simulations: int = 1000
+
 class DecisionResponse(BaseModel):
     id: str
     project_id: str

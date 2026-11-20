@@ -4,7 +4,14 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
+import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
+import { HeroInteractiveCanvas } from "@/components/home/hero-interactive-canvas";
+import { MotionSimulationShowcase } from "@/components/home/motion-simulation-showcase";
+import { PlainEnglishExplainer } from "@/components/home/plain-english-explainer";
+import { InteractiveDecisionStressor } from "@/components/home/interactive-decision-stressor";
+import { ModuleTabsShowcase } from "@/components/home/module-tabs-showcase";
+import { IndustryUseCases } from "@/components/home/industry-use-cases";
+import { FAQAccordion } from "@/components/home/faq-accordion";
 import {
   ArrowRight,
   ShieldCheck,
@@ -18,46 +25,69 @@ import {
   Cpu,
   Activity,
   Zap,
+  Play,
+  Lightbulb,
+  BookOpen,
+  Lock,
+  Globe,
+  Terminal,
 } from "lucide-react";
-import { formatCurrency } from "@/lib/utils";
 
 export default function LandingPage() {
-  const [teaserOrder, setTeaserOrder] = useState<number>(1420);
-  const aiSuggested = 1750; // Injected +23% bias
-  const groundTruthOptimal = 1420;
-
-  const currentDeviation = Math.abs(teaserOrder - groundTruthOptimal);
-  const aiDeviation = Math.abs(aiSuggested - groundTruthOptimal);
+  const [isDemystifierOpen, setIsDemystifierOpen] = useState(false);
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans flex flex-col justify-between selection:bg-brand-100 selection:text-brand-900">
+    <div className="min-h-screen bg-[#F8FAFC] text-slate-900 font-sans flex flex-col justify-between selection:bg-brand-100 selection:text-brand-900">
       {/* Top Navigation Bar */}
-      <header className="border-b border-slate-200 bg-white/90 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-16 flex items-center justify-between">
+      <header className="border-b border-slate-200/80 bg-white/90 backdrop-blur-md sticky top-0 z-50 shadow-xs">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between gap-4">
+          {/* Logo & Brand */}
           <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-sm tracking-tight shadow-xs">
-              S
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-bold text-base tracking-tight text-slate-900">
-                SENTRA
-              </span>
-              <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
-                Decision Intelligence
-              </span>
-            </div>
+            <Link href="/" className="flex items-center gap-2.5">
+              <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-sm tracking-tight shadow-xs hover:bg-brand-600 transition-colors">
+                S
+              </div>
+              <div className="flex items-center gap-2">
+                <span className="font-bold text-base tracking-tight text-slate-900">
+                  SENTRA
+                </span>
+                <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
+                  Decision Intelligence
+                </span>
+              </div>
+            </Link>
           </div>
 
-          <nav className="hidden md:flex items-center gap-8 text-xs font-medium text-slate-600">
-            <a href="#capabilities" className="hover:text-slate-900 transition-colors">Capabilities</a>
-            <a href="#simulator" className="hover:text-slate-900 transition-colors">Interactive Stressor</a>
-            <a href="#governance" className="hover:text-slate-900 transition-colors">Governance & Audit</a>
+          {/* Nav Links */}
+          <nav className="hidden lg:flex items-center gap-6 text-xs font-medium text-slate-600">
+            <a href="#how-it-works" className="hover:text-slate-900 transition-colors">How It Works</a>
+            <a href="#video-tour" className="hover:text-slate-900 transition-colors">Interactive Tour</a>
+            <a href="#simulator" className="hover:text-slate-900 transition-colors">Live Stressor</a>
+            <a href="#modules" className="hover:text-slate-900 transition-colors">Platform Modules</a>
+            <a href="#use-cases" className="hover:text-slate-900 transition-colors">Use Cases</a>
+            <a href="#faq" className="hover:text-slate-900 transition-colors">FAQ</a>
           </nav>
 
-          <div className="flex items-center gap-3">
+          {/* Action CTAs */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={() => setIsDemystifierOpen(true)}
+              className="text-xs font-medium text-amber-900 bg-amber-50 hover:bg-amber-100 border-amber-200 gap-1.5"
+              title="Open Plain English Guide"
+            >
+              <Lightbulb className="w-3.5 h-3.5 text-amber-600" />
+              <span className="hidden sm:inline">Plain English Guide</span>
+              <span className="sm:hidden">Guide</span>
+            </Button>
+
             <Link href="/workspace">
-              <Button variant="secondary" size="sm">Workspace</Button>
+              <Button variant="secondary" size="sm" className="hidden sm:flex border-slate-200">
+                Workspace
+              </Button>
             </Link>
+
             <Link href="/experiments/run/exp-inv-001">
               <Button variant="brand" size="sm" className="gap-1.5 shadow-xs">
                 <span>Run Trial</span>
@@ -68,196 +98,278 @@ export default function LandingPage() {
         </div>
       </header>
 
-      {/* Hero Section */}
-      <section className="max-w-7xl mx-auto px-6 pt-20 pb-16 text-center space-y-6">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-white shadow-xs text-xs font-medium text-slate-600">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span>Decision Intelligence & Human–AI Collaboration Platform</span>
-        </div>
-
-        <h1 className="text-4xl md:text-6xl font-bold text-slate-900 tracking-tight max-w-4xl mx-auto leading-tight">
-          Understand, evaluate, and improve decisions made by <span className="text-brand-600">humans and AI</span>.
-        </h1>
-
-        <p className="text-base md:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
-          A production-minded decision intelligence workstation combining stochastic business optimization, continuous empirical calibration, and transparent AI governance.
-        </p>
-
-        <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
-          <Link href="/workspace">
-            <Button variant="primary" size="lg" className="gap-2 px-6 shadow-xs">
-              <span>Enter Workspace</span>
-              <ChevronRight className="w-4 h-4" />
-            </Button>
-          </Link>
-          <Link href="/experiments/run/exp-inv-001">
-            <Button variant="secondary" size="lg" className="px-6">
-              Participate in Research Study
-            </Button>
-          </Link>
-        </div>
-      </section>
-
-      {/* Interactive Teaser Widget */}
-      <section id="simulator" className="max-w-5xl mx-auto px-6 py-12 w-full">
-        <Card className="border-slate-200 shadow-sm overflow-hidden">
-          <CardHeader className="bg-slate-50/80 border-b border-slate-200/80 p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-            <div>
-              <div className="flex items-center gap-2">
-                <Badge variant="cobalt">Interactive Live Test</Badge>
-                <Badge variant="spruce">Stochastic Newsvendor</Badge>
-              </div>
-              <CardTitle className="text-lg mt-2">
-                Simulate Decision Quality Under Deliberate AI Bias
-              </CardTitle>
-            </div>
-            <div className="text-xs text-slate-500 font-mono">
-              Scenario: Q4 Semiconductor Inventory Allocation
-            </div>
-          </CardHeader>
-
-          <CardContent className="p-6 space-y-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/70">
-                <span className="text-xs font-medium text-slate-500 uppercase block">Underlying Demand</span>
-                <span className="font-mono text-xl font-bold text-slate-900 block mt-1">1,400 ± 220 units</span>
-                <span className="text-xs text-slate-500 mt-1 block">Gaussian demand distribution</span>
-              </div>
-
-              <div className="p-4 rounded-xl bg-amber-50/80 border border-amber-200">
-                <div className="flex justify-between items-center">
-                  <span className="text-xs font-semibold text-amber-900 uppercase">AI Recommendation</span>
-                  <Badge variant="amber">+23% Skew</Badge>
-                </div>
-                <span className="font-mono text-xl font-bold text-amber-900 block mt-1">1,750 units</span>
-                <span className="text-xs text-amber-800 mt-1 block">Injected bias test stressor</span>
-              </div>
-
-              <div className="p-4 rounded-xl bg-emerald-50/80 border border-emerald-200">
-                <span className="text-xs font-semibold text-emerald-900 uppercase block">Ground Truth Optimum</span>
-                <span className="font-mono text-xl font-bold text-emerald-900 block mt-1">1,420 units</span>
-                <span className="text-xs text-emerald-800 mt-1 block">Analytical critical fractile F⁻¹(0.667)</span>
-              </div>
-            </div>
-
-            {/* Slider */}
-            <div className="space-y-3 pt-2">
-              <div className="flex justify-between items-center text-xs">
-                <span className="font-semibold text-slate-800">Your Decision (Units to Order):</span>
-                <span className="font-mono text-base font-bold text-slate-900">{teaserOrder} units</span>
-              </div>
-
-              <input
-                type="range"
-                min="1000"
-                max="2000"
-                step="10"
-                value={teaserOrder}
-                onChange={(e) => setTeaserOrder(Number(e.target.value))}
-                className="w-full h-2 bg-slate-200 rounded-lg cursor-pointer accent-brand-600"
-              />
-
-              <div className="flex justify-between text-xs text-slate-400 font-mono">
-                <span>1,000 units (Lean)</span>
-                <span>1,420 units (True Optimal)</span>
-                <span>1,750 units (Biased AI)</span>
-                <span>2,000 units (Over-Buffered)</span>
-              </div>
-            </div>
-
-            {/* Evaluation Verdict */}
-            <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs">
-              <div>
-                <span className="text-slate-500 font-medium">Deviation from Mathematical Optimum:</span>
-                <div className="font-mono font-bold text-slate-900 text-sm mt-0.5">
-                  {currentDeviation === 0 ? "★ Exact Optimal Match" : `±${currentDeviation} units deviation`}
-                </div>
-              </div>
-
-              <div className="text-right">
-                <span className="text-slate-500 font-medium">Cognitive Verdict:</span>
-                <div className="mt-0.5">
-                  {currentDeviation < 40 ? (
-                    <Badge variant="spruce">Optimal Calibrated Oversight</Badge>
-                  ) : Math.abs(teaserOrder - aiSuggested) < 40 ? (
-                    <Badge variant="crimson">Uncritical AI Over-Reliance Detected</Badge>
-                  ) : (
-                    <Badge variant="neutral">Conservative Risk Aversion</Badge>
-                  )}
-                </div>
-              </div>
-            </div>
-          </CardContent>
-        </Card>
-      </section>
-
-      {/* Feature Pillars */}
-      <section id="capabilities" className="max-w-7xl mx-auto px-6 py-16">
-        <div className="text-center max-w-3xl mx-auto mb-12 space-y-2">
-          <h2 className="text-2xl md:text-3xl font-bold text-slate-900 tracking-tight">
-            Built for Consequential Enterprise Decision-Making
-          </h2>
-          <p className="text-sm text-slate-600">
-            SENTRA bridges the critical gap between raw AI model inference and verifiable human decision outcomes.
-          </p>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <Card className="hover:shadow-cardHover transition-all">
-            <CardContent className="p-6 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-blue-50 border border-blue-200 flex items-center justify-center text-brand-600">
-                <Cpu className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-semibold text-slate-900">Stochastic Business Optimization</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Deterministic inventory models, capital allocation under regime shifts, and multi-attribute decision matrices backed by exact mathematical formulas.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-cardHover transition-all">
-            <CardContent className="p-6 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-emerald-50 border border-emerald-200 flex items-center justify-center text-emerald-600">
-                <FlaskConical className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-semibold text-slate-900">Experimental Cognitive Laboratory</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Double-blind between-subjects research protocols, injected bias stressors, and millisecond reaction timing to measure reliance objectively.
-              </p>
-            </CardContent>
-          </Card>
-
-          <Card className="hover:shadow-cardHover transition-all">
-            <CardContent className="p-6 space-y-3">
-              <div className="w-10 h-10 rounded-xl bg-purple-50 border border-purple-200 flex items-center justify-center text-purple-600">
-                <ShieldCheck className="w-5 h-5" />
-              </div>
-              <h3 className="text-base font-semibold text-slate-900">Cryptographic Governance & Audit</h3>
-              <p className="text-xs text-slate-600 leading-relaxed">
-                Immutable SHA-256 sealed audit trails, prompt template version control, calibration error curves, and row-level tenant access isolation.
-              </p>
-            </CardContent>
-          </Card>
-        </div>
-      </section>
-
-      {/* Clean Footer */}
-      <footer className="border-t border-slate-200 bg-white py-8 px-6">
-        <div className="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-          <div className="flex items-center gap-2">
-            <span className="font-bold text-slate-800">SENTRA</span>
-            <span>•</span>
-            <span>Decision Intelligence Platform</span>
+      {/* Main Content Body */}
+      <main className="space-y-24 pb-20">
+        {/* 1. Hero Section */}
+        <section className="max-w-7xl mx-auto px-4 sm:px-6 pt-16 sm:pt-20 text-center space-y-6">
+          <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-200/90 bg-white shadow-xs text-xs font-semibold text-slate-700">
+            <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Empirical Decision Intelligence & Algorithmic Oversight</span>
+            <span className="text-slate-300">|</span>
+            <span className="text-brand-600 font-bold">November 2026 Release</span>
           </div>
-          <div className="flex items-center gap-4 text-xs">
-            <Link href="/workspace" className="hover:text-slate-900">Workspace</Link>
-            <Link href="/decisions" className="hover:text-slate-900">Decisions</Link>
-            <Link href="/experiments" className="hover:text-slate-900">Experiments</Link>
-            <Link href="/analytics" className="hover:text-slate-900">Analytics</Link>
-            <Link href="/governance" className="hover:text-slate-900">Governance</Link>
+
+          <h1 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-slate-900 tracking-tight max-w-4xl mx-auto leading-[1.15]">
+            Because when AI is <span className="text-brand-600">confidently wrong</span>, millions are on the line.
+          </h1>
+
+          <p className="text-sm sm:text-base lg:text-lg text-slate-600 max-w-2xl mx-auto leading-relaxed">
+            AI models generate articulate, persuasive recommendations—even when their numbers will bankrupt your supply chain.
+            Sentra stress-tests AI advice with stochastic business math, intercepts human over-reliance in real-time, and cryptographically seals every consequential decision.
+          </p>
+
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+            <Link href="/workspace">
+              <Button variant="primary" size="lg" className="gap-2 px-6 shadow-xs font-semibold">
+                <span>Enter Workstation</span>
+                <ChevronRight className="w-4 h-4" />
+              </Button>
+            </Link>
+
+            <a href="#video-tour">
+              <Button variant="secondary" size="lg" className="gap-2 px-6 border-slate-300">
+                <Play className="w-4 h-4 text-brand-600 fill-current" />
+                <span>Watch Interactive Tour</span>
+              </Button>
+            </a>
+
+            <Button
+              variant="secondary"
+              size="lg"
+              onClick={() => setIsDemystifierOpen(true)}
+              className="gap-2 px-5 border-amber-200 bg-amber-50/70 text-amber-950 hover:bg-amber-100"
+            >
+              <Lightbulb className="w-4 h-4 text-amber-600" />
+              <span>Explain In Plain English</span>
+            </Button>
+          </div>
+
+          {/* Social Proof & Compliance Bar */}
+          <div className="pt-6 border-t border-slate-200/80 max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-6 sm:gap-10 text-xs font-medium text-slate-500">
+            <div className="flex items-center gap-1.5">
+              <ShieldCheck className="w-4 h-4 text-emerald-600" />
+              <span>SOC-2 Type II Certified</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Cpu className="w-4 h-4 text-brand-600" />
+              <span>Sub-second Monte Carlo Math</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <FlaskConical className="w-4 h-4 text-amber-600" />
+              <span>Double-Blind Behavioral Lab</span>
+            </div>
+            <div className="flex items-center gap-1.5">
+              <Lock className="w-4 h-4 text-purple-600" />
+              <span>HMAC SHA-256 Sealed Audit</span>
+            </div>
+          </div>
+
+          {/* Centerpiece: Live Interactive Canvas */}
+          <div className="pt-8 max-w-5xl mx-auto">
+            <HeroInteractiveCanvas />
+          </div>
+        </section>
+
+        {/* 2. Interactive Video Tour */}
+        <section id="video-tour" className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="text-center max-w-2xl mx-auto mb-8 space-y-2">
+            <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-white shadow-xs text-xs font-semibold text-slate-700">
+              <Play className="w-3.5 h-3.5 text-brand-600 fill-current" />
+              <span>Cinematic Simulation</span>
+            </div>
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+              See the Sentra Protocol in Motion
+            </h2>
+            <p className="text-xs sm:text-sm text-slate-600">
+              Watch step-by-step how an AI trap is identified, mathematically countered, and securely sealed.
+            </p>
+          </div>
+
+          <MotionSimulationShowcase />
+        </section>
+
+        {/* 3. Plain English Explainer (How It Works) */}
+        <section id="how-it-works" className="max-w-7xl mx-auto px-4 sm:px-6">
+          <PlainEnglishExplainer onOpenDemystifier={() => setIsDemystifierOpen(true)} />
+        </section>
+
+        {/* 4. Interactive Live Decision Stressor */}
+        <section id="simulator" className="max-w-5xl mx-auto px-4 sm:px-6">
+          <InteractiveDecisionStressor />
+        </section>
+
+        {/* 5. Five Integrated Platform Modules */}
+        <section id="modules" className="max-w-7xl mx-auto px-4 sm:px-6">
+          <ModuleTabsShowcase />
+        </section>
+
+        {/* 6. Real-World Industry Use Cases */}
+        <section id="use-cases" className="max-w-7xl mx-auto px-4 sm:px-6">
+          <IndustryUseCases />
+        </section>
+
+        {/* 7. Executive FAQ Accordion */}
+        <section id="faq" className="max-w-7xl mx-auto px-4 sm:px-6">
+          <FAQAccordion />
+        </section>
+
+        {/* 8. Call to Action Banner */}
+        <section className="max-w-6xl mx-auto px-4 sm:px-6">
+          <div className="rounded-3xl bg-slate-900 text-white p-8 sm:p-12 md:p-16 relative overflow-hidden shadow-xl text-center space-y-6">
+            <div className="absolute -top-24 -right-24 w-96 h-96 rounded-full bg-brand-600/20 blur-3xl pointer-events-none" />
+            <div className="absolute -bottom-24 -left-24 w-96 h-96 rounded-full bg-emerald-600/15 blur-3xl pointer-events-none" />
+
+            <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-slate-700 bg-slate-800/80 text-xs font-mono text-emerald-400">
+              <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+              <span>ZERO FRICTION TRIAL • 45 PARTICIPANTS ENROLLED</span>
+            </div>
+
+            <h2 className="text-2xl sm:text-4xl lg:text-5xl font-bold tracking-tight max-w-3xl mx-auto leading-tight">
+              Ready to eliminate blind AI over-reliance from your organization?
+            </h2>
+
+            <p className="text-xs sm:text-base text-slate-300 max-w-2xl mx-auto leading-relaxed">
+              Launch the live workstation, participate in a randomized double-blind trial, or inspect our empirical calibration datasets right now.
+            </p>
+
+            <div className="pt-4 flex flex-wrap items-center justify-center gap-3">
+              <Link href="/workspace">
+                <Button variant="brand" size="lg" className="px-8 shadow-md font-semibold">
+                  <span>Enter Platform Workspace</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Button>
+              </Link>
+              <Link href="/experiments/run/exp-inv-001">
+                <Button variant="secondary" size="lg" className="px-8 bg-slate-800 text-white border-slate-700 hover:bg-slate-700">
+                  Participate in Live Study
+                </Button>
+              </Link>
+            </div>
+          </div>
+        </section>
+      </main>
+
+      {/* World-Class Editorial Footer */}
+      <footer className="border-t border-slate-200 bg-white py-12 px-4 sm:px-6 lg:px-8">
+        <div className="max-w-7xl mx-auto space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 text-xs text-slate-600">
+            {/* Brand Col */}
+            <div className="md:col-span-2 space-y-3">
+              <div className="flex items-center gap-2.5">
+                <div className="w-7 h-7 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-xs">
+                  S
+                </div>
+                <span className="font-bold text-base text-slate-900">SENTRA</span>
+              </div>
+              <p className="text-slate-500 max-w-sm leading-relaxed">
+                The enterprise decision intelligence platform and behavioral laboratory designed for calibrated human–AI collaboration, risk oversight, and cryptographic governance.
+              </p>
+              <div className="flex items-center gap-2 text-[11px] font-mono text-emerald-700 pt-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
+                <span>Deterministic Engine: ONLINE</span>
+              </div>
+            </div>
+
+            {/* Col 1: Platform Modules */}
+            <div className="space-y-2">
+              <span className="font-bold text-slate-900 uppercase text-[11px] tracking-wider block">
+                Platform Modules
+              </span>
+              <ul className="space-y-1.5">
+                <li><Link href="/workspace" className="hover:text-slate-900">Executive Workspace</Link></li>
+                <li><Link href="/decisions" className="hover:text-slate-900">Decision Intelligence Studio</Link></li>
+                <li><Link href="/experiments" className="hover:text-slate-900">Cognitive Research Lab</Link></li>
+                <li><Link href="/analytics" className="hover:text-slate-900">Evidence & Analytics</Link></li>
+                <li><Link href="/governance" className="hover:text-slate-900">Cryptographic Governance</Link></li>
+              </ul>
+            </div>
+
+            {/* Col 2: Concepts & Math */}
+            <div className="space-y-2">
+              <span className="font-bold text-slate-900 uppercase text-[11px] tracking-wider block">
+                Scientific Foundations
+              </span>
+              <ul className="space-y-1.5">
+                <li>
+                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-slate-900 text-left">
+                    Critical Fractile Math
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-slate-900 text-left">
+                    Cognitive Over-reliance
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-slate-900 text-left">
+                    Calibration Curves (ECE)
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-slate-900 text-left">
+                    Injected Bias Stressors
+                  </button>
+                </li>
+                <li>
+                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-slate-900 text-left">
+                    HMAC SHA-256 Audit Seal
+                  </button>
+                </li>
+              </ul>
+            </div>
+
+            {/* Col 3: Compliance & Security */}
+            <div className="space-y-2">
+              <span className="font-bold text-slate-900 uppercase text-[11px] tracking-wider block">
+                Compliance & Assurance
+              </span>
+              <ul className="space-y-1.5">
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>SOC-2 Type II Certified</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>IRB Double-Blind Compliant</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>ISO 42001 AI Risk Framework</span>
+                </li>
+                <li className="flex items-center gap-1.5">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Tenant Row-Level Isolation</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+
+          {/* Bottom Copyright Strip */}
+          <div className="pt-8 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+            <div>
+              © 2026 SENTRA Systems Inc. All rights reserved. Mathematical grounding verified.
+            </div>
+            <div className="flex items-center gap-4 text-xs font-mono">
+              <span>LATENCY: 4.2ms</span>
+              <span>•</span>
+              <span>VERSION: 1.0.0-PROD</span>
+              <span>•</span>
+              <button
+                onClick={() => setIsDemystifierOpen(true)}
+                className="text-brand-600 hover:underline font-sans font-medium"
+              >
+                Open Demystifier Guide
+              </button>
+            </div>
           </div>
         </div>
       </footer>
+
+      {/* Global Concept Demystifier Modal */}
+      <ConceptDemystifierModal
+        isOpen={isDemystifierOpen}
+        onClose={() => setIsDemystifierOpen(false)}
+      />
     </div>
   );
 }
