@@ -77,22 +77,22 @@ export function Topbar() {
   };
 
   return (
-    <header className="border-b border-slate-200 bg-white/95 backdrop-blur-sm sticky top-0 z-40 select-none shadow-xs">
+    <header className="border-b border-warm-hairline bg-canvas/90 backdrop-blur-md sticky top-0 z-40 select-none shadow-xs">
       {/* Primary Navigation Bar */}
       <div className="h-16 px-4 sm:px-6 lg:px-8 max-w-[1520px] mx-auto flex items-center justify-between gap-4">
         {/* Brand & Organization */}
         <div className="flex items-center gap-3">
           <Link href="/workspace" className="flex items-center gap-2.5 group">
-            <div className="w-8 h-8 rounded-lg bg-slate-900 text-white flex items-center justify-center font-bold text-sm tracking-tight shadow-xs group-hover:bg-brand-600 transition-colors">
+            <div className="w-8 h-8 rounded-xl bg-ink-primary text-white flex items-center justify-center font-serif font-bold text-sm tracking-tight shadow-xs group-hover:bg-terracotta transition-colors">
               S
             </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-bold text-base tracking-tight text-slate-900">
+                <span className="font-serif font-bold text-base tracking-tight text-ink-primary">
                   SENTRA
                 </span>
-                <span className="text-[10px] font-semibold uppercase px-1.5 py-0.5 rounded bg-slate-100 text-slate-600 border border-slate-200/80">
-                  Platform
+                <span className="text-[10px] font-sans font-medium uppercase px-2 py-0.5 rounded-full bg-canvas-subtle text-ink-secondary border border-warm-hairline">
+                  Decision Intelligence
                 </span>
               </div>
             </div>
@@ -100,7 +100,7 @@ export function Topbar() {
         </div>
 
         {/* Central Clean Nav Links */}
-        <nav className="hidden md:flex items-center gap-1 bg-slate-100/70 p-1 rounded-xl border border-slate-200/60">
+        <nav className="hidden md:flex items-center gap-1 bg-canvas-subtle p-1 rounded-xl border border-warm-hairline">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
             const Icon = item.icon;
@@ -111,11 +111,11 @@ export function Topbar() {
                 className={cn(
                   "px-3.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2 transition-all duration-150",
                   isActive
-                    ? "bg-white text-slate-900 shadow-xs font-semibold"
-                    : "text-slate-600 hover:text-slate-900 hover:bg-white/60"
+                    ? "bg-white text-ink-primary shadow-xs font-semibold"
+                    : "text-ink-secondary hover:text-ink-primary hover:bg-white/60"
                 )}
               >
-                <Icon className={cn("w-3.5 h-3.5", isActive ? "text-brand-600" : "text-slate-400")} />
+                <Icon className={cn("w-3.5 h-3.5", isActive ? "text-terracotta" : "text-ink-muted")} />
                 <span>{item.name}</span>
               </Link>
             );
@@ -128,11 +128,11 @@ export function Topbar() {
             variant="secondary"
             size="sm"
             onClick={() => setIsDemystifierOpen(true)}
-            className="text-xs font-medium text-slate-700 bg-amber-50 hover:bg-amber-100 border-amber-200 gap-1.5"
-            title="Open Plain English Guide & Concept Demystifier"
+            className="text-xs font-medium text-ink-secondary gap-1.5"
+            title="Open Human Guide & Concept Demystifier"
           >
-            <Lightbulb className="w-3.5 h-3.5 text-amber-600" />
-            <span className="hidden sm:inline">Plain English Guide</span>
+            <BookOpen className="w-3.5 h-3.5 text-terracotta" />
+            <span className="hidden sm:inline">A Human Guide</span>
             <span className="sm:hidden">Guide</span>
           </Button>
 
@@ -141,15 +141,15 @@ export function Topbar() {
             size="sm"
             onClick={handleSeedDemo}
             isLoading={isSeeding}
-            className="text-xs font-medium text-slate-600 border-slate-200"
+            className="text-xs font-medium text-ink-secondary"
           >
-            <Sparkles className="w-3.5 h-3.5 text-amber-500 mr-1.5" />
+            <Sparkles className="w-3.5 h-3.5 text-terracotta mr-1.5" />
             <span>{seededMsg || "Seed Test Data"}</span>
           </Button>
 
           <Link href="/experiments/run/exp-inv-001">
             <Button
-              variant="brand"
+              variant="terracotta"
               size="sm"
               className="text-xs font-medium gap-1.5 shadow-xs"
             >
@@ -158,37 +158,37 @@ export function Topbar() {
             </Button>
           </Link>
 
-          <div className="h-8 w-8 rounded-full bg-slate-200 flex items-center justify-center text-xs font-semibold text-slate-700 border border-slate-300">
-            JD
+          <div className="h-8 w-8 rounded-full bg-canvas-muted flex items-center justify-center text-xs font-serif font-semibold text-ink-primary border border-warm-hairline">
+            EV
           </div>
         </div>
       </div>
 
       {/* Sub-Header Live Status Strip */}
-      <div className="h-8 px-4 sm:px-6 lg:px-8 max-w-[1520px] mx-auto border-t border-slate-100 flex items-center justify-between text-xs text-slate-500 overflow-x-auto gap-4">
+      <div className="h-8 px-4 sm:px-6 lg:px-8 max-w-[1520px] mx-auto border-t border-warm-hairline flex items-center justify-between text-xs text-ink-secondary overflow-x-auto gap-4">
         <div className="flex items-center gap-4 shrink-0 text-[11px]">
-          <div className="flex items-center gap-1.5 font-medium text-emerald-700">
-            <span className="w-2 h-2 rounded-full bg-emerald-500 inline-block animate-pulse" />
-            <span>Engine: {telemetry.engine_status}</span>
+          <div className="flex items-center gap-1.5 font-medium text-sage">
+            <span className="w-2 h-2 rounded-full bg-sage inline-block" />
+            <span>Engine: Deterministic Online</span>
           </div>
-          <span className="text-slate-300">|</span>
+          <span className="text-warm-hairline">|</span>
           <div>
-            Enrolled Cohort: <strong className="text-slate-700 font-semibold">N = {telemetry.active_cohort_count} Subjects ({telemetry.total_trials_conducted} Trials)</strong>
+            Enrolled Cohort: <strong className="text-ink-primary font-semibold">N = {telemetry.active_cohort_count} Subjects ({telemetry.total_trials_conducted} Trials)</strong>
           </div>
-          <span className="text-slate-300">|</span>
+          <span className="text-warm-hairline">|</span>
           <div>
-            AI Agreement: <strong className="text-blue-700 font-semibold">{telemetry.ai_agreement_rate_pct}%</strong>
+            AI Agreement: <strong className="text-ink-primary font-semibold">{telemetry.ai_agreement_rate_pct}%</strong>
           </div>
-          <span className="text-slate-300">|</span>
+          <span className="text-warm-hairline">|</span>
           <div>
-            Calibration Error (ECE): <strong className="text-emerald-700 font-semibold">{telemetry.calibration_error_ece}</strong>
+            Calibration Error (ECE): <strong className="text-sage font-semibold">{telemetry.calibration_error_ece}</strong>
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-3 shrink-0 text-[11px] text-slate-400">
+        <div className="hidden sm:flex items-center gap-3 shrink-0 text-[11px] text-ink-muted">
           <span>Latency: {telemetry.benchmark_latency_sec}s Benchmark</span>
-          <span>•</span>
-          <span>SOC2 Audited</span>
+          <span>·</span>
+          <span>SOC-2 Verified</span>
         </div>
       </div>
 

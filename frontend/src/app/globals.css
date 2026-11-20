@@ -2,33 +2,58 @@
 @tailwind components;
 @tailwind utilities;
 
-:root {
-  --background: #F8FAFC;
-  --foreground: #0F172A;
-  --card-bg: #FFFFFF;
-  --border-color: #E2E8F0;
+@layer base {
+  :root {
+    --background: #FAF7F2;
+    --foreground: #1C1917;
+    --card-bg: #FFFFFF;
+    --border-color: #EBE5DC;
+    --terracotta: #CC785C;
+    --terracotta-dark: #B85D3B;
+    --terracotta-light: #FBF4F0;
+  }
+
+  body {
+    background-color: #FAF7F2;
+    color: #1C1917;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
 }
 
-body {
-  background-color: #F8FAFC;
-  color: #0F172A;
-  font-feature-settings: "cv02", "cv03", "cv04", "cv11";
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
+/* Claude / Anthropic-style Editorial Typography */
+.font-serif {
+  font-family: "Iowan Old Style", "Apple Garamond", "Baskerville", "Palatino Linotype", "Georgia", serif;
+  font-feature-settings: "kern", "liga", "clig", "calt";
 }
 
-/* Tabular figures for numbers, currency, percentages, timestamps, and p-values */
+/* Tabular figures for numbers, currency, percentages, and timestamps */
 .tabular-nums {
   font-variant-numeric: tabular-nums lining-nums;
 }
 
-/* Elegant, modern focus ring */
+/* Warm, gentle focus ring */
 :focus-visible {
-  outline: 2px solid #2563EB;
+  outline: 2px solid #CC785C;
   outline-offset: 2px;
 }
 
-/* Smooth subtle scrollbars */
+/* Tactile warm paper shadows */
+.shadow-paper {
+  box-shadow: 0 1px 3px 0 rgba(45, 35, 25, 0.04), 0 1px 2px -1px rgba(45, 35, 25, 0.04);
+}
+
+.shadow-paper-md {
+  box-shadow: 0 4px 12px -2px rgba(45, 35, 25, 0.06), 0 2px 4px -2px rgba(45, 35, 25, 0.03);
+}
+
+.shadow-paper-lg {
+  box-shadow: 0 12px 28px -4px rgba(45, 35, 25, 0.08), 0 4px 8px -2px rgba(45, 35, 25, 0.04);
+}
+
+/* Smooth organic subtle scrollbars */
 ::-webkit-scrollbar {
   width: 6px;
   height: 6px;
@@ -37,9 +62,9 @@ body {
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: #CBD5E1;
+  background: #D6CABE;
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: #94A3B8;
+  background: #B8ADA0;
 }

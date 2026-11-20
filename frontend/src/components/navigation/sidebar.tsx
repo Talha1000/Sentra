@@ -17,7 +17,7 @@ import {
   Layers,
   Settings,
   HelpCircle,
-  Lightbulb,
+  BookOpen,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -36,26 +36,26 @@ export function Sidebar() {
   return (
     <aside
       className={cn(
-        "h-screen bg-canvas border-r border-hairline flex flex-col justify-between transition-all duration-200 select-none sticky top-0 z-40",
+        "h-screen bg-canvas border-r border-warm-hairline flex flex-col justify-between transition-all duration-200 select-none sticky top-0 z-40",
         isCollapsed ? "w-16" : "w-60"
       )}
     >
       <div>
         {/* Brand Header */}
-        <div className="h-14 border-b border-hairline flex items-center justify-between px-4">
+        <div className="h-16 border-b border-warm-hairline flex items-center justify-between px-4">
           <Link href="/workspace" className="flex items-center gap-2.5 overflow-hidden">
-            <div className="w-6 h-6 rounded bg-ink-primary flex items-center justify-center text-white font-serif font-bold text-xs shrink-0 tracking-tighter">
+            <div className="w-7 h-7 rounded-xl bg-ink-primary flex items-center justify-center text-white font-serif font-bold text-xs shrink-0">
               S
             </div>
             {!isCollapsed && (
-              <span className="font-serif font-semibold text-sm tracking-widest text-ink-primary uppercase">
+              <span className="font-serif font-semibold text-sm tracking-wider text-ink-primary">
                 SENTRA
               </span>
             )}
           </Link>
           <button
             onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-1 text-ink-tertiary hover:text-ink-primary hover:bg-subtle rounded transition-colors"
+            className="p-1 text-ink-muted hover:text-ink-primary hover:bg-canvas-subtle rounded-lg transition-colors"
             title={isCollapsed ? "Expand Sidebar" : "Collapse Sidebar"}
           >
             {isCollapsed ? <ChevronRight className="w-4 h-4" /> : <ChevronLeft className="w-4 h-4" />}
@@ -65,7 +65,7 @@ export function Sidebar() {
         {/* Section: Platform Navigation */}
         <div className="p-3">
           {!isCollapsed && (
-            <div className="px-3 py-1.5 text-[10px] font-mono uppercase tracking-wider text-ink-tertiary">
+            <div className="px-3 py-1.5 text-[10px] font-sans font-medium uppercase tracking-wider text-ink-muted">
               Core Modules
             </div>
           )}
@@ -77,14 +77,14 @@ export function Sidebar() {
                   key={item.name}
                   href={item.href}
                   className={cn(
-                    "flex items-center gap-3 px-3 py-2 rounded text-xs font-medium transition-colors",
+                    "flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-panel text-ink-primary border border-hairline shadow-subtle font-semibold"
-                      : "text-ink-secondary hover:text-ink-primary hover:bg-subtle"
+                      ? "bg-white text-ink-primary border border-warm-border shadow-xs font-semibold"
+                      : "text-ink-secondary hover:text-ink-primary hover:bg-canvas-subtle"
                   )}
                   title={isCollapsed ? item.name : undefined}
                 >
-                  <item.icon className="w-4 h-4 shrink-0" />
+                  <item.icon className={cn("w-4 h-4 shrink-0", isActive ? "text-terracotta" : "text-ink-muted")} />
                   {!isCollapsed && <span>{item.name}</span>}
                 </Link>
               );
@@ -94,32 +94,32 @@ export function Sidebar() {
       </div>
 
       {/* Footer Info & Protocol Badge */}
-      <div className="p-3 border-t border-hairline space-y-2">
+      <div className="p-3 border-t border-warm-hairline space-y-2">
         <button
           onClick={() => setIsDemystifierOpen(true)}
           className={cn(
-            "w-full py-1.5 px-2 rounded-lg text-xs font-medium flex items-center gap-2 transition-colors bg-amber-50/80 text-amber-900 border border-amber-200 hover:bg-amber-100",
+            "w-full py-2 px-2.5 rounded-xl text-xs font-medium flex items-center gap-2 transition-colors bg-white text-ink-secondary border border-warm-hairline hover:bg-canvas-subtle hover:text-ink-primary shadow-xs",
             isCollapsed && "justify-center px-1"
           )}
-          title="Explain in Plain English"
+          title="Open Human Guide"
         >
-          <Lightbulb className="w-3.5 h-3.5 text-amber-600 shrink-0" />
-          {!isCollapsed && <span>Plain English Guide</span>}
+          <BookOpen className="w-3.5 h-3.5 text-terracotta shrink-0" />
+          {!isCollapsed && <span>A Human Guide</span>}
         </button>
 
         {!isCollapsed && (
-          <div className="px-3 py-2 rounded bg-subtle border border-hairline">
-            <div className="text-[10px] font-mono text-ink-tertiary uppercase flex items-center justify-between">
+          <div className="px-3 py-2 rounded-xl bg-canvas-subtle border border-warm-hairline">
+            <div className="text-[10px] font-sans text-ink-muted uppercase flex items-center justify-between">
               <span>Environment</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-spruce animate-pulse" />
+              <span className="w-1.5 h-1.5 rounded-full bg-sage" />
             </div>
             <div className="text-xs font-medium text-ink-primary mt-0.5 truncate">
-              Research Ready
+              Deterministic Ready
             </div>
           </div>
         )}
-        <div className="flex items-center justify-between px-2 pt-1 text-xs text-ink-tertiary">
-          {!isCollapsed && <span className="text-[11px]">v1.0.0-prod</span>}
+        <div className="flex items-center justify-between px-2 pt-1 text-xs text-ink-muted">
+          {!isCollapsed && <span className="text-[11px] font-sans">v1.0.0</span>}
           <button
             onClick={() => setIsDemystifierOpen(true)}
             className="hover:text-ink-primary"

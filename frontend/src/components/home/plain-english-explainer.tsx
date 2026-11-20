@@ -4,224 +4,202 @@ import React, { useState } from "react";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
-  Lightbulb,
-  AlertCircle,
   CheckCircle2,
-  Brain,
-  ShieldCheck,
+  AlertCircle,
+  Lightbulb,
+  ArrowRight,
+  BookOpen,
   Scale,
   Sparkles,
-  ArrowRight,
-  HelpCircle,
-  Layers,
-  ChevronRight,
-  TrendingDown,
-  TrendingUp,
-  XCircle,
 } from "lucide-react";
 
 export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier?: () => void }) {
-  const [viewMode, setViewMode] = useState<"plain" | "scientific">("plain");
+  const [mode, setMode] = useState<"plain" | "technical">("plain");
 
-  const steps = [
+  const pillars = [
     {
-      step: "01",
-      title: "The High-Stakes Decision",
-      plainDesc: "Your company has to make a big decision—like ordering $2,000,000 worth of computer chips or allocating medical supplies. You don't know future demand for sure.",
-      scientificDesc: "Consequential stochastic inventory and capital allocation problems characterized by high demand variance σ, asymmetric underage penalties Cu, and non-linear salvage values Cs.",
-      icon: Scale,
-      tag: "Business Reality",
+      num: "01",
+      title: "The Consequential Choice",
+      plain: "Your team faces an important business decision—like ordering $2M in inventory, committing cloud capacity, or issuing credit. The future demand is uncertain.",
+      technical: "Stochastic resource allocation characterized by high demand variance, asymmetric underage penalties, and non-linear holding depreciation.",
+      sub: "The Business Reality",
     },
     {
-      step: "02",
-      title: "The Confident AI Trap",
-      plainDesc: "You ask ChatGPT or Copilot for help. The AI writes a polite, fluent memo recommending a specific number. It sounds brilliant—so executives naturally believe it and sign off.",
-      scientificDesc: "Large Language Models output uncalibrated point estimates lacking stochastic cost-function optimization, frequently exhibiting systematic optimism skew and hallucinated certitude.",
-      icon: AlertCircle,
-      tag: "The Vulnerability",
+      num: "02",
+      title: "The Eloquent AI Trap",
+      plain: "You ask ChatGPT or Copilot for help. The model writes a polite, persuasive memo recommending a specific number. Because it sounds so smart, executives naturally trust it.",
+      technical: "LLMs output uncalibrated point estimates lacking cost-function bounds, frequently exhibiting systematic optimism skew and hallucinated certainty.",
+      sub: "The Silent Vulnerability",
     },
     {
-      step: "03",
-      title: "Sentra's Mathematical Firewall",
-      plainDesc: "Sentra intercepts the AI's answer. We run 1,000 virtual market simulations in milliseconds to test what happens if demand crashes or surges. We find the true profit-maximizing sweet spot.",
-      scientificDesc: "Deterministic Monte Carlo simulation across N=1,000 draws from N(μ, σ) evaluated against the exact critical fractile F⁻¹((P-C+Penalty)/(P-S+Penalty)).",
-      icon: Brain,
-      tag: "Deterministic Math",
+      num: "03",
+      title: "The Mathematical Safeguard",
+      plain: "Sentra steps in. We run 1,000 simulated market storms in milliseconds to find the true profit-maximizing sweet spot and warn you if the AI is biased.",
+      technical: "Deterministic Monte Carlo evaluation across N=1,000 draws evaluated against the analytical critical fractile F⁻¹(CF).",
+      sub: "Stochastic Math",
     },
     {
-      step: "04",
-      title: "Sealed Regulatory Immunity",
-      plainDesc: "The human executive makes the final call with eyes wide open. Sentra cryptographically seals the decision rationale in an immutable vault, protecting your company in any audit.",
-      scientificDesc: "Immutable HMAC SHA-256 tamper-evident chaining linking prompt provenance, stochastic distribution parameters, human override rationale, and timestamped audit logs.",
-      icon: ShieldCheck,
-      tag: "Governance & Audit",
+      num: "04",
+      title: "The Immutable Record",
+      plain: "Your human executive makes the final call with open eyes. Sentra seals the reasoning in an unalterable digital vault, protecting your company in any audit.",
+      technical: "Cryptographic HMAC SHA-256 tamper-evident chaining linking prompt version, distribution parameters, and timestamped rationale.",
+      sub: "Defensible Governance",
     },
   ];
 
   return (
-    <section className="space-y-12">
-      {/* Section Header with Mode Toggle */}
-      <div className="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div className="space-y-12">
+      {/* Header */}
+      <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-amber-200/80 bg-amber-50 text-amber-900 text-xs font-semibold">
-            <Lightbulb className="w-3.5 h-3.5 text-amber-600" />
-            <span>Sentra Explained in 60 Seconds</span>
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-warm-border bg-white text-xs text-ink-secondary mb-3">
+            <span className="w-2 h-2 rounded-full bg-terracotta" />
+            <span>How Sentra Works</span>
           </div>
-          <h2 className="text-2xl md:text-4xl font-bold text-slate-900 tracking-tight mt-3">
-            Why Every Enterprise Needs a Decision Firewall
+          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-ink-primary tracking-tight leading-tight">
+            Built for the decisions you can't afford to get wrong.
           </h2>
-          <p className="text-sm text-slate-600 mt-2 max-w-2xl leading-relaxed">
-            AI is great at writing emails and code. But when it comes to million-dollar business decisions, trusting raw AI advice is like flying an airplane without instruments.
+          <p className="text-sm sm:text-base text-ink-secondary mt-3 max-w-2xl leading-relaxed">
+            AI is extraordinary at drafting prose, summarizing articles, and writing code. But when millions of dollars in working capital are on the line, relying on an unverified language model is like flying through a storm without instruments.
           </p>
         </div>
 
-        {/* View Mode Toggle */}
-        <div className="flex items-center gap-2 bg-slate-100 p-1 rounded-xl border border-slate-200 self-start md:self-auto">
+        {/* Tactile Mode Switcher */}
+        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-canvas-subtle border border-warm-hairline self-start md:self-auto shrink-0">
           <button
-            onClick={() => setViewMode("plain")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              viewMode === "plain"
-                ? "bg-white text-slate-900 shadow-xs font-semibold"
-                : "text-slate-600 hover:text-slate-900"
+            onClick={() => setMode("plain")}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              mode === "plain"
+                ? "bg-white text-ink-primary shadow-xs font-semibold"
+                : "text-ink-secondary hover:text-ink-primary"
             }`}
           >
-            👔 Plain English
+            In Plain English
           </button>
           <button
-            onClick={() => setViewMode("scientific")}
-            className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              viewMode === "scientific"
-                ? "bg-white text-slate-900 shadow-xs font-semibold"
-                : "text-slate-600 hover:text-slate-900"
+            onClick={() => setMode("technical")}
+            className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
+              mode === "technical"
+                ? "bg-white text-ink-primary shadow-xs font-semibold"
+                : "text-ink-secondary hover:text-ink-primary"
             }`}
           >
-            🔬 Scientific Rigor
+            Scientific Rigor
           </button>
         </div>
       </div>
 
-      {/* 4 Step Horizontal Flow Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-        {steps.map((st) => {
-          const Icon = st.icon;
-          return (
-            <div
-              key={st.step}
-              className="p-6 rounded-2xl border border-slate-200/90 bg-white hover:border-slate-300 hover:shadow-card transition-all flex flex-col justify-between space-y-4"
-            >
-              <div className="space-y-3">
-                <div className="flex items-center justify-between">
-                  <span className="font-mono text-xs font-bold text-slate-400">
-                    STEP {st.step}
-                  </span>
-                  <span className="text-[10px] font-semibold uppercase px-2 py-0.5 rounded-full bg-slate-100 text-slate-600 border border-slate-200">
-                    {st.tag}
-                  </span>
-                </div>
-
-                <div className="w-10 h-10 rounded-xl bg-slate-100 flex items-center justify-center text-slate-800">
-                  <Icon className="w-5 h-5 text-brand-600" />
-                </div>
-
-                <h3 className="text-base font-bold text-slate-900 tracking-tight">
-                  {st.title}
-                </h3>
-
-                <p className="text-xs text-slate-600 leading-relaxed">
-                  {viewMode === "plain" ? st.plainDesc : st.scientificDesc}
-                </p>
+      {/* Four Editorial Pillars */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {pillars.map((p) => (
+          <div
+            key={p.num}
+            className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper hover:shadow-cardHover transition-all flex flex-col justify-between space-y-5"
+          >
+            <div className="space-y-3">
+              <div className="flex items-center justify-between">
+                <span className="font-serif text-2xl font-bold text-terracotta">
+                  {p.num}
+                </span>
+                <span className="text-[10px] font-sans text-ink-muted uppercase tracking-wider">
+                  {p.sub}
+                </span>
               </div>
 
-              <div className="pt-2 border-t border-slate-100 text-[11px] text-slate-400 font-mono flex items-center gap-1">
-                <span>Phase {st.step} Protocol</span>
-              </div>
+              <h3 className="font-serif text-lg font-bold text-ink-primary tracking-tight">
+                {p.title}
+              </h3>
+
+              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
+                {mode === "plain" ? p.plain : p.technical}
+              </p>
             </div>
-          );
-        })}
+
+            <div className="pt-3 border-t border-warm-hairline text-[11px] text-ink-muted font-sans">
+              Phase {p.num} Safeguard
+            </div>
+          </div>
+        ))}
       </div>
 
-      {/* Before / After Comparison Banner */}
+      {/* Before / After Contrast Panels */}
       <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
         {/* Without Sentra */}
-        <div className="p-6 rounded-2xl border border-rose-200 bg-rose-50/40 space-y-4">
+        <div className="p-8 rounded-2xl border border-warm-border bg-canvas-subtle/70 space-y-4">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-sm text-rose-950 flex items-center gap-2">
-              <XCircle className="w-4 h-4 text-rose-600" />
-              Without Sentra: The Black-Box AI Trap
+            <span className="font-serif text-lg font-bold text-ink-primary flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-rose-600 inline-block" />
+              Without Sentra: The Black Box
             </span>
-            <Badge variant="crimson">Uncontrolled Risk</Badge>
+            <Badge variant="crimson">Unchecked Risk</Badge>
           </div>
 
-          <ul className="space-y-2.5 text-xs text-rose-900/90">
-            <li className="flex items-start gap-2">
-              <span className="text-rose-500 font-bold shrink-0">•</span>
-              <span><strong>Blind Over-reliance:</strong> Managers assume articulate AI is always mathematically accurate.</span>
+          <ul className="space-y-3 text-xs sm:text-sm text-ink-secondary leading-relaxed">
+            <li className="flex items-start gap-2.5">
+              <span className="text-rose-600 font-bold shrink-0">·</span>
+              <span><strong>Blind Over-Reliance:</strong> Managers defer to articulate AI advice without understanding asymmetric downside risks.</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="text-rose-500 font-bold shrink-0">•</span>
-              <span><strong>Catastrophic Stockouts / Overstock:</strong> Millions lost to inventory depreciation or penalty fees.</span>
+            <li className="flex items-start gap-2.5">
+              <span className="text-rose-600 font-bold shrink-0">·</span>
+              <span><strong>Hidden Balance Sheet Loss:</strong> Excess inventory write-downs or catastrophic stockouts eat into margins.</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="text-rose-500 font-bold shrink-0">•</span>
-              <span><strong>Zero Regulatory Defense:</strong> No audit trail of why the AI was trusted when questions are asked.</span>
+            <li className="flex items-start gap-2.5">
+              <span className="text-rose-600 font-bold shrink-0">·</span>
+              <span><strong>Audit Vulnerability:</strong> When questions arise later, there is zero verifiable proof of who decided what or why.</span>
             </li>
           </ul>
         </div>
 
         {/* With Sentra */}
-        <div className="p-6 rounded-2xl border border-emerald-200 bg-emerald-50/40 space-y-4">
+        <div className="p-8 rounded-2xl border border-sage-border bg-sage-light/60 space-y-4">
           <div className="flex items-center justify-between">
-            <span className="font-bold text-sm text-emerald-950 flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
-              With Sentra: Calibrated Decision Intelligence
+            <span className="font-serif text-lg font-bold text-sage flex items-center gap-2">
+              <span className="w-2.5 h-2.5 rounded-full bg-sage inline-block" />
+              With Sentra: Calibrated Oversight
             </span>
             <Badge variant="spruce">Empirical Oversight</Badge>
           </div>
 
-          <ul className="space-y-2.5 text-xs text-emerald-900/90">
-            <li className="flex items-start gap-2">
-              <span className="text-emerald-500 font-bold shrink-0">•</span>
-              <span><strong>Mathematical Validation:</strong> Every recommendation stress-tested against critical fractile math.</span>
+          <ul className="space-y-3 text-xs sm:text-sm text-ink-secondary leading-relaxed">
+            <li className="flex items-start gap-2.5">
+              <span className="text-sage font-bold shrink-0">·</span>
+              <span><strong>Mathematical Truth:</strong> Recommendations are grounded in critical fractile and Monte Carlo optimization.</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="text-emerald-500 font-bold shrink-0">•</span>
-              <span><strong>Real-Time Bias Warning:</strong> Alerts executives immediately when AI recommendation deviates from optimal.</span>
+            <li className="flex items-start gap-2.5">
+              <span className="text-sage font-bold shrink-0">·</span>
+              <span><strong>Real-Time Disagreement Alerts:</strong> Detects and prevents human over-reliance before capital is authorized.</span>
             </li>
-            <li className="flex items-start gap-2">
-              <span className="text-emerald-500 font-bold shrink-0">•</span>
-              <span><strong>Cryptographic Compliance:</strong> Immutable HMAC SHA-256 seal satisfies SOC-2, ISO 42001, and boards.</span>
+            <li className="flex items-start gap-2.5">
+              <span className="text-sage font-bold shrink-0">·</span>
+              <span><strong>Cryptographic Compliance:</strong> Immutable HMAC SHA-256 seal satisfies boards, auditors, and SOC-2 frameworks.</span>
             </li>
           </ul>
         </div>
       </div>
 
-      {/* Demystifier CTA Pill */}
+      {/* Guide CTA Strip */}
       {onOpenDemystifier && (
-        <div className="p-4 rounded-xl border border-slate-200 bg-slate-50 flex flex-col sm:flex-row sm:items-center justify-between gap-4 text-xs">
-          <div className="flex items-center gap-3">
-            <div className="w-8 h-8 rounded-lg bg-amber-100 text-amber-800 flex items-center justify-center shrink-0">
-              <Lightbulb className="w-4 h-4" />
-            </div>
-            <div>
-              <span className="font-bold text-slate-900 block">
-                Still confused by terms like "Critical Fractile", "ECE", or "Monte Carlo"?
-              </span>
-              <span className="text-slate-500">
-                Open our interactive dictionary with plain-English analogies for every concept.
-              </span>
-            </div>
+        <div className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div className="space-y-1">
+            <span className="font-serif text-base font-semibold text-ink-primary block">
+              Still have questions about terms like "Critical Fractile" or "ECE"?
+            </span>
+            <p className="text-xs text-ink-secondary">
+              Read our human-written guide with simple analogies for every concept in the system.
+            </p>
           </div>
+
           <Button
             variant="secondary"
             size="sm"
             onClick={onOpenDemystifier}
-            className="shrink-0 gap-1.5 border-slate-300"
+            className="shrink-0 gap-2 border-warm-border"
           >
+            <BookOpen className="w-3.5 h-3.5 text-terracotta" />
             <span>Open Plain English Guide</span>
-            <ArrowRight className="w-3.5 h-3.5" />
           </Button>
         </div>
       )}
-    </section>
+    </div>
   );
 }

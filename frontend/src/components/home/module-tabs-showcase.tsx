@@ -12,149 +12,124 @@ import {
   ShieldCheck,
   ArrowRight,
   CheckCircle2,
-  Activity,
-  Layers,
-  Sparkles,
   ExternalLink,
 } from "lucide-react";
 
-interface PlatformModule {
+interface ModuleInfo {
   id: string;
-  tabLabel: string;
-  title: string;
+  name: string;
   badge: string;
-  badgeVariant: "amber" | "cobalt" | "crimson" | "spruce";
-  icon: any;
+  badgeVariant: "terracotta" | "spruce" | "amber" | "neutral";
   route: string;
   tagline: string;
-  description: string;
-  plainEnglishBenefit: string;
-  keyFeatures: string[];
+  overview: string;
+  humanValue: string;
+  features: string[];
   metrics: { label: string; value: string }[];
-  previewGraphic: "workspace" | "decision" | "experiment" | "analytics" | "governance";
 }
 
-const MODULES: PlatformModule[] = [
+const MODULES: ModuleInfo[] = [
   {
     id: "workspace",
-    tabLabel: "1. Workspace",
-    title: "Executive Intelligence Workspace",
+    name: "Executive Workspace",
     badge: "Portfolio Command",
-    badgeVariant: "cobalt",
-    icon: LayoutDashboard,
+    badgeVariant: "terracotta",
     route: "/workspace",
-    tagline: "Live telemetry across all human-AI decision streams",
-    description:
-      "A consolidated operational flight deck tracking real-time AI agreement rates, operational latency, audit compliance, and recent decision ledgers across enterprise divisions.",
-    plainEnglishBenefit:
-      "See how much your organization trusts AI right now, where agreements are happening, and which teams need closer review.",
-    keyFeatures: [
-      "Real-time agreement and over-reliance telemetry",
-      "Filterable decision ledger by business domain",
-      "Live activity stream and anomaly alert feed",
-      "One-click demo seed with 45 participants & 225 trials",
+    tagline: "Live telemetry across every human–AI decision stream",
+    overview:
+      "A calm, consolidated operational view tracking organizational AI agreement rates, operational latency, audit compliance, and recent decision ledgers across enterprise divisions.",
+    humanValue: "Know at a glance whether your teams are exercising healthy skepticism or blindly following algorithms.",
+    features: [
+      "Real-time agreement and over-reliance rates",
+      "Domain-filtered decision ledgers (Inventory, Operations, Capital)",
+      "Continuous activity stream with anomaly flags",
+      "One-click zero-friction demo data seeding",
     ],
     metrics: [
       { label: "AI Agreement Rate", value: "76.4%" },
-      { label: "Active Cohort", value: "N = 45" },
+      { label: "Active Cohort", value: "N = 45 Subjects" },
       { label: "Audit Health", value: "100% Sealed" },
     ],
-    previewGraphic: "workspace",
   },
   {
     id: "decisions",
-    tabLabel: "2. Decision Studio",
-    title: "Decision Intelligence Studio",
+    name: "Decision Studio",
     badge: "Stochastic Engine",
     badgeVariant: "spruce",
-    icon: Cpu,
     route: "/decisions",
     tagline: "Stochastic optimization and Monte Carlo simulation",
-    description:
-      "Formulate complex purchasing, capital, and operations problems with interactive constraint sliders, simulate 1,000 future demand draws, and receive structured AI advice.",
-    plainEnglishBenefit:
-      "Test your decision against 1,000 market storms before spending a single dollar, so you never get caught off-guard.",
-    keyFeatures: [
-      "Deterministic Newsvendor critical fractile math",
+    overview:
+      "Formulate purchasing, capacity, and resource allocation problems with interactive constraint sliders, simulate 1,000 future demand draws, and receive structured AI advice with explicit confidence intervals.",
+    humanValue: "Never make a multi-million dollar commitment without testing how it performs in worst-case scenarios.",
+    features: [
+      "Exact critical fractile newsvendor mathematics",
       "Interactive Monte Carlo what-if parameter sliders",
-      "Structured AI output with explicit uncertainty bounds",
-      "Immutable human rationale authorization and commit",
+      "Structured AI advice with explicit uncertainty decomposition",
+      "Human rationale documentation and irreversible commitment",
     ],
     metrics: [
       { label: "Simulation Speed", value: "< 25ms" },
-      { label: "Critical Fractile", value: "F⁻¹(0.667)" },
-      { label: "Optimal Quantity", value: "1,420 units" },
+      { label: "Optimal Fractile", value: "F⁻¹(0.667)" },
+      { label: "Target Q*", value: "1,420 units" },
     ],
-    previewGraphic: "decision",
   },
   {
     id: "experiments",
-    tabLabel: "3. Research Lab",
-    title: "Human–AI Cognitive Laboratory",
-    badge: "Empirical Protocol",
+    name: "Research Lab",
+    badge: "Empirical Trials",
     badgeVariant: "amber",
-    icon: FlaskConical,
     route: "/experiments",
     tagline: "Controlled double-blind behavioral trials",
-    description:
-      "Run scientific research protocols with server-side block randomization across Condition A (Human-only), Condition B (AI recommendation), and Condition C (AI + Explanation).",
-    plainEnglishBenefit:
-      "Run unannounced fire drills with deliberate AI errors to see if your managers catch mistakes or blindly rubber-stamp them.",
-    keyFeatures: [
+    overview:
+      "Run rigorous behavioral research protocols with server-side block randomization across Condition A (Human only), Condition B (AI advice), and Condition C (AI advice + explanations).",
+    humanValue: "Prove whether AI assistance actually helps your human workforce or just creates false confidence.",
+    features: [
       "Server-side block randomization across 3 conditions",
       "Microsecond reaction timing via performance.now()",
-      "Injected deliberate bias stressors (+35% and -30%)",
+      "Controlled injected bias stressors (+35% and -30%)",
       "IRB-compliant participant consent & tokenization",
     ],
     metrics: [
-      { label: "Randomization", value: "Double-Blind" },
+      { label: "Protocol", value: "Double-Blind" },
       { label: "Timing Precision", value: "± 0.1ms" },
-      { label: "Bias Scenarios", value: "2 of 5 Injected" },
+      { label: "Bias Tests", value: "2 of 5 Scenarios" },
     ],
-    previewGraphic: "experiment",
   },
   {
     id: "analytics",
-    tabLabel: "4. Evidence & Analytics",
-    title: "Evidence & Statistical Analytics",
+    name: "Evidence & Analytics",
     badge: "Scientific Inference",
-    badgeVariant: "cobalt",
-    icon: BarChart3,
+    badgeVariant: "terracotta",
     route: "/analytics",
     tagline: "Hypothesis testing and trust calibration curves",
-    description:
-      "Empirically prove whether AI assistance actually helps your human workforce using Welch's t-test, Cohen's d effect sizes, and Expected Calibration Error curves.",
-    plainEnglishBenefit:
-      "Get hard mathematical proof of whether the AI is actually saving your company money or just making employees overconfident.",
-    keyFeatures: [
-      "Welch's t-test and p-value hypothesis validation",
+    overview:
+      "Empirically prove the efficacy of AI collaboration using Welch's t-tests, Mann-Whitney U, Cohen's d effect sizes, and Expected Calibration Error curves.",
+    humanValue: "Get hard, board-ready evidence on the exact financial and cognitive return of AI tools.",
+    features: [
+      "Welch's t-test and p-value statistical significance",
       "Cohen's d standardized real-world effect sizing",
       "Expected Calibration Error (ECE) reliability curve",
-      "One-click CSV / JSON microdata research export",
+      "Instant CSV and JSON microdata research export",
     ],
     metrics: [
       { label: "Welch's t-test", value: "p < 0.001" },
       { label: "Cohen's d", value: "d = -1.22 (Large)" },
       { label: "ECE Score", value: "0.034 (Calibrated)" },
     ],
-    previewGraphic: "analytics",
   },
   {
     id: "governance",
-    tabLabel: "5. Governance & Audit",
-    title: "Cryptographic Governance & Audit",
-    badge: "Zero Liability",
+    name: "Governance & Audit",
+    badge: "Defensible Record",
     badgeVariant: "spruce",
-    icon: ShieldCheck,
     route: "/governance",
-    tagline: "Immutable HMAC SHA-256 sealed ledger",
-    description:
+    tagline: "Cryptographic HMAC SHA-256 sealed ledger",
+    overview:
       "Every human rationale, AI prompt version, and simulated distribution is chained into an immutable SHA-256 cryptographic audit trail for regulatory and compliance review.",
-    plainEnglishBenefit:
-      "Have ironclad, tamper-evident proof for auditors and regulators that every AI-assisted decision followed strict human-oversight protocols.",
-    keyFeatures: [
+    humanValue: "Total immunity from retrospective scrutiny: an unalterable certificate proving diligent oversight.",
+    features: [
       "HMAC SHA-256 chained chronological event ledger",
-      "AI model provenance cards and prompt version control",
+      "Model cards, prompt versioning, and provenance tracking",
       "Strict row-level organization tenant isolation",
       "SOC-2 Type II and ISO 42001 exportable compliance packs",
     ],
@@ -163,33 +138,29 @@ const MODULES: PlatformModule[] = [
       { label: "Hash Type", value: "HMAC SHA-256" },
       { label: "Compliance", value: "SOC-2 / ISO 42001" },
     ],
-    previewGraphic: "governance",
   },
 ];
 
 export function ModuleTabsShowcase() {
   const [activeTab, setActiveTab] = useState<string>("workspace");
-
-  const currentModule = MODULES.find((m) => m.id === activeTab) || MODULES[0];
-  const Icon = currentModule.icon;
+  const mod = MODULES.find((m) => m.id === activeTab) || MODULES[0];
 
   return (
-    <section className="space-y-8">
-      {/* Section Header */}
-      <div className="text-center max-w-3xl mx-auto space-y-3">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-slate-200 bg-white shadow-xs text-xs font-semibold text-slate-700">
-          <Layers className="w-3.5 h-3.5 text-brand-600" />
-          <span>Complete Platform Architecture</span>
-        </div>
-        <h2 className="text-2xl md:text-4xl font-bold text-slate-900 tracking-tight">
-          Five Integrated Systems for Total Decision Control
+    <div className="space-y-8">
+      {/* Header */}
+      <div className="text-center max-w-2xl mx-auto space-y-2">
+        <span className="text-xs font-sans font-medium text-terracotta uppercase tracking-wide block">
+          Platform Architecture
+        </span>
+        <h2 className="font-serif text-3xl sm:text-4xl font-bold text-ink-primary tracking-tight">
+          Five Thoughtful Systems, One Workstation
         </h2>
-        <p className="text-sm text-slate-600 leading-relaxed">
-          From executive KPI monitoring to controlled behavioral research and cryptographic audit sealing—Sentra covers every stage of human-AI collaboration.
+        <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
+          From live executive oversight to behavioral experiments and cryptographic sealing.
         </p>
       </div>
 
-      {/* Tab Selector Bar */}
+      {/* Tactile Tab Selector */}
       <div className="flex items-center justify-start sm:justify-center overflow-x-auto pb-2 gap-2">
         {MODULES.map((m) => {
           const isActive = activeTab === m.id;
@@ -197,112 +168,99 @@ export function ModuleTabsShowcase() {
             <button
               key={m.id}
               onClick={() => setActiveTab(m.id)}
-              className={`px-4 py-2 rounded-xl text-xs font-semibold whitespace-nowrap transition-all duration-150 flex items-center gap-2 ${
+              className={`px-4 py-2 rounded-xl text-xs transition-all duration-150 whitespace-nowrap ${
                 isActive
-                  ? "bg-slate-900 text-white shadow-sm"
-                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+                  ? "bg-ink-primary text-white shadow-xs font-medium"
+                  : "bg-white text-ink-secondary border border-warm-border hover:bg-canvas-subtle"
               }`}
             >
-              <span>{m.tabLabel}</span>
+              {m.name}
             </button>
           );
         })}
       </div>
 
-      {/* Active Tab Content Card */}
-      <div className="rounded-2xl border border-slate-200 bg-white shadow-sm overflow-hidden p-6 sm:p-8">
+      {/* Module Card */}
+      <div className="rounded-2xl border border-warm-border bg-white shadow-paper p-6 sm:p-10">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-          {/* Left: Content Details (7 cols) */}
+          {/* Left Details */}
           <div className="lg:col-span-7 space-y-5">
-            <div className="flex items-center gap-2.5">
-              <div className="w-9 h-9 rounded-xl bg-slate-100 flex items-center justify-center text-slate-900">
-                <Icon className="w-5 h-5 text-brand-600" />
+            <div>
+              <div className="flex items-center gap-2 mb-1.5">
+                <Badge variant={mod.badgeVariant}>{mod.badge}</Badge>
+                <span className="text-xs text-ink-muted">·</span>
+                <span className="text-xs text-ink-muted">{mod.tagline}</span>
               </div>
-              <div>
-                <div className="flex items-center gap-2">
-                  <h3 className="text-xl font-bold text-slate-900 tracking-tight">
-                    {currentModule.title}
-                  </h3>
-                  <Badge variant={currentModule.badgeVariant}>{currentModule.badge}</Badge>
-                </div>
-                <span className="text-xs text-slate-500 font-medium">{currentModule.tagline}</span>
-              </div>
+              <h3 className="font-serif text-2xl sm:text-3xl font-bold text-ink-primary tracking-tight">
+                {mod.name}
+              </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-slate-600 leading-relaxed">
-              {currentModule.description}
+            <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
+              {mod.overview}
             </p>
 
-            {/* Plain English Highlight */}
-            <div className="p-3.5 rounded-xl bg-amber-50/70 border border-amber-200/80 text-amber-950 text-xs space-y-1">
-              <span className="font-bold text-[11px] uppercase tracking-wider text-amber-800 block">
-                Plain-English Business Value:
+            {/* Human Benefit Quote */}
+            <div className="p-4 rounded-xl bg-canvas-subtle/80 border border-warm-hairline text-xs space-y-1">
+              <span className="font-semibold text-ink-primary block">
+                The Human Benefit:
               </span>
-              <p className="text-amber-900 font-medium leading-relaxed">
-                "{currentModule.plainEnglishBenefit}"
+              <p className="text-ink-secondary italic leading-relaxed">
+                “{mod.humanValue}”
               </p>
             </div>
 
-            {/* Key Features Bullet List */}
+            {/* Feature List */}
             <div className="space-y-2 pt-1">
-              <span className="text-xs font-bold text-slate-700 uppercase tracking-wide block">
-                Enterprise Capabilities:
+              <span className="text-xs font-semibold text-ink-primary block">
+                Key Capabilities:
               </span>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-                {currentModule.keyFeatures.map((feat, idx) => (
-                  <div key={idx} className="flex items-start gap-2 text-xs text-slate-700">
-                    <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" />
-                    <span>{feat}</span>
+                {mod.features.map((f, i) => (
+                  <div key={i} className="flex items-start gap-2 text-xs text-ink-secondary">
+                    <CheckCircle2 className="w-4 h-4 text-sage shrink-0 mt-0.5" />
+                    <span>{f}</span>
                   </div>
                 ))}
               </div>
             </div>
 
-            {/* Action CTA */}
-            <div className="pt-3 flex items-center gap-3">
-              <Link href={currentModule.route}>
-                <Button variant="brand" size="sm" className="gap-2 shadow-xs">
-                  <span>Open {currentModule.title.split(" ")[0]} Module</span>
+            {/* CTA */}
+            <div className="pt-2">
+              <Link href={mod.route}>
+                <Button variant="terracotta" size="sm" className="gap-2 shadow-xs">
+                  <span>Enter {mod.name.split(" ")[0]}</span>
                   <ArrowRight className="w-3.5 h-3.5" />
-                </Button>
-              </Link>
-              <Link href={currentModule.route}>
-                <Button variant="secondary" size="sm" className="gap-1.5 border-slate-300">
-                  <ExternalLink className="w-3.5 h-3.5 text-slate-400" />
-                  <span>Interactive Preview</span>
                 </Button>
               </Link>
             </div>
           </div>
 
-          {/* Right: Interactive Telemetry Preview Box (5 cols) */}
-          <div className="lg:col-span-5 p-6 rounded-2xl bg-slate-50 border border-slate-200 space-y-4">
-            <div className="flex items-center justify-between text-xs border-b border-slate-200 pb-3">
-              <span className="font-mono font-semibold text-slate-700">LIVE SYSTEM TELEMETRY</span>
-              <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-            </div>
+          {/* Right Metrics Folio */}
+          <div className="lg:col-span-5 p-6 rounded-2xl bg-canvas-subtle/70 border border-warm-hairline space-y-4">
+            <span className="text-[11px] font-sans text-ink-muted uppercase tracking-wider block">
+              System Benchmarks
+            </span>
 
-            {/* Three Big Metric Cards */}
-            <div className="grid grid-cols-1 gap-2.5">
-              {currentModule.metrics.map((m, idx) => (
+            <div className="space-y-2.5">
+              {mod.metrics.map((m, i) => (
                 <div
-                  key={idx}
-                  className="p-3.5 rounded-xl bg-white border border-slate-200/80 shadow-xs flex items-center justify-between"
+                  key={i}
+                  className="p-3.5 rounded-xl bg-white border border-warm-hairline shadow-paper flex items-center justify-between"
                 >
-                  <span className="text-xs font-medium text-slate-500">{m.label}</span>
-                  <span className="font-mono text-sm font-bold text-slate-900">{m.value}</span>
+                  <span className="text-xs text-ink-secondary">{m.label}</span>
+                  <span className="font-serif text-sm font-bold text-ink-primary">{m.value}</span>
                 </div>
               ))}
             </div>
 
-            <div className="p-3 rounded-xl bg-slate-900 text-white font-mono text-[11px] space-y-1">
-              <div className="text-slate-400">&gt; MODULE_ACTIVE: {currentModule.id.toUpperCase()}</div>
-              <div className="text-emerald-400">&gt; ENGINE_READY: LATENCY &lt; 15MS</div>
-              <div className="text-slate-300">&gt; AUDIT_SEAL: OK</div>
+            <div className="p-3 rounded-xl bg-white border border-warm-hairline text-[11px] text-ink-muted space-y-1">
+              <div className="text-sage font-medium">✓ Engine verified: Deterministic execution</div>
+              <div>Provenance hash sealed on local SQLite database</div>
             </div>
           </div>
         </div>
       </div>
-    </section>
+    </div>
   );
 }

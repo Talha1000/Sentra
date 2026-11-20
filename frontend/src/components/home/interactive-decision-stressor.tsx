@@ -1,28 +1,24 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Sparkles,
-  Cpu,
-  Calculator,
-  AlertTriangle,
-  CheckCircle2,
-  HelpCircle,
-  TrendingUp,
-  DollarSign,
-  ArrowRight,
-  RotateCcw,
-} from "lucide-react";
 import { formatCurrency } from "@/lib/utils";
 import { api } from "@/lib/api";
+import {
+  HelpCircle,
+  CheckCircle2,
+  AlertCircle,
+  Calculator,
+  Compass,
+  ArrowRight,
+  Sparkles,
+} from "lucide-react";
 
-interface ScenarioPreset {
+interface Scenario {
   id: string;
   name: string;
-  domain: string;
+  field: string;
   meanDemand: number;
   stdDemand: number;
   unitCost: number;
@@ -32,11 +28,11 @@ interface ScenarioPreset {
   defaultOrder: number;
 }
 
-const SCENARIOS: ScenarioPreset[] = [
+const SCENARIOS: Scenario[] = [
   {
     id: "semiconductor",
-    name: "Q4 Semiconductor Allocation",
-    domain: "Hardware Supply Chain",
+    name: "Semiconductor Allocation",
+    field: "Hardware & Manufacturing",
     meanDemand: 1400,
     stdDemand: 220,
     unitCost: 45,
@@ -47,20 +43,20 @@ const SCENARIOS: ScenarioPreset[] = [
   },
   {
     id: "biomedical",
-    name: "Critical Vaccine Cold-Chain",
-    domain: "Healthcare Logistics",
+    name: "Vaccine Cold-Chain",
+    field: "Healthcare Logistics",
     meanDemand: 2000,
     stdDemand: 350,
     unitCost: 60,
     sellingPrice: 150,
     salvageValue: 10,
-    stockoutPenalty: 120, // Huge stockout penalty drives higher order fractile
+    stockoutPenalty: 120,
     defaultOrder: 2360,
   },
   {
     id: "cloud-capacity",
-    name: "GPU Cloud Reserved Capacity",
-    domain: "Infrastructure Planning",
+    name: "GPU Reserved Capacity",
+    field: "Cloud Infrastructure",
     meanDemand: 800,
     stdDemand: 150,
     unitCost: 120,
@@ -72,46 +68,37 @@ const SCENARIOS: ScenarioPreset[] = [
 ];
 
 export function InteractiveDecisionStressor() {
-  const [selectedScenario, setSelectedScenario] = useState<ScenarioPreset>(SCENARIOS[0]);
+  const [activeScenario, setActiveScenario] = useState<Scenario>(SCENARIOS[0]);
   const [orderQuantity, setOrderQuantity] = useState<number>(1420);
-  const [showFormula, setShowFormula] = useState(false);
   const [simResult, setSimResult] = useState<any>(null);
-  const [isCalculating, setIsCalculating] = useState(false);
+  const [showFormula, setShowFormula] = useState(false);
 
-  // Trigger quick simulation whenever order or scenario changes
   useEffect(() => {
     let isMounted = true;
-    const runSim = async () => {
-      setIsCalculating(true);
-      try {
-        const res = await api.fetch("/decisions/quick-simulate", {
-          method: "POST",
-          body: JSON.stringify({
-            purchase_quantity: orderQuantity,
-            mean_demand: selectedScenario.meanDemand,
-            std_demand: selectedScenario.stdDemand,
-            unit_cost: selectedScenario.unitCost,
-            selling_price: selectedScenario.sellingPrice,
-            salvage_value: selectedScenario.salvageValue,
-            stockout_penalty: selectedScenario.stockoutPenalty,
-          }),
-        });
+    api.fetch("/decisions/quick-simulate", {
+      method: "POST",
+      body: JSON.stringify({
+        purchase_quantity: orderQuantity,
+        mean_demand: activeScenario.meanDemand,
+        std_demand: activeScenario.stdDemand,
+        unit_cost: activeScenario.unitCost,
+        selling_price: activeScenario.sellingPrice,
+        salvage_value: activeScenario.salvageValue,
+        stockout_penalty: activeScenario.stockoutPenalty,
+      }),
+    })
+      .then((res) => {
         if (isMounted) setSimResult(res);
-      } catch (e) {
-        console.error(e);
-      } finally {
-        if (isMounted) setIsCalculating(false);
-      }
-    };
+      })
+      .catch(() => {});
 
-    runSim();
     return () => {
       isMounted = false;
     };
-  }, [orderQuantity, selectedScenario]);
+  }, [orderQuantity, activeScenario]);
 
-  const handleSelectScenario = (sc: ScenarioPreset) => {
-    setSelectedScenario(sc);
+  const handleSelectScenario = (sc: Scenario) => {
+    setActiveScenario(sc);
     setOrderQuantity(sc.defaultOrder);
   };
 
@@ -119,140 +106,149 @@ export function InteractiveDecisionStressor() {
   const aiSuggested = simResult?.ai_suggested_quantity || 1750;
   const expectedProfit = simResult?.expected_user_profit || 56800;
   const maxProfit = simResult?.expected_max_profit || 56800;
-  const profitLoss = Math.max(0, maxProfit - expectedProfit);
+  const financialRegret = Math.max(0, maxProfit - expectedProfit);
 
   return (
-    <Card className="border-slate-200/90 shadow-sm overflow-hidden bg-white">
+    <div className="rounded-2xl border border-warm-border bg-white shadow-paper overflow-hidden">
       {/* Header */}
-      <CardHeader className="bg-slate-50/70 border-b border-slate-200/80 p-6 flex flex-col md:flex-row md:items-center justify-between gap-4">
+      <div className="p-6 sm:p-8 border-b border-warm-hairline bg-canvas/40 flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2">
-            <Badge variant="cobalt">Interactive Live Stressor</Badge>
-            <Badge variant="spruce">Monte Carlo Engine</Badge>
-            <span className="text-xs text-slate-500 font-medium">Real-Time Payoff Simulator</span>
+            <span className="w-2 h-2 rounded-full bg-terracotta" />
+            <span className="text-xs font-sans font-medium text-terracotta uppercase tracking-wide">
+              Hands-On Simulation
+            </span>
           </div>
-          <CardTitle className="text-lg md:text-xl mt-2 text-slate-900 font-bold">
-            Simulate Decision Quality Under Deliberate AI Bias
-          </CardTitle>
-          <p className="text-xs text-slate-600 mt-1 max-w-2xl">
-            Drag the slider to test your order quantity against a biased AI model. Observe how Sentra identifies cognitive over-reliance and calculates exact financial regret in real-time.
+          <h2 className="font-serif text-2xl sm:text-3xl font-bold text-ink-primary tracking-tight mt-1">
+            Experience the Decision Dilemma Yourself
+          </h2>
+          <p className="text-xs sm:text-sm text-ink-secondary mt-1.5 max-w-2xl leading-relaxed">
+            Drag the slider to adjust your purchase order. Observe how the AI’s optimistic suggestion leads to hidden holding costs, and discover where the true profit sweet spot lies.
           </p>
         </div>
 
-        {/* Preset Selector */}
-        <div className="flex flex-wrap gap-1.5 shrink-0">
+        {/* Tactile Scenario Selector */}
+        <div className="flex flex-wrap gap-2 shrink-0">
           {SCENARIOS.map((sc) => (
             <button
               key={sc.id}
               onClick={() => handleSelectScenario(sc)}
-              className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all ${
-                selectedScenario.id === sc.id
-                  ? "bg-slate-900 text-white shadow-xs"
-                  : "bg-white text-slate-600 border border-slate-200 hover:bg-slate-50"
+              className={`px-3.5 py-2 rounded-xl text-xs transition-all ${
+                activeScenario.id === sc.id
+                  ? "bg-ink-primary text-white shadow-xs font-medium"
+                  : "bg-white text-ink-secondary border border-warm-border hover:bg-canvas-subtle"
               }`}
             >
               {sc.name.split(" ")[0]}
             </button>
           ))}
         </div>
-      </CardHeader>
+      </div>
 
-      <CardContent className="p-6 space-y-6">
-        {/* Three Target Markers */}
+      <div className="p-6 sm:p-8 space-y-6">
+        {/* Three Reference Benchmarks */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 rounded-xl bg-slate-50 border border-slate-200/80">
-            <div className="flex justify-between items-center">
-              <span className="text-xs font-semibold text-slate-500 uppercase">Underlying Demand</span>
-              <span className="text-[10px] font-mono text-slate-500">Gaussian N(μ, σ)</span>
-            </div>
-            <span className="font-mono text-xl font-bold text-slate-900 block mt-1">
-              {selectedScenario.meanDemand.toLocaleString()} ± {selectedScenario.stdDemand} units
+          <div className="p-4 rounded-xl border border-warm-hairline bg-canvas-subtle/50 space-y-1">
+            <span className="text-[11px] font-sans text-ink-muted uppercase tracking-wider block">
+              Market Demand
             </span>
-            <span className="text-xs text-slate-500 mt-1 block">
-              Stochastic market distribution
+            <div className="font-serif text-xl font-bold text-ink-primary">
+              {activeScenario.meanDemand.toLocaleString()} ± {activeScenario.stdDemand} units
+            </div>
+            <span className="text-xs text-ink-secondary block">
+              Gaussian distribution based on sales history
             </span>
           </div>
 
-          <div className="p-4 rounded-xl bg-amber-50/70 border border-amber-200/90">
+          <div className="p-4 rounded-xl border border-warm-border bg-terracotta-light space-y-1">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-semibold text-amber-900 uppercase">AI Recommendation</span>
-              <Badge variant="amber">+23% Skew</Badge>
+              <span className="text-[11px] font-sans text-terracotta-dark font-medium uppercase tracking-wider">
+                AI Suggestion
+              </span>
+              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white text-terracotta-dark border border-terracotta-border">
+                +23% Skew
+              </span>
             </div>
-            <span className="font-mono text-xl font-bold text-amber-900 block mt-1">
+            <div className="font-serif text-xl font-bold text-terracotta-dark">
               {aiSuggested.toLocaleString()} units
-            </span>
-            <span className="text-xs text-amber-800 mt-1 block">
-              Injected deliberate test bias
+            </div>
+            <span className="text-xs text-ink-secondary block">
+              Optimistic forecast without holding penalties
             </span>
           </div>
 
-          <div className="p-4 rounded-xl bg-emerald-50/70 border border-emerald-200/90">
+          <div className="p-4 rounded-xl border border-sage-border bg-sage-light space-y-1">
             <div className="flex justify-between items-center">
-              <span className="text-xs font-semibold text-emerald-900 uppercase">Ground Truth Optimum</span>
-              <Badge variant="spruce">F⁻¹(0.67)</Badge>
+              <span className="text-[11px] font-sans text-sage font-medium uppercase tracking-wider">
+                Mathematical Sweet Spot
+              </span>
+              <span className="text-[10px] font-medium px-2 py-0.5 rounded-full bg-white text-sage border border-sage-border">
+                Optimal Q*
+              </span>
             </div>
-            <span className="font-mono text-xl font-bold text-emerald-900 block mt-1">
+            <div className="font-serif text-xl font-bold text-sage">
               {optimalQty.toLocaleString()} units
-            </span>
-            <span className="text-xs text-emerald-800 mt-1 block">
-              Theoretical profit-maximizing Q*
+            </div>
+            <span className="text-xs text-ink-secondary block">
+              Max expected profit across all market scenarios
             </span>
           </div>
         </div>
 
-        {/* Interactive Slider */}
-        <div className="p-5 rounded-xl border border-slate-200 bg-slate-50/50 space-y-4">
+        {/* Tactile Slider Box */}
+        <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle/40 space-y-4">
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
             <div>
-              <span className="text-xs font-bold text-slate-800 uppercase tracking-wide">
-                Your Decision (Units To Order):
+              <span className="text-xs font-semibold text-ink-primary uppercase tracking-wide block">
+                Your Chosen Purchase Order
               </span>
-              <span className="text-xs text-slate-500 block">
-                Adjust quantity and watch the cognitive evaluation update
+              <span className="text-xs text-ink-secondary">
+                Drag the slider to test different order volumes
               </span>
             </div>
             <div className="text-right">
-              <span className="font-mono text-2xl font-bold text-slate-900 tabular-nums">
+              <span className="font-serif text-3xl font-bold text-ink-primary tabular-nums">
                 {orderQuantity.toLocaleString()}
               </span>
-              <span className="text-xs text-slate-500 ml-1 font-medium">units</span>
+              <span className="text-xs text-ink-muted ml-1.5 font-sans">units</span>
             </div>
           </div>
 
-          {/* Slider input */}
+          {/* Range Slider */}
           <input
             type="range"
-            min={Math.round(selectedScenario.meanDemand * 0.6)}
-            max={Math.round(selectedScenario.meanDemand * 1.5)}
+            min={Math.round(activeScenario.meanDemand * 0.65)}
+            max={Math.round(activeScenario.meanDemand * 1.45)}
             step={10}
             value={orderQuantity}
             onChange={(e) => setOrderQuantity(Number(e.target.value))}
-            className="w-full h-2.5 bg-slate-200 rounded-lg cursor-pointer accent-brand-600 focus:outline-none"
+            className="w-full h-2 bg-warm-hairline rounded-lg cursor-pointer accent-terracotta focus:outline-none"
           />
 
-          <div className="flex justify-between text-xs text-slate-500 font-mono">
-            <span>{Math.round(selectedScenario.meanDemand * 0.6)} (Conservative)</span>
-            <span className="font-semibold text-emerald-700">{optimalQty} (Optimal Q*)</span>
-            <span className="font-semibold text-amber-700">{aiSuggested} (Biased AI)</span>
-            <span>{Math.round(selectedScenario.meanDemand * 1.5)} (Over-stock)</span>
+          <div className="flex justify-between text-[11px] text-ink-muted font-sans">
+            <span>{Math.round(activeScenario.meanDemand * 0.65)} (Conservative)</span>
+            <span className="font-medium text-sage">{optimalQty} (Optimal Sweet Spot)</span>
+            <span className="font-medium text-terracotta">{aiSuggested} (Biased AI)</span>
+            <span>{Math.round(activeScenario.meanDemand * 1.45)} (Excessive Stock)</span>
           </div>
         </div>
 
-        {/* Cognitive & Financial Verdict */}
-        <div className="p-5 rounded-xl border border-slate-200 bg-white shadow-xs space-y-4">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-slate-100 pb-4">
+        {/* Human Feedback Card */}
+        <div className="p-6 rounded-2xl border border-warm-border bg-white shadow-paper space-y-4">
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 border-b border-warm-hairline pb-4">
             <div>
-              <span className="text-xs text-slate-500 font-medium block">Cognitive Diagnosis</span>
+              <span className="text-[11px] text-ink-muted uppercase tracking-wider block">
+                Human Judgment Diagnosis
+              </span>
               <div className="mt-1 flex items-center gap-2">
                 <Badge
                   variant={
                     simResult?.cognitive_diagnosis === "OPTIMAL_CALIBRATED"
                       ? "spruce"
                       : simResult?.cognitive_diagnosis === "AI_OVER_RELIANCE"
-                      ? "crimson"
+                      ? "terracotta"
                       : "neutral"
                   }
-                  className="text-xs py-1 px-3"
                 >
                   {simResult?.verdict_badge || "Calibrated Oversight"}
                 </Badge>
@@ -260,84 +256,54 @@ export function InteractiveDecisionStressor() {
             </div>
 
             <div className="text-left sm:text-right">
-              <span className="text-xs text-slate-500 font-medium block">Expected Financial Outcome</span>
-              <div className="mt-0.5">
-                <span className="font-mono text-xl font-bold text-slate-900 tabular-nums">
-                  {formatCurrency(expectedProfit)}
-                </span>
-                {profitLoss > 100 && (
-                  <span className="text-xs text-rose-600 font-medium ml-2 font-mono">
-                    (-{formatCurrency(profitLoss)} loss vs optimal)
+              <span className="text-[11px] text-ink-muted uppercase tracking-wider block">
+                Expected Financial Outcome
+              </span>
+              <div className="font-serif text-2xl font-bold text-ink-primary mt-0.5 tabular-nums">
+                {formatCurrency(expectedProfit)}
+                {financialRegret > 150 && (
+                  <span className="text-xs text-rose-700 font-sans font-medium ml-2">
+                    (-{formatCurrency(financialRegret)} regret vs optimal)
                   </span>
                 )}
               </div>
             </div>
           </div>
 
-          <p className="text-xs text-slate-700 leading-relaxed font-medium">
+          <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
             {simResult?.verdict_explanation ||
-              "Adjust the slider above to see real-time cognitive feedback and stochastic financial regret."}
+              "Adjust the slider above to see real-time cognitive feedback and financial return."}
           </p>
 
-          {/* Payoff breakdown details */}
-          {simResult?.payoff_at_mean && (
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-3 pt-2 text-xs">
-              <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-500 text-[11px] block">Gross Revenue</span>
-                <span className="font-mono font-bold text-slate-800 mt-0.5 block">
-                  {formatCurrency(simResult.payoff_at_mean.gross_revenue)}
-                </span>
-              </div>
-              <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-500 text-[11px] block">Purchasing Cost</span>
-                <span className="font-mono font-bold text-slate-800 mt-0.5 block">
-                  {formatCurrency(simResult.payoff_at_mean.purchasing_cost)}
-                </span>
-              </div>
-              <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-500 text-[11px] block">Stockout Penalty</span>
-                <span className="font-mono font-bold text-rose-700 mt-0.5 block">
-                  {formatCurrency(simResult.payoff_at_mean.penalty_cost)}
-                </span>
-              </div>
-              <div className="p-2.5 rounded-lg bg-slate-50 border border-slate-200/60">
-                <span className="text-slate-500 text-[11px] block">Salvage Revenue</span>
-                <span className="font-mono font-bold text-emerald-700 mt-0.5 block">
-                  {formatCurrency(simResult.payoff_at_mean.salvage_revenue)}
-                </span>
-              </div>
-            </div>
-          )}
-
           {/* Toggle Formula */}
-          <div className="pt-2 flex items-center justify-between text-xs text-slate-500 border-t border-slate-100">
+          <div className="pt-2 flex items-center justify-between text-xs text-ink-muted border-t border-warm-hairline">
             <button
               onClick={() => setShowFormula(!showFormula)}
-              className="hover:text-slate-900 font-medium flex items-center gap-1.5 transition-colors"
+              className="hover:text-ink-primary font-medium flex items-center gap-1.5 transition-colors"
             >
-              <Calculator className="w-3.5 h-3.5 text-brand-600" />
-              <span>{showFormula ? "Hide Mathematical Grounding" : "Show Critical Fractile Formula"}</span>
+              <Calculator className="w-3.5 h-3.5 text-terracotta" />
+              <span>{showFormula ? "Hide Mathematical Grounding" : "Show Critical Fractile Math"}</span>
             </button>
-            <span className="text-[11px] font-mono text-slate-400">
-              Evaluated across N=1,000 Monte Carlo draws
+            <span className="text-[11px] text-ink-muted">
+              Simulated across N = 1,000 market iterations
             </span>
           </div>
 
           {showFormula && (
-            <div className="p-3.5 rounded-lg bg-slate-100 border border-slate-200 font-mono text-[11px] text-slate-700 space-y-2">
+            <div className="p-4 rounded-xl bg-canvas-subtle/80 border border-warm-hairline font-mono text-[11px] text-ink-secondary space-y-1.5 leading-relaxed">
               <div>
-                <strong>Critical Fractile Formula:</strong> CF = (Price - Cost + Stockout Penalty) / (Price - Salvage + Stockout Penalty)
+                <strong>Critical Fractile Formula:</strong> CF = (Price - Cost + Penalty) / (Price - Salvage + Penalty)
               </div>
               <div>
-                <strong>Calculated for this scenario:</strong> CF = ({selectedScenario.sellingPrice} - {selectedScenario.unitCost} + {selectedScenario.stockoutPenalty}) / ({selectedScenario.sellingPrice} - {selectedScenario.salvageValue} + {selectedScenario.stockoutPenalty}) = <strong>{simResult?.critical_fractile || 0.6667}</strong>
+                <strong>Calculated for this scenario:</strong> CF = ({activeScenario.sellingPrice} - {activeScenario.unitCost} + {activeScenario.stockoutPenalty}) / ({activeScenario.sellingPrice} - {activeScenario.salvageValue} + {activeScenario.stockoutPenalty}) = <strong>{simResult?.critical_fractile || 0.6667}</strong>
               </div>
               <div>
-                <strong>Optimal Target Inventory Level:</strong> Q* = F⁻¹(CF; μ={selectedScenario.meanDemand}, σ={selectedScenario.stdDemand}) = <strong>{optimalQty} units</strong>
+                <strong>Profit-Maximizing Target (Q*):</strong> {optimalQty} units
               </div>
             </div>
           )}
         </div>
-      </CardContent>
-    </Card>
+      </div>
+    </div>
   );
 }

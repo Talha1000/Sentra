@@ -2,13 +2,14 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Sparkles, Activity, ShieldCheck, Cpu } from "lucide-react";
+import { Compass, Sparkles, Scale, Info } from "lucide-react";
 
 export function HeroInteractiveCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const [hoverPos, setHoverPos] = useState<{ x: number; y: number } | null>(null);
   const [hoverQty, setHoverQty] = useState<number>(1420);
-  const [activeMode, setActiveMode] = useState<"all" | "particles" | "curves">("all");
+  const [hoverProfit, setHoverProfit] = useState<number>(56800);
+  const [isHovering, setIsHovering] = useState<boolean>(false);
+  const [cursorX, setCursorX] = useState<number | null>(null);
 
   useEffect(() => {
     const canvas = canvasRef.current;
@@ -17,188 +18,155 @@ export function HeroInteractiveCanvas() {
     if (!ctx) return;
 
     let animationFrameId: number;
-    let width = (canvas.width = canvas.parentElement?.clientWidth || 700);
-    let height = (canvas.height = 360);
+    let width = (canvas.width = canvas.parentElement?.clientWidth || 720);
+    let height = (canvas.height = 340);
 
     const handleResize = () => {
       if (!canvas.parentElement) return;
       width = canvas.width = canvas.parentElement.clientWidth;
-      height = canvas.height = 360;
+      height = canvas.height = 340;
     };
     window.addEventListener("resize", handleResize);
-
-    // Stochastic Monte Carlo particles
-    const particles: Array<{
-      x: number;
-      y: number;
-      vx: number;
-      vy: number;
-      radius: number;
-      alpha: number;
-      color: string;
-    }> = [];
-
-    const numParticles = 48;
-    for (let i = 0; i < numParticles; i++) {
-      particles.push({
-        x: Math.random() * width,
-        y: Math.random() * height,
-        vx: (Math.random() - 0.5) * 0.8,
-        vy: (Math.random() - 0.5) * 0.8,
-        radius: Math.random() * 2 + 1.2,
-        alpha: Math.random() * 0.6 + 0.2,
-        color: i % 3 === 0 ? "#B45309" : i % 3 === 1 ? "#1E6B4A" : "#2563EB",
-      });
-    }
 
     let t = 0;
 
     const render = () => {
-      t += 0.015;
+      t += 0.012;
       ctx.clearRect(0, 0, width, height);
 
-      // Subtle editorial background grid
-      ctx.strokeStyle = "rgba(226, 232, 240, 0.45)";
+      // Warm paper background fill
+      ctx.fillStyle = "#FAF7F2";
+      ctx.fillRect(0, 0, width, height);
+
+      // Soft architectural drafting grid (warm sandstone lines)
+      ctx.strokeStyle = "#EBE4DA";
       ctx.lineWidth = 1;
-      const step = 40;
-      for (let x = 0; x < width; x += step) {
+
+      // Vertical grid
+      const gridSpacingX = 48;
+      for (let x = 0; x < width; x += gridSpacingX) {
         ctx.beginPath();
         ctx.moveTo(x, 0);
         ctx.lineTo(x, height);
         ctx.stroke();
       }
-      for (let y = 0; y < height; y += step) {
+
+      // Horizontal grid
+      const gridSpacingY = 40;
+      for (let y = 0; y < height; y += gridSpacingY) {
         ctx.beginPath();
         ctx.moveTo(0, y);
         ctx.lineTo(width, y);
         ctx.stroke();
       }
 
-      // 1. Draw Ground Truth Probability Density Curve (Bell curve)
-      if (activeMode === "all" || activeMode === "curves") {
-        const meanX = width * 0.48; // Optimal around 1420
-        const stdX = width * 0.14;
-        const baselineY = height - 50;
+      const baselineY = height - 50;
+      const optimalX = width * 0.44; // 1,420 units
+      const aiX = width * 0.70;      // 1,750 units (+23% bias)
+      const stdWidth = width * 0.15;
 
-        ctx.beginPath();
-        ctx.moveTo(0, baselineY);
+      // 1. Draw True Demand Gaussian Bell Curve (Warm Forest Sage)
+      ctx.beginPath();
+      ctx.moveTo(0, baselineY);
 
-        for (let x = 0; x <= width; x += 4) {
-          const exponent = -Math.pow(x - meanX, 2) / (2 * Math.pow(stdX, 2));
-          const bellHeight = Math.exp(exponent) * (height * 0.55);
-          const y = baselineY - bellHeight;
-          ctx.lineTo(x, y);
-        }
-
-        ctx.lineTo(width, baselineY);
-        ctx.closePath();
-
-        // Subtle emerald gradient fill
-        const gradient = ctx.createLinearGradient(0, 0, 0, baselineY);
-        gradient.addColorStop(0, "rgba(30, 107, 74, 0.18)");
-        gradient.addColorStop(1, "rgba(30, 107, 74, 0.01)");
-        ctx.fillStyle = gradient;
-        ctx.fill();
-
-        ctx.strokeStyle = "rgba(30, 107, 74, 0.75)";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // 2. Injected AI Skew Curve (Orange dashed curve skewed to the right)
-        ctx.beginPath();
-        ctx.setLineDash([5, 4]);
-        const aiMeanX = width * 0.68; // AI at 1750 (+23% skew)
-        for (let x = 0; x <= width; x += 4) {
-          const exponent = -Math.pow(x - aiMeanX, 2) / (2 * Math.pow(stdX * 1.1, 2));
-          const bellHeight = Math.exp(exponent) * (height * 0.42);
-          const y = baselineY - bellHeight;
-          if (x === 0) ctx.moveTo(x, y);
-          else ctx.lineTo(x, y);
-        }
-        ctx.strokeStyle = "rgba(180, 83, 9, 0.8)";
-        ctx.lineWidth = 1.8;
-        ctx.stroke();
-        ctx.setLineDash([]); // Reset line dash
-
-        // Pin 1: Mathematical Ground Truth (1,420 units)
-        const truthX = meanX;
-        const truthY = baselineY - height * 0.55;
-
-        ctx.beginPath();
-        ctx.arc(truthX, truthY, 5 + Math.sin(t * 3) * 1.5, 0, Math.PI * 2);
-        ctx.fillStyle = "#1E6B4A";
-        ctx.fill();
-        ctx.strokeStyle = "#FFFFFF";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Pin 2: Biased AI Anchor (1,750 units)
-        const aiX = aiMeanX;
-        const aiY = baselineY - height * 0.42;
-
-        ctx.beginPath();
-        ctx.arc(aiX, aiY, 5, 0, Math.PI * 2);
-        ctx.fillStyle = "#B45309";
-        ctx.fill();
-        ctx.strokeStyle = "#FFFFFF";
-        ctx.lineWidth = 2;
-        ctx.stroke();
-
-        // Pulsing radar ring around AI pin
-        const pulseRadius = 8 + (Math.sin(t * 4) + 1) * 6;
-        ctx.beginPath();
-        ctx.arc(aiX, aiY, pulseRadius, 0, Math.PI * 2);
-        ctx.strokeStyle = "rgba(180, 83, 9, 0.35)";
-        ctx.lineWidth = 1.5;
-        ctx.stroke();
-
-        // Annotations
-        ctx.font = "10px Inter, sans-serif";
-        ctx.fillStyle = "#1E6B4A";
-        ctx.fillText("Ground Truth: 1,420", truthX - 45, truthY - 14);
-
-        ctx.fillStyle = "#B45309";
-        ctx.fillText("Biased AI Rec: 1,750 (+23%)", aiX - 60, aiY - 18);
+      for (let x = 0; x <= width; x += 3) {
+        const exponent = -Math.pow(x - optimalX, 2) / (2 * Math.pow(stdWidth, 2));
+        const bellY = baselineY - Math.exp(exponent) * (height * 0.58);
+        ctx.lineTo(x, bellY);
       }
+      ctx.lineTo(width, baselineY);
+      ctx.closePath();
 
-      // 3. Monte Carlo Particles
-      if (activeMode === "all" || activeMode === "particles") {
-        particles.forEach((p) => {
-          p.x += p.vx;
-          p.y += p.vy;
+      // Soft natural wash fill
+      const sageGrad = ctx.createLinearGradient(0, 0, 0, baselineY);
+      sageGrad.addColorStop(0, "rgba(61, 107, 82, 0.14)");
+      sageGrad.addColorStop(1, "rgba(61, 107, 82, 0.01)");
+      ctx.fillStyle = sageGrad;
+      ctx.fill();
 
-          if (p.x < 0) p.x = width;
-          if (p.x > width) p.x = 0;
-          if (p.y < 0) p.y = height;
-          if (p.y > height) p.y = 0;
+      // Sage curve line
+      ctx.strokeStyle = "#3D6B52";
+      ctx.lineWidth = 2;
+      ctx.stroke();
 
-          ctx.beginPath();
-          ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
-          ctx.fillStyle = p.color;
-          ctx.globalAlpha = p.alpha;
-          ctx.fill();
-          ctx.globalAlpha = 1.0;
-        });
+      // 2. Draw Biased AI Distribution (Terracotta Dashed Curve)
+      ctx.beginPath();
+      ctx.setLineDash([4, 4]);
+      for (let x = 0; x <= width; x += 3) {
+        const exponent = -Math.pow(x - aiX, 2) / (2 * Math.pow(stdWidth * 1.15, 2));
+        const bellY = baselineY - Math.exp(exponent) * (height * 0.46);
+        if (x === 0) ctx.moveTo(x, bellY);
+        else ctx.lineTo(x, bellY);
       }
+      ctx.strokeStyle = "rgba(204, 120, 92, 0.75)";
+      ctx.lineWidth = 1.8;
+      ctx.stroke();
+      ctx.setLineDash([]); // Reset dash
 
-      // 4. Hover vertical scanner
-      if (hoverPos) {
+      // Baseline ground line
+      ctx.strokeStyle = "#D6CABE";
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(0, baselineY);
+      ctx.lineTo(width, baselineY);
+      ctx.stroke();
+
+      // 3. Mathematical Optimum Point (Spruce pin with subtle breathing halo)
+      const optPeakY = baselineY - height * 0.58;
+      const breathingRadius = 4 + Math.sin(t * 2) * 1;
+
+      ctx.beginPath();
+      ctx.arc(optimalX, optPeakY, breathingRadius, 0, Math.PI * 2);
+      ctx.fillStyle = "#3D6B52";
+      ctx.fill();
+      ctx.strokeStyle = "#FFFFFF";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // 4. Biased AI Anchor Point (Terracotta pin)
+      const aiPeakY = baselineY - height * 0.46;
+      ctx.beginPath();
+      ctx.arc(aiX, aiPeakY, 4.5, 0, Math.PI * 2);
+      ctx.fillStyle = "#CC785C";
+      ctx.fill();
+      ctx.strokeStyle = "#FFFFFF";
+      ctx.lineWidth = 2;
+      ctx.stroke();
+
+      // Delicate typography annotations on canvas
+      ctx.font = "500 11px Inter, sans-serif";
+
+      // Optimum label
+      ctx.fillStyle = "#2D503C";
+      ctx.fillText("True Sweet Spot: 1,420 units", optimalX - 65, optPeakY - 14);
+
+      // AI label
+      ctx.fillStyle = "#A85338";
+      ctx.fillText("AI Suggestion: 1,750 units (+23%)", aiX - 85, aiPeakY - 14);
+
+      // Axis ticks and labels
+      ctx.font = "400 10px Inter, sans-serif";
+      ctx.fillStyle = "#78716C";
+      ctx.fillText("1,000", width * 0.15, baselineY + 18);
+      ctx.fillText("1,420 (Q*)", optimalX - 18, baselineY + 18);
+      ctx.fillText("1,750 (AI)", aiX - 18, baselineY + 18);
+      ctx.fillText("2,000", width * 0.88, baselineY + 18);
+
+      // Hover vertical hairline guide
+      if (cursorX !== null) {
         ctx.beginPath();
-        ctx.setLineDash([3, 3]);
-        ctx.moveTo(hoverPos.x, 0);
-        ctx.lineTo(hoverPos.x, height);
-        ctx.strokeStyle = "rgba(15, 23, 42, 0.5)";
-        ctx.lineWidth = 1.2;
+        ctx.setLineDash([2, 3]);
+        ctx.moveTo(cursorX, 20);
+        ctx.lineTo(cursorX, baselineY);
+        ctx.strokeStyle = "#44403C";
+        ctx.lineWidth = 1;
         ctx.stroke();
         ctx.setLineDash([]);
 
         ctx.beginPath();
-        ctx.arc(hoverPos.x, hoverPos.y, 4, 0, Math.PI * 2);
-        ctx.fillStyle = "#0F172A";
+        ctx.arc(cursorX, baselineY, 3.5, 0, Math.PI * 2);
+        ctx.fillStyle = "#1C1917";
         ctx.fill();
-        ctx.strokeStyle = "#FFFFFF";
-        ctx.lineWidth = 2;
-        ctx.stroke();
       }
 
       animationFrameId = requestAnimationFrame(render);
@@ -210,69 +178,60 @@ export function HeroInteractiveCanvas() {
       window.removeEventListener("resize", handleResize);
       cancelAnimationFrame(animationFrameId);
     };
-  }, [activeMode, hoverPos]);
+  }, [cursorX]);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     const rect = canvas.getBoundingClientRect();
     const x = e.clientX - rect.left;
-    const y = e.clientY - rect.top;
-    setHoverPos({ x, y });
+    setCursorX(x);
+    setIsHovering(true);
 
-    // Approximate units between 1000 and 2000
+    // Map x to unit order range [1000, 2000]
     const ratio = Math.max(0, Math.min(1, x / canvas.width));
-    const simulatedUnits = Math.round(1000 + ratio * 1000);
-    setHoverQty(simulatedUnits);
+    const calculatedQty = Math.round(1000 + ratio * 1000);
+    setHoverQty(calculatedQty);
+
+    const dev = Math.abs(calculatedQty - 1420);
+    const expected = Math.max(12000, Math.round(56800 - dev * 18.5));
+    setHoverProfit(expected);
   };
 
   const handleMouseLeave = () => {
-    setHoverPos(null);
+    setCursorX(null);
+    setIsHovering(false);
     setHoverQty(1420);
+    setHoverProfit(56800);
   };
 
   return (
-    <div className="relative rounded-2xl border border-slate-200/90 bg-white/95 shadow-sm overflow-hidden backdrop-blur-sm">
-      {/* Top Telemetry Header */}
-      <div className="px-5 py-3 border-b border-slate-100 flex flex-wrap items-center justify-between gap-3 bg-slate-50/60">
-        <div className="flex items-center gap-2">
-          <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
-          <span className="text-xs font-semibold uppercase tracking-wider text-slate-700">
-            Live Stochastic Decision Field
+    <div className="rounded-2xl border border-warm-border bg-white shadow-paper overflow-hidden transition-all">
+      {/* Editorial Header Strip */}
+      <div className="px-6 py-4 border-b border-warm-hairline flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-canvas-subtle/50">
+        <div className="flex items-center gap-2.5">
+          <span className="w-2 h-2 rounded-full bg-terracotta" />
+          <span className="font-serif text-sm font-semibold text-ink-primary tracking-tight">
+            An Interactive Decision Ledger
           </span>
-          <Badge variant="spruce">Active Simulation</Badge>
+          <span className="text-xs text-ink-muted">·</span>
+          <span className="text-xs text-ink-muted">Q4 Semiconductor Allocation</span>
         </div>
 
-        <div className="flex items-center gap-2 text-xs">
-          <button
-            onClick={() => setActiveMode("all")}
-            className={`px-2.5 py-0.5 rounded text-[11px] font-medium transition-colors ${
-              activeMode === "all" ? "bg-slate-900 text-white" : "bg-white text-slate-600 border border-slate-200"
-            }`}
-          >
-            Composite View
-          </button>
-          <button
-            onClick={() => setActiveMode("curves")}
-            className={`px-2.5 py-0.5 rounded text-[11px] font-medium transition-colors ${
-              activeMode === "curves" ? "bg-slate-900 text-white" : "bg-white text-slate-600 border border-slate-200"
-            }`}
-          >
-            Distributions
-          </button>
-          <button
-            onClick={() => setActiveMode("particles")}
-            className={`px-2.5 py-0.5 rounded text-[11px] font-medium transition-colors ${
-              activeMode === "particles" ? "bg-slate-900 text-white" : "bg-white text-slate-600 border border-slate-200"
-            }`}
-          >
-            Monte Carlo
-          </button>
+        <div className="flex items-center gap-3 text-xs text-ink-secondary">
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-sage inline-block" />
+            <span>Optimal Demand (1,420)</span>
+          </div>
+          <div className="flex items-center gap-1.5">
+            <span className="w-2.5 h-2.5 rounded-full bg-terracotta inline-block" />
+            <span>AI Skew (1,750)</span>
+          </div>
         </div>
       </div>
 
-      {/* Canvas */}
-      <div className="relative w-full h-[360px] cursor-crosshair">
+      {/* Canvas Area */}
+      <div className="relative w-full h-[340px] cursor-crosshair">
         <canvas
           ref={canvasRef}
           onMouseMove={handleMouseMove}
@@ -280,41 +239,33 @@ export function HeroInteractiveCanvas() {
           className="w-full h-full block"
         />
 
-        {/* Hover telemetry badge overlay */}
-        {hoverPos && (
+        {/* Floating human-centric tooltip */}
+        {isHovering && cursorX !== null && (
           <div
-            className="absolute pointer-events-none transform -translate-x-1/2 -translate-y-12 bg-slate-900 text-white px-3 py-1.5 rounded-lg text-[11px] shadow-lg font-mono flex items-center gap-2 z-10"
-            style={{ left: hoverPos.x, top: hoverPos.y }}
+            className="absolute pointer-events-none transform -translate-x-1/2 -translate-y-12 bg-ink-primary text-white px-3.5 py-1.5 rounded-xl text-xs font-sans shadow-md flex items-center gap-2 z-10"
+            style={{ left: cursorX, top: 40 }}
           >
-            <span>Q = {hoverQty} units</span>
-            <span className="text-slate-400">|</span>
-            <span className={Math.abs(hoverQty - 1420) < 30 ? "text-emerald-400" : "text-amber-400"}>
-              {Math.abs(hoverQty - 1420) < 30 ? "★ Optimal Match" : `Δ ${Math.abs(hoverQty - 1420)} units`}
+            <span className="font-medium">{hoverQty.toLocaleString()} units</span>
+            <span className="text-stone-400">·</span>
+            <span className={Math.abs(hoverQty - 1420) <= 35 ? "text-emerald-300" : "text-amber-200"}>
+              ${hoverProfit.toLocaleString()} expected return
             </span>
           </div>
         )}
       </div>
 
-      {/* Bottom Live Explanatory Ribbon */}
-      <div className="px-5 py-3 border-t border-slate-100 bg-slate-50/50 flex flex-wrap items-center justify-between gap-4 text-xs">
-        <div className="flex items-center gap-4 text-[11px] text-slate-600">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-emerald-600 inline-block" />
-            <span>Green: Ground Truth Optimum ($F^{'{'}-1{'}'}(0.67)$)</span>
-          </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-600 inline-block" />
-            <span>Amber: Injected AI Over-confidence (+23%)</span>
-          </div>
-          <div className="hidden sm:flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-blue-600 inline-block" />
-            <span>Blue: 1,000 Monte Carlo Demand Draws</span>
-          </div>
+      {/* Descriptive Handcrafted Footer Ribbon */}
+      <div className="px-6 py-3.5 border-t border-warm-hairline bg-canvas-subtle/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-ink-secondary">
+        <div className="flex items-center gap-2">
+          <Info className="w-3.5 h-3.5 text-terracotta shrink-0" />
+          <span>
+            Hover across the ledger to observe how moving away from the mathematical sweet spot (1,420 units) degrades financial returns.
+          </span>
         </div>
 
-        <span className="text-[11px] text-slate-400 font-mono">
-          Hover across field to inspect real-time sensitivity
-        </span>
+        <div className="text-ink-muted text-[11px] font-sans">
+          Ground truth: F⁻¹(0.667)
+        </div>
       </div>
     </div>
   );
