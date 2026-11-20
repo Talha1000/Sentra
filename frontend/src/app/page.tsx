@@ -12,6 +12,7 @@ import { InteractiveDecisionStressor } from "@/components/home/interactive-decis
 import { ModuleTabsShowcase } from "@/components/home/module-tabs-showcase";
 import { IndustryUseCases } from "@/components/home/industry-use-cases";
 import { FAQAccordion } from "@/components/home/faq-accordion";
+import { SiteHeader } from "@/components/navigation/site-header";
 import {
   ArrowRight,
   ShieldCheck,
@@ -28,67 +29,13 @@ export default function LandingPage() {
 
   return (
     <div className="min-h-screen bg-canvas text-ink-primary font-sans flex flex-col justify-between selection:bg-terracotta-light selection:text-terracotta-dark">
-      {/* Editorial Top Navigation */}
-      <header className="border-b border-warm-hairline bg-canvas/90 backdrop-blur-md sticky top-0 z-50">
-        <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between gap-6">
-          {/* Logo & Brand */}
-          <Link href="/" className="flex items-center gap-3 group">
-            <div className="w-8 h-8 rounded-xl bg-ink-primary text-white flex items-center justify-center font-serif font-bold text-sm tracking-tight transition-transform group-hover:scale-105">
-              S
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-serif font-bold text-lg tracking-tight text-ink-primary">
-                SENTRA
-              </span>
-              <span className="text-[10px] font-sans font-medium uppercase px-2 py-0.5 rounded-full bg-canvas-subtle text-ink-secondary border border-warm-hairline">
-                Decision Intelligence
-              </span>
-            </div>
-          </Link>
-
-          {/* Navigation Links */}
-          <nav className="hidden lg:flex items-center gap-8 text-xs font-medium text-ink-secondary">
-            <a href="#how-it-works" className="hover:text-ink-primary transition-colors">How It Works</a>
-            <a href="#visual-tour" className="hover:text-ink-primary transition-colors">Visual Tour</a>
-            <a href="#simulator" className="hover:text-ink-primary transition-colors">Interactive Stressor</a>
-            <a href="#systems" className="hover:text-ink-primary transition-colors">Platform Systems</a>
-            <a href="#cases" className="hover:text-ink-primary transition-colors">Case Studies</a>
-            <a href="#faq" className="hover:text-ink-primary transition-colors">Questions</a>
-          </nav>
-
-          {/* Action CTAs */}
-          <div className="flex items-center gap-3">
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setIsDemystifierOpen(true)}
-              className="text-xs font-medium text-ink-secondary gap-1.5"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-terracotta" />
-              <span className="hidden sm:inline">A Human Guide</span>
-              <span className="sm:hidden">Guide</span>
-            </Button>
-
-            <Link href="/workspace">
-              <Button variant="secondary" size="sm" className="hidden sm:flex">
-                Workspace
-              </Button>
-            </Link>
-
-            <Link href="/experiments/run/exp-inv-001">
-              <Button variant="terracotta" size="sm" className="gap-1.5 shadow-xs">
-                <span>Run a Trial</span>
-                <ArrowRight className="w-3.5 h-3.5" />
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+      {/* World-Class Floating Animated Site Header */}
+      <SiteHeader onOpenDemystifier={() => setIsDemystifierOpen(true)} />
 
       {/* Main Narrative Content */}
-      <main className="space-y-28 pb-24">
+      <main className="space-y-28 pb-24 pt-20 sm:pt-24">
         {/* 1. Hero Section: Poetic, Human, Authoritative */}
-        <section className="max-w-5xl mx-auto px-6 pt-16 sm:pt-24 text-center space-y-6">
+        <section className="max-w-5xl mx-auto px-6 pt-12 sm:pt-16 text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-warm-hairline bg-white shadow-xs text-xs text-ink-secondary">
             <span className="w-2 h-2 rounded-full bg-terracotta" />
             <span className="font-medium">Calibrated Human–AI Collaboration</span>
