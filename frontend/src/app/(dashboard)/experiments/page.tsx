@@ -7,6 +7,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Modal } from "@/components/ui/modal";
 import { MetricCard } from "@/components/ui/metric-card";
+import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import {
   Play,
   Sliders,
@@ -110,6 +111,13 @@ export default function ExperimentsDashboardPage() {
     setIsBuilderOpen(false);
   };
 
+  const filterCounts = {
+    ALL: experiments.length,
+    ACTIVE: experiments.filter((e) => e.status.toUpperCase() === "ACTIVE").length,
+    BETWEEN: experiments.filter((e) => e.protocol.toUpperCase().includes("BETWEEN")).length,
+    WITHIN: experiments.filter((e) => e.protocol.toUpperCase().includes("WITHIN")).length,
+  };
+
   const filteredExperiments = experiments.filter((e) => {
     const matchesFilter =
       filterType === "ALL" ||
@@ -124,7 +132,22 @@ export default function ExperimentsDashboardPage() {
   });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
+      {/* Standardized Enterprise Breadcrumb Trail */}
+      <Breadcrumbs
+        items={[
+          { label: "Platform", href: "/workspace" },
+          { label: "Behavioral Research Lab", href: "/experiments" },
+          { label: "Double-Blind Protocols", badge: "Between-Subjects" },
+        ]}
+        rightElement={
+          <div className="flex items-center gap-2 text-[11px] text-sage font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
+            <span>Clock: performance.now() (±0.1ms)</span>
+          </div>
+        }
+      />
+
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -280,21 +303,28 @@ export default function ExperimentsDashboardPage() {
           <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-canvas-subtle p-3 rounded-2xl border border-warm-border shadow-xs">
             <div className="flex items-center gap-1 overflow-x-auto">
               {[
-                { id: "ALL", label: "All Protocols" },
-                { id: "ACTIVE", label: "Active" },
-                { id: "BETWEEN", label: "Between-Subjects" },
-                { id: "WITHIN", label: "Within-Subjects" },
+                { id: "ALL", label: "All Protocols", count: filterCounts.ALL },
+                { id: "ACTIVE", label: "Active", count: filterCounts.ACTIVE },
+                { id: "BETWEEN", label: "Between-Subjects", count: filterCounts.BETWEEN },
+                { id: "WITHIN", label: "Within-Subjects", count: filterCounts.WITHIN },
               ].map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setFilterType(tab.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap ${
+                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-colors whitespace-nowrap flex items-center gap-1.5 ${
                     filterType === tab.id
                       ? "bg-ink-primary text-canvas font-semibold shadow-xs"
                       : "text-ink-secondary hover:text-ink-primary hover:bg-canvas-elevated"
                   }`}
                 >
-                  {tab.label}
+                  <span>{tab.label}</span>
+                  <span
+                    className={`text-[10px] font-mono px-1 rounded ${
+                      filterType === tab.id ? "bg-canvas text-ink-primary" : "bg-canvas-subtle text-ink-muted"
+                    }`}
+                  >
+                    {tab.count}
+                  </span>
                 </button>
               ))}
             </div>

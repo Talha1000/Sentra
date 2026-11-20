@@ -7,6 +7,7 @@ import { ParticipantTrialRunner } from "@/components/experiments/participant-tri
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { api } from "@/lib/api";
 import { CheckCircle2, ArrowRight, ShieldCheck, BarChart3, ChevronRight } from "lucide-react";
 
@@ -162,7 +163,26 @@ export default function ParticipantRunnerPage() {
   const currentScenario = defaultScenarios[currentScenarioIndex];
 
   return (
-    <div className="py-6 space-y-6">
+    <div className="space-y-6">
+      {/* Standardized Enterprise Breadcrumb Trail */}
+      <Breadcrumbs
+        items={[
+          { label: "Platform", href: "/workspace" },
+          { label: "Behavioral Lab", href: "/experiments" },
+          { label: experimentId.toUpperCase(), href: `/experiments/run/${experimentId}` },
+          {
+            label: stage === "consent" ? "Consent Protocol" : stage === "completed" ? "Trial Concluded" : `Scenario ${currentScenarioIndex + 1}`,
+            badge: sessionData ? sessionData.condition_code : "IRB-2026",
+          },
+        ]}
+        rightElement={
+          <div className="flex items-center gap-2 text-[11px] text-sage font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
+            <span>Monotonic Reaction Timer Active</span>
+          </div>
+        }
+      />
+
       {/* 1. Participant Consent View */}
       {stage === "consent" && (
         <Card className="max-w-2xl mx-auto shadow-paper">

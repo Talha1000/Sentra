@@ -7,11 +7,13 @@ import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter }
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
+import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { formatCurrency } from "@/lib/utils";
-import { ArrowUpRight, Play, Plus, AlertTriangle, CheckCircle2, ShieldCheck, Activity } from "lucide-react";
+import { ArrowUpRight, Play, Plus, AlertTriangle, CheckCircle2, ShieldCheck, Activity, Search } from "lucide-react";
 
 export default function WorkspacePage() {
   const [filterDomain, setFilterDomain] = useState<string>("all");
+  const [searchQuery, setSearchQuery] = useState<string>("");
 
   const recentDecisions = [
     {
@@ -60,13 +62,38 @@ export default function WorkspacePage() {
     },
   ];
 
-  const filteredDecisions =
-    filterDomain === "all"
-      ? recentDecisions
-      : recentDecisions.filter((d) => d.domain.toLowerCase() === filterDomain.toLowerCase());
+  const domainCounts = {
+    all: recentDecisions.length,
+    inventory: recentDecisions.filter((d) => d.domain.toLowerCase() === "inventory").length,
+    capital: recentDecisions.filter((d) => d.domain.toLowerCase() === "capital").length,
+    operations: recentDecisions.filter((d) => d.domain.toLowerCase() === "operations").length,
+  };
+
+  const filteredDecisions = recentDecisions.filter((d) => {
+    const matchesDomain = filterDomain === "all" || d.domain.toLowerCase() === filterDomain.toLowerCase();
+    const matchesSearch =
+      searchQuery === "" ||
+      d.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      d.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesDomain && matchesSearch;
+  });
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
+      {/* Standardized Enterprise Breadcrumb Trail */}
+      <Breadcrumbs
+        items={[
+          { label: "Platform", href: "/workspace" },
+          { label: "Executive Workspace", badge: "Live Deck" },
+        ]}
+        rightElement={
+          <div className="flex items-center gap-2 text-[11px] text-sage font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
+            <span>Telemetry: 100% Cryptographically Bound</span>
+          </div>
+        }
+      />
+
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -132,7 +159,7 @@ export default function WorkspacePage() {
         {/* Left 8 Columns: Consequential Decisions Ledger Table */}
         <div className="lg:col-span-8 space-y-4">
           <Card>
-            <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+            <CardHeader className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4">
               <div>
                 <CardTitle>Consequential Decisions Ledger</CardTitle>
                 <CardDescription>
@@ -140,21 +167,41 @@ export default function WorkspacePage() {
                 </CardDescription>
               </div>
 
-              {/* Domain Filter Pills */}
-              <div className="flex items-center gap-1 bg-canvas-elevated p-1 rounded-xl border border-warm-border">
-                {["all", "inventory", "capital", "operations"].map((d) => (
-                  <button
-                    key={d}
-                    onClick={() => setFilterDomain(d)}
-                    className={`px-3 py-1 rounded-lg text-xs font-medium capitalize transition-colors ${
-                      filterDomain === d
-                        ? "bg-ink-primary text-canvas font-semibold shadow-xs"
-                        : "text-ink-secondary hover:text-ink-primary"
-                    }`}
-                  >
-                    {d}
-                  </button>
-                ))}
+              {/* Search & Domain Filter Bar */}
+              <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2">
+                <div className="relative min-w-[180px]">
+                  <Search className="w-3.5 h-3.5 text-ink-muted absolute left-3 top-1/2 -translate-y-1/2" />
+                  <input
+                    type="text"
+                    placeholder="Filter cases..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="w-full pl-8 pr-3 py-1.5 text-xs rounded-xl border border-warm-border bg-canvas-elevated text-ink-primary placeholder:text-ink-muted focus:outline-none focus:ring-1 focus:ring-terracotta"
+                  />
+                </div>
+
+                <div className="flex items-center gap-1 bg-canvas-elevated p-1 rounded-xl border border-warm-border overflow-x-auto">
+                  {(["all", "inventory", "capital", "operations"] as const).map((d) => (
+                    <button
+                      key={d}
+                      onClick={() => setFilterDomain(d)}
+                      className={`px-2.5 py-1 rounded-lg text-xs font-medium capitalize transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+                        filterDomain === d
+                          ? "bg-ink-primary text-canvas font-semibold shadow-xs"
+                          : "text-ink-secondary hover:text-ink-primary"
+                      }`}
+                    >
+                      <span>{d}</span>
+                      <span
+                        className={`text-[10px] font-mono px-1 rounded ${
+                          filterDomain === d ? "bg-canvas text-ink-primary" : "bg-canvas-subtle text-ink-muted"
+                        }`}
+                      >
+                        {domainCounts[d]}
+                      </span>
+                    </button>
+                  ))}
+                </div>
               </div>
             </CardHeader>
 

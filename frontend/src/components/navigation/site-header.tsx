@@ -17,10 +17,12 @@ import {
   Play,
   Menu,
   X,
+  Search,
 } from "lucide-react";
 
 interface SiteHeaderProps {
   onOpenDemystifier: () => void;
+  onOpenCommandPalette?: () => void;
 }
 
 const SYSTEMS_MENU = [
@@ -68,7 +70,7 @@ const HOW_IT_WORKS_STEPS = [
   { step: "04", title: "Cryptographic Seal", desc: "Irreversible HMAC audit certificate recorded." },
 ];
 
-export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
+export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHeaderProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [hoveredNav, setHoveredNav] = useState<string | null>(null);
   const [activeDropdown, setActiveDropdown] = useState<"systems" | "how-it-works" | null>(null);
@@ -380,6 +382,21 @@ export function SiteHeader({ onOpenDemystifier }: SiteHeaderProps) {
 
         {/* Right Action Controls & Live Status Indicator */}
         <div className="flex items-center gap-2.5 sm:gap-3">
+          {/* Global Command Palette Trigger */}
+          {onOpenCommandPalette && (
+            <motion.button
+              whileHover={{ scale: 1.02 }}
+              whileTap={{ scale: 0.98 }}
+              onClick={onOpenCommandPalette}
+              className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-warm-border bg-canvas-elevated hover:bg-canvas-subtle text-xs text-ink-muted hover:text-ink-primary transition-colors"
+              title="Search or jump to (Cmd+K)"
+            >
+              <Search className="w-3.5 h-3.5 text-terracotta" />
+              <span className="hidden xl:inline">Search...</span>
+              <kbd className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-canvas border border-warm-hairline">⌘K</kbd>
+            </motion.button>
+          )}
+
           {/* Subtle Live Engine Indicator */}
           <div className="hidden xl:flex items-center gap-1.5 px-3 py-1 rounded-full bg-sage-light border border-sage-border text-[11px] text-sage font-medium">
             <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />

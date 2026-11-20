@@ -79,7 +79,7 @@ export function Sidebar() {
                   className={cn(
                     "flex items-center gap-3 px-3 py-2 rounded-xl text-xs font-medium transition-colors",
                     isActive
-                      ? "bg-white text-ink-primary border border-warm-border shadow-xs font-semibold"
+                      ? "bg-canvas-subtle text-ink-primary border border-warm-border shadow-xs font-semibold"
                       : "text-ink-secondary hover:text-ink-primary hover:bg-canvas-subtle"
                   )}
                   title={isCollapsed ? item.name : undefined}

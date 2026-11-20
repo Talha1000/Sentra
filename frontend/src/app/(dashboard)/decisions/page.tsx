@@ -4,6 +4,7 @@ import React, { useState } from "react";
 import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Breadcrumbs } from "@/components/navigation/breadcrumbs";
 import { ProfitDistributionChart } from "@/components/charts/profit-distribution-chart";
 import { DemandBellCurve } from "@/components/charts/demand-bell-curve";
 import { formatCurrency, formatNumber, formatPercent } from "@/lib/utils";
@@ -81,7 +82,22 @@ export default function DecisionsPage() {
   const grossMargin = ((sellingPrice - unitCost) / sellingPrice) * 100;
 
   return (
-    <div className="space-y-8">
+    <div className="space-y-6">
+      {/* Standardized Enterprise Breadcrumb Trail */}
+      <Breadcrumbs
+        items={[
+          { label: "Platform", href: "/workspace" },
+          { label: "Decision Studio", href: "/decisions" },
+          { label: "Newsvendor Optimization", badge: "Stochastic F⁻¹" },
+        ]}
+        rightElement={
+          <div className="flex items-center gap-2 text-[11px] text-sage font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
+            <span>Monte Carlo: 1,000 Draws/25ms</span>
+          </div>
+        }
+      />
+
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
@@ -165,7 +181,10 @@ export default function DecisionsPage() {
         <div className="lg:col-span-4 space-y-6">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm">Stochastic Input Parameters</CardTitle>
+              <CardTitle className="text-sm flex items-center gap-2">
+                <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-terracotta/20 text-terracotta font-bold">01</span>
+                <span>Stochastic Market Assumptions</span>
+              </CardTitle>
               <CardDescription>Adjust underlying Gaussian demand distributions</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 pt-0">
@@ -230,7 +249,10 @@ export default function DecisionsPage() {
           {/* Economic Constraints */}
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm">Unit Economics & Boundary</CardTitle>
+              <CardTitle className="text-sm flex items-center gap-2">
+                <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-terracotta/20 text-terracotta font-bold">02</span>
+                <span>Unit Economics & Budget Boundary</span>
+              </CardTitle>
               <CardDescription>Marginal economics and working capital ceiling</CardDescription>
             </CardHeader>
             <CardContent className="space-y-2.5 text-xs pt-0">
@@ -281,8 +303,11 @@ export default function DecisionsPage() {
           <Card>
             <CardHeader className="pb-3 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <CardTitle className="text-sm">Order Allocation Controller</CardTitle>
-                <CardDescription>Drag to simulate continuous financial tradeoff</CardDescription>
+                <CardTitle className="text-sm flex items-center gap-2">
+                  <span className="text-xs font-mono px-1.5 py-0.5 rounded bg-terracotta/20 text-terracotta font-bold">03</span>
+                  <span>Order Allocation & Tradeoff Controller</span>
+                </CardTitle>
+                <CardDescription>Drag to simulate continuous financial tradeoff and balance sheet impact</CardDescription>
               </div>
               <div className="flex items-center gap-2">
                 <Badge variant="terracotta">{formatNumber(proposedOrder)} Units</Badge>

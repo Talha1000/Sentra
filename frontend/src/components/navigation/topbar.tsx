@@ -8,6 +8,7 @@ import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
+import { CommandPalette } from "./command-palette";
 import { api } from "@/lib/api";
 import {
   LayoutDashboard,
@@ -23,6 +24,7 @@ import {
   Menu,
   X,
   CheckCircle2,
+  Search,
 } from "lucide-react";
 
 export function Topbar() {
@@ -30,6 +32,7 @@ export function Topbar() {
   const [isSeeding, setIsSeeding] = useState(false);
   const [seededMsg, setSeededMsg] = useState<string | null>(null);
   const [isDemystifierOpen, setIsDemystifierOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [telemetry, setTelemetry] = useState<any>({
     engine_status: "ONLINE_DETERMINISTIC",
@@ -39,6 +42,18 @@ export function Topbar() {
     calibration_error_ece: 0.034,
     benchmark_latency_sec: 6.2,
   });
+
+  // Global Cmd+K / Ctrl+K listener
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   useEffect(() => {
     let isMounted = true;
@@ -140,6 +155,19 @@ export function Topbar() {
 
         {/* Action Controls */}
         <div className="flex items-center gap-2 sm:gap-3">
+          {/* Quick Command Palette Trigger */}
+          <motion.button
+            whileHover={{ scale: 1.02 }}
+            whileTap={{ scale: 0.98 }}
+            onClick={() => setIsCommandPaletteOpen(true)}
+            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-warm-border bg-canvas-elevated hover:bg-canvas-subtle text-xs text-ink-muted hover:text-ink-primary transition-colors"
+            title="Search or jump to (Cmd+K)"
+          >
+            <Search className="w-3.5 h-3.5 text-terracotta" />
+            <span className="hidden xl:inline">Search...</span>
+            <kbd className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-canvas border border-warm-hairline">⌘K</kbd>
+          </motion.button>
+
           <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
             <Button
               variant="secondary"
@@ -260,6 +288,14 @@ export function Topbar() {
       <ConceptDemystifierModal
         isOpen={isDemystifierOpen}
         onClose={() => setIsDemystifierOpen(false)}
+      />
+
+      {/* Global Command Palette */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        onOpenDemystifier={() => setIsDemystifierOpen(true)}
+        onSeedDemo={handleSeedDemo}
       />
     </header>
   );

@@ -13,6 +13,8 @@ import { ModuleTabsShowcase } from "@/components/home/module-tabs-showcase";
 import { IndustryUseCases } from "@/components/home/industry-use-cases";
 import { FAQAccordion } from "@/components/home/faq-accordion";
 import { SiteHeader } from "@/components/navigation/site-header";
+import { SectionNavigator } from "@/components/home/section-navigator";
+import { CommandPalette } from "@/components/navigation/command-palette";
 import {
   ArrowRight,
   ShieldCheck,
@@ -26,19 +28,38 @@ import {
 
 export default function LandingPage() {
   const [isDemystifierOpen, setIsDemystifierOpen] = useState(false);
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+
+  // Global Cmd+K / Ctrl+K listener
+  React.useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
 
   return (
     <div className="min-h-screen bg-canvas text-ink-primary font-sans flex flex-col justify-between selection:bg-terracotta-light selection:text-terracotta-dark">
       {/* World-Class Floating Animated Site Header */}
-      <SiteHeader onOpenDemystifier={() => setIsDemystifierOpen(true)} />
+      <SiteHeader
+        onOpenDemystifier={() => setIsDemystifierOpen(true)}
+        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+      />
+
+      {/* Floating Table of Contents & Section Progress Tracker */}
+      <SectionNavigator />
 
       {/* Main Narrative Content */}
       <main className="space-y-28 pb-24 pt-20 sm:pt-24">
         {/* 1. Hero Section: Poetic, Human, Authoritative */}
-        <section className="max-w-5xl mx-auto px-6 pt-12 sm:pt-16 text-center space-y-6">
+        <section id="overview" className="max-w-5xl mx-auto px-6 pt-12 sm:pt-16 text-center space-y-6">
           <div className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full border border-warm-border bg-canvas-elevated shadow-xs text-xs text-ink-secondary">
             <span className="w-2 h-2 rounded-full bg-terracotta shadow-[0_0_8px_rgba(224,122,95,0.6)]" />
-            <span className="font-medium">Calibrated Human–AI Collaboration</span>
+            <span className="font-medium">Chapter I · Calibrated Human–AI Collaboration</span>
           </div>
 
           <h1 className="font-serif text-4xl sm:text-6xl lg:text-7xl font-bold text-ink-primary tracking-tight leading-[1.1] max-w-4xl mx-auto">
@@ -132,11 +153,11 @@ export default function LandingPage() {
         </section>
 
         {/* 8. Thoughtful Invitation Banner */}
-        <section className="max-w-4xl mx-auto px-6">
+        <section id="cta" className="max-w-4xl mx-auto px-6">
           <div className="rounded-3xl border border-warm-border bg-canvas-subtle shadow-paper p-8 sm:p-14 text-center space-y-6">
             <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-canvas-elevated border border-warm-border text-xs text-ink-secondary">
               <span className="w-2 h-2 rounded-full bg-sage shadow-[0_0_8px_rgba(52,211,153,0.6)]" />
-              <span>Ready for Immediate Evaluation</span>
+              <span>Chapter VIII · Ready for Immediate Evaluation</span>
             </div>
 
             <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-ink-primary tracking-tight max-w-2xl mx-auto leading-snug">
@@ -282,6 +303,13 @@ export default function LandingPage() {
       <ConceptDemystifierModal
         isOpen={isDemystifierOpen}
         onClose={() => setIsDemystifierOpen(false)}
+      />
+
+      {/* Global Command Palette */}
+      <CommandPalette
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        onOpenDemystifier={() => setIsDemystifierOpen(true)}
       />
     </div>
   );
