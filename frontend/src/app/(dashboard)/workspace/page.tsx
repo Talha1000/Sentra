@@ -3,7 +3,7 @@
 import React, { useState } from "react";
 import Link from "next/link";
 import { MetricCard } from "@/components/ui/metric-card";
-import { Card, CardHeader, CardTitle, CardDescription, CardContent, CardFooter } from "@/components/ui/card";
+import { Card, CardHeader, CardTitle, CardDescription, CardContent } from "@/components/ui/card";
 import { Table, TableHeader, TableBody, TableHead, TableRow, TableCell } from "@/components/ui/table";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -15,13 +15,7 @@ import {
   Plus,
   AlertTriangle,
   CheckCircle2,
-  ShieldCheck,
-  Activity,
   Search,
-  Target,
-  Clock,
-  TrendingUp,
-  Sparkles,
 } from "lucide-react";
 
 export default function WorkspacePage() {
@@ -46,7 +40,7 @@ export default function WorkspacePage() {
       domain: "Inventory",
       humanAction: 2100,
       aiSuggested: 2850,
-      agreement: false, // Overrode biased suggestion
+      agreement: false,
       status: "Audited",
       date: "Nov 16, 2026",
       payoff: 112000,
@@ -64,16 +58,25 @@ export default function WorkspacePage() {
     },
     {
       id: "DEC-2026-068",
-      title: "Commercial Fleet Fuel Hedging Allocation",
+      title: "Datacenter Hardware Replacement Cycle",
       domain: "Capital",
-      humanAction: 850,
-      aiSuggested: 850,
-      agreement: true,
-      status: "Audited",
+      humanAction: 320,
+      aiSuggested: 450,
+      agreement: false,
+      status: "Review",
       date: "Nov 14, 2026",
-      payoff: 94200,
+      payoff: 94000,
     },
   ];
+
+  const filteredDecisions = recentDecisions.filter((d) => {
+    const matchesDomain = filterDomain === "all" || d.domain.toLowerCase() === filterDomain;
+    const matchesQuery =
+      searchQuery === "" ||
+      d.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      d.id.toLowerCase().includes(searchQuery.toLowerCase());
+    return matchesDomain && matchesQuery;
+  });
 
   const domainCounts = {
     all: recentDecisions.length,
@@ -82,26 +85,17 @@ export default function WorkspacePage() {
     operations: recentDecisions.filter((d) => d.domain.toLowerCase() === "operations").length,
   };
 
-  const filteredDecisions = recentDecisions.filter((d) => {
-    const matchesDomain = filterDomain === "all" || d.domain.toLowerCase() === filterDomain.toLowerCase();
-    const matchesSearch =
-      searchQuery === "" ||
-      d.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-      d.id.toLowerCase().includes(searchQuery.toLowerCase());
-    return matchesDomain && matchesSearch;
-  });
-
   return (
     <div className="space-y-8">
-      {/* Breadcrumb Trail */}
+      {/* Breadcrumb Navigation */}
       <Breadcrumbs
         items={[
           { label: "Platform", href: "/workspace" },
           { label: "Executive Workspace", badge: "Live Studio" },
         ]}
         rightElement={
-          <div className="flex items-center gap-2 text-xs text-emerald-400 font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] animate-pulse" />
+          <div className="flex items-center gap-2 text-xs text-emerald-700 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-500" />
             <span>Telemetry: 100% Cryptographically Bound</span>
           </div>
         }
@@ -110,15 +104,15 @@ export default function WorkspacePage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
             <span>Enterprise Portfolio</span>
-            <span className="text-white/20">•</span>
-            <span className="text-emerald-400 font-semibold">Active Calibrated Deck</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-emerald-700 font-semibold">Active Calibrated Deck</span>
           </div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
+          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
             Decision Intelligence Workspace
           </h1>
-          <p className="text-sm text-slate-300 mt-1 max-w-3xl leading-relaxed">
+          <p className="text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
             Real-time oversight across human authorizations, algorithmic suggestions, and verified financial outcomes.
           </p>
         </div>
@@ -126,12 +120,12 @@ export default function WorkspacePage() {
         <div className="flex items-center gap-3 shrink-0">
           <Link href="/decisions">
             <Button variant="secondary" className="gap-2">
-              <Plus className="w-4 h-4 text-indigo-400" />
+              <Plus className="w-4 h-4 text-blue-600" />
               <span>New Decision Case</span>
             </Button>
           </Link>
           <Link href="/experiments/run/exp-inv-001">
-            <Button variant="primary" className="gap-2 shadow-glow">
+            <Button variant="primary" className="gap-2">
               <Play className="w-4 h-4 fill-current" />
               <span>Launch Experiment</span>
             </Button>
@@ -139,83 +133,75 @@ export default function WorkspacePage() {
         </div>
       </div>
 
-      {/* KPI Overview Grid with Lucide Icons */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* Executive Metric Cards Strip */}
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
         <MetricCard
           label="Human–AI Agreement Rate"
           value="76.4%"
-          icon={Target}
-          iconColor="indigo"
           subtext="Evaluated across 225 empirical trials"
           delta={{ value: "+3.2% vs Baseline", isPositive: true }}
         />
         <MetricCard
           label="Mean Decision Latency"
           value="6.2s"
-          icon={Clock}
-          iconColor="cyan"
           subtext="Monotonic hardware server timing"
           delta={{ value: "-0.8s Deliberative", isPositive: true }}
         />
         <MetricCard
           label="Over-Reliance Mitigation"
           value="+18.4%"
-          icon={TrendingUp}
-          iconColor="emerald"
-          subtext="Accuracy gain from uncertainty bounds"
+          subtext="Human override under deliberate skew"
           delta={{ value: "p < 0.001", isPositive: true }}
         />
         <MetricCard
           label="Audit Integrity Level"
           value="100%"
-          icon={ShieldCheck}
-          iconColor="amber"
-          subtext="Immutable cryptographic ledger"
-          delta={{ value: "SOC-2 Validated", isNeutral: true }}
+          subtext="SOC-2 and ISO-42001 certified"
+          delta={{ value: "Valid", isPositive: true }}
         />
       </div>
 
-      {/* Main Content Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-        {/* Left 8 Columns: Decisions Ledger Table */}
-        <div className="lg:col-span-8 space-y-4">
+      {/* Core Split: 8 Col Ledger, 4 Col Protocols */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+        {/* Left 8 Columns: Consequential Decisions Ledger */}
+        <div className="lg:col-span-8 space-y-6">
           <Card>
-            <CardHeader className="flex flex-col lg:flex-row lg:items-center justify-between gap-4 pb-4">
+            <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4">
               <div>
                 <CardTitle>Consequential Decisions Ledger</CardTitle>
                 <CardDescription>
-                  Verified audit trail of human selections vs. algorithmic recommendations
+                  Verified records of human actions vs. algorithmic recommendations
                 </CardDescription>
               </div>
 
               {/* Search & Domain Filter Bar */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
-                <div className="relative min-w-[200px]">
+                <div className="relative min-w-[180px]">
                   <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     placeholder="Filter cases..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-3 py-1.5 text-xs rounded-xl border border-white/[0.1] bg-white/[0.04] text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-transparent transition-all"
+                    className="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
                   />
                 </div>
 
-                <div className="flex items-center gap-1 bg-white/[0.04] p-1 rounded-xl border border-white/[0.08] overflow-x-auto">
+                <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200 overflow-x-auto">
                   {(["all", "inventory", "capital", "operations"] as const).map((d) => (
                     <button
                       key={d}
                       onClick={() => setFilterDomain(d)}
-                      className={`px-3 py-1 rounded-lg text-xs font-medium capitalize transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
+                      className={`px-3 py-1 rounded-md text-xs font-medium capitalize transition-colors flex items-center gap-1.5 whitespace-nowrap ${
                         filterDomain === d
-                          ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
-                          : "text-slate-400 hover:text-white"
+                          ? "bg-white text-blue-700 font-semibold shadow-xs"
+                          : "text-slate-600 hover:text-slate-900"
                       }`}
                     >
                       <span>{d}</span>
                       <span
-                        className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                          filterDomain === d ? "bg-white/20 text-white" : "bg-white/[0.06] text-slate-400"
+                        className={`text-[10px] px-1.5 py-0.2 rounded-full ${
+                          filterDomain === d ? "bg-blue-100 text-blue-800" : "bg-slate-200 text-slate-600"
                         }`}
                       >
                         {domainCounts[d]}
@@ -243,28 +229,28 @@ export default function WorkspacePage() {
                   {filteredDecisions.map((d) => (
                     <TableRow key={d.id}>
                       <TableCell>
-                        <div className="font-semibold text-white">{d.title}</div>
+                        <div className="font-semibold text-slate-900">{d.title}</div>
                         <div className="text-xs text-slate-500 font-mono mt-0.5">
                           {d.id} • {d.date}
                         </div>
                       </TableCell>
                       <TableCell>
-                        <Badge variant="indigo">{d.domain}</Badge>
+                        <Badge variant="brand">{d.domain}</Badge>
                       </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-white tabular-nums">
+                      <TableCell className="text-right font-mono font-bold text-slate-900 tabular-nums">
                         {d.humanAction}
                       </TableCell>
-                      <TableCell className="text-right font-mono text-slate-400 tabular-nums">
+                      <TableCell className="text-right font-mono text-slate-500 tabular-nums">
                         {d.aiSuggested}
                       </TableCell>
                       <TableCell>
                         {d.agreement ? (
                           <Badge variant="neutral" dot>Consensus</Badge>
                         ) : (
-                          <Badge variant="spruce" dot>Override</Badge>
+                          <Badge variant="emerald" dot>Override</Badge>
                         )}
                       </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-emerald-400 tabular-nums">
+                      <TableCell className="text-right font-mono font-bold text-emerald-700 tabular-nums">
                         {formatCurrency(d.payoff)}
                       </TableCell>
                       <TableCell>
@@ -286,25 +272,25 @@ export default function WorkspacePage() {
               <CardDescription>Continuous participant enrollment tracker</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 pt-0">
-              <div className="p-3.5 bg-white/[0.03] rounded-xl border border-white/[0.08] space-y-1">
-                <span className="text-[10px] uppercase font-semibold text-indigo-400 block font-mono">
+              <div className="p-3.5 bg-slate-50 rounded-lg border border-slate-200 space-y-1">
+                <span className="text-[10px] uppercase font-semibold text-blue-700 block font-mono">
                   EXP-INV-001
                 </span>
-                <div className="font-semibold text-white text-xs">
+                <div className="font-semibold text-slate-900 text-xs">
                   Inventory Purchasing Battery
                 </div>
-                <div className="text-slate-400 text-xs">
+                <div className="text-slate-500 text-xs">
                   3 Conditions (Between-subjects) • 5 Stochastic Scenarios
                 </div>
               </div>
 
               <div className="space-y-2">
                 <div className="flex justify-between text-xs">
-                  <span className="text-slate-400">Sample Enrolled:</span>
-                  <span className="font-bold text-indigo-300 font-mono tabular-nums">225 / 300 Trials</span>
+                  <span className="text-slate-500">Sample Enrolled:</span>
+                  <span className="font-bold text-slate-900 font-mono tabular-nums">225 / 300 Trials</span>
                 </div>
-                <div className="w-full bg-white/[0.06] h-2 rounded-full overflow-hidden">
-                  <div className="bg-gradient-to-r from-indigo-500 to-purple-500 h-full w-[75%] rounded-full shadow-[0_0_8px_rgba(99,102,241,0.6)]" />
+                <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
+                  <div className="bg-blue-600 h-full w-[75%] rounded-full" />
                 </div>
               </div>
 
@@ -323,21 +309,21 @@ export default function WorkspacePage() {
               <CardDescription>Live telemetry security and bias checks</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 pt-0">
-              <div className="flex items-start gap-3 p-3.5 rounded-xl bg-emerald-500/10 border border-emerald-500/20">
-                <CheckCircle2 className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
+              <div className="flex items-start gap-3 p-3.5 rounded-lg bg-emerald-50 border border-emerald-200">
+                <CheckCircle2 className="w-4 h-4 text-emerald-600 mt-0.5 shrink-0" />
                 <div>
-                  <div className="font-semibold text-white text-xs">Ground Truth Verified</div>
-                  <div className="text-slate-300 text-xs mt-0.5">
+                  <div className="font-semibold text-slate-900 text-xs">Ground Truth Verified</div>
+                  <div className="text-slate-600 text-xs mt-0.5">
                     Deterministic newsvendor critical fractile checks passed.
                   </div>
                 </div>
               </div>
 
-              <div className="flex items-start gap-3 p-3.5 rounded-xl bg-orange-500/10 border border-orange-500/20">
-                <AlertTriangle className="w-4 h-4 text-orange-400 mt-0.5 shrink-0" />
+              <div className="flex items-start gap-3 p-3.5 rounded-lg bg-amber-50 border border-amber-200">
+                <AlertTriangle className="w-4 h-4 text-amber-600 mt-0.5 shrink-0" />
                 <div>
-                  <div className="font-semibold text-orange-300 text-xs">Over-Reliance Warning</div>
-                  <div className="text-slate-300 text-xs mt-0.5">
+                  <div className="font-semibold text-amber-900 text-xs">Over-Reliance Warning</div>
+                  <div className="text-slate-700 text-xs mt-0.5">
                     Condition B cohort demonstrates 76.4% compliance under deliberate +35% bias.
                   </div>
                 </div>

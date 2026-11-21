@@ -2,14 +2,8 @@
 
 import React, { useState } from "react";
 import { Modal } from "@/components/ui/modal";
-import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import {
-  Search,
-  BookOpen,
-  ChevronDown,
-  Sparkles,
-} from "lucide-react";
+import { Search, ChevronDown, BookOpen } from "lucide-react";
 
 export interface ConceptItem {
   id: string;
@@ -27,130 +21,79 @@ export const SENTRA_CONCEPTS: ConceptItem[] = [
     term: "Decision Intelligence",
     category: "Core Concept",
     simpleExplanation:
-      "The practice of making better business choices by combining human wisdom, mathematical models, and AI advice—rather than guessing or blindly rubber-stamping an algorithm.",
+      "The engineering discipline of testing and calibrating business allocations using closed-form mathematics and behavioral verification, rather than blindly trusting unvalidated generative AI outputs.",
     analogy:
-      "Like modern commercial aviation: the airplane has autopilot, but two certified human pilots and redundant flight computers cross-check every maneuver before touching the flaps.",
+      "Modern avionics: the flight computer provides automated flight-level suggestions, but redundant systems and human pilots must cross-check calculations before committing descent.",
     whyItMatters:
-      "Companies lose millions when executives trust raw AI answers without verifying whether the math actually works under real market volatility.",
+      "Organizations lose millions when teams accept fluent AI recommendations that overlook asymmetric inventory or capacity holding penalties.",
     technicalDeepDive:
-      "Integrates decision theory, behavioral economics, Monte Carlo uncertainty quantification, and human-in-the-loop audit controls.",
+      "Synthesizes stochastic calculus, uncertainty quantification, behavioral economics, and deterministic cryptographic auditability.",
   },
   {
     id: "cognitive-over-reliance",
     term: "Cognitive Over-reliance",
     category: "Cognitive Psychology",
     simpleExplanation:
-      "When a human manager accepts an AI's advice even when the AI is completely wrong or biased, simply because the AI sounds confident, polished, and articulate.",
+      "The documented cognitive bias where human decision-makers accept an algorithmic recommendation despite obvious errors, driven by articulate and fluent prose.",
     analogy:
-      "Following your car's GPS directly into a flooded lake because the voice sounded authoritative, ignoring the bright orange 'Road Closed' barricade right in front of your windshield.",
+      "Following GPS into a clearly flooded street because the turn-by-turn voice sounded calm and authoritative.",
     whyItMatters:
-      "In high-stakes domains (purchasing, medical dosage, credit limits), blind agreement creates catastrophic corporate liability and massive inventory write-downs.",
+      "In high-consequence corporate decisions, passive compliance leads to massive stranded capital and inventory obsolescence.",
     technicalDeepDive:
-      "Quantified as P(Human adopts advice | Advice is suboptimal or biased). Sentra benchmarks baseline vs aided behavior to alert managers in real-time.",
+      "Quantified as P(Human adopts recommendation | Recommendation is suboptimal). Measured through double-blind controlled randomized trials.",
   },
   {
     id: "critical-fractile",
-    term: "Critical Fractile (Newsvendor Theory)",
+    term: "Critical Fractile (Newsvendor Theorem)",
     category: "Mathematics",
     simpleExplanation:
-      "The exact mathematical sweet spot for how much inventory or capacity to order when you do not know future demand with certainty.",
+      "The mathematically optimal order quantity when facing stochastic demand and unequal financial consequences for underage versus overage.",
     analogy:
-      "An umbrella seller before an outdoor concert: running out of umbrellas when it pours loses huge profit, but buying too many means leftover junk. The fractile finds the exact balance that maximizes profit.",
+      "An outdoor event vendor: running out of ponchos during a storm forfeits high revenue, but leftover stock incurs holding loss. The critical fractile calculates the precise balance point.",
     whyItMatters:
-      "Ordering at the exact critical fractile guarantees maximum expected financial profit across thousands of possible demand outcomes.",
+      "Committing inventory at the critical fractile guarantees maximum expected net profit over any arbitrary heuristic.",
     technicalDeepDive:
-      "Calculated as Underage Cost / (Underage Cost + Overage Cost) = (P - C + Penalty) / (P - S + Penalty). Looked up on the cumulative normal distribution F⁻¹(CF).",
+      "F*(Q) = Cu / (Cu + Co), where Cu is underage penalty (lost margin + stockout penalty) and Co is overage penalty (acquisition cost - salvage value).",
   },
   {
-    id: "monte-carlo",
-    term: "Monte Carlo Simulation",
-    category: "Mathematics",
-    simpleExplanation:
-      "Testing a business decision across 1,000 randomized future scenarios on a computer to see what happens before risking real company capital.",
-    analogy:
-      "Like a Formula 1 team testing a virtual car in 1,000 simulated weather storms (rain, sleet, heatwave) before taking it onto the physical track.",
-    whyItMatters:
-      "Instead of assuming demand will always be 'average', it shows you the worst 5% risk scenarios so you are never caught unprepared.",
-    technicalDeepDive:
-      "Draws stochastic samples D_i ~ N(μ, σ) and calculates financial payoffs across asymmetric non-linear penalty curves.",
-  },
-  {
-    id: "expected-calibration-error",
-    term: "Expected Calibration Error (ECE)",
-    category: "Cognitive Psychology",
-    simpleExplanation:
-      "A score measuring how honest an AI is about its confidence. If an AI claims 90% confidence, it should be right exactly 9 times out of 10.",
-    analogy:
-      "A weather forecaster who predicts a '90% chance of rain' on 100 days. If it only rains on 50 of those days, their calibration is terrible—they are dangerously over-confident.",
-    whyItMatters:
-      "Uncalibrated AI models give false confidence to human teams, causing managers to lower their guard on high-risk choices.",
-    technicalDeepDive:
-      "ECE = Σ ( |B_m| / N ) * | accuracy(B_m) - confidence(B_m) | partitioned across confidence bins. Perfect calibration is 0.000.",
-  },
-  {
-    id: "bias-injection",
-    term: "Injected Bias Stressor",
-    category: "Cognitive Psychology",
-    simpleExplanation:
-      "A controlled research test where Sentra intentionally introduces a deliberate error into the AI's advice to see if the human catches it or blindly obeys.",
-    analogy:
-      "A fire drill in a corporate skyscraper: you sound the alarm unannounced to train staff and verify whether the evacuation protocol actually works.",
-    whyItMatters:
-      "You cannot legally or ethically claim your organization has 'human oversight' unless you periodically prove your human operators can catch erroneous AI advice.",
-    technicalDeepDive:
-      "Applies deterministic skew (e.g. +35% or -30%) in randomized scenario blocks to record reaction latency and cognitive override probability.",
-  },
-  {
-    id: "immutable-audit-hash",
-    term: "Immutable Cryptographic Audit Seal",
+    id: "cryptographic-provenance",
+    term: "Cryptographic Provenance",
     category: "Governance",
     simpleExplanation:
-      "A tamper-evident digital seal that records what the AI recommended, what the human decided, and why—so nobody can alter history later.",
+      "A mathematically tamper-evident certificate that proves who authorized a decision, what parameters were evaluated, and what model recommendations were presented.",
     analogy:
-      "A hot wax seal with a unique royal signet pressed into a legal parchment. If anyone changes a single comma, the seal breaks visibly.",
+      "A digitally sealed diplomatic pouch: any modification to the contents immediately invalidates the tamper seal.",
     whyItMatters:
-      "Provides undeniable proof for regulators, auditors, and board members that decisions complied with governance standards, eliminating blame games.",
+      "Essential for regulatory oversight, SOC-2 compliance, and board-level fiduciary verification.",
     technicalDeepDive:
-      "HMAC SHA-256 hash chaining over (decision_id, timestamp, human_rationale, ai_recommendation_hash, parameters).",
-  },
-  {
-    id: "cohens-d",
-    term: "Cohen's d Effect Size",
-    category: "Mathematics",
-    simpleExplanation:
-      "A standardized number that tells you how big of a real-world difference an AI assistant actually makes for human performance.",
-    analogy:
-      "A medicine might have a statistically noticeable effect, but Cohen's d tells you if it cures your headache in 10 minutes (huge effect) or 9.9 hours (tiny effect).",
-    whyItMatters:
-      "Just because an AI is 'statistically significant' doesn't mean it's worth buying. Cohen's d tells you whether the ROI is substantial (d > 0.8) or negligible (d < 0.2).",
-    technicalDeepDive:
-      "d = (μ₁ - μ₂) / s_pooled. Standardized metric independent of unit measurement.",
+      "Every trial state is hashed using HMAC SHA-256 with an institutional key, ensuring an immutable sequence chain.",
   },
 ];
 
 interface ConceptDemystifierModalProps {
   isOpen: boolean;
   onClose: () => void;
-  initialConceptId?: string;
+  defaultConceptId?: string;
 }
 
 export function ConceptDemystifierModal({
   isOpen,
   onClose,
-  initialConceptId,
+  defaultConceptId,
 }: ConceptDemystifierModalProps) {
   const [search, setSearch] = useState("");
-  const [selectedCat, setSelectedCat] = useState("All");
-  const [expandedId, setExpandedId] = useState<string | null>(initialConceptId || "decision-intelligence");
+  const [selectedCat, setSelectedCat] = useState<string>("All");
+  const [expandedId, setExpandedId] = useState<string | null>(defaultConceptId || "decision-intelligence");
 
   const categories = ["All", "Core Concept", "Cognitive Psychology", "Mathematics", "Governance"];
 
-  const filtered = SENTRA_CONCEPTS.filter((c) => {
-    const matchesCat = selectedCat === "All" || c.category === selectedCat;
+  const filtered = SENTRA_CONCEPTS.filter((item) => {
+    const matchesCat = selectedCat === "All" || item.category === selectedCat;
     const matchesSearch =
-      c.term.toLowerCase().includes(search.toLowerCase()) ||
-      c.simpleExplanation.toLowerCase().includes(search.toLowerCase()) ||
-      c.analogy.toLowerCase().includes(search.toLowerCase());
+      search === "" ||
+      item.term.toLowerCase().includes(search.toLowerCase()) ||
+      item.simpleExplanation.toLowerCase().includes(search.toLowerCase()) ||
+      item.analogy.toLowerCase().includes(search.toLowerCase());
     return matchesCat && matchesSearch;
   });
 
@@ -158,117 +101,100 @@ export function ConceptDemystifierModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Sentra · A Human Guide to the Concepts"
-      className="max-w-3xl max-h-[90vh] overflow-y-auto bg-[#0D111A] p-0"
+      title="Decision Intelligence Methodology Guide"
+      description="Reference manual explaining decision mathematics, behavioral risks, and audit standards."
+      className="max-w-2xl"
     >
-      <div className="p-6 sm:p-8 space-y-6">
-        {/* Intro */}
-        <div className="p-5 rounded-2xl bg-indigo-500/10 border border-indigo-500/25 space-y-1.5 shadow-[0_0_20px_rgba(99,102,241,0.15)]">
-          <span className="text-base font-bold text-white block">
-            Complex Ideas, Explained in Clear Words
-          </span>
-          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
-            Sentra uses advanced stochastic optimization, cognitive psychology, and cryptography.
-            You do not need a mathematics degree to understand how it protects your organization. Every concept is broken down with simple real-world analogies below.
-          </p>
+      <div className="space-y-4">
+        {/* Search Bar */}
+        <div className="relative">
+          <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+          <input
+            type="text"
+            placeholder="Search methodology..."
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+            className="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+          />
         </div>
 
-        {/* Search & Categories */}
-        <div className="space-y-3">
-          <div className="relative">
-            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
-            <input
-              type="text"
-              placeholder="Search concepts or analogies (e.g., 'fractile', 'over-reliance', 'audit')..."
-              value={search}
-              onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/[0.1] bg-white/[0.04] text-xs text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
-            />
-          </div>
-
-          <div className="flex flex-wrap gap-1.5">
-            {categories.map((cat) => (
-              <button
-                key={cat}
-                onClick={() => setSelectedCat(cat)}
-                className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
-                  selectedCat === cat
-                    ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
-                    : "bg-white/[0.04] text-slate-400 border border-white/[0.08] hover:bg-white/[0.08] hover:text-white"
-                }`}
-              >
-                {cat}
-              </button>
-            ))}
-          </div>
+        {/* Category Pills */}
+        <div className="flex flex-wrap gap-1.5">
+          {categories.map((cat) => (
+            <button
+              key={cat}
+              onClick={() => setSelectedCat(cat)}
+              className={`px-3 py-1 rounded-md text-xs font-medium transition-colors cursor-pointer ${
+                selectedCat === cat
+                  ? "bg-blue-600 text-white font-semibold"
+                  : "bg-slate-100 text-slate-600 hover:bg-slate-200"
+              }`}
+            >
+              {cat}
+            </button>
+          ))}
         </div>
 
-        {/* Concept Cards */}
-        <div className="space-y-3 max-h-[50vh] overflow-y-auto pr-1">
+        {/* Concept Accordion List */}
+        <div className="space-y-2.5 max-h-[50vh] overflow-y-auto pr-1">
           {filtered.map((item) => {
             const isExpanded = expandedId === item.id;
             return (
               <div
                 key={item.id}
-                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
-                  isExpanded
-                    ? "border-indigo-500/40 bg-[#0F1524] shadow-[0_0_20px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500/25"
-                    : "border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05]"
-                }`}
+                className="rounded-lg border border-slate-200 bg-white overflow-hidden shadow-xs"
               >
                 <button
                   onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer select-none"
+                  className="w-full text-left p-4 flex items-center justify-between gap-4 cursor-pointer hover:bg-slate-50 transition-colors"
                 >
-                  <div className="space-y-0.5">
-                    <div className="flex items-center gap-2">
-                      <span className="text-base font-bold text-white">
-                        {item.term}
-                      </span>
-                      <span className="text-[10px] font-mono text-indigo-400 uppercase">
-                        · {item.category}
-                      </span>
-                    </div>
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-semibold text-slate-900">
+                      {item.term}
+                    </span>
+                    <span className="text-[11px] font-medium text-slate-500 bg-slate-100 px-2 py-0.5 rounded">
+                      {item.category}
+                    </span>
                   </div>
                   <ChevronDown
                     className={`w-4 h-4 text-slate-400 transition-transform shrink-0 ${
-                      isExpanded ? "rotate-180 text-indigo-400" : ""
+                      isExpanded ? "rotate-180" : ""
                     }`}
                   />
                 </button>
 
                 {isExpanded && (
-                  <div className="px-5 pb-5 pt-1 space-y-3.5 text-xs text-slate-300 border-t border-white/[0.06]">
-                    <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1">
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block">
-                        In Plain English
+                  <div className="px-4 pb-4 pt-1 space-y-3 text-xs text-slate-600 border-t border-slate-100 bg-slate-50/50">
+                    <div className="p-3 rounded-lg bg-white border border-slate-200 space-y-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-500 block">
+                        Overview
                       </span>
-                      <p className="text-white leading-relaxed text-xs sm:text-sm">
+                      <p className="text-slate-800 leading-relaxed">
                         {item.simpleExplanation}
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20 space-y-1">
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-orange-400 block">
-                        Real-World Analogy
+                    <div className="p-3 rounded-lg bg-amber-50/60 border border-amber-200 space-y-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-amber-800 block">
+                        Practical Analogy
                       </span>
-                      <p className="text-slate-200 italic leading-relaxed text-xs">
+                      <p className="text-slate-700 italic leading-relaxed">
                         “{item.analogy}”
                       </p>
                     </div>
 
-                    <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
-                      <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400 block">
-                        Why It Matters To Your Bottom Line
+                    <div className="p-3 rounded-lg bg-emerald-50/60 border border-emerald-200 space-y-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-800 block">
+                        Financial Impact
                       </span>
-                      <p className="text-slate-200 leading-relaxed text-xs">
+                      <p className="text-slate-700 leading-relaxed">
                         {item.whyItMatters}
                       </p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-black/40 border border-white/[0.06] font-mono text-[11px] text-slate-400 space-y-1">
+                    <div className="p-3 rounded-lg bg-slate-100 border border-slate-200 font-mono text-[11px] text-slate-600 space-y-1">
                       <span className="font-sans text-[10px] uppercase font-semibold text-slate-500 block">
-                        Formal Definition
+                        Mathematical Definition
                       </span>
                       <p className="leading-relaxed">{item.technicalDeepDive}</p>
                     </div>
@@ -280,7 +206,7 @@ export function ConceptDemystifierModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-2 border-t border-white/[0.08] text-xs text-slate-400">
+        <div className="flex items-center justify-between pt-3 border-t border-slate-200 text-xs text-slate-500">
           <span>{filtered.length} concepts documented</span>
           <Button variant="secondary" size="sm" onClick={onClose}>
             Close Guide
