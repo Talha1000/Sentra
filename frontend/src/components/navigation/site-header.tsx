@@ -2,7 +2,7 @@
 
 import React, { useState } from "react";
 import Link from "next/link";
-import { ArrowRight, Menu, X, BookOpen, Search, Sparkles } from "lucide-react";
+import { ArrowRight, BookOpen, Search, X, Sparkles } from "lucide-react";
 import { motion, AnimatePresence } from "framer-motion";
 
 interface SiteHeaderProps {
@@ -10,136 +10,137 @@ interface SiteHeaderProps {
   onOpenCommandPalette?: () => void;
 }
 
-const NAV_LINKS = [
-  { name: "Executive Workspace", href: "/workspace" },
-  { name: "Decision Studio", href: "/decisions" },
-  { name: "Behavioral Lab", href: "/experiments" },
-  { name: "Empirical Analytics", href: "/analytics" },
-  { name: "Governance Ledger", href: "/governance" },
+const NAV_ITEMS = [
+  { name: "DECISIONS", href: "/decisions" },
+  { name: "STUDIO", href: "/workspace" },
+  { name: "BEHAVIORAL LAB", href: "/experiments" },
+  { name: "ANALYTICS", href: "/analytics" },
+  { name: "GOVERNANCE", href: "/governance" },
 ];
 
 export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHeaderProps) {
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
+  const [showBanner, setShowBanner] = useState(true);
+  const [hoveredIdx, setHoveredIdx] = useState<number | null>(null);
 
   return (
-    <header className="sticky top-0 z-50 w-full bg-[#0B0C0E]/90 backdrop-blur-xl border-b border-white/[0.08] select-none transition-all">
-      <div className="max-w-6xl mx-auto h-16 px-6 flex items-center justify-between">
-        {/* Brand */}
-        <div className="flex items-center gap-6">
-          <Link href="/" className="flex items-center gap-2.5 group">
-            <div className="relative">
-              <div className="w-7 h-7 rounded-lg bg-gradient-to-b from-white to-neutral-200 text-neutral-900 flex items-center justify-center font-bold text-xs tracking-tighter shadow-sm border border-white/80 group-hover:scale-105 transition-transform duration-200">
-                S
-              </div>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="font-semibold text-sm tracking-tight text-white group-hover:text-neutral-200 transition-colors">
-                SENTRA
-              </span>
-              <span className="hidden sm:inline-block text-[10px] font-mono px-2 py-0.5 rounded-full bg-blue-500/10 text-blue-400 border border-blue-500/20">
-                DECISION INTELLIGENCE
-              </span>
-            </div>
-          </Link>
-        </div>
-
-        {/* Desktop Navigation with Gliding Hover Pill */}
-        <nav
-          className="hidden md:flex items-center gap-1 text-xs text-neutral-400"
-          onMouseLeave={() => setHoveredIndex(null)}
-        >
-          {NAV_LINKS.map((link, idx) => (
-            <Link
-              key={link.href}
-              href={link.href}
-              onMouseEnter={() => setHoveredIndex(idx)}
-              className="px-3.5 py-1.5 rounded-lg transition-colors font-medium relative hover:text-white"
-            >
-              <span className="relative z-10">{link.name}</span>
-              {hoveredIndex === idx && (
-                <motion.div
-                  layoutId="nav-gliding-pill"
-                  className="absolute inset-0 bg-white/[0.06] rounded-lg -z-0 border border-white/[0.08]"
-                  transition={{ type: "spring", stiffness: 450, damping: 35 }}
-                />
-              )}
-            </Link>
-          ))}
-        </nav>
-
-        {/* Right Action Controls */}
-        <div className="flex items-center gap-2.5">
-          {onOpenCommandPalette && (
-            <button
-              onClick={onOpenCommandPalette}
-              className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs text-neutral-400 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.09] rounded-xl transition-all shadow-sm active:scale-95"
-              title="Search (⌘K)"
-            >
-              <Search className="w-3.5 h-3.5" />
-              <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/[0.08] text-neutral-300">⌘K</kbd>
-            </button>
-          )}
-
-          <button
-            onClick={onOpenDemystifier}
-            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 text-xs font-medium text-neutral-200 hover:text-white btn-shimmer-secondary rounded-xl transition-all"
-          >
-            <BookOpen className="w-3.5 h-3.5 text-blue-400" />
-            <span>Concept Guide</span>
-          </button>
-
-          <Link
-            href="/workspace"
-            className="btn-shimmer-primary flex items-center gap-1.5 px-4 py-1.5 text-xs font-semibold rounded-xl text-neutral-900 group"
-          >
-            <span>Enter Studio</span>
-            <ArrowRight className="w-3.5 h-3.5 text-neutral-600 group-hover:translate-x-0.5 transition-transform" />
-          </Link>
-
-          <button
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 text-neutral-400 hover:text-white"
-          >
-            {mobileMenuOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
-        </div>
-      </div>
-
-      {/* Mobile Drawer */}
+    <div className="sticky top-0 z-50 w-full select-none">
+      {/* Top Technical Notice Ticker (SemiconBio Style) */}
       <AnimatePresence>
-        {mobileMenuOpen && (
+        {showBanner && (
           <motion.div
-            initial={{ opacity: 0, height: 0 }}
-            animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
-            className="md:hidden border-b border-white/[0.08] bg-[#0E1013] px-6 py-4 space-y-3 overflow-hidden"
+            initial={{ height: 0, opacity: 0 }}
+            animate={{ height: "auto", opacity: 1 }}
+            exit={{ height: 0, opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            className="w-full bg-[#0D0E11] text-white border-b border-white/[0.1] text-[11px] font-mono overflow-hidden"
           >
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                onClick={() => setMobileMenuOpen(false)}
-                className="block text-sm text-neutral-300 hover:text-white py-1 font-medium"
-              >
-                {link.name}
-              </Link>
-            ))}
-            <div className="pt-2 border-t border-white/[0.08] flex items-center justify-between">
-              <button
-                onClick={() => {
-                  setMobileMenuOpen(false);
-                  onOpenDemystifier();
-                }}
-                className="text-xs text-blue-400 flex items-center gap-1.5 py-1"
-              >
-                <BookOpen className="w-3.5 h-3.5" />
-                <span>Open Concept Guide</span>
-              </button>
+            <div className="max-w-7xl mx-auto px-4 sm:px-6 py-2 flex items-center justify-between gap-4">
+              <div className="flex items-center gap-3 overflow-hidden text-ellipsis whitespace-nowrap">
+                <span className="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-sm bg-white/10 text-white text-[10px] uppercase tracking-wider font-semibold">
+                  <span className="w-1.5 h-1.5 rounded-full bg-[#00C4CC] animate-pulse" />
+                  EMPIRICAL REPORT
+                </span>
+                <span className="text-neutral-300 hidden sm:inline">
+                  225 Seated Trials Demonstrating 23.2% Generative AI Decision Drift Interception
+                </span>
+                <span className="text-neutral-300 sm:hidden">
+                  225 Trials: 23.2% AI Skew Intercepted
+                </span>
+              </div>
+              <div className="flex items-center gap-4 shrink-0">
+                <button
+                  onClick={onOpenDemystifier}
+                  className="text-white hover:text-[#00C4CC] transition-colors underline underline-offset-2 flex items-center gap-1 font-medium"
+                >
+                  <span>READ EVIDENCE ↗</span>
+                </button>
+                <button
+                  onClick={() => setShowBanner(false)}
+                  className="text-neutral-400 hover:text-white transition-colors"
+                  aria-label="Close Announcement"
+                >
+                  <X className="w-3.5 h-3.5" />
+                </button>
+              </div>
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </header>
+
+      {/* Floating Precision White Nav Bar */}
+      <div className="w-full bg-white/95 backdrop-blur-md border-b border-neutral-300 shadow-[0_1px_3px_rgba(0,0,0,0.04)]">
+        <div className="max-w-7xl mx-auto h-14 px-4 sm:px-6 flex items-center justify-between">
+          
+          {/* Logo & Mark */}
+          <div className="flex items-center gap-4">
+            <Link href="/" className="flex items-center gap-2.5 group">
+              <div className="w-6 h-6 rounded-sm bg-[#00C4CC] flex items-center justify-center text-white font-bold text-xs tracking-tighter shadow-sm group-hover:scale-105 transition-transform">
+                <span className="text-black font-black">S</span>
+              </div>
+              <span className="font-bold text-sm tracking-tight text-neutral-900 group-hover:text-black transition-colors">
+                SENTRA
+              </span>
+            </Link>
+          </div>
+
+          {/* Desktop Nav Items with Hairline Separators */}
+          <nav
+            className="hidden md:flex items-center text-[11px] font-mono tracking-wider text-neutral-600 border-l border-neutral-200"
+            onMouseLeave={() => setHoveredIdx(null)}
+          >
+            {NAV_ITEMS.map((item, idx) => (
+              <Link
+                key={item.href}
+                href={item.href}
+                onMouseEnter={() => setHoveredIdx(idx)}
+                className={`relative px-4 py-2 border-r border-neutral-200 transition-colors ${
+                  hoveredIdx === idx ? "text-neutral-950 font-semibold" : "hover:text-neutral-900"
+                }`}
+              >
+                <span className="relative z-10">{item.name}</span>
+                {hoveredIdx === idx && (
+                  <motion.div
+                    layoutId="nav-line-indicator"
+                    className="absolute bottom-0 left-0 right-0 h-[2px] bg-neutral-900"
+                    transition={{ type: "spring", stiffness: 500, damping: 40 }}
+                  />
+                )}
+              </Link>
+            ))}
+          </nav>
+
+          {/* Right Tactile Action Buttons */}
+          <div className="flex items-center gap-2 sm:gap-3">
+            {onOpenCommandPalette && (
+              <button
+                onClick={onOpenCommandPalette}
+                className="hidden lg:flex items-center gap-1.5 px-2.5 py-1.5 text-xs text-neutral-600 hover:text-neutral-950 hover:bg-neutral-100 rounded-md transition-colors border border-neutral-200"
+                title="Search Command Palette (⌘K)"
+              >
+                <Search className="w-3 h-3 text-neutral-500" />
+                <kbd className="font-mono text-[10px] text-neutral-400">⌘K</kbd>
+              </button>
+            )}
+
+            <button
+              onClick={onOpenDemystifier}
+              className="btn-tactile-secondary px-3.5 py-1.5 text-xs text-neutral-800 hidden sm:inline-flex"
+            >
+              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-neutral-500" />
+              <span>Concept Guide</span>
+            </button>
+
+            <Link
+              href="/workspace"
+              className="btn-tactile-primary px-4 py-1.5 text-xs text-white group"
+            >
+              <span>Enter Studio</span>
+              <ArrowRight className="w-3.5 h-3.5 ml-1.5 text-neutral-300 group-hover:translate-x-0.5 transition-transform" />
+            </Link>
+          </div>
+
+        </div>
+      </div>
+    </div>
   );
 }

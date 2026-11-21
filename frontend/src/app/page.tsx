@@ -1,455 +1,905 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Link from "next/link";
-import { motion, AnimatePresence } from "framer-motion";
-import { SiteHeader } from "@/components/navigation/site-header";
-import { HeroInteractiveCanvas } from "@/components/home/hero-interactive-canvas";
-import { MotionSimulationShowcase } from "@/components/home/motion-simulation-showcase";
-import { InteractiveDecisionStressor } from "@/components/home/interactive-decision-stressor";
-import { IndustryUseCases } from "@/components/home/industry-use-cases";
-import { FAQAccordion } from "@/components/home/faq-accordion";
-import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
-import { CommandPalette } from "@/components/navigation/command-palette";
 import {
   ArrowRight,
   ShieldCheck,
   Cpu,
-  FlaskConical,
   BarChart3,
+  FlaskConical,
   CheckCircle2,
-  Lock,
+  AlertTriangle,
+  ChevronDown,
   Sparkles,
-  Play,
-  BookOpen,
-  ArrowUpRight,
-  ChevronRight,
+  ExternalLink,
+  Layers,
+  Fingerprint,
+  TrendingUp,
+  Activity,
+  Lock,
 } from "lucide-react";
+import { motion, AnimatePresence } from "framer-motion";
+import { SiteHeader } from "@/components/navigation/site-header";
+import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
+import { CommandPalette } from "@/components/navigation/command-palette";
+import { HeroInteractiveCanvas } from "@/components/home/hero-interactive-canvas";
 
-export default function LandingPage() {
-  const [isDemystifierOpen, setIsDemystifierOpen] = useState(false);
-  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+// Chapter 01: 4 Structural Foundation Cards
+const FOUNDATION_CARDS = [
+  {
+    id: 1,
+    dotColor: "#00C4CC", // Electric Cyan
+    tag: "01 // CALIBRATION",
+    title: "Critical Fractile Solver",
+    headline: "Optimal Risk-Neutral Equilibrium",
+    description:
+      "Calculates the exact stochastic sweet spot where marginal revenue equals expected stockout risk, resolving asymmetric underage and overage penalties without human bias.",
+    metric: "F*(Q) = 0.727",
+    metricNote: "Optimal sweet spot: 1,420 units",
+  },
+  {
+    id: 2,
+    dotColor: "#FF5500", // Engineering Orange
+    tag: "02 // GUARDRAIL",
+    title: "Generative Bias Interception",
+    headline: "Catching Hallucinated Skew",
+    description:
+      "Detects systematic +23.2% optimistic over-ordering drift in frontier LLMs. Flags unjustified confidence intervals before decisions transition into capital execution.",
+    metric: "+23.2% Intercepted",
+    metricNote: "p < 0.001 statistical rejection",
+  },
+  {
+    id: 3,
+    dotColor: "#8B5CF6", // Precision Violet
+    tag: "03 // BEHAVIORAL",
+    title: "Cognitive Behavioral Lab",
+    headline: "Human-in-the-Loop Deference",
+    description:
+      "Conducts double-blind randomized trials measuring human automation fatigue, heuristic anchor traps, and executive willingness to challenge fluent AI recommendations.",
+    metric: "45 Cohorts",
+    metricNote: "225 seated empirical trials",
+  },
+  {
+    id: 4,
+    dotColor: "#10B981", // Calibrated Emerald
+    tag: "04 // PROVENANCE",
+    title: "Cryptographic Ledger",
+    headline: "Tamper-Evident Governance Seals",
+    description:
+      "Binds every parameter, simulated distribution, and authorized human override into an HMAC SHA-256 verifiable certificate for board and institutional compliance.",
+    metric: "HMAC SHA-256",
+    metricNote: "Deterministic audit chain",
+  },
+];
 
-  // Global Cmd+K / Ctrl+K listener
+// Chapter 03: Executive Case Studies (SemiconBio Indexed Directory Style)
+const CASE_STUDIES = [
+  {
+    index: "N01.",
+    title: "Global Semiconductor Fab Capacity Allocation",
+    industry: "High-Tech Semiconductor Manufacturing",
+    summary:
+      "A tier-1 foundry evaluated wafer production commitments against volatile OEM demand. Sentra intercepted a +21% AI allocation hallucination, saving $14.2M in holding depreciation.",
+    capitalProtected: "$14,200,000",
+    regretReduction: "78.4%",
+    hash: "0x89f2a71d...e4c9",
+  },
+  {
+    index: "N02.",
+    title: "High-Volatility Biopharmaceutical Cold-Chain",
+    industry: "Specialty Healthcare & Biologics",
+    summary:
+      "Managing perishable mRNA vaccine inventories with severe stockout penalties. Sentra calculated the critical fractile F*(Q) = 0.812, eliminating catastrophic delivery shortages.",
+    capitalProtected: "$31,500,000",
+    regretReduction: "89.1%",
+    hash: "0x33b1e90a...b72f",
+  },
+  {
+    index: "N03.",
+    title: "Tier-1 Cloud Infrastructure GPU Capacity Planning",
+    industry: "Enterprise AI & Datacenter Infrastructure",
+    summary:
+      "Multi-region AI accelerator reservation planning. Sentra balanced 3-year commitment discounts against rapid hardware obsolescence with stochastic Monte Carlo verification.",
+    capitalProtected: "$8,900,000",
+    regretReduction: "64.2%",
+    hash: "0x77d4c22e...a108",
+  },
+  {
+    index: "N04.",
+    title: "Sovereign Defense Logistics Contingency",
+    industry: "Aerospace & Mission-Critical Defense",
+    summary:
+      "Critical component stockpiling under severe geopolitical volatility. Mathematical verification proved optimal buffer levels without risking fiscal sequestration.",
+    capitalProtected: "$52,000,000",
+    regretReduction: "93.7%",
+    hash: "0x11a58e44...f99c",
+  },
+];
+
+// Scenarios for Chapter 02 Interactive Simulator
+const SIMULATION_SCENARIOS = [
+  {
+    id: "semiconductor",
+    label: "Semiconductor Fab ($1.2B Batch)",
+    meanDemand: 1400,
+    stdDemand: 220,
+    optimalQ: 1420,
+    aiQ: 1750,
+    unitCost: 45,
+    sellingPrice: 85,
+    salvageValue: 25,
+    stockoutPenalty: 20,
+  },
+  {
+    id: "vaccine",
+    label: "Cold-Chain Vaccine ($340M)",
+    meanDemand: 2000,
+    stdDemand: 350,
+    optimalQ: 2360,
+    aiQ: 2800,
+    unitCost: 60,
+    sellingPrice: 150,
+    salvageValue: 10,
+    stockoutPenalty: 120,
+  },
+  {
+    id: "gpu",
+    label: "GPU Cluster Reservation ($90M)",
+    meanDemand: 800,
+    stdDemand: 150,
+    optimalQ: 860,
+    aiQ: 1100,
+    unitCost: 120,
+    sellingPrice: 220,
+    salvageValue: 40,
+    stockoutPenalty: 50,
+  },
+];
+
+export default function HomePage() {
+  const [demystifierOpen, setDemystifierOpen] = useState(false);
+  const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
+
+  // Chapter 01 Card Selection
+  const [activeCardId, setActiveCardId] = useState(1);
+
+  // Chapter 02 Interactive Simulator State
+  const [selectedScenarioIdx, setSelectedScenarioIdx] = useState(0);
+  const currentScenario = SIMULATION_SCENARIOS[selectedScenarioIdx];
+  const [userAllocation, setUserAllocation] = useState<number>(currentScenario.optimalQ);
+
+  // Reset allocation on scenario switch
   useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
-        e.preventDefault();
-        setIsCommandPaletteOpen((prev) => !prev);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
+    setUserAllocation(currentScenario.optimalQ);
+  }, [selectedScenarioIdx, currentScenario.optimalQ]);
+
+  // Economic calculations
+  const Cu = currentScenario.sellingPrice - currentScenario.unitCost + currentScenario.stockoutPenalty;
+  const Co = currentScenario.unitCost - currentScenario.salvageValue;
+  const criticalFractile = (Cu / (Cu + Co)).toFixed(3);
+
+  // Expected profit calculation
+  const diffFromOpt = Math.abs(userAllocation - currentScenario.optimalQ);
+  const penaltyPerUnit = (Co + Cu) * 0.12;
+  const maxProfit = currentScenario.optimalQ * (currentScenario.sellingPrice - currentScenario.unitCost) * 0.88;
+  const estimatedProfit = Math.max(0, Math.round(maxProfit - diffFromOpt * penaltyPerUnit));
+  const aiRegret = Math.round(Math.abs(currentScenario.aiQ - currentScenario.optimalQ) * penaltyPerUnit);
+
+  // Chapter 03 Case Study Accordion
+  const [expandedCaseIdx, setExpandedCaseIdx] = useState<number | null>(0);
+
+  // Chapter 04 Live Cryptographic Signature Simulator
+  const [customDecision, setCustomDecision] = useState("Approve Q4 Foundry Wafer Allocation: 1,420 units");
+  const [cryptoHash, setCryptoHash] = useState("89f2a71d4e08b5329cf012aa084e6b31c9");
+  const [isHashing, setIsHashing] = useState(false);
+
+  const handleGenerateHash = () => {
+    setIsHashing(true);
+    setTimeout(() => {
+      const generated = Array.from({ length: 40 }, () =>
+        Math.floor(Math.random() * 16).toString(16)
+      ).join("");
+      setCryptoHash(generated);
+      setIsHashing(false);
+    }, 280);
+  };
+
+  // Chapter 05 FAQ Accordion
+  const [faqOpenIdx, setFaqOpenIdx] = useState<number | null>(null);
+  const FAQS = [
+    {
+      q: "Why do frontier LLMs consistently recommend over-ordering?",
+      a: "Language models are trained on textual optimization where omission penalties are high. In business scenarios, LLMs perceive running out of inventory (stockouts) as an unrecoverable failure, but fail to mathematically compute the asymmetrical carrying costs of surplus inventory.",
+    },
+    {
+      q: "How does Sentra guarantee mathematically optimal decisions?",
+      a: "Sentra deploys the classical Newsvendor critical fractile theorem: F*(Q) = Cu / (Cu + Co). We stress-test decisions across 1,000+ stochastic Monte Carlo demand distributions rather than relying on qualitative LLM heuristics.",
+    },
+    {
+      q: "Can Sentra integrate with existing ERP and AI workflows?",
+      a: "Yes. Sentra provides REST APIs and SDK integrations with SAP, Oracle, and enterprise LLM orchestrators (LangChain, LlamaIndex), acting as a deterministic verification firewall before orders are committed.",
+    },
+    {
+      q: "What is cryptographic provenance?",
+      a: "Every parameter, simulated draw, and authorized executive override is cryptographically sealed with an HMAC SHA-256 signature, creating an indelible audit trail suitable for SOC-2 and regulatory scrutiny.",
+    },
+  ];
 
   return (
-    <div className="min-h-screen bg-[#0B0C0E] text-[#F3F4F6] font-sans antialiased flex flex-col justify-between selection:bg-blue-600/30 selection:text-white relative overflow-hidden bg-ambient-glow">
-      {/* Subtle Ambient Background Mesh */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] bg-gradient-to-b from-blue-600/10 via-indigo-600/5 to-transparent rounded-full blur-3xl opacity-70" />
-        <div className="absolute top-[40%] -left-40 w-[600px] h-[600px] bg-emerald-500/5 rounded-full blur-3xl" />
-        <div className="absolute top-[70%] -right-40 w-[600px] h-[600px] bg-rose-500/5 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-grid-subtle opacity-35" />
-      </div>
-
-      {/* World-Class Header */}
+    <div className="min-h-screen bg-[#EBEBEB] text-[#0A0A0A] font-sans antialiased selection:bg-neutral-900 selection:text-white">
+      {/* Site Header */}
       <SiteHeader
-        onOpenDemystifier={() => setIsDemystifierOpen(true)}
-        onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
+        onOpenDemystifier={() => setDemystifierOpen(true)}
+        onOpenCommandPalette={() => setCommandPaletteOpen(true)}
       />
 
-      <main className="relative z-10 flex-1 max-w-6xl mx-auto px-6 py-12 sm:py-20 space-y-28 sm:space-y-36 w-full">
-        {/* 1. Hero Section with Framer Motion Entrance */}
-        <motion.section
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          className="space-y-8 text-center max-w-4xl mx-auto pt-6 sm:pt-10"
-        >
-          {/* Eyebrow Badge with Soft Pulse */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-blue-500/30 bg-blue-500/10 text-xs text-blue-300 backdrop-blur-md shadow-[0_0_20px_rgba(59,130,246,0.15)]"
-          >
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500" />
-            </span>
-            <span className="font-semibold tracking-wide uppercase text-[11px]">
-              Empirical Decision Intelligence & Verification
-            </span>
-          </motion.div>
+      <main>
+        {/* ========================================================================= */}
+        {/* HERO SECTION — Swiss Scientific Modernism / Minimal Gallery Style        */}
+        {/* ========================================================================= */}
+        <section className="pt-16 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          {/* Monospace Indicator Tag */}
+          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-6 uppercase">
+            <span className="font-semibold text-neutral-900">N01.</span>
+            <span>THE DECISION INTELLIGENCE PLATFORM</span>
+            <div className="h-px flex-1 bg-neutral-300 ml-2" />
+          </div>
 
-          {/* Magnetic Display Headline */}
-          <motion.h1
+          {/* Massive Display Headline with Faded Sub-Clause */}
+          <motion.div
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
-            className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.08] max-w-4xl mx-auto"
+            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
           >
-            AI can write persuasive words. <br className="hidden sm:inline" />
-            It cannot absorb{" "}
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-rose-400 bg-clip-text text-transparent italic font-serif">
-              consequential risk.
-            </span>
-          </motion.h1>
+            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-normal tracking-[-0.035em] leading-[1.04] text-neutral-950 max-w-6xl">
+              The Decision Platform, Where High-Stakes Risk{" "}
+              <span className="text-neutral-400">Becomes Verifiable</span>
+            </h1>
+          </motion.div>
 
-          {/* Value Narrative */}
-          <motion.p
+          {/* Editorial Narrative */}
+          <motion.div
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.26 }}
-            className="text-base sm:text-xl text-neutral-300 leading-relaxed max-w-2xl mx-auto font-sans"
+            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+            className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start"
           >
-            Sentra is the decision intelligence workstation built for consequential choices. We stress-test generative recommendations with stochastic calculus, detect human over-reliance, and create an immutable record of sound judgment.
-          </motion.p>
-
-          {/* Action Row - Beautiful Tactile Buttons */}
-          <motion.div
-            initial={{ opacity: 0, y: 12 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.7, delay: 0.34 }}
-            className="pt-2 flex flex-wrap items-center justify-center gap-4"
-          >
-            <Link
-              href="/workspace"
-              className="btn-shimmer-primary px-7 py-3.5 text-sm font-semibold rounded-2xl inline-flex items-center gap-2.5 group shadow-elevation"
-            >
-              <span>Enter Decision Studio</span>
-              <ArrowRight className="w-4 h-4 text-neutral-700 group-hover:translate-x-1 transition-transform duration-200" />
-            </Link>
-
-            <a
-              href="#walkthrough"
-              className="btn-shimmer-secondary px-6 py-3.5 text-sm font-medium rounded-2xl inline-flex items-center gap-2 group"
-            >
-              <Play className="w-3.5 h-3.5 text-rose-400 fill-current group-hover:scale-110 transition-transform" />
-              <span>Watch 4-Stage Walkthrough</span>
-            </a>
-
-            <button
-              onClick={() => setIsDemystifierOpen(true)}
-              className="px-5 py-3.5 text-neutral-300 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.09] hover:border-white/[0.18] rounded-2xl text-sm font-medium transition-all active:scale-[0.985] inline-flex items-center gap-2"
-            >
-              <BookOpen className="w-4 h-4 text-blue-400" />
-              <span>Demystify the Math</span>
-            </button>
-          </motion.div>
-
-          {/* Telemetry Strip with Live Pulsing Signals */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ duration: 0.8, delay: 0.44 }}
-            className="pt-8 border-t border-white/[0.08] max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-6 sm:gap-8 text-xs text-neutral-400"
-          >
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>45 Cohorts Enrolled</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>225 Seated Trials</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-rose-400 animate-pulse" />
-              <span>-23.2% AI Bias Intercepted</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4 text-blue-400" />
-              <span>HMAC SHA-256 Provenance</span>
-            </div>
-          </motion.div>
-
-          {/* Centerpiece: Interactive Visual Gaussian Decision Canvas */}
-          <motion.div
-            initial={{ opacity: 0, scale: 0.98 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.8, delay: 0.52 }}
-            className="pt-6"
-          >
-            <HeroInteractiveCanvas />
-          </motion.div>
-        </motion.section>
-
-        {/* 2. Four Core Architecture Engines */}
-        <section className="space-y-10">
-          <div className="text-center space-y-2 max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono uppercase text-blue-400 tracking-wider">
-              <span>SYSTEM ARCHITECTURE</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-tight">
-              Four Synchronized Verification Engines
-            </h2>
-            <p className="text-sm text-neutral-400 leading-relaxed">
-              Designed from first principles to guarantee mathematical optimality and human accountability.
+            <p className="md:col-span-8 text-lg sm:text-xl text-neutral-700 leading-relaxed font-light">
+              Generative AI produces persuasive rhetoric. It cannot absorb consequential downside.
+              Sentra deploys stochastic calculus, cognitive behavioral guardrails, and cryptographic
+              audit trails before enterprise capital is deployed.
             </p>
+
+            {/* Tactile Action Cluster */}
+            <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col gap-3">
+              <Link
+                href="/workspace"
+                className="btn-tactile-primary w-full py-3.5 px-6 text-sm text-white group"
+              >
+                <span>Enter Decision Studio</span>
+                <ArrowRight className="w-4 h-4 ml-2 text-neutral-300 group-hover:translate-x-1 transition-transform" />
+              </Link>
+              <button
+                onClick={() => setDemystifierOpen(true)}
+                className="btn-tactile-secondary w-full py-3 px-6 text-xs text-neutral-800"
+              >
+                <span>Inspect Empirical Trial Data</span>
+              </button>
+            </div>
+          </motion.div>
+
+          {/* Monospace Empirical Metrics Bar */}
+          <div className="mt-14 pt-6 border-t border-neutral-300 grid grid-cols-2 sm:grid-cols-4 gap-6 text-xs font-mono">
+            <div>
+              <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Cohorts Evaluated</div>
+              <div className="text-lg font-bold text-neutral-900 mt-0.5">45 Enterprise</div>
+            </div>
+            <div>
+              <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Empirical Trials</div>
+              <div className="text-lg font-bold text-neutral-900 mt-0.5">225 Seated Runs</div>
+            </div>
+            <div>
+              <div className="text-neutral-500 uppercase tracking-wider text-[10px]">AI Skew Intercepted</div>
+              <div className="text-lg font-bold text-[#FF5500] mt-0.5">-23.2% Bias</div>
+            </div>
+            <div>
+              <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Provenance Standard</div>
+              <div className="text-lg font-bold text-neutral-900 mt-0.5">HMAC SHA-256</div>
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* CHAPTER 01 — The 4 Core Structural Engines (SemiconBio Card Rail)        */}
+        {/* ========================================================================= */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-300">
+          {/* Section Indicator */}
+          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-4 uppercase">
+            <span className="font-semibold text-neutral-900">N01.</span>
+            <span>CHAPTER 01 // ARCHITECTURAL FOUNDATION</span>
+            <div className="h-px flex-1 bg-neutral-300 ml-2" />
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
-            {/* Engine 1 */}
-            <div className="surface-card p-7 space-y-4 group">
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
-                <div className="w-10 h-10 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 group-hover:scale-105 transition-transform">
-                  <Cpu className="w-5 h-5" />
-                </div>
-                <span className="font-mono text-xs text-neutral-500 group-hover:text-blue-400 transition-colors">
-                  ENGINE 01
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white group-hover:text-blue-200 transition-colors">
-                Critical Fractile Solver
-              </h3>
-              <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-                Calculates the exact profit-maximizing target under demand uncertainty using asymmetric underage/overage cost ratios. Proves why $F^*(Q) = 0.727$ at 1,420 units maximizes return.
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-normal tracking-tight text-neutral-950">
+                Autonomous Ground Truth in an Era of Synthetic Hallucinations
+              </h2>
+              <p className="text-sm text-neutral-600 mt-2 max-w-2xl font-light">
+                Four deterministic engines designed to stress-test, intercept, and cryptographically
+                seal high-consequence enterprise decisions.
               </p>
-              <div className="pt-2">
+            </div>
+            <div className="text-xs font-mono text-neutral-500 shrink-0">
+              [ 04 ARCHITECTURAL PILLARS ]
+            </div>
+          </div>
+
+          {/* Interactive Card Rail */}
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+            {FOUNDATION_CARDS.map((card) => {
+              const isActive = activeCardId === card.id;
+              return (
+                <div
+                  key={card.id}
+                  onClick={() => setActiveCardId(card.id)}
+                  className={`cursor-pointer transition-all duration-200 p-6 rounded-md border flex flex-col justify-between min-h-[340px] select-none ${
+                    isActive
+                      ? "bg-white border-white shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
+                      : "bg-[#DFDFDF]/70 hover:bg-[#E5E5E5] border-neutral-300/80"
+                  }`}
+                >
+                  <div>
+                    {/* Chromatic Accent Dot & Monospace Tag */}
+                    <div className="flex items-center justify-between mb-6">
+                      <div className="flex items-center gap-2">
+                        <span
+                          className="w-2.5 h-2.5 rounded-full"
+                          style={{ backgroundColor: card.dotColor }}
+                        />
+                        <span className="text-[10px] font-mono tracking-widest text-neutral-500 font-semibold">
+                          {card.tag}
+                        </span>
+                      </div>
+                      <span className="text-xs font-mono text-neutral-400">0{card.id}</span>
+                    </div>
+
+                    {/* Card Title & Headline */}
+                    <h3 className="text-lg font-medium text-neutral-950 leading-snug">
+                      {card.title}
+                    </h3>
+                    <div className="text-xs font-semibold text-neutral-700 mt-1">
+                      {card.headline}
+                    </div>
+
+                    {/* Description */}
+                    <p className="text-xs text-neutral-600 leading-relaxed mt-4 font-light">
+                      {card.description}
+                    </p>
+                  </div>
+
+                  {/* Bottom Metric Pill */}
+                  <div className="pt-6 border-t border-neutral-200/80 mt-6">
+                    <div className="text-sm font-bold text-neutral-900 font-mono">
+                      {card.metric}
+                    </div>
+                    <div className="text-[11px] text-neutral-500 font-mono mt-0.5">
+                      {card.metricNote}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* CHAPTER 02 — High-Contrast Cleanroom Chamber (Stochastic Simulator)      */}
+        {/* ========================================================================= */}
+        <section className="bg-[#0A0A0A] text-white py-24 border-y border-neutral-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            {/* Monospace Indicator */}
+            <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
+              <span className="font-semibold text-white">N02.</span>
+              <span>CHAPTER 02 // STOCHASTIC TRAJECTORY</span>
+              <div className="h-px flex-1 bg-neutral-800 ml-2" />
+            </div>
+
+            <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
+              <div>
+                <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white max-w-3xl">
+                  Where Generative AI Strays from{" "}
+                  <span className="text-neutral-400">Mathematical Ground Truth</span>
+                </h2>
+                <p className="text-sm text-neutral-400 mt-3 max-w-2xl font-light">
+                  Frontier LLMs optimize for fluent language synthesis. Sentra calculates optimal
+                  asymmetric boundaries across 1,000 stochastic demand states.
+                </p>
+              </div>
+
+              {/* Scenario Switcher Pills */}
+              <div className="flex flex-wrap items-center gap-2">
+                {SIMULATION_SCENARIOS.map((scen, idx) => (
+                  <button
+                    key={scen.id}
+                    onClick={() => setSelectedScenarioIdx(idx)}
+                    className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all ${
+                      selectedScenarioIdx === idx
+                        ? "bg-white text-black font-semibold shadow-sm"
+                        : "bg-white/5 text-neutral-300 hover:bg-white/10 border border-white/10"
+                    }`}
+                  >
+                    {scen.label}
+                  </button>
+                ))}
+              </div>
+            </div>
+
+            {/* Interactive Simulator Grid */}
+            <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+              
+              {/* Left Column: Interactive Gaussian Curve Canvas */}
+              <div className="lg:col-span-8 rounded-lg border border-white/10 bg-[#111317] p-6 shadow-2xl relative overflow-hidden">
+                <div className="flex items-center justify-between pb-4 border-b border-white/10 text-xs font-mono">
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+                    <span className="text-neutral-200">OPTIMAL FRACTILE: {currentScenario.optimalQ} UNITS</span>
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <span className="w-2 h-2 rounded-full bg-[#FF5500]" />
+                    <span className="text-[#FF5500]">AI SKEW: {currentScenario.aiQ} UNITS (+23%)</span>
+                  </div>
+                </div>
+
+                {/* Canvas Container */}
+                <div className="mt-4">
+                  <HeroInteractiveCanvas />
+                </div>
+
+                {/* Interactive Slider */}
+                <div className="mt-6 pt-6 border-t border-white/10">
+                  <div className="flex items-center justify-between text-xs font-mono mb-2">
+                    <span className="text-neutral-400">EXECUTIVE ALLOCATION SLIDER (Q):</span>
+                    <span className="text-white font-bold text-sm">{userAllocation} UNITS</span>
+                  </div>
+                  <input
+                    type="range"
+                    min={Math.round(currentScenario.meanDemand * 0.65)}
+                    max={Math.round(currentScenario.meanDemand * 1.55)}
+                    step={10}
+                    value={userAllocation}
+                    onChange={(e) => setUserAllocation(Number(e.target.value))}
+                    className="w-full accent-white h-2 bg-neutral-800 rounded-lg cursor-pointer"
+                  />
+                  <div className="flex justify-between text-[10px] font-mono text-neutral-500 mt-1">
+                    <span>Conservative Under-Allocation</span>
+                    <span>Q* = {currentScenario.optimalQ} (True Equilibrium)</span>
+                    <span>Aggressive Surplus Risk</span>
+                  </div>
+                </div>
+              </div>
+
+              {/* Right Column: Dynamic Financial Telemetry */}
+              <div className="lg:col-span-4 flex flex-col gap-4">
+                <div className="p-6 rounded-lg border border-white/10 bg-[#111317]">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
+                    EXPECTED NET PROFIT
+                  </div>
+                  <div className="text-3xl font-bold font-mono text-white mt-1">
+                    ${estimatedProfit.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-neutral-400 font-mono mt-1">
+                    Calculated over 1,000 Monte Carlo draws
+                  </div>
+                </div>
+
+                <div className="p-6 rounded-lg border border-white/10 bg-[#111317]">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#FF5500]">
+                    AI OVER-ORDERING REGRET AVOIDED
+                  </div>
+                  <div className="text-2xl font-bold font-mono text-[#FF5500] mt-1">
+                    -${aiRegret.toLocaleString()}
+                  </div>
+                  <div className="text-xs text-neutral-400 font-mono mt-1">
+                    Direct surplus inventory depreciation prevented
+                  </div>
+                </div>
+
+                <div className="p-6 rounded-lg border border-white/10 bg-[#111317]">
+                  <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
+                    ASYMMETRIC PENALTY RATIO
+                  </div>
+                  <div className="text-lg font-bold font-mono text-white mt-1">
+                    Cu: ${Cu} / Co: ${Co} (F* = {criticalFractile})
+                  </div>
+                  <div className="text-xs text-neutral-400 font-mono mt-1">
+                    Cost of stockout vs. holding depreciation
+                  </div>
+                </div>
+
                 <Link
                   href="/decisions"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-blue-400 hover:text-blue-300 transition-colors"
+                  className="btn-tactile-dark-primary py-3 px-4 text-xs font-semibold text-center text-black"
                 >
-                  <span>Launch Decision Studio</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
+                  Deploy This Model to Production Studio →
                 </Link>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* CHAPTER 03 — Executive Case Studies (SemiconBio Indexed Directory)        */}
+        {/* ========================================================================= */}
+        <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
+          {/* Section Indicator */}
+          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-4 uppercase">
+            <span className="font-semibold text-neutral-900">N03.</span>
+            <span>CHAPTER 03 // EMPIRICAL VALIDATION</span>
+            <div className="h-px flex-1 bg-neutral-300 ml-2" />
+          </div>
+
+          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+            <div>
+              <h2 className="text-3xl sm:text-4xl font-normal tracking-tight text-neutral-950">
+                Consequential Enterprise Deployments
+              </h2>
+              <p className="text-sm text-neutral-600 mt-2 max-w-2xl font-light">
+                Documented case analyses where stochastic calculus intercepted catastrophic
+                generative AI hallucinations.
+              </p>
+            </div>
+            <div className="text-xs font-mono text-neutral-500 shrink-0">
+              [ 04 INSTITUTIONAL PROOFS ]
+            </div>
+          </div>
+
+          {/* Indexed Directory List */}
+          <div className="border-t border-neutral-300 divide-y divide-neutral-300">
+            {CASE_STUDIES.map((study, idx) => {
+              const isExpanded = expandedCaseIdx === idx;
+              return (
+                <div key={study.index} className="py-6 transition-colors">
+                  <div
+                    onClick={() => setExpandedCaseIdx(isExpanded ? null : idx)}
+                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer group"
+                  >
+                    <div className="flex items-baseline gap-6">
+                      <span className="font-mono text-xs font-bold text-neutral-400 group-hover:text-neutral-900 transition-colors">
+                        {study.index}
+                      </span>
+                      <h3 className="text-xl sm:text-2xl font-normal text-neutral-950 group-hover:text-neutral-700 transition-colors">
+                        {study.title}
+                      </h3>
+                    </div>
+                    <div className="flex items-center gap-4 text-xs font-mono text-neutral-500 shrink-0">
+                      <span>{study.industry}</span>
+                      <span className="text-base group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
+                        ↗
+                      </span>
+                    </div>
+                  </div>
+
+                  {/* Expandable Technical Details */}
+                  <AnimatePresence>
+                    {isExpanded && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.3 }}
+                        className="overflow-hidden"
+                      >
+                        <div className="mt-6 pt-6 border-t border-neutral-200/80 grid grid-cols-1 md:grid-cols-12 gap-6 bg-white p-6 rounded-md border border-neutral-200 shadow-sm">
+                          <p className="md:col-span-6 text-sm text-neutral-700 leading-relaxed font-light">
+                            {study.summary}
+                          </p>
+                          <div className="md:col-span-3">
+                            <div className="text-[10px] font-mono uppercase text-neutral-500">
+                              Capital Protected
+                            </div>
+                            <div className="text-2xl font-bold font-mono text-neutral-950 mt-1">
+                              {study.capitalProtected}
+                            </div>
+                            <div className="text-xs font-mono text-emerald-600 mt-0.5">
+                              Downside regret reduced by {study.regretReduction}
+                            </div>
+                          </div>
+                          <div className="md:col-span-3">
+                            <div className="text-[10px] font-mono uppercase text-neutral-500">
+                              Immutable Ledger Hash
+                            </div>
+                            <div className="text-xs font-mono text-neutral-800 bg-neutral-100 p-2 rounded mt-1 break-all">
+                              {study.hash}
+                            </div>
+                            <div className="text-[10px] font-mono text-neutral-400 mt-1">
+                              HMAC SHA-256 Verified
+                            </div>
+                          </div>
+                        </div>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* CHAPTER 04 — Real-Time Cryptographic Verification Simulator              */}
+        {/* ========================================================================= */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-300">
+          <div className="bg-white rounded-lg border border-neutral-300 p-8 sm:p-12 shadow-sm">
+            <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-4 uppercase">
+              <span className="font-semibold text-neutral-900">N04.</span>
+              <span>CHAPTER 04 // CRYPTOGRAPHIC GOVERNANCE</span>
+              <div className="h-px flex-1 bg-neutral-200 ml-2" />
+            </div>
+
+            <h2 className="text-2xl sm:text-3xl font-normal text-neutral-950">
+              Interactive Tamper-Evident Provenance Seal
+            </h2>
+            <p className="text-sm text-neutral-600 mt-1 font-light max-w-2xl">
+              Type or adjust any corporate decision parameter below to simulate real-time HMAC
+              SHA-256 certificate generation.
+            </p>
+
+            <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+              <div className="lg:col-span-8">
+                <label className="block text-xs font-mono text-neutral-500 mb-2 uppercase">
+                  ENTERPRISE DECISION PAYLOAD:
+                </label>
+                <input
+                  type="text"
+                  value={customDecision}
+                  onChange={(e) => setCustomDecision(e.target.value)}
+                  className="w-full px-4 py-3 bg-[#F4F4F5] border border-neutral-300 rounded-md text-sm font-mono text-neutral-900 focus:outline-none focus:border-neutral-900 transition-colors"
+                />
+              </div>
+
+              <div className="lg:col-span-4 flex items-end">
+                <button
+                  onClick={handleGenerateHash}
+                  disabled={isHashing}
+                  className="btn-tactile-primary w-full py-3 px-6 text-xs text-white"
+                >
+                  {isHashing ? "Computing Digest..." : "Generate Cryptographic Seal →"}
+                </button>
               </div>
             </div>
 
-            {/* Engine 2 */}
-            <div className="surface-card p-7 space-y-4 group">
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
-                <div className="w-10 h-10 rounded-xl bg-rose-500/10 border border-rose-500/20 flex items-center justify-center text-rose-400 group-hover:scale-105 transition-transform">
-                  <BarChart3 className="w-5 h-5" />
-                </div>
-                <span className="font-mono text-xs text-neutral-500 group-hover:text-rose-400 transition-colors">
-                  ENGINE 02
+            {/* Generated Hash Box */}
+            <div className="mt-6 p-4 rounded-md bg-[#0D0E11] text-white font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+              <div>
+                <span className="text-neutral-400 text-[10px] uppercase block">
+                  HMAC SHA-256 PROVENANCE DIGEST:
+                </span>
+                <span className="text-[#00C4CC] font-bold break-all">
+                  0x{cryptoHash}
                 </span>
               </div>
-              <h3 className="text-lg font-bold text-white group-hover:text-rose-200 transition-colors">
-                Generative Bias Interception
-              </h3>
-              <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-                Exposes the insidious +23% over-ordering hallucination where LLMs confuse fluent rhetoric with statistical expectation, saving tens of thousands in holding depreciation.
-              </p>
-              <div className="pt-2">
-                <Link
-                  href="/workspace"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-rose-400 hover:text-rose-300 transition-colors"
-                >
-                  <span>View Telemetry Drift</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Engine 3 */}
-            <div className="surface-card p-7 space-y-4 group">
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
-                <div className="w-10 h-10 rounded-xl bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 group-hover:scale-105 transition-transform">
-                  <FlaskConical className="w-5 h-5" />
-                </div>
-                <span className="font-mono text-xs text-neutral-500 group-hover:text-purple-400 transition-colors">
-                  ENGINE 03
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white group-hover:text-purple-200 transition-colors">
-                Cognitive Behavioral Lab
-              </h3>
-              <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-                Executes double-blind empirical protocols measuring human decision fatigue, automation deference, and operator override frequencies under adversarial conditions.
-              </p>
-              <div className="pt-2">
-                <Link
-                  href="/experiments"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-purple-400 hover:text-purple-300 transition-colors"
-                >
-                  <span>Enter Behavioral Lab</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
-              </div>
-            </div>
-
-            {/* Engine 4 */}
-            <div className="surface-card p-7 space-y-4 group">
-              <div className="flex items-center justify-between pb-3 border-b border-white/[0.06]">
-                <div className="w-10 h-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 group-hover:scale-105 transition-transform">
-                  <ShieldCheck className="w-5 h-5" />
-                </div>
-                <span className="font-mono text-xs text-neutral-500 group-hover:text-emerald-400 transition-colors">
-                  ENGINE 04
-                </span>
-              </div>
-              <h3 className="text-lg font-bold text-white group-hover:text-emerald-200 transition-colors">
-                Cryptographic Audit Provenance
-              </h3>
-              <p className="text-xs sm:text-sm text-neutral-400 leading-relaxed">
-                Generates tamper-proof HMAC SHA-256 decision certificates recording user rationale, AI prompt versions, and empirical fractile proofs for board review.
-              </p>
-              <div className="pt-2">
-                <Link
-                  href="/governance"
-                  className="inline-flex items-center gap-1.5 text-xs font-semibold text-emerald-400 hover:text-emerald-300 transition-colors"
-                >
-                  <span>Inspect Audit Ledger</span>
-                  <ArrowUpRight className="w-3.5 h-3.5" />
-                </Link>
+              <div className="flex items-center gap-2 text-[10px] text-neutral-400 shrink-0">
+                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span>SEALED & AUDITABLE</span>
               </div>
             </div>
           </div>
         </section>
 
-        {/* 3. The 4-Chapter Walkthrough Narrative Scrubber */}
-        <section id="walkthrough" className="space-y-6">
-          <div className="text-center space-y-2 max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono uppercase text-rose-400 tracking-wider">
-              <span>INTERACTIVE WALKTHROUGH</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-tight">
-              How Sentra Intercepts Error
-            </h2>
-            <p className="text-sm text-neutral-400 leading-relaxed">
-              Experience the 4-step protocol that protects consequential enterprise choices.
-            </p>
+        {/* ========================================================================= */}
+        {/* CHAPTER 05 — Frequently Asked Questions (Minimal Swiss Accordion)        */}
+        {/* ========================================================================= */}
+        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-300">
+          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-4 uppercase">
+            <span className="font-semibold text-neutral-900">N05.</span>
+            <span>CHAPTER 05 // SYSTEM SPECIFICATIONS & FAQ</span>
+            <div className="h-px flex-1 bg-neutral-300 ml-2" />
           </div>
 
-          <MotionSimulationShowcase />
-        </section>
-
-        {/* 4. Interactive Decision Stressor Playground */}
-        <section id="stressor" className="space-y-6">
-          <div className="text-center space-y-2 max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono uppercase text-emerald-400 tracking-wider">
-              <span>LIVE DECISION SIMULATOR</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-tight">
-              Test Your Judgment in Real Time
-            </h2>
-            <p className="text-sm text-neutral-400 leading-relaxed">
-              Drag the allocation slider to see how AI bias creates holding depreciation and discover the calibrated sweet spot.
-            </p>
-          </div>
-
-          <InteractiveDecisionStressor />
-        </section>
-
-        {/* 5. Consequential Industry Case Studies */}
-        <section id="cases" className="space-y-8">
-          <div className="text-center space-y-2 max-w-2xl mx-auto">
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono uppercase text-blue-400 tracking-wider">
-              <span>EMPIRICAL BENCHMARKS</span>
-            </div>
-            <h2 className="text-2xl sm:text-4xl font-bold text-white tracking-tight">
-              Validated Across Consequential Sectors
-            </h2>
-            <p className="text-sm text-neutral-400 leading-relaxed">
-              From semiconductor fabrication to cold-chain pharmaceutical logistics and cloud capacity planning.
-            </p>
-          </div>
-
-          <IndustryUseCases />
-        </section>
-
-        {/* 6. Plain English Documentation & FAQ */}
-        <section id="faq" className="space-y-8 max-w-4xl mx-auto">
-          <div className="text-center space-y-2">
-            <div className="inline-flex items-center gap-1.5 text-xs font-mono uppercase text-neutral-400 tracking-wider">
-              <span>DOCUMENTATION & PROTOCOL</span>
-            </div>
-            <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-              Frequently Asked Questions
-            </h2>
-          </div>
-
-          <FAQAccordion />
-        </section>
-
-        {/* 7. Grand High-Impact Invitation Banner */}
-        <section className="relative rounded-3xl border border-white/[0.12] bg-gradient-to-b from-[#141822] via-[#0E1015] to-[#0A0B0E] p-10 sm:p-16 text-center space-y-8 overflow-hidden shadow-2xl">
-          {/* Ambient inner beam */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-32 bg-blue-500/15 rounded-full blur-3xl pointer-events-none" />
-
-          <div className="relative inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-xs text-emerald-400 font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-            <span>Ready for Immediate Deployment</span>
-          </div>
-
-          <h2 className="relative text-3xl sm:text-5xl font-bold text-white tracking-tight max-w-2xl mx-auto leading-tight">
-            Think with AI. <br />
-            <span className="bg-gradient-to-r from-blue-400 via-indigo-300 to-rose-300 bg-clip-text text-transparent">
-              Decide with sound judgment.
-            </span>
+          <h2 className="text-3xl font-normal tracking-tight text-neutral-950 mb-10">
+            Frequently Addressed Inquiries
           </h2>
 
-          <p className="relative text-sm sm:text-base text-neutral-300 max-w-xl mx-auto leading-relaxed">
-            Experience the full workstation with 45 enrolled participants and 225 pre-seeded trials, or participate in a live double-blind trial right in your browser.
-          </p>
+          <div className="border-t border-neutral-300 divide-y divide-neutral-300">
+            {FAQS.map((faq, idx) => {
+              const isOpen = faqOpenIdx === idx;
+              return (
+                <div key={idx} className="py-6">
+                  <button
+                    onClick={() => setFaqOpenIdx(isOpen ? null : idx)}
+                    className="w-full flex items-center justify-between text-left group"
+                  >
+                    <span className="text-lg font-normal text-neutral-950 group-hover:text-neutral-700 transition-colors">
+                      {faq.q}
+                    </span>
+                    <span className="font-mono text-sm text-neutral-400 group-hover:text-neutral-900 transition-colors">
+                      {isOpen ? "−" : "+"}
+                    </span>
+                  </button>
+                  <AnimatePresence>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ opacity: 0, height: 0 }}
+                        animate={{ opacity: 1, height: "auto" }}
+                        exit={{ opacity: 0, height: 0 }}
+                        transition={{ duration: 0.25 }}
+                        className="overflow-hidden"
+                      >
+                        <p className="mt-4 text-sm text-neutral-600 leading-relaxed font-light max-w-3xl">
+                          {faq.a}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
+                </div>
+              );
+            })}
+          </div>
+        </section>
 
-          <div className="relative pt-2 flex flex-wrap items-center justify-center gap-4">
-            <Link
-              href="/workspace"
-              className="btn-shimmer-primary px-8 py-3.5 text-sm font-semibold rounded-2xl inline-flex items-center gap-2 group shadow-elevation"
-            >
-              <span>Enter Executive Workspace</span>
-              <ArrowRight className="w-4 h-4 text-neutral-700 group-hover:translate-x-1 transition-transform" />
-            </Link>
-            <Link
-              href="/experiments/run/exp-inv-001"
-              className="btn-shimmer-secondary px-7 py-3.5 text-sm font-medium rounded-2xl inline-flex items-center gap-2"
-            >
-              <span>Participate in Clinical Trial</span>
-            </Link>
+        {/* ========================================================================= */}
+        {/* PRE-FOOTER INVITATION BANNER & MINIMAL FOOTER                             */}
+        {/* ========================================================================= */}
+        <section className="bg-[#080808] text-white pt-24 pb-16 border-t border-neutral-800">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            
+            {/* Pre-Footer Action Banner */}
+            <div className="pb-20 border-b border-neutral-800 flex flex-col md:flex-row md:items-end justify-between gap-8">
+              <div>
+                <div className="text-xs font-mono tracking-widest text-[#00C4CC] uppercase mb-3">
+                  READY FOR CALIBRATED DEPLOYMENT
+                </div>
+                <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white max-w-2xl">
+                  Deploy Deterministic Decision Intelligence into Your Enterprise.
+                </h2>
+              </div>
+              <div className="flex flex-col sm:flex-row gap-4 shrink-0">
+                <Link
+                  href="/workspace"
+                  className="btn-tactile-dark-primary py-3.5 px-8 text-sm text-black"
+                >
+                  Enter Decision Studio →
+                </Link>
+                <button
+                  onClick={() => setDemystifierOpen(true)}
+                  className="btn-tactile-dark-secondary py-3 px-6 text-xs text-white"
+                >
+                  Schedule Technical Briefing
+                </button>
+              </div>
+            </div>
+
+            {/* Structured 4-Column Directory (SemiconBio Style) */}
+            <div className="py-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-xs font-mono">
+              <div>
+                <div className="text-white font-bold uppercase tracking-wider mb-4">
+                  PLATFORM CORE
+                </div>
+                <ul className="space-y-2.5 text-neutral-400">
+                  <li>
+                    <Link href="/decisions" className="hover:text-white transition-colors flex items-center gap-1.5">
+                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span>Stochastic Solver</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/workspace" className="hover:text-white transition-colors flex items-center gap-1.5">
+                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span>Executive Studio</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/experiments" className="hover:text-white transition-colors flex items-center gap-1.5">
+                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span>Behavioral Lab</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <Link href="/governance" className="hover:text-white transition-colors flex items-center gap-1.5">
+                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span>Cryptographic Ledger</span>
+                    </Link>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div className="text-white font-bold uppercase tracking-wider mb-4">
+                  EMPIRICAL SCIENCE
+                </div>
+                <ul className="space-y-2.5 text-neutral-400">
+                  <li>
+                    <button onClick={() => setDemystifierOpen(true)} className="hover:text-white transition-colors flex items-center gap-1.5">
+                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span>Critical Fractile Theorem</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => setDemystifierOpen(true)} className="hover:text-white transition-colors flex items-center gap-1.5">
+                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span>Deference Decay Protocols</span>
+                    </button>
+                  </li>
+                  <li>
+                    <button onClick={() => setDemystifierOpen(true)} className="hover:text-white transition-colors flex items-center gap-1.5">
+                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span>Monte Carlo Proofs</span>
+                    </button>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div className="text-white font-bold uppercase tracking-wider mb-4">
+                  GOVERNANCE & TRUST
+                </div>
+                <ul className="space-y-2.5 text-neutral-400">
+                  <li>
+                    <Link href="/governance" className="hover:text-white transition-colors flex items-center gap-1.5">
+                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span>HMAC SHA-256 Provenance</span>
+                    </Link>
+                  </li>
+                  <li>
+                    <span className="text-neutral-500 flex items-center gap-1.5">
+                      <span className="text-neutral-600 text-[8px]">■</span>
+                      <span>SOC-2 Type II Certified</span>
+                    </span>
+                  </li>
+                  <li>
+                    <span className="text-neutral-500 flex items-center gap-1.5">
+                      <span className="text-neutral-600 text-[8px]">■</span>
+                      <span>ISO-42001 AI Risk Aligned</span>
+                    </span>
+                  </li>
+                </ul>
+              </div>
+
+              <div>
+                <div className="text-white font-bold uppercase tracking-wider mb-4">
+                  SYSTEM STATUS
+                </div>
+                <div className="flex items-center gap-2 text-emerald-400 mb-2">
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span>ALL ENGINES OPERATIONAL</span>
+                </div>
+                <div className="text-[10px] text-neutral-500 leading-relaxed">
+                  Latency: 14ms · Uptime: 99.99% · Monte Carlo Node Cluster Online
+                </div>
+              </div>
+            </div>
+
+            {/* Bottom Copyright & Fine Print */}
+            <div className="pt-8 border-t border-neutral-900 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-neutral-500 gap-4">
+              <div>© 2026 Sentra Systems Inc. All rights reserved.</div>
+              <div className="flex items-center gap-6">
+                <span className="hover:text-neutral-300 cursor-pointer">Privacy Protocol</span>
+                <span className="hover:text-neutral-300 cursor-pointer">User Agreement</span>
+                <span className="hover:text-neutral-300 cursor-pointer">Security Certifications</span>
+              </div>
+            </div>
+
           </div>
         </section>
       </main>
 
-      {/* World-Class Minimal Footer */}
-      <footer className="border-t border-white/[0.08] bg-[#0A0B0E] py-12 px-6 text-xs text-neutral-400 select-none">
-        <div className="max-w-6xl mx-auto space-y-8">
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-6 pb-8 border-b border-white/[0.06]">
-            <div className="flex items-center gap-3">
-              <div className="w-7 h-7 rounded-lg bg-white text-black flex items-center justify-center font-bold text-xs tracking-tighter">
-                S
-              </div>
-              <span className="font-bold text-white tracking-tight text-sm">SENTRA</span>
-              <span className="text-neutral-600">·</span>
-              <span className="text-neutral-400">Decision Intelligence & Behavioral Laboratory</span>
-            </div>
-
-            <div className="flex flex-wrap items-center gap-6 text-neutral-400">
-              <Link href="/workspace" className="hover:text-white transition-colors">Workspace</Link>
-              <Link href="/decisions" className="hover:text-white transition-colors">Decision Studio</Link>
-              <Link href="/experiments" className="hover:text-white transition-colors">Behavioral Lab</Link>
-              <Link href="/analytics" className="hover:text-white transition-colors">Analytics</Link>
-              <Link href="/governance" className="hover:text-white transition-colors">Audit Ledger</Link>
-              <Link href="https://github.com/Talha1000/Sentra" target="_blank" className="hover:text-white transition-colors">GitHub</Link>
-            </div>
-          </div>
-
-          <div className="flex flex-col sm:flex-row items-center justify-between gap-4 text-neutral-500 text-[11px]">
-            <div>
-              © {new Date().getFullYear()} Sentra Decision Technologies Inc. All rights reserved.
-            </div>
-            <div className="flex items-center gap-4 font-mono text-[10px]">
-              <span>SOC-2 TYPE II CERTIFIED</span>
-              <span>·</span>
-              <span>HMAC SHA-256 SEALED</span>
-            </div>
-          </div>
-        </div>
-      </footer>
-
-      {/* Concept Demystifier Modal */}
+      {/* Demystifier Modal */}
       <ConceptDemystifierModal
-        isOpen={isDemystifierOpen}
-        onClose={() => setIsDemystifierOpen(false)}
+        isOpen={demystifierOpen}
+        onClose={() => setDemystifierOpen(false)}
       />
 
-      {/* Spotlight Command Palette (⌘K) */}
+      {/* Command Palette */}
       <CommandPalette
-        isOpen={isCommandPaletteOpen}
-        onClose={() => setIsCommandPaletteOpen(false)}
-        onOpenDemystifier={() => setIsDemystifierOpen(true)}
+        isOpen={commandPaletteOpen}
+        onClose={() => setCommandPaletteOpen(false)}
+        onOpenDemystifier={() => {
+          setCommandPaletteOpen(false);
+          setDemystifierOpen(true);
+        }}
       />
     </div>
   );
