@@ -32,30 +32,31 @@ export function Modal({ isOpen, onClose, title, description, children, className
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-      {/* Dark Velvet Obsidian Backdrop */}
+      {/* Dark Velvet Backdrop */}
       <div
-        className="fixed inset-0 bg-black/75 backdrop-blur-md transition-opacity animate-in fade-in"
+        className="fixed inset-0 bg-black/80 backdrop-blur-xl transition-opacity animate-in fade-in"
         onClick={onClose}
       />
 
       {/* Modal Dialog Card */}
       <div
         className={cn(
-          "relative w-full max-w-lg bg-canvas-subtle rounded-2xl shadow-popover border border-warm-border overflow-hidden z-10 animate-in zoom-in-95 duration-200",
+          "relative w-full max-w-lg bg-[#0D111A]/95 backdrop-blur-2xl rounded-3xl shadow-[0_25px_60px_rgba(0,0,0,0.85)] border border-white/[0.12] overflow-hidden z-10 animate-in zoom-in-95 duration-200",
+          "before:absolute before:inset-x-0 before:top-0 before:h-px before:bg-gradient-to-r before:from-transparent before:via-white/20 before:to-transparent pointer-events-auto",
           className
         )}
       >
-        <div className="flex items-center justify-between p-6 border-b border-warm-hairline bg-canvas-subtle">
+        <div className="flex items-center justify-between p-6 border-b border-white/[0.08] bg-white/[0.02]">
           <div>
-            <h3 className="text-base font-serif font-bold text-ink-primary">{title}</h3>
+            <h3 className="text-base font-bold text-white tracking-tight">{title}</h3>
             {description && (
-              <p className="text-xs text-ink-secondary mt-1">{description}</p>
+              <p className="text-xs text-slate-400 mt-1">{description}</p>
             )}
           </div>
           <button
             onClick={onClose}
-            className="p-1.5 rounded-lg text-ink-muted hover:text-ink-primary hover:bg-canvas transition-colors"
-            title="Close"
+            className="p-2 rounded-xl text-slate-400 hover:text-white hover:bg-white/[0.08] transition-colors cursor-pointer"
+            title="Close dialog"
           >
             <X className="w-4 h-4" />
           </button>

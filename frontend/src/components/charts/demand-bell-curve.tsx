@@ -17,10 +17,10 @@ export function DemandBellCurve({
   purchaseQuantity,
 }: DemandBellCurveProps) {
   const width = 380;
-  const height = 160;
+  const height = 170;
   const padL = 30;
   const padR = 20;
-  const padT = 15;
+  const padT = 20;
   const padB = 30;
 
   const chartW = width - padL - padR;
@@ -58,7 +58,6 @@ export function DemandBellCurve({
 
   // Calculate cumulative service level (approx erf)
   const z = (totalInventory - meanDemand) / (stdDemand * Math.sqrt(2));
-  // Approximated error function
   const t = 1.0 / (1.0 + 0.3275911 * Math.abs(z));
   const poly =
     1.0 -
@@ -74,27 +73,27 @@ export function DemandBellCurve({
     : "";
 
   return (
-    <div className="space-y-1.5 bg-panel border border-hairline rounded p-3 shadow-sm">
+    <div className="space-y-3 bg-[#0D111A]/85 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-4 shadow-card">
       <div className="flex items-center justify-between text-xs">
-        <span className="font-semibold text-ink-primary">Demand Probability & Fill Rate</span>
-        <span className="font-mono text-[11px] font-bold text-spruce px-1.5 py-0.5 rounded bg-spruce-subtle border border-spruce-border">
+        <span className="font-semibold text-white">Demand Probability & Fill Rate</span>
+        <span className="font-mono text-[11px] font-bold text-emerald-300 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30">
           Service Level: {formatPercent(serviceLevel)}
         </span>
       </div>
 
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto select-none font-mono text-[9px] overflow-visible">
         <defs>
-          <linearGradient id="normalGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#0F766E" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#0F766E" stopOpacity="0.05" />
+          <linearGradient id="emeraldBellGrad" x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor="#10B981" stopOpacity="0.4" />
+            <stop offset="100%" stopColor="#10B981" stopOpacity="0.02" />
           </linearGradient>
         </defs>
 
         {/* Shaded satisfied demand */}
-        {shadedD && <path d={shadedD} fill="url(#normalGrad)" />}
+        {shadedD && <path d={shadedD} fill="url(#emeraldBellGrad)" />}
 
         {/* Normal Bell Curve */}
-        <path d={curveD} fill="none" stroke="#0F766E" strokeWidth="2" />
+        <path d={curveD} fill="none" stroke="#10B981" strokeWidth="2.5" />
 
         {/* Total Stock Cutoff Line */}
         <line
@@ -102,40 +101,42 @@ export function DemandBellCurve({
           y1={padT}
           x2={scaleX(totalInventory)}
           y2={padT + chartH}
-          stroke="#1D4ED8"
+          stroke="#818CF8"
           strokeWidth="2"
+          strokeDasharray="4,4"
         />
-        <circle cx={scaleX(totalInventory)} cy={padT} r="3" fill="#1D4ED8" />
+        <circle cx={scaleX(totalInventory)} cy={padT} r="4" fill="#6366F1" stroke="#FFFFFF" strokeWidth="1.5" />
 
         {/* X axis */}
-        <line x1={padL} y1={padT + chartH} x2={width - padR} y2={padT + chartH} stroke="#E3DFD5" />
+        <line x1={padL} y1={padT + chartH} x2={width - padR} y2={padT + chartH} stroke="rgba(255,255,255,0.12)" />
 
-        <text x={scaleX(minD)} y={height - 8} textAnchor="start" fill="#727D8D">
+        <text x={scaleX(minD)} y={height - 8} textAnchor="start" fill="#94A3B8">
           {Math.round(minD)}
         </text>
-        <text x={scaleX(meanDemand)} y={height - 8} textAnchor="middle" fill="#111418" className="font-bold">
+        <text x={scaleX(meanDemand)} y={height - 8} textAnchor="middle" fill="#FFFFFF" className="font-bold">
           μ = {meanDemand}
         </text>
-        <text x={scaleX(maxD)} y={height - 8} textAnchor="end" fill="#727D8D">
+        <text x={scaleX(maxD)} y={height - 8} textAnchor="end" fill="#94A3B8">
           {Math.round(maxD)}
         </text>
 
         {/* Label for total inventory */}
-        <g transform={`translate(${scaleX(totalInventory)}, ${padT + 12})`}>
+        <g transform={`translate(${scaleX(totalInventory)}, ${padT - 6})`}>
           <text
             x={totalInventory > meanDemand ? -6 : 6}
             y="0"
             textAnchor={totalInventory > meanDemand ? "end" : "start"}
-            fill="#1D4ED8"
-            className="font-sans font-bold text-[9px]"
+            fill="#818CF8"
+            className="font-sans font-bold text-[10px]"
           >
             Inventory ({totalInventory})
           </text>
         </g>
       </svg>
-      <div className="flex justify-between text-[10px] text-ink-tertiary">
-        <span className="text-spruce">■ Satisfied Demand</span>
-        <span className="text-crimson">Stockout Risk: {formatPercent(1 - serviceLevel)}</span>
+
+      <div className="flex justify-between text-[11px] pt-1 border-t border-white/[0.06]">
+        <span className="text-emerald-400 font-medium">■ Satisfied Demand</span>
+        <span className="text-rose-400 font-medium">Stockout Exposure: {formatPercent(1 - serviceLevel)}</span>
       </div>
     </div>
   );

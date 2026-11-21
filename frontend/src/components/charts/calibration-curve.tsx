@@ -22,15 +22,15 @@ export function CalibrationCurve({ bins, ece }: CalibrationCurveProps) {
   const getY = (val: number) => height - padding - val * chartH;
 
   return (
-    <div className="flex flex-col gap-2">
+    <div className="flex flex-col gap-2.5">
       <div className="flex items-center justify-between text-xs">
-        <span className="font-medium text-ink-primary">Trust Calibration Curve</span>
-        <span className="font-mono text-ink-secondary text-[11px]">
-          ECE: <span className="font-semibold text-cognition">{formatPercent(ece)}</span>
+        <span className="font-semibold text-white">Trust Calibration Curve</span>
+        <span className="font-mono text-slate-400 text-[11px]">
+          ECE: <span className="font-bold text-emerald-400 tabular-nums">{formatPercent(ece)}</span>
         </span>
       </div>
 
-      <div className="border border-warm-hairline rounded-2xl bg-canvas-elevated/60 p-3 flex items-center justify-center shadow-paper">
+      <div className="border border-white/[0.08] rounded-2xl bg-[#0D111A]/85 backdrop-blur-xl p-4 flex items-center justify-center shadow-card">
         <svg width={width} height={height} className="overflow-visible select-none text-[10px] font-mono">
           {/* Grid lines */}
           {[0.2, 0.4, 0.6, 0.8, 1.0].map((v) => (

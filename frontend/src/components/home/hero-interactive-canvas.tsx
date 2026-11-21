@@ -2,7 +2,7 @@
 
 import React, { useEffect, useRef, useState } from "react";
 import { Badge } from "@/components/ui/badge";
-import { Info } from "lucide-react";
+import { Info, Sparkles, TrendingUp, AlertTriangle } from "lucide-react";
 
 export function HeroInteractiveCanvas() {
   const canvasRef = useRef<HTMLCanvasElement>(null);
@@ -34,12 +34,12 @@ export function HeroInteractiveCanvas() {
       t += 0.012;
       ctx.clearRect(0, 0, width, height);
 
-      // Deep obsidian background fill
-      ctx.fillStyle = "#0A0D12";
+      // Deep midnight velvet background
+      ctx.fillStyle = "#0A0E17";
       ctx.fillRect(0, 0, width, height);
 
-      // Soft architectural drafting grid (fine glass lines)
-      ctx.strokeStyle = "rgba(255, 255, 255, 0.04)";
+      // Delicate architectural grid
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.035)";
       ctx.lineWidth = 1;
 
       // Vertical grid
@@ -65,7 +65,7 @@ export function HeroInteractiveCanvas() {
       const aiX = width * 0.70;      // 1,750 units (+23% bias)
       const stdWidth = width * 0.15;
 
-      // 1. Draw True Demand Gaussian Bell Curve (Luminous Emerald Sage)
+      // 1. Draw True Demand Gaussian Bell Curve (Luminous Emerald)
       ctx.beginPath();
       ctx.moveTo(0, baselineY);
 
@@ -78,33 +78,36 @@ export function HeroInteractiveCanvas() {
       ctx.closePath();
 
       // Glowing emerald gradient fill
-      const sageGrad = ctx.createLinearGradient(0, 0, 0, baselineY);
-      sageGrad.addColorStop(0, "rgba(52, 211, 153, 0.18)");
-      sageGrad.addColorStop(1, "rgba(52, 211, 153, 0.01)");
-      ctx.fillStyle = sageGrad;
+      const emeraldGrad = ctx.createLinearGradient(0, 0, 0, baselineY);
+      emeraldGrad.addColorStop(0, "rgba(16, 185, 129, 0.22)");
+      emeraldGrad.addColorStop(1, "rgba(16, 185, 129, 0.01)");
+      ctx.fillStyle = emeraldGrad;
       ctx.fill();
 
-      // Sage curve line with subtle ambient glow
-      ctx.shadowColor = "rgba(52, 211, 153, 0.4)";
-      ctx.shadowBlur = 8;
-      ctx.strokeStyle = "#34D399";
-      ctx.lineWidth = 2.2;
+      // Emerald curve line with ambient glow
+      ctx.shadowColor = "rgba(16, 185, 129, 0.6)";
+      ctx.shadowBlur = 12;
+      ctx.strokeStyle = "#10B981";
+      ctx.lineWidth = 2.5;
       ctx.stroke();
-      ctx.shadowBlur = 0; // Reset shadow
+      ctx.shadowBlur = 0;
 
-      // 2. Draw Biased AI Distribution (Glowing Terracotta Dashed Curve)
+      // 2. Draw Biased AI Distribution (Luminous Sunset Coral Dashed Curve)
       ctx.beginPath();
-      ctx.setLineDash([4, 4]);
+      ctx.setLineDash([5, 5]);
       for (let x = 0; x <= width; x += 3) {
         const exponent = -Math.pow(x - aiX, 2) / (2 * Math.pow(stdWidth * 1.15, 2));
         const bellY = baselineY - Math.exp(exponent) * (height * 0.46);
         if (x === 0) ctx.moveTo(x, bellY);
         else ctx.lineTo(x, bellY);
       }
-      ctx.strokeStyle = "rgba(224, 122, 95, 0.85)";
-      ctx.lineWidth = 1.8;
+      ctx.strokeStyle = "rgba(255, 107, 74, 0.85)";
+      ctx.lineWidth = 2;
+      ctx.shadowColor = "rgba(255, 107, 74, 0.5)";
+      ctx.shadowBlur = 8;
       ctx.stroke();
-      ctx.setLineDash([]); // Reset dash
+      ctx.shadowBlur = 0;
+      ctx.setLineDash([]);
 
       // Baseline ground line
       ctx.strokeStyle = "rgba(255, 255, 255, 0.12)";
@@ -114,65 +117,65 @@ export function HeroInteractiveCanvas() {
       ctx.lineTo(width, baselineY);
       ctx.stroke();
 
-      // 3. Mathematical Optimum Point (Spruce pin with breathing halo)
+      // 3. Mathematical Optimum Point (Emerald halo)
       const optPeakY = baselineY - height * 0.58;
-      const breathingRadius = 4.5 + Math.sin(t * 2) * 1.2;
+      const breathingRadius = 5 + Math.sin(t * 2) * 1.5;
 
       ctx.beginPath();
-      ctx.arc(optimalX, optPeakY, breathingRadius + 3, 0, Math.PI * 2);
-      ctx.fillStyle = "rgba(52, 211, 153, 0.25)";
+      ctx.arc(optimalX, optPeakY, breathingRadius + 4, 0, Math.PI * 2);
+      ctx.fillStyle = "rgba(16, 185, 129, 0.25)";
       ctx.fill();
 
       ctx.beginPath();
       ctx.arc(optimalX, optPeakY, breathingRadius, 0, Math.PI * 2);
-      ctx.fillStyle = "#34D399";
+      ctx.fillStyle = "#10B981";
       ctx.fill();
       ctx.strokeStyle = "#FFFFFF";
-      ctx.lineWidth = 1.8;
+      ctx.lineWidth = 2;
       ctx.stroke();
 
-      // 4. Biased AI Anchor Point (Terracotta pin)
+      // 4. Biased AI Anchor Point (Sunset coral pin)
       const aiPeakY = baselineY - height * 0.46;
       ctx.beginPath();
-      ctx.arc(aiX, aiPeakY, 4.5, 0, Math.PI * 2);
-      ctx.fillStyle = "#E07A5F";
+      ctx.arc(aiX, aiPeakY, 5, 0, Math.PI * 2);
+      ctx.fillStyle = "#FF6B4A";
       ctx.fill();
       ctx.strokeStyle = "#FFFFFF";
-      ctx.lineWidth = 1.8;
+      ctx.lineWidth = 2;
       ctx.stroke();
 
       // Typography annotations on canvas
-      ctx.font = "500 11px Inter, sans-serif";
+      ctx.font = "600 11px Inter, sans-serif";
 
       // Optimum label
       ctx.fillStyle = "#34D399";
-      ctx.fillText("True Sweet Spot: 1,420 units", optimalX - 65, optPeakY - 14);
+      ctx.fillText("True Sweet Spot: 1,420 units (Q*)", optimalX - 75, optPeakY - 16);
 
       // AI label
-      ctx.fillStyle = "#E07A5F";
-      ctx.fillText("AI Suggestion: 1,750 units (+23%)", aiX - 85, aiPeakY - 14);
+      ctx.fillStyle = "#FF8E72";
+      ctx.fillText("AI Suggestion: 1,750 units (+23% Bias)", aiX - 90, aiPeakY - 16);
 
       // Axis ticks and labels
-      ctx.font = "400 10px Inter, sans-serif";
-      ctx.fillStyle = "#64748B";
-      ctx.fillText("1,000", width * 0.15, baselineY + 18);
-      ctx.fillText("1,420 (Q*)", optimalX - 18, baselineY + 18);
-      ctx.fillText("1,750 (AI)", aiX - 18, baselineY + 18);
-      ctx.fillText("2,000", width * 0.88, baselineY + 18);
+      ctx.font = "500 10px Inter, sans-serif";
+      ctx.fillStyle = "#94A3B8";
+      ctx.fillText("1,000", width * 0.15, baselineY + 20);
+      ctx.fillText("1,420 (Q*)", optimalX - 22, baselineY + 20);
+      ctx.fillText("1,750 (AI)", aiX - 22, baselineY + 20);
+      ctx.fillText("2,000", width * 0.88, baselineY + 20);
 
       // Hover vertical hairline guide
       if (cursorX !== null) {
         ctx.beginPath();
-        ctx.setLineDash([2, 3]);
+        ctx.setLineDash([3, 3]);
         ctx.moveTo(cursorX, 20);
         ctx.lineTo(cursorX, baselineY);
-        ctx.strokeStyle = "rgba(248, 250, 252, 0.6)";
-        ctx.lineWidth = 1;
+        ctx.strokeStyle = "rgba(255, 255, 255, 0.7)";
+        ctx.lineWidth = 1.2;
         ctx.stroke();
         ctx.setLineDash([]);
 
         ctx.beginPath();
-        ctx.arc(cursorX, baselineY, 3.5, 0, Math.PI * 2);
+        ctx.arc(cursorX, baselineY, 4, 0, Math.PI * 2);
         ctx.fillStyle = "#FFFFFF";
         ctx.fill();
       }
@@ -213,26 +216,29 @@ export function HeroInteractiveCanvas() {
   };
 
   return (
-    <div className="rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper overflow-hidden transition-all">
-      {/* Editorial Header Strip */}
-      <div className="px-6 py-4 border-b border-warm-hairline flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-canvas/40">
+    <div className="relative rounded-3xl border border-white/[0.12] bg-[#0D111A]/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden transition-all group">
+      {/* Top Rim Light */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/40 to-transparent pointer-events-none" />
+
+      {/* Header Strip */}
+      <div className="px-6 py-4 border-b border-white/[0.08] flex flex-col sm:flex-row sm:items-center justify-between gap-3 bg-white/[0.02]">
         <div className="flex items-center gap-2.5">
-          <span className="w-2 h-2 rounded-full bg-terracotta" />
-          <span className="font-serif text-sm font-semibold text-ink-primary tracking-tight">
-            An Interactive Decision Ledger
+          <span className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+          <span className="text-sm font-semibold text-white tracking-tight">
+            Interactive Decision Ledger
           </span>
-          <span className="text-xs text-ink-muted">·</span>
-          <span className="text-xs text-ink-muted">Q4 Semiconductor Allocation</span>
+          <span className="text-xs text-white/20">·</span>
+          <span className="text-xs text-slate-400">Q4 Semiconductor Allocation</span>
         </div>
 
-        <div className="flex items-center gap-4 text-xs text-ink-secondary">
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-sage inline-block" />
+        <div className="flex items-center gap-4 text-xs">
+          <div className="flex items-center gap-1.5 text-emerald-400 font-medium">
+            <span className="w-2 h-2 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] inline-block" />
             <span>Optimal Demand (1,420)</span>
           </div>
-          <div className="flex items-center gap-1.5">
-            <span className="w-2.5 h-2.5 rounded-full bg-terracotta inline-block" />
-            <span>AI Skew (1,750)</span>
+          <div className="flex items-center gap-1.5 text-orange-400 font-medium">
+            <span className="w-2 h-2 rounded-full bg-orange-400 shadow-[0_0_6px_rgba(255,107,74,0.8)] inline-block" />
+            <span>Biased AI Skew (1,750)</span>
           </div>
         </div>
       </div>
@@ -246,32 +252,32 @@ export function HeroInteractiveCanvas() {
           className="w-full h-full block"
         />
 
-        {/* Floating human-centric tooltip */}
+        {/* Floating Tooltip */}
         {isHovering && cursorX !== null && (
           <div
-            className="absolute pointer-events-none transform -translate-x-1/2 -translate-y-12 bg-white text-slate-950 px-3.5 py-1.5 rounded-xl text-xs font-sans shadow-lg flex items-center gap-2 z-10"
+            className="absolute pointer-events-none transform -translate-x-1/2 -translate-y-12 bg-white text-slate-950 px-4 py-2 rounded-xl text-xs font-sans shadow-2xl flex items-center gap-2.5 z-20 border border-slate-200"
             style={{ left: cursorX, top: 40 }}
           >
-            <span className="font-semibold">{hoverQty.toLocaleString()} units</span>
-            <span className="text-slate-400">·</span>
-            <span className={Math.abs(hoverQty - 1420) <= 35 ? "text-emerald-700 font-bold" : "text-amber-700 font-bold"}>
+            <span className="font-bold tabular-nums">{hoverQty.toLocaleString()} units</span>
+            <span className="text-slate-300">•</span>
+            <span className={Math.abs(hoverQty - 1420) <= 35 ? "text-emerald-600 font-bold tabular-nums" : "text-amber-600 font-bold tabular-nums"}>
               ${hoverProfit.toLocaleString()} expected return
             </span>
           </div>
         )}
       </div>
 
-      {/* Descriptive Handcrafted Footer Ribbon */}
-      <div className="px-6 py-3.5 border-t border-warm-hairline bg-canvas/40 flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-ink-secondary">
+      {/* Footer Ribbon */}
+      <div className="px-6 py-3.5 border-t border-white/[0.08] bg-white/[0.02] flex flex-col sm:flex-row sm:items-center justify-between gap-3 text-xs text-slate-400">
         <div className="flex items-center gap-2">
-          <Info className="w-3.5 h-3.5 text-terracotta shrink-0" />
+          <Info className="w-3.5 h-3.5 text-indigo-400 shrink-0" />
           <span>
-            Hover across the ledger to observe how moving away from the mathematical sweet spot (1,420 units) degrades financial returns.
+            Hover across the ledger to observe how deviating from the critical fractile sweet spot (1,420 units) degrades financial returns.
           </span>
         </div>
 
-        <div className="text-ink-muted text-[11px] font-sans">
-          Ground truth: F⁻¹(0.667)
+        <div className="text-slate-500 text-[11px] font-mono">
+          Analytical Ground Truth: F⁻¹(0.667)
         </div>
       </div>
     </div>

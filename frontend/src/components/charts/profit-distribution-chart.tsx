@@ -120,7 +120,7 @@ export function ProfitDistributionChart({
         </div>
       </div>
 
-      <div className="w-full bg-canvas-elevated/60 border border-warm-hairline rounded-2xl p-3 overflow-x-auto relative shadow-paper">
+      <div className="w-full bg-[#0D111A]/85 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-4 overflow-x-auto relative shadow-card">
         <svg
           viewBox={`0 0 ${width} ${height}`}
           className="w-full h-auto select-none overflow-visible font-mono text-[10px]"

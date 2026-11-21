@@ -93,8 +93,8 @@ export function LatencyAccuracyScatter() {
               onClick={() => setActiveCondition(c.id)}
               className={`px-2 py-0.5 rounded-lg text-[10px] font-medium transition-colors ${
                 activeCondition === c.id
-                  ? "bg-ink-primary text-canvas font-semibold shadow-xs"
-                  : "bg-canvas-elevated text-ink-secondary border border-warm-hairline hover:text-ink-primary"
+                  ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
+                  : "bg-white/[0.04] text-slate-400 border border-white/[0.08] hover:text-white hover:bg-white/[0.08]"
               }`}
             >
               {c.label}
@@ -103,7 +103,7 @@ export function LatencyAccuracyScatter() {
         </div>
       </div>
 
-      <div className="bg-canvas-elevated/60 border border-warm-hairline rounded-2xl p-3 overflow-x-auto relative shadow-paper">
+      <div className="bg-[#0D111A]/85 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-4 overflow-x-auto relative shadow-card">
         <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto select-none font-mono text-[9px]">
           {/* Y-axis grid */}
           {[0.4, 0.6, 0.8, 1.0].map((acc) => {

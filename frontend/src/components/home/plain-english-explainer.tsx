@@ -52,154 +52,92 @@ export function PlainEnglishExplainer({ onOpenDemystifier }: { onOpenDemystifier
       {/* Header */}
       <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-warm-border bg-canvas-elevated text-xs text-ink-secondary mb-3">
-            <span className="w-2 h-2 rounded-full bg-terracotta shadow-[0_0_8px_rgba(224,122,95,0.6)]" />
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-indigo-500/30 bg-indigo-500/10 text-xs text-indigo-300 mb-3">
+            <span className="w-1.5 h-1.5 rounded-full bg-indigo-400 shadow-[0_0_6px_rgba(99,102,241,0.8)]" />
             <span>How Sentra Works</span>
           </div>
-          <h2 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold text-ink-primary tracking-tight leading-tight">
-            Built for the decisions you can't afford to get wrong.
+          <h2 className="text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight leading-tight">
+            Built for the decisions you cannot afford to get wrong.
           </h2>
-          <p className="text-sm sm:text-base text-ink-secondary mt-3 max-w-2xl leading-relaxed">
-            AI is extraordinary at drafting prose, summarizing articles, and writing code. But when millions of dollars in working capital are on the line, relying on an unverified language model is like flying through a storm without instruments.
+          <p className="text-xs sm:text-sm text-slate-300 mt-2 max-w-2xl leading-relaxed">
+            A 4-step calibrated defense protocol bridging machine intuition and mathematical truth.
           </p>
         </div>
 
-        {/* Tactile Mode Switcher */}
-        <div className="flex items-center gap-1.5 p-1 rounded-xl bg-canvas-elevated border border-warm-border self-start md:self-auto shrink-0">
-          <button
-            onClick={() => setMode("plain")}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              mode === "plain"
-                ? "bg-ink-primary text-canvas shadow-xs font-semibold"
-                : "text-ink-secondary hover:text-ink-primary"
-            }`}
-          >
-            In Plain English
-          </button>
-          <button
-            onClick={() => setMode("technical")}
-            className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all ${
-              mode === "technical"
-                ? "bg-ink-primary text-canvas shadow-xs font-semibold"
-                : "text-ink-secondary hover:text-ink-primary"
-            }`}
-          >
-            Scientific Rigor
-          </button>
+        {/* Toggle Mode Control */}
+        <div className="flex items-center gap-3 shrink-0">
+          <div className="p-1 rounded-xl bg-white/[0.04] border border-white/[0.08] backdrop-blur-md flex items-center gap-1">
+            <button
+              onClick={() => setMode("plain")}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                mode === "plain"
+                  ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Plain English
+            </button>
+            <button
+              onClick={() => setMode("technical")}
+              className={`px-3.5 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
+                mode === "technical"
+                  ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
+                  : "text-slate-400 hover:text-white"
+              }`}
+            >
+              Technical Rigor
+            </button>
+          </div>
+
+          {onOpenDemystifier && (
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={onOpenDemystifier}
+              className="text-xs font-medium gap-1.5"
+            >
+              <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+              <span>Guide</span>
+            </Button>
+          )}
         </div>
       </div>
 
-      {/* Four Editorial Pillars */}
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {/* 4 Pillars Grid */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
         {pillars.map((p) => (
           <div
             key={p.num}
-            className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper hover:border-warm-borderStrong hover:bg-canvas-elevated transition-all flex flex-col justify-between space-y-5"
+            className="relative rounded-3xl border border-white/[0.1] bg-[#0D111A]/85 backdrop-blur-xl p-6 shadow-card hover:border-white/20 transition-all duration-300 flex flex-col justify-between group overflow-hidden"
           >
-            <div className="space-y-3">
+            <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-white/20 to-transparent pointer-events-none" />
+
+            <div className="space-y-4">
               <div className="flex items-center justify-between">
-                <span className="font-serif text-2xl font-bold text-terracotta">
+                <span className="font-mono text-2xl font-bold bg-gradient-to-r from-indigo-400 to-purple-400 bg-clip-text text-transparent">
                   {p.num}
                 </span>
-                <span className="text-[10px] font-sans text-ink-muted uppercase tracking-wider">
+                <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 px-2 py-0.5 rounded-md bg-white/[0.04] border border-white/[0.06]">
                   {p.sub}
                 </span>
               </div>
 
-              <h3 className="font-serif text-lg font-bold text-ink-primary tracking-tight">
+              <h3 className="text-lg font-bold text-white tracking-tight">
                 {p.title}
               </h3>
 
-              <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
+              <p className="text-xs text-slate-300 leading-relaxed min-h-[96px]">
                 {mode === "plain" ? p.plain : p.technical}
               </p>
             </div>
 
-            <div className="pt-3 border-t border-warm-hairline text-[11px] text-ink-muted font-sans">
-              Phase {p.num} Safeguard
+            <div className="pt-4 border-t border-white/[0.06] mt-4 flex items-center justify-between text-[11px] text-slate-400">
+              <span className="font-mono">Stage {p.num}</span>
+              <span className="text-indigo-400 font-medium">Protocol Active</span>
             </div>
           </div>
         ))}
       </div>
-
-      {/* Before / After Contrast Panels */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
-        {/* Without Sentra */}
-        <div className="p-8 rounded-2xl border border-warm-border bg-canvas-subtle/80 space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="font-serif text-lg font-bold text-ink-primary flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.6)] inline-block" />
-              Without Sentra: The Black Box
-            </span>
-            <Badge variant="crimson">Unchecked Risk</Badge>
-          </div>
-
-          <ul className="space-y-3 text-xs sm:text-sm text-ink-secondary leading-relaxed">
-            <li className="flex items-start gap-2.5">
-              <span className="text-rose-400 font-bold shrink-0">·</span>
-              <span><strong>Blind Over-Reliance:</strong> Managers defer to articulate AI advice without understanding asymmetric downside risks.</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <span className="text-rose-400 font-bold shrink-0">·</span>
-              <span><strong>Hidden Balance Sheet Loss:</strong> Excess inventory write-downs or catastrophic stockouts eat into margins.</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <span className="text-rose-400 font-bold shrink-0">·</span>
-              <span><strong>Audit Vulnerability:</strong> When questions arise later, there is zero verifiable proof of who decided what or why.</span>
-            </li>
-          </ul>
-        </div>
-
-        {/* With Sentra */}
-        <div className="p-8 rounded-2xl border border-sage/30 bg-sage/10 space-y-4">
-          <div className="flex items-center justify-between">
-            <span className="font-serif text-lg font-bold text-sage flex items-center gap-2">
-              <span className="w-2.5 h-2.5 rounded-full bg-sage shadow-[0_0_8px_rgba(52,211,153,0.6)] inline-block" />
-              With Sentra: Calibrated Oversight
-            </span>
-            <Badge variant="spruce">Empirical Oversight</Badge>
-          </div>
-
-          <ul className="space-y-3 text-xs sm:text-sm text-ink-secondary leading-relaxed">
-            <li className="flex items-start gap-2.5">
-              <span className="text-sage font-bold shrink-0">·</span>
-              <span><strong>Mathematical Truth:</strong> Recommendations are grounded in critical fractile and Monte Carlo optimization.</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <span className="text-sage font-bold shrink-0">·</span>
-              <span><strong>Real-Time Disagreement Alerts:</strong> Detects and prevents human over-reliance before capital is authorized.</span>
-            </li>
-            <li className="flex items-start gap-2.5">
-              <span className="text-sage font-bold shrink-0">·</span>
-              <span><strong>Cryptographic Compliance:</strong> Immutable HMAC SHA-256 seal satisfies boards, auditors, and SOC-2 frameworks.</span>
-            </li>
-          </ul>
-        </div>
-      </div>
-
-      {/* Guide CTA Strip */}
-      {onOpenDemystifier && (
-        <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper flex flex-col sm:flex-row sm:items-center justify-between gap-4">
-          <div className="space-y-1">
-            <span className="font-serif text-base font-semibold text-ink-primary block">
-              Still have questions about terms like "Critical Fractile" or "ECE"?
-            </span>
-            <p className="text-xs text-ink-secondary">
-              Read our human-written guide with simple analogies for every concept in the system.
-            </p>
-          </div>
-
-          <Button
-            variant="secondary"
-            size="sm"
-            onClick={onOpenDemystifier}
-            className="shrink-0 gap-2 border-warm-border bg-canvas-elevated hover:bg-canvas-subtle"
-          >
-            <BookOpen className="w-3.5 h-3.5 text-terracotta" />
-            <span>Open Plain English Guide</span>
-          </Button>
-        </div>
-      )}
     </div>
   );
 }

@@ -10,6 +10,9 @@ import {
   SkipForward,
   CheckCircle2,
   AlertCircle,
+  ShieldCheck,
+  Cpu,
+  Sparkles,
 } from "lucide-react";
 
 interface StoryChapter {
@@ -99,23 +102,21 @@ export function MotionSimulationShowcase() {
   const currentChapter = CHAPTERS[activeIdx];
 
   useEffect(() => {
-    if (!isPlaying) return;
-
-    const intervalMs = 60;
-    const totalMs = currentChapter.durationSec * 1000;
-    const step = (intervalMs / totalMs) * 100;
-
-    const timer = setInterval(() => {
-      setProgress((prev) => {
-        if (prev >= 100) {
-          setActiveIdx((i) => (i + 1) % CHAPTERS.length);
-          return 0;
-        }
-        return prev + step;
-      });
-    }, intervalMs);
-
-    return () => clearInterval(timer);
+    let interval: NodeJS.Timeout;
+    if (isPlaying) {
+      const stepMs = 50;
+      const totalSteps = (currentChapter.durationSec * 1000) / stepMs;
+      interval = setInterval(() => {
+        setProgress((prev) => {
+          if (prev >= 100) {
+            setActiveIdx((cur) => (cur + 1) % CHAPTERS.length);
+            return 0;
+          }
+          return prev + 100 / totalSteps;
+        });
+      }, stepMs);
+    }
+    return () => clearInterval(interval);
   }, [isPlaying, activeIdx, currentChapter.durationSec]);
 
   const handleSelectChapter = (idx: number) => {
@@ -123,156 +124,180 @@ export function MotionSimulationShowcase() {
     setProgress(0);
   };
 
+  const handleTogglePlay = () => {
+    setIsPlaying(!isPlaying);
+  };
+
+  const handleNext = () => {
+    setActiveIdx((cur) => (cur + 1) % CHAPTERS.length);
+    setProgress(0);
+  };
+
+  const handleReset = () => {
+    setActiveIdx(0);
+    setProgress(0);
+  };
+
   return (
-    <div className="rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper overflow-hidden">
-      {/* Top Media Bar */}
-      <div className="px-6 py-4 border-b border-warm-hairline bg-canvas/40 flex flex-wrap items-center justify-between gap-4">
-        <div className="flex items-center gap-3">
-          <span className="font-serif text-sm font-semibold text-ink-primary">
-            Visual Walkthrough: The Sentra Decision Cycle
-          </span>
-          <Badge variant="terracotta">Interactive Tour</Badge>
+    <div className="relative rounded-3xl border border-white/[0.12] bg-[#0D111A]/90 backdrop-blur-2xl shadow-[0_20px_50px_rgba(0,0,0,0.6)] overflow-hidden transition-all">
+      {/* Top Rim Light */}
+      <div className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-indigo-400/30 to-transparent pointer-events-none" />
+
+      {/* Header Bar */}
+      <div className="p-6 sm:p-8 border-b border-white/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-4 bg-white/[0.02]">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-indigo-500 shadow-[0_0_8px_rgba(99,102,241,0.8)]" />
+            <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider">
+              Visual Tour
+            </span>
+            <span className="text-xs text-white/20">·</span>
+            <span className="text-xs text-slate-400">Chapter II</span>
+          </div>
+          <h2 className="text-2xl sm:text-3xl font-bold text-white tracking-tight mt-1">
+            How Sentra Rescues Consequential Choices
+          </h2>
         </div>
 
-        {/* Tactile Play Controls */}
-        <div className="flex items-center gap-2">
+        {/* Playback Controls */}
+        <div className="flex items-center gap-2 shrink-0">
           <button
-            onClick={() => setIsPlaying(!isPlaying)}
-            className="p-1.5 rounded-lg border border-warm-border bg-canvas hover:bg-canvas-muted text-ink-primary transition-colors"
-            title={isPlaying ? "Pause Tour" : "Play Tour"}
+            onClick={handleTogglePlay}
+            className="p-2 rounded-xl bg-white/[0.05] border border-white/[0.1] hover:bg-white/[0.1] text-white transition-colors"
+            title={isPlaying ? "Pause" : "Play"}
           >
-            {isPlaying ? <Pause className="w-3.5 h-3.5" /> : <Play className="w-3.5 h-3.5 fill-current text-terracotta" />}
+            {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4 fill-current text-indigo-400" />}
           </button>
           <button
-            onClick={() => {
-              setProgress(0);
-              setActiveIdx(0);
-            }}
-            className="p-1.5 rounded-lg border border-warm-border bg-canvas hover:bg-canvas-muted text-ink-secondary transition-colors"
-            title="Restart from Beginning"
+            onClick={handleNext}
+            className="p-2 rounded-xl bg-white/[0.05] border border-white/[0.1] hover:bg-white/[0.1] text-white transition-colors"
+            title="Next Step"
           >
-            <RotateCcw className="w-3.5 h-3.5" />
+            <SkipForward className="w-4 h-4" />
           </button>
           <button
-            onClick={() => {
-              setActiveIdx((i) => (i + 1) % CHAPTERS.length);
-              setProgress(0);
-            }}
-            className="p-1.5 rounded-lg border border-warm-border bg-canvas hover:bg-canvas-muted text-ink-secondary transition-colors"
-            title="Next Chapter"
+            onClick={handleReset}
+            className="p-2 rounded-xl bg-white/[0.05] border border-white/[0.1] hover:bg-white/[0.1] text-white transition-colors"
+            title="Replay from Beginning"
           >
-            <SkipForward className="w-3.5 h-3.5" />
+            <RotateCcw className="w-4 h-4" />
           </button>
         </div>
       </div>
 
-      {/* Main Two-Column Editorial Display */}
-      <div className="grid grid-cols-1 lg:grid-cols-12 min-h-[420px]">
-        {/* Left Column: Visual Exhibition (7 cols) */}
-        <div className="lg:col-span-7 p-6 sm:p-8 flex flex-col justify-between border-b lg:border-b-0 lg:border-r border-warm-hairline bg-canvas/30">
+      {/* Main Two-Column Stage */}
+      <div className="grid grid-cols-1 lg:grid-cols-12 divide-y lg:divide-y-0 lg:divide-x divide-white/[0.08]">
+        {/* Left Column: Stage Visual (7 cols) */}
+        <div className="lg:col-span-7 p-6 sm:p-10 flex flex-col justify-between bg-black/20">
           <div>
-            <div className="flex items-center justify-between text-xs text-ink-muted mb-6">
-              <span className="font-sans font-medium text-terracotta tracking-wide uppercase text-[11px]">
-                {currentChapter.stage}
-              </span>
-              <span className="font-mono text-[11px]">
-                Chapter {currentChapter.id} of {CHAPTERS.length}
-              </span>
+            <div className="flex items-center justify-between text-xs text-slate-400 mb-6">
+              <span className="font-mono text-indigo-400 font-medium">{currentChapter.stage}</span>
+              <Badge variant="indigo" dot>
+                {currentChapter.subtitle}
+              </Badge>
             </div>
 
-            {/* Illustration Display for each chapter */}
-            <div className="my-auto py-4">
+            {/* Dynamic Interactive Stage Visual */}
+            <div className="min-h-[260px] flex flex-col justify-center">
               {currentChapter.illustrationType === "recommendation" && (
-                <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper space-y-4">
+                <div className="p-6 rounded-2xl border border-white/[0.1] bg-[#0F1524]/90 backdrop-blur-xl shadow-xl space-y-4">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-serif text-sm font-semibold text-ink-primary">
-                      AI Generated Memo
+                    <span className="font-semibold text-white flex items-center gap-2">
+                      <Cpu className="w-4 h-4 text-orange-400" />
+                      LLM Generation Output
                     </span>
-                    <Badge variant="amber">94% Confidence</Badge>
+                    <Badge variant="terracotta">Self-Reported 94.2% Confident</Badge>
                   </div>
-                  <div className="p-4 rounded-xl bg-canvas border border-warm-hairline text-xs text-ink-secondary leading-relaxed font-sans space-y-2">
-                    <p className="italic text-ink-primary">
-                      “Based on historical Q3 velocity, we recommend committing <strong className="text-terracotta">1,750 units</strong> to maximize revenue capture.”
-                    </p>
-                    <p className="text-[11px] text-ink-muted">
-                      Notice: The model fails to penalize inventory depreciation and unsold holding costs.
-                    </p>
+
+                  <p className="text-xs text-slate-300 italic leading-relaxed bg-white/[0.03] p-4 rounded-xl border border-white/[0.06]">
+                    “Based on the historical Q4 semiconductor growth trend, I strongly advise ordering 1,750 units. This maximizes availability for key tier-1 accounts with minimal risk of stockout.”
+                  </p>
+
+                  <div className="flex items-center gap-2 text-xs text-orange-400 font-medium">
+                    <AlertCircle className="w-4 h-4 shrink-0" />
+                    <span>Silent Flaw: Ignores the $30/unit inventory depreciation holding penalty.</span>
                   </div>
                 </div>
               )}
 
               {currentChapter.illustrationType === "simulation" && (
-                <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper space-y-4">
+                <div className="p-6 rounded-2xl border border-white/[0.1] bg-[#0F1524]/90 backdrop-blur-xl shadow-xl space-y-4">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-serif text-sm font-semibold text-ink-primary">
-                      Sentra Stochastic Math
+                    <span className="font-semibold text-white flex items-center gap-2">
+                      <Sparkles className="w-4 h-4 text-emerald-400" />
+                      Sentra Stochastic Simulation
                     </span>
                     <Badge variant="spruce">N = 1,000 Draws</Badge>
                   </div>
 
-                  <div className="space-y-3 pt-1">
-                    <div className="space-y-1 text-xs">
+                  <div className="space-y-3.5 pt-1">
+                    <div className="space-y-1.5 text-xs">
                       <div className="flex justify-between">
-                        <span className="text-ink-secondary">AI Recommendation (1,750 units)</span>
-                        <span className="font-medium text-rose-400">$50,695 expected profit</span>
+                        <span className="text-slate-400">AI Recommendation (1,750 units)</span>
+                        <span className="font-semibold text-rose-400 tabular-nums">$50,695 expected profit</span>
                       </div>
-                      <div className="w-full h-2 rounded-full bg-canvas overflow-hidden">
-                        <div className="h-full bg-rose-500 w-[78%]" />
+                      <div className="w-full h-2 rounded-full bg-white/[0.06] overflow-hidden">
+                        <div className="h-full bg-rose-500 w-[78%] rounded-full shadow-[0_0_8px_rgba(244,63,94,0.5)]" />
                       </div>
                     </div>
 
-                    <div className="space-y-1 text-xs pt-1">
+                    <div className="space-y-1.5 text-xs pt-1">
                       <div className="flex justify-between">
-                        <span className="text-ink-primary font-medium">Mathematical Sweet Spot (1,420 units)</span>
-                        <span className="font-semibold text-sage">$56,800 expected profit</span>
+                        <span className="text-white font-medium">Mathematical Sweet Spot (1,420 units)</span>
+                        <span className="font-bold text-emerald-400 tabular-nums">$56,800 expected profit</span>
                       </div>
-                      <div className="w-full h-2 rounded-full bg-canvas overflow-hidden">
-                        <div className="h-full bg-sage w-[96%]" />
+                      <div className="w-full h-2 rounded-full bg-white/[0.06] overflow-hidden">
+                        <div className="h-full bg-emerald-500 w-[96%] rounded-full shadow-[0_0_8px_rgba(16,185,129,0.5)]" />
                       </div>
                     </div>
                   </div>
 
-                  <p className="text-[11px] text-sage font-medium flex items-center gap-1.5 pt-1">
-                    <CheckCircle2 className="w-3.5 h-3.5 text-sage shrink-0" />
-                    <span>Difference: $6,105 saved by adhering to critical fractile math.</span>
+                  <p className="text-xs text-emerald-400 font-medium flex items-center gap-2 pt-1">
+                    <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+                    <span>Real-world Benefit: $6,105 saved by adhering to critical fractile math.</span>
                   </p>
                 </div>
               )}
 
               {currentChapter.illustrationType === "override" && (
-                <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper space-y-4">
+                <div className="p-6 rounded-2xl border border-white/[0.1] bg-[#0F1524]/90 backdrop-blur-xl shadow-xl space-y-4">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-serif text-sm font-semibold text-ink-primary">
+                    <span className="font-semibold text-white flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-indigo-400" />
                       Cognitive Guardrail Active
                     </span>
-                    <Badge variant="terracotta">Oversight Engaged</Badge>
+                    <Badge variant="indigo">Oversight Engaged</Badge>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-terracotta-light border border-terracotta-border text-xs text-ink-primary space-y-2">
-                    <div className="font-medium text-terracotta flex items-center gap-1.5">
-                      <AlertCircle className="w-4 h-4 text-terracotta shrink-0" />
-                      <span>Over-reliance Warning Intercept</span>
+                  <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/25 text-xs text-white space-y-2">
+                    <div className="font-semibold text-orange-400 flex items-center gap-2">
+                      <AlertCircle className="w-4 h-4 text-orange-400 shrink-0" />
+                      <span>Over-Reliance Warning Intercept</span>
                     </div>
-                    <p className="text-xs text-ink-secondary leading-relaxed">
-                      Executive paused before submitting the AI's 1,750 units, verified the downside holding risks, and corrected the purchase order to 1,420 units.
+                    <p className="text-xs text-slate-300 leading-relaxed">
+                      Executive paused before submitting the AI's 1,750 units, verified the downside holding risks, and calibrated the purchase order to 1,420 units.
                     </p>
                   </div>
                 </div>
               )}
 
               {currentChapter.illustrationType === "certificate" && (
-                <div className="p-6 rounded-2xl border border-warm-border bg-canvas-subtle shadow-paper space-y-4">
+                <div className="p-6 rounded-2xl border border-white/[0.1] bg-[#0F1524]/90 backdrop-blur-xl shadow-xl space-y-4">
                   <div className="flex items-center justify-between text-xs">
-                    <span className="font-serif text-sm font-semibold text-ink-primary">
+                    <span className="font-semibold text-white flex items-center gap-2">
+                      <ShieldCheck className="w-4 h-4 text-emerald-400" />
                       Tamper-Evident Digital Seal
                     </span>
                     <Badge variant="spruce">Cryptographically Sealed</Badge>
                   </div>
 
-                  <div className="p-4 rounded-xl bg-canvas border border-warm-hairline font-mono text-[11px] text-ink-secondary space-y-1.5">
-                    <div>CERTIFICATE: 0x9e4b7c10d3f82a45e9981240cdae331b</div>
-                    <div>TIMESTAMP: November 2026 · 17:00:24 UTC</div>
-                    <div className="text-sage font-sans font-medium">✓ Irrefutable proof of diligent human oversight</div>
+                  <div className="p-4 rounded-xl bg-black/40 border border-white/[0.08] font-mono text-xs text-slate-300 space-y-2">
+                    <div className="text-indigo-300">CERTIFICATE: 0x9e4b7c10d3f82a45e9981240cdae331b</div>
+                    <div className="text-slate-400">TIMESTAMP: November 2026 · 17:00:24 UTC</div>
+                    <div className="text-emerald-400 font-sans font-medium flex items-center gap-2 pt-1">
+                      <CheckCircle2 className="w-4 h-4 text-emerald-400" />
+                      Irrefutable proof of diligent human oversight
+                    </div>
                   </div>
                 </div>
               )}
@@ -280,76 +305,76 @@ export function MotionSimulationShowcase() {
           </div>
 
           {/* Scrubber Progress Bar */}
-          <div className="mt-6 space-y-1.5">
-            <div className="w-full bg-canvas h-1.5 rounded-full overflow-hidden">
+          <div className="mt-8 space-y-2">
+            <div className="w-full bg-white/[0.06] h-1.5 rounded-full overflow-hidden">
               <div
-                className="bg-terracotta h-full transition-all duration-75"
+                className="bg-gradient-to-r from-indigo-500 via-purple-500 to-indigo-400 h-full transition-all duration-75 shadow-[0_0_8px_rgba(99,102,241,0.6)]"
                 style={{ width: `${progress}%` }}
               />
             </div>
-            <div className="flex justify-between text-[10px] text-ink-muted">
-              <span>0{activeIdx + 1}</span>
-              <span>04</span>
+            <div className="flex justify-between text-[11px] text-slate-500 font-mono">
+              <span>0{activeIdx + 1} / 04</span>
+              <span>{Math.round(progress)}%</span>
             </div>
           </div>
         </div>
 
-        {/* Right Column: Editorial Narrative (5 cols) */}
-        <div className="lg:col-span-5 p-6 sm:p-8 flex flex-col justify-between bg-canvas-subtle">
-          <div className="space-y-4">
+        {/* Right Column: Narrative (5 cols) */}
+        <div className="lg:col-span-5 p-6 sm:p-10 flex flex-col justify-between bg-white/[0.01]">
+          <div className="space-y-5">
             <div>
-              <span className="text-xs font-sans font-medium text-terracotta uppercase tracking-wider block">
+              <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider block">
                 {currentChapter.subtitle}
               </span>
-              <h3 className="font-serif text-2xl font-bold text-ink-primary tracking-tight mt-1">
+              <h3 className="text-2xl font-bold text-white tracking-tight mt-1.5">
                 {currentChapter.title}
               </h3>
             </div>
 
-            <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
+            <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
               {currentChapter.narrative}
             </p>
 
             {/* Human Takeaway Card */}
-            <div className="p-4 rounded-xl bg-canvas border border-warm-hairline text-xs text-ink-primary">
-              <span className="font-semibold text-ink-primary block mb-1">
+            <div className="p-4 rounded-2xl bg-white/[0.04] border border-white/[0.08] text-xs">
+              <span className="font-semibold text-white block mb-1">
                 Why this matters:
               </span>
-              <span className="text-ink-secondary italic leading-relaxed">
+              <span className="text-slate-300 italic leading-relaxed">
                 “{currentChapter.humanTakeaway}”
               </span>
             </div>
 
-            {/* Clean Data Strip */}
-            <div className="grid grid-cols-1 gap-2 pt-2">
+            {/* Data Strip */}
+            <div className="grid grid-cols-1 gap-2 pt-1">
               {currentChapter.dataPoints.map((dp, i) => (
                 <div
                   key={i}
-                  className="p-3 rounded-xl border border-warm-hairline bg-canvas/60 flex items-center justify-between text-xs"
+                  className="p-3.5 rounded-xl border border-white/[0.06] bg-white/[0.02] flex items-center justify-between text-xs"
                 >
                   <div>
-                    <span className="text-ink-muted block text-[11px]">{dp.label}</span>
-                    <span className="font-medium text-ink-primary text-sm mt-0.5">{dp.value}</span>
+                    <span className="text-slate-400 block text-[11px]">{dp.label}</span>
+                    <span className="font-semibold text-white text-sm mt-0.5 tabular-nums">{dp.value}</span>
                   </div>
-                  <span className="text-[11px] text-ink-muted font-sans">{dp.note}</span>
+                  <span className="text-[11px] text-slate-400 font-medium">{dp.note}</span>
                 </div>
               ))}
             </div>
           </div>
 
           {/* Chapter Selector Tabs */}
-          <div className="pt-6 border-t border-warm-hairline mt-6 grid grid-cols-4 gap-2">
+          <div className="pt-6 border-t border-white/[0.08] mt-6 grid grid-cols-4 gap-2">
             {CHAPTERS.map((chap, idx) => (
               <button
                 key={chap.id}
                 onClick={() => handleSelectChapter(idx)}
-                className={`p-2.5 rounded-xl text-left transition-all ${
+                className={`p-2.5 rounded-xl text-left transition-all cursor-pointer ${
                   activeIdx === idx
-                    ? "bg-canvas border border-warm-border text-ink-primary font-medium"
-                    : "hover:bg-canvas/50 text-ink-muted"
+                    ? "bg-indigo-500/20 border border-indigo-500/35 text-white font-medium shadow-[0_0_12px_rgba(99,102,241,0.2)]"
+                    : "hover:bg-white/[0.04] text-slate-400"
                 }`}
               >
-                <div className="text-[10px] font-mono">0{chap.id}</div>
+                <div className="text-[10px] font-mono text-indigo-400">0{chap.id}</div>
                 <div className="text-[11px] truncate mt-0.5">{chap.title.split(" ")[1] || chap.title}</div>
               </button>
             ))}

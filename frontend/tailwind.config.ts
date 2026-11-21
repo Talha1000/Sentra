@@ -10,52 +10,71 @@ const config: Config = {
     extend: {
       colors: {
         canvas: {
-          DEFAULT: "#0A0D12", // Deep obsidian noir
-          subtle: "#111622",  // Elevated card surface
-          muted: "#161D2B",   // Secondary panel
+          DEFAULT: "#07090E", // Deep midnight obsidian
+          subtle: "#0D111A",  // Elevated frosted card
+          muted: "#131826",   // Secondary panel
+          elevated: "#182032", // Elevated interactive layer
+          surface: "rgba(13, 17, 26, 0.7)",
+        },
+        brand: {
+          DEFAULT: "#6366F1", // Electric Indigo
+          hover: "#4F46E5",
+          light: "rgba(99, 102, 241, 0.12)",
+          border: "rgba(99, 102, 241, 0.28)",
+          glow: "rgba(99, 102, 241, 0.35)",
         },
         terracotta: {
-          DEFAULT: "#E07A5F", // Luminous warm terracotta
-          hover: "#CC684D",
-          dark: "#F49D85",
-          light: "rgba(224, 122, 95, 0.12)",
-          border: "rgba(224, 122, 95, 0.28)",
+          DEFAULT: "#FF6B4A", // Vibrant Luminous Sunset Coral
+          hover: "#FA5532",
+          dark: "#FDA48B",
+          light: "rgba(255, 107, 74, 0.12)",
+          border: "rgba(255, 107, 74, 0.3)",
         },
         ink: {
-          primary: "#F8FAFC",   // Crisp glowing white
-          secondary: "#94A3B8", // Elegant slate 400
-          muted: "#64748B",     // Refined slate 500
+          primary: "#FFFFFF",   // Crisp radiant white
+          secondary: "#94A3B8", // Silky slate 400
+          muted: "#64748B",     // Sophisticated slate 500
           light: "#475569",     // Subdued slate 600
         },
         warm: {
-          hairline: "rgba(255, 255, 255, 0.08)",  // Soft 1px glass divider
-          border: "rgba(255, 255, 255, 0.12)",    // Card border
-          active: "rgba(255, 255, 255, 0.22)",    // Active focus border
+          hairline: "rgba(255, 255, 255, 0.07)",  // Delicate hairline separator
+          border: "rgba(255, 255, 255, 0.11)",    // High-def glass border
+          active: "rgba(255, 255, 255, 0.24)",    // Active focus ring
         },
         sage: {
-          DEFAULT: "#34D399",   // Luminous emerald truth
-          light: "rgba(52, 211, 153, 0.12)",
-          border: "rgba(52, 211, 153, 0.28)",
+          DEFAULT: "#10B981",   // Luminous Emerald
+          hover: "#059669",
+          light: "rgba(16, 185, 129, 0.12)",
+          border: "rgba(16, 185, 129, 0.28)",
+        },
+        cyan: {
+          DEFAULT: "#06B6D4",   // Electric Cyan
+          light: "rgba(6, 182, 212, 0.12)",
+          border: "rgba(6, 182, 212, 0.28)",
+        },
+        violet: {
+          DEFAULT: "#8B5CF6",   // Radiant Violet
+          light: "rgba(139, 92, 246, 0.12)",
+          border: "rgba(139, 92, 246, 0.28)",
         },
         ochre: {
-          DEFAULT: "#F59E0B",   // Warm amber ochre
+          DEFAULT: "#F59E0B",   // Radiant Amber Gold
           light: "rgba(245, 158, 11, 0.12)",
           border: "rgba(245, 158, 11, 0.28)",
         },
         clay: {
-          DEFAULT: "#E07A5F",
-          light: "rgba(224, 122, 95, 0.12)",
-          border: "rgba(224, 122, 95, 0.28)",
+          DEFAULT: "#FF6B4A",
+          light: "rgba(255, 107, 74, 0.12)",
+          border: "rgba(255, 107, 74, 0.28)",
         },
       },
       fontFamily: {
         serif: [
-          '"Iowan Old Style"',
-          '"Apple Garamond"',
-          '"Baskerville"',
-          '"Palatino Linotype"',
-          '"Georgia"',
-          "serif",
+          '"Plus Jakarta Sans"',
+          '"Inter"',
+          "-apple-system",
+          "BlinkMacSystemFont",
+          "sans-serif",
         ],
         sans: [
           '"Inter"',
@@ -79,16 +98,38 @@ const config: Config = {
         md: "14px",
         lg: "18px",
         xl: "22px",
-        "2xl": "28px",
+        "2xl": "26px",
+        "3xl": "32px",
         full: "9999px",
       },
       boxShadow: {
         xs: "0 1px 2px 0 rgba(0, 0, 0, 0.4)",
         sm: "0 1px 3px 0 rgba(0, 0, 0, 0.5), 0 1px 2px -1px rgba(0, 0, 0, 0.4)",
-        card: "0 4px 16px 0 rgba(0, 0, 0, 0.45), 0 1px 2px 0 rgba(0, 0, 0, 0.3)",
-        cardHover: "0 8px 24px -2px rgba(0, 0, 0, 0.6), 0 2px 6px -1px rgba(0, 0, 0, 0.4)",
-        dropdown: "0 14px 28px -4px rgba(0, 0, 0, 0.7), 0 6px 12px -2px rgba(0, 0, 0, 0.5)",
-        popover: "0 24px 38px -6px rgba(0, 0, 0, 0.8), 0 10px 16px -4px rgba(0, 0, 0, 0.6)",
+        card: "0 4px 20px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.06)",
+        cardHover: "0 14px 34px -4px rgba(0, 0, 0, 0.65), inset 0 1px 0 0 rgba(255, 255, 255, 0.12)",
+        dropdown: "0 18px 36px -4px rgba(0, 0, 0, 0.75), 0 6px 16px -2px rgba(0, 0, 0, 0.5)",
+        popover: "0 28px 48px -6px rgba(0, 0, 0, 0.85), 0 12px 20px -4px rgba(0, 0, 0, 0.6)",
+        glow: "0 0 35px -5px rgba(99, 102, 241, 0.3)",
+        glowLg: "0 0 60px -8px rgba(99, 102, 241, 0.45)",
+        glowEmerald: "0 0 35px -5px rgba(16, 185, 129, 0.3)",
+        glowCoral: "0 0 35px -5px rgba(255, 107, 74, 0.35)",
+        glowAmber: "0 0 35px -5px rgba(245, 158, 11, 0.35)",
+        glass: "0 8px 32px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.08)",
+      },
+      animation: {
+        "pulse-slow": "pulse 4s cubic-bezier(0.4, 0, 0.6, 1) infinite",
+        "float": "float 6s ease-in-out infinite",
+        "shimmer": "shimmer 2.5s linear infinite",
+      },
+      keyframes: {
+        float: {
+          "0%, 100%": { transform: "translateY(0)" },
+          "50%": { transform: "translateY(-6px)" },
+        },
+        shimmer: {
+          from: { backgroundPosition: "0 0" },
+          to: { backgroundPosition: "-200% 0" },
+        },
       },
     },
   },

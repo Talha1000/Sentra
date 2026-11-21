@@ -44,7 +44,7 @@ const FAQS: FAQ[] = [
   {
     q: "Can our team test this right now without setting up servers?",
     category: "Getting Started",
-    a: "Yes. Sentra includes a Zero-Friction Demo Seeder. Click 'Seed Test Data' anywhere in the topbar, or head to the Research Lab to participate in a live double-blind trial right in your browser. All 45 participants and 225 trials are simulated with instant statistical analytics.",
+    a: "Yes. Sentra includes a Zero-Friction Demo Seeder. Click 'Seed Demo Data' anywhere in the topbar, or head to the Research Lab to participate in a live double-blind trial right in your browser. All 45 participants and 225 trials are simulated with instant statistical analytics.",
     humanNote: "You can evaluate the full system live in under 30 seconds.",
   },
 ];
@@ -56,13 +56,13 @@ export function FAQAccordion() {
     <div className="space-y-8">
       {/* Header */}
       <div className="text-center max-w-2xl mx-auto space-y-2">
-        <span className="text-xs font-sans font-medium text-terracotta uppercase tracking-wide block">
+        <span className="text-xs font-semibold text-indigo-400 uppercase tracking-wider block">
           Questions & Answers
         </span>
-        <h2 className="font-serif text-3xl sm:text-4xl font-bold text-ink-primary tracking-tight">
+        <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
           Clear Answers for Clear Minds
         </h2>
-        <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
+        <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
           Everything you need to know about decision intelligence, AI risk, and mathematical calibration.
         </p>
       </div>
@@ -74,40 +74,38 @@ export function FAQAccordion() {
           return (
             <div
               key={idx}
-              className={`rounded-2xl border transition-all ${
+              className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
                 isOpen
-                  ? "border-warm-borderStrong bg-canvas-subtle shadow-paper"
-                  : "border-warm-hairline bg-canvas-subtle/50 hover:bg-canvas-subtle hover:border-warm-border"
+                  ? "border-indigo-500/40 bg-[#0F1524] shadow-[0_0_25px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500/25"
+                  : "border-white/[0.08] bg-[#0D111A]/80 hover:bg-white/[0.04] text-slate-300"
               }`}
             >
               <button
                 onClick={() => setOpenIdx(isOpen ? null : idx)}
-                className="w-full p-6 text-left flex items-center justify-between gap-4"
+                className="w-full p-5 sm:p-6 text-left flex items-start justify-between gap-4 cursor-pointer select-none"
               >
-                <div className="flex items-center gap-3.5">
-                  <span className="font-serif text-sm font-semibold text-terracotta">
-                    0{idx + 1}
+                <div className="space-y-1">
+                  <span className="text-[10px] font-semibold text-indigo-400 uppercase tracking-wider block">
+                    {faq.category}
                   </span>
-                  <span className="font-serif text-base font-bold text-ink-primary">
+                  <span className="text-sm sm:text-base font-semibold text-white tracking-tight block">
                     {faq.q}
                   </span>
                 </div>
-                <ChevronDown
-                  className={`w-4 h-4 text-ink-muted transition-transform shrink-0 ${
-                    isOpen ? "rotate-180" : ""
-                  }`}
-                />
+
+                <div className={`p-1.5 rounded-lg border border-white/[0.08] shrink-0 transition-transform duration-200 ${isOpen ? "rotate-180 text-indigo-400 bg-indigo-500/10" : "text-slate-400"}`}>
+                  <ChevronDown className="w-4 h-4" />
+                </div>
               </button>
 
               {isOpen && (
-                <div className="px-6 pb-6 pt-1 space-y-3.5 text-xs sm:text-sm text-ink-secondary border-t border-warm-hairline">
-                  <p className="leading-relaxed text-ink-secondary">{faq.a}</p>
-
-                  <div className="p-3.5 rounded-xl bg-canvas-elevated border border-warm-hairline text-xs font-sans text-ink-primary flex items-start gap-2">
-                    <span className="text-terracotta font-bold shrink-0">·</span>
-                    <span>
-                      <strong className="text-ink-primary">The Key Takeaway:</strong> {faq.humanNote}
-                    </span>
+                <div className="px-5 sm:px-6 pb-6 pt-1 space-y-3.5 border-t border-white/[0.06]">
+                  <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
+                    {faq.a}
+                  </p>
+                  <div className="p-3 rounded-xl bg-white/[0.03] border border-white/[0.06] text-xs text-indigo-300 flex items-start gap-2">
+                    <Sparkles className="w-4 h-4 text-indigo-400 shrink-0 mt-0.5" />
+                    <span><strong>Key takeaway:</strong> {faq.humanNote}</span>
                   </div>
                 </div>
               )}

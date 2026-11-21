@@ -18,13 +18,12 @@ import {
   Play,
   Sparkles,
   Cpu,
-  Layers,
-  ChevronRight,
   BookOpen,
   Menu,
   X,
-  CheckCircle2,
   Search,
+  Activity,
+  Layers,
 } from "lucide-react";
 
 export function Topbar() {
@@ -96,26 +95,25 @@ export function Topbar() {
   };
 
   return (
-    <header className="border-b border-warm-hairline bg-canvas/90 backdrop-blur-md sticky top-0 z-40 select-none shadow-xs">
+    <header className="border-b border-white/[0.08] bg-[#07090E]/85 backdrop-blur-2xl sticky top-0 z-40 select-none shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
       {/* Primary Navigation Bar */}
       <div className="h-16 px-4 sm:px-6 lg:px-8 max-w-[1520px] mx-auto flex items-center justify-between gap-4">
         {/* Brand & Organization */}
         <div className="flex items-center gap-3">
-          <Link href="/workspace" className="flex items-center gap-2.5 group">
-            <motion.div
-              whileHover={{ scale: 1.05 }}
-              whileTap={{ scale: 0.95 }}
-              className="w-8 h-8 rounded-xl bg-ink-primary text-canvas flex items-center justify-center font-serif font-bold text-sm tracking-tight shadow-xs group-hover:bg-terracotta transition-colors"
-            >
-              S
-            </motion.div>
+          <Link href="/workspace" className="flex items-center gap-3 group">
+            <div className="relative">
+              <div className="absolute -inset-1 rounded-xl bg-gradient-to-r from-indigo-500 to-purple-600 opacity-70 blur-sm group-hover:opacity-100 transition duration-300" />
+              <div className="relative w-8 h-8 rounded-xl bg-[#0F1523] border border-white/20 flex items-center justify-center font-bold text-sm text-white shadow-md">
+                S
+              </div>
+            </div>
             <div>
               <div className="flex items-center gap-2">
-                <span className="font-serif font-bold text-base tracking-tight text-ink-primary">
+                <span className="font-bold text-base tracking-tight text-white group-hover:text-indigo-300 transition-colors">
                   SENTRA
                 </span>
-                <span className="hidden sm:inline-block text-[10px] font-sans font-medium uppercase px-2 py-0.5 rounded-full bg-canvas-subtle text-ink-secondary border border-warm-hairline">
-                  Platform
+                <span className="hidden sm:inline-block text-[10px] font-mono uppercase px-2 py-0.5 rounded-full bg-indigo-500/10 text-indigo-300 border border-indigo-500/25">
+                  PRO STUDIO
                 </span>
               </div>
             </div>
@@ -123,7 +121,7 @@ export function Topbar() {
         </div>
 
         {/* Central Clean Nav Links with Framer Motion Active Gliding Pill */}
-        <nav className="hidden md:flex items-center gap-1 bg-canvas-subtle p-1 rounded-xl border border-warm-hairline relative">
+        <nav className="hidden md:flex items-center gap-1 bg-white/[0.04] p-1.5 rounded-2xl border border-white/[0.08] backdrop-blur-md relative">
           {navItems.map((item) => {
             const isActive = pathname.startsWith(item.href);
             const Icon = item.icon;
@@ -132,19 +130,19 @@ export function Topbar() {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "px-3.5 py-1.5 rounded-lg text-xs font-medium flex items-center gap-2 transition-colors relative z-10",
+                  "px-3.5 py-1.5 rounded-xl text-xs font-medium flex items-center gap-2 transition-all duration-200 relative z-10",
                   isActive
-                    ? "text-ink-primary font-semibold"
-                    : "text-ink-secondary hover:text-ink-primary"
+                    ? "text-white font-semibold"
+                    : "text-slate-400 hover:text-white hover:bg-white/[0.03]"
                 )}
               >
-                <Icon className={cn("w-3.5 h-3.5", isActive ? "text-terracotta" : "text-ink-muted")} />
+                <Icon className={cn("w-3.5 h-3.5 transition-colors", isActive ? "text-indigo-400" : "text-slate-500")} />
                 <span>{item.name}</span>
 
                 {isActive && (
                   <motion.div
                     layoutId="topbar-active-pill"
-                    className="absolute inset-0 rounded-lg bg-canvas-elevated shadow-xs border border-warm-borderStrong -z-10"
+                    className="absolute inset-0 rounded-xl bg-gradient-to-r from-indigo-500/25 to-purple-500/25 border border-indigo-400/40 shadow-[0_0_15px_rgba(99,102,241,0.25)] -z-10"
                     transition={{ type: "spring", stiffness: 450, damping: 35 }}
                   />
                 )}
@@ -154,99 +152,94 @@ export function Topbar() {
         </nav>
 
         {/* Action Controls */}
-        <div className="flex items-center gap-2 sm:gap-3">
+        <div className="flex items-center gap-2.5 sm:gap-3">
           {/* Quick Command Palette Trigger */}
-          <motion.button
-            whileHover={{ scale: 1.02 }}
-            whileTap={{ scale: 0.98 }}
+          <button
             onClick={() => setIsCommandPaletteOpen(true)}
-            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-warm-border bg-canvas-elevated hover:bg-canvas-subtle text-xs text-ink-muted hover:text-ink-primary transition-colors"
+            className="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-xl border border-white/[0.1] bg-white/[0.04] hover:bg-white/[0.08] hover:border-white/[0.18] text-xs text-slate-400 hover:text-white transition-all cursor-pointer shadow-xs"
             title="Search or jump to (Cmd+K)"
           >
-            <Search className="w-3.5 h-3.5 text-terracotta" />
-            <span className="hidden xl:inline">Search...</span>
-            <kbd className="text-[10px] font-mono px-1.5 py-0.2 rounded bg-canvas border border-warm-hairline">⌘K</kbd>
-          </motion.button>
+            <Search className="w-3.5 h-3.5 text-indigo-400" />
+            <span className="hidden xl:inline">Search studio...</span>
+            <kbd className="text-[10px] font-mono px-1.5 py-0.5 rounded-md bg-white/[0.06] border border-white/[0.1] text-slate-300">⌘K</kbd>
+          </button>
 
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={() => setIsDemystifierOpen(true)}
-              className="text-xs font-medium text-ink-secondary gap-1.5 border-warm-border"
-              title="Open A Human Guide to the Concepts"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-terracotta" />
-              <span className="hidden sm:inline">A Human Guide</span>
-              <span className="sm:hidden">Guide</span>
-            </Button>
-          </motion.div>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={() => setIsDemystifierOpen(true)}
+            className="text-xs font-medium gap-1.5"
+            title="Open Human Guide to Sentra Concepts"
+          >
+            <BookOpen className="w-3.5 h-3.5 text-indigo-400" />
+            <span className="hidden sm:inline">Concept Guide</span>
+            <span className="sm:hidden">Guide</span>
+          </Button>
 
-          <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
-            <Button
-              variant="secondary"
-              size="sm"
-              onClick={handleSeedDemo}
-              isLoading={isSeeding}
-              className="text-xs font-medium text-ink-secondary border-warm-border"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-terracotta mr-1.5" />
-              <span>{seededMsg || "Seed Test Data"}</span>
-            </Button>
-          </motion.div>
+          <Button
+            variant="secondary"
+            size="sm"
+            onClick={handleSeedDemo}
+            isLoading={isSeeding}
+            className="text-xs font-medium gap-1.5"
+          >
+            <Sparkles className="w-3.5 h-3.5 text-amber-400" />
+            <span>{seededMsg || "Seed Demo Data"}</span>
+          </Button>
 
           <Link href="/experiments/run/exp-inv-001">
-            <motion.div whileHover={{ scale: 1.03 }} whileTap={{ scale: 0.97 }}>
-              <Button
-                variant="terracotta"
-                size="sm"
-                className="text-xs font-medium gap-1.5 shadow-xs"
-              >
-                <Play className="w-3.5 h-3.5 fill-current" />
-                <span>Run Trial</span>
-              </Button>
-            </motion.div>
+            <Button
+              variant="terracotta"
+              size="sm"
+              className="text-xs font-semibold gap-1.5"
+            >
+              <Play className="w-3.5 h-3.5 fill-current" />
+              <span>Run Trial</span>
+            </Button>
           </Link>
 
-          <div className="h-8 w-8 rounded-full bg-canvas-muted flex items-center justify-center text-xs font-serif font-semibold text-ink-primary border border-warm-hairline">
-            EV
+          <div className="h-8 w-8 rounded-full bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center text-xs font-bold text-white shadow-[0_0_12px_rgba(99,102,241,0.4)]">
+            ST
           </div>
 
           {/* Mobile Drawer Button */}
           <button
             onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-            className="md:hidden p-1.5 rounded-lg border border-warm-hairline text-ink-primary hover:bg-canvas-subtle transition-colors ml-1"
+            className="md:hidden p-2 rounded-xl border border-white/[0.1] text-white hover:bg-white/[0.08] transition-colors ml-1"
           >
-            {mobileMenuOpen ? <X className="w-5 h-5 text-terracotta" /> : <Menu className="w-5 h-5" />}
+            {mobileMenuOpen ? <X className="w-4 h-4 text-orange-400" /> : <Menu className="w-4 h-4" />}
           </button>
         </div>
       </div>
 
-      {/* Sub-Header Live Status Strip */}
-      <div className="h-8 px-4 sm:px-6 lg:px-8 max-w-[1520px] mx-auto border-t border-warm-hairline flex items-center justify-between text-xs text-ink-secondary overflow-x-auto gap-4">
+      {/* Sub-Header Live Telemetry Bar */}
+      <div className="h-9 px-4 sm:px-6 lg:px-8 max-w-[1520px] mx-auto border-t border-white/[0.06] bg-black/20 flex items-center justify-between text-xs text-slate-400 overflow-x-auto gap-4">
         <div className="flex items-center gap-4 shrink-0 text-[11px]">
-          <div className="flex items-center gap-1.5 font-medium text-sage">
-            <span className="w-2 h-2 rounded-full bg-sage inline-block animate-pulse" />
-            <span>Engine: Deterministic Online</span>
+          <div className="flex items-center gap-2 font-medium text-emerald-400">
+            <span className="relative flex h-2 w-2">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-emerald-400 opacity-75" />
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-emerald-500" />
+            </span>
+            <span>Deterministic Engine: ACTIVE</span>
           </div>
-          <span className="text-warm-hairline">|</span>
+          <span className="text-white/10">|</span>
           <div>
-            Enrolled Cohort: <strong className="text-ink-primary font-semibold">N = {telemetry.active_cohort_count} Subjects ({telemetry.total_trials_conducted} Trials)</strong>
+            Enrolled Cohort: <strong className="text-white font-semibold tabular-nums">N = {telemetry.active_cohort_count} ({telemetry.total_trials_conducted} Trials)</strong>
           </div>
-          <span className="text-warm-hairline">|</span>
+          <span className="text-white/10">|</span>
           <div>
-            AI Agreement: <strong className="text-ink-primary font-semibold">{telemetry.ai_agreement_rate_pct}%</strong>
+            AI Agreement: <strong className="text-white font-semibold tabular-nums">{telemetry.ai_agreement_rate_pct}%</strong>
           </div>
-          <span className="text-warm-hairline">|</span>
+          <span className="text-white/10">|</span>
           <div>
-            Calibration Error (ECE): <strong className="text-sage font-semibold">{telemetry.calibration_error_ece}</strong>
+            Calibration Error (ECE): <strong className="text-emerald-400 font-semibold tabular-nums">{telemetry.calibration_error_ece}</strong>
           </div>
         </div>
 
-        <div className="hidden sm:flex items-center gap-3 shrink-0 text-[11px] text-ink-muted">
-          <span>Latency: {telemetry.benchmark_latency_sec}s Benchmark</span>
-          <span>·</span>
-          <span>SOC-2 Verified</span>
+        <div className="hidden sm:flex items-center gap-3 shrink-0 text-[11px] text-slate-400">
+          <span>Latency: <strong className="text-slate-300 font-medium tabular-nums">{telemetry.benchmark_latency_sec}s</strong></span>
+          <span className="text-white/20">·</span>
+          <span className="text-indigo-400 font-medium">SOC-2 Type II Active</span>
         </div>
       </div>
 
@@ -258,7 +251,7 @@ export function Topbar() {
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.2 }}
-            className="md:hidden overflow-hidden border-t border-warm-border bg-canvas-subtle p-4 space-y-2 shadow-paper-lg"
+            className="md:hidden overflow-hidden border-t border-white/[0.1] bg-[#0D111A] p-4 space-y-2 shadow-2xl"
           >
             {navItems.map((item) => {
               const isActive = pathname.startsWith(item.href);
@@ -269,13 +262,13 @@ export function Topbar() {
                   href={item.href}
                   onClick={() => setMobileMenuOpen(false)}
                   className={cn(
-                    "flex items-center gap-3 p-2.5 rounded-xl text-xs font-medium transition-colors",
+                    "flex items-center gap-3 p-3 rounded-xl text-xs font-medium transition-all",
                     isActive
-                      ? "bg-canvas-subtle text-ink-primary font-semibold border border-warm-border"
-                      : "text-ink-secondary hover:text-ink-primary"
+                      ? "bg-indigo-500/20 text-white font-semibold border border-indigo-500/30 shadow-[0_0_12px_rgba(99,102,241,0.2)]"
+                      : "text-slate-400 hover:text-white hover:bg-white/[0.05]"
                   )}
                 >
-                  <Icon className={cn("w-4 h-4", isActive ? "text-terracotta" : "text-ink-muted")} />
+                  <Icon className={cn("w-4 h-4", isActive ? "text-indigo-400" : "text-slate-500")} />
                   <span>{item.name}</span>
                 </Link>
               );

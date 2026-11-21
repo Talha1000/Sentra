@@ -159,15 +159,15 @@ export function ConceptDemystifierModal({
       isOpen={isOpen}
       onClose={onClose}
       title="Sentra · A Human Guide to the Concepts"
-      className="max-w-3xl max-h-[90vh] overflow-y-auto bg-canvas p-0"
+      className="max-w-3xl max-h-[90vh] overflow-y-auto bg-[#0D111A] p-0"
     >
       <div className="p-6 sm:p-8 space-y-6">
         {/* Intro */}
-        <div className="p-5 rounded-2xl bg-terracotta/10 border border-terracotta/30 space-y-1.5">
-          <span className="font-serif text-base font-bold text-ink-primary block">
+        <div className="p-5 rounded-2xl bg-indigo-500/10 border border-indigo-500/25 space-y-1.5 shadow-[0_0_20px_rgba(99,102,241,0.15)]">
+          <span className="text-base font-bold text-white block">
             Complex Ideas, Explained in Clear Words
           </span>
-          <p className="text-xs sm:text-sm text-ink-secondary leading-relaxed">
+          <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
             Sentra uses advanced stochastic optimization, cognitive psychology, and cryptography.
             You do not need a mathematics degree to understand how it protects your organization. Every concept is broken down with simple real-world analogies below.
           </p>
@@ -176,13 +176,13 @@ export function ConceptDemystifierModal({
         {/* Search & Categories */}
         <div className="space-y-3">
           <div className="relative">
-            <Search className="w-4 h-4 text-ink-muted absolute left-3.5 top-3" />
+            <Search className="w-4 h-4 text-slate-400 absolute left-3.5 top-3.5" />
             <input
               type="text"
               placeholder="Search concepts or analogies (e.g., 'fractile', 'over-reliance', 'audit')..."
               value={search}
               onChange={(e) => setSearch(e.target.value)}
-              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-warm-border bg-canvas-elevated text-xs text-ink-primary placeholder:text-ink-muted focus:outline-none focus:ring-2 focus:ring-terracotta"
+              className="w-full pl-10 pr-4 py-2.5 rounded-xl border border-white/[0.1] bg-white/[0.04] text-xs text-white placeholder:text-slate-500 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all"
             />
           </div>
 
@@ -191,10 +191,10 @@ export function ConceptDemystifierModal({
               <button
                 key={cat}
                 onClick={() => setSelectedCat(cat)}
-                className={`px-3 py-1 rounded-lg text-xs transition-colors ${
+                className={`px-3 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
                   selectedCat === cat
-                    ? "bg-ink-primary text-canvas font-semibold"
-                    : "bg-canvas-elevated text-ink-secondary border border-warm-border hover:bg-canvas-subtle hover:text-ink-primary"
+                    ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
+                    : "bg-white/[0.04] text-slate-400 border border-white/[0.08] hover:bg-white/[0.08] hover:text-white"
                 }`}
               >
                 {cat}
@@ -210,64 +210,64 @@ export function ConceptDemystifierModal({
             return (
               <div
                 key={item.id}
-                className={`rounded-2xl border transition-all ${
+                className={`rounded-2xl border transition-all duration-200 overflow-hidden ${
                   isExpanded
-                    ? "border-warm-borderStrong bg-canvas-subtle shadow-paper"
-                    : "border-warm-hairline bg-canvas-subtle/50 hover:bg-canvas-subtle hover:border-warm-border"
+                    ? "border-indigo-500/40 bg-[#0F1524] shadow-[0_0_20px_rgba(99,102,241,0.15)] ring-1 ring-indigo-500/25"
+                    : "border-white/[0.08] bg-white/[0.02] hover:bg-white/[0.05]"
                 }`}
               >
                 <button
                   onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4"
+                  className="w-full text-left p-4 sm:p-5 flex items-center justify-between gap-4 cursor-pointer select-none"
                 >
                   <div className="space-y-0.5">
                     <div className="flex items-center gap-2">
-                      <span className="font-serif text-base font-bold text-ink-primary">
+                      <span className="text-base font-bold text-white">
                         {item.term}
                       </span>
-                      <span className="text-[10px] font-sans text-ink-muted uppercase">
+                      <span className="text-[10px] font-mono text-indigo-400 uppercase">
                         · {item.category}
                       </span>
                     </div>
                   </div>
                   <ChevronDown
-                    className={`w-4 h-4 text-ink-muted transition-transform shrink-0 ${
-                      isExpanded ? "rotate-180" : ""
+                    className={`w-4 h-4 text-slate-400 transition-transform shrink-0 ${
+                      isExpanded ? "rotate-180 text-indigo-400" : ""
                     }`}
                   />
                 </button>
 
                 {isExpanded && (
-                  <div className="px-5 pb-5 pt-1 space-y-3.5 text-xs text-ink-secondary border-t border-warm-hairline">
-                    <div className="p-3.5 rounded-xl bg-canvas-elevated/70 border border-warm-hairline space-y-1">
-                      <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-ink-muted block">
+                  <div className="px-5 pb-5 pt-1 space-y-3.5 text-xs text-slate-300 border-t border-white/[0.06]">
+                    <div className="p-4 rounded-xl bg-white/[0.03] border border-white/[0.06] space-y-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-slate-400 block">
                         In Plain English
                       </span>
-                      <p className="text-ink-primary leading-relaxed font-sans text-xs sm:text-sm">
+                      <p className="text-white leading-relaxed text-xs sm:text-sm">
                         {item.simpleExplanation}
                       </p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-terracotta/10 border border-terracotta/30 space-y-1">
-                      <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-terracotta block">
+                    <div className="p-4 rounded-xl bg-orange-500/10 border border-orange-500/20 space-y-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-orange-400 block">
                         Real-World Analogy
                       </span>
-                      <p className="text-ink-primary italic leading-relaxed text-xs">
+                      <p className="text-slate-200 italic leading-relaxed text-xs">
                         “{item.analogy}”
                       </p>
                     </div>
 
-                    <div className="p-3.5 rounded-xl bg-sage/10 border border-sage/30 space-y-1">
-                      <span className="text-[10px] font-sans font-semibold uppercase tracking-wider text-sage block">
+                    <div className="p-4 rounded-xl bg-emerald-500/10 border border-emerald-500/20 space-y-1">
+                      <span className="text-[10px] font-semibold uppercase tracking-wider text-emerald-400 block">
                         Why It Matters To Your Bottom Line
                       </span>
-                      <p className="text-ink-primary leading-relaxed text-xs">
+                      <p className="text-slate-200 leading-relaxed text-xs">
                         {item.whyItMatters}
                       </p>
                     </div>
 
-                    <div className="p-3 rounded-xl bg-canvas/90 border border-warm-hairline font-mono text-[11px] text-ink-muted space-y-1">
-                      <span className="font-sans text-[10px] uppercase font-semibold text-ink-muted block">
+                    <div className="p-3.5 rounded-xl bg-black/40 border border-white/[0.06] font-mono text-[11px] text-slate-400 space-y-1">
+                      <span className="font-sans text-[10px] uppercase font-semibold text-slate-500 block">
                         Formal Definition
                       </span>
                       <p className="leading-relaxed">{item.technicalDeepDive}</p>
@@ -280,7 +280,7 @@ export function ConceptDemystifierModal({
         </div>
 
         {/* Footer */}
-        <div className="flex items-center justify-between pt-2 border-t border-warm-hairline text-xs text-ink-muted">
+        <div className="flex items-center justify-between pt-2 border-t border-white/[0.08] text-xs text-slate-400">
           <span>{filtered.length} concepts documented</span>
           <Button variant="secondary" size="sm" onClick={onClose}>
             Close Guide
