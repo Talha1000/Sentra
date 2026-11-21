@@ -1,39 +1,26 @@
 "use client";
 
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
-import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
-import { HeroInteractiveCanvas } from "@/components/home/hero-interactive-canvas";
-import { MotionSimulationShowcase } from "@/components/home/motion-simulation-showcase";
-import { PlainEnglishExplainer } from "@/components/home/plain-english-explainer";
+import { SiteHeader } from "@/components/navigation/site-header";
+import { SemiconChapterCards } from "@/components/home/semicon-chapter-cards";
+import { SemiconSCurveShowcase } from "@/components/home/semicon-scurve-showcase";
+import { SemiconApplicationsList } from "@/components/home/semicon-applications-list";
 import { InteractiveDecisionStressor } from "@/components/home/interactive-decision-stressor";
-import { ModuleTabsShowcase } from "@/components/home/module-tabs-showcase";
 import { IndustryUseCases } from "@/components/home/industry-use-cases";
 import { FAQAccordion } from "@/components/home/faq-accordion";
-import { SiteHeader } from "@/components/navigation/site-header";
-import { SectionNavigator } from "@/components/home/section-navigator";
+import { SemiconFooter } from "@/components/navigation/semicon-footer";
+import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
 import { CommandPalette } from "@/components/navigation/command-palette";
-import {
-  ArrowRight,
-  ShieldCheck,
-  Scale,
-  Sparkles,
-  Play,
-  BookOpen,
-  CheckCircle2,
-  Lock,
-  Cpu,
-  Zap,
-} from "lucide-react";
+import { ArrowUpRight, ArrowRight } from "lucide-react";
 
 export default function LandingPage() {
   const [isDemystifierOpen, setIsDemystifierOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [showNotice, setShowNotice] = useState(true);
 
   // Global Cmd+K / Ctrl+K listener
-  React.useEffect(() => {
+  useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       if ((e.metaKey || e.ctrlKey) && e.key.toLowerCase() === "k") {
         e.preventDefault();
@@ -45,290 +32,189 @@ export default function LandingPage() {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#07090E] text-slate-100 font-sans flex flex-col justify-between selection:bg-indigo-500/30 selection:text-indigo-200 relative overflow-hidden">
-      {/* Ambient Radial Lights */}
-      <div className="fixed inset-0 pointer-events-none overflow-hidden z-0">
-        <div className="absolute -top-40 left-1/2 -translate-x-1/2 w-[1100px] h-[550px] bg-gradient-to-b from-indigo-600/20 via-purple-600/10 to-transparent rounded-full blur-3xl opacity-80" />
-        <div className="absolute top-[35%] -left-60 w-[600px] h-[600px] bg-emerald-500/8 rounded-full blur-3xl" />
-        <div className="absolute top-[65%] -right-60 w-[700px] h-[700px] bg-orange-500/8 rounded-full blur-3xl" />
-        <div className="absolute inset-0 bg-grid-pattern opacity-40 pointer-events-none" />
-      </div>
-
-      {/* Floating Animated Header */}
+    <div className="min-h-screen bg-[#EAEAEB] text-[#0A0A0A] font-sans selection:bg-[#00F0FF]/30 selection:text-black relative flex flex-col justify-between overflow-x-hidden">
+      {/* Floating Segmented Header */}
       <SiteHeader
         onOpenDemystifier={() => setIsDemystifierOpen(true)}
         onOpenCommandPalette={() => setIsCommandPaletteOpen(true)}
       />
 
-      {/* Floating Section Progress Tracker */}
-      <SectionNavigator />
-
-      {/* Main Narrative Content */}
-      <main className="relative z-10 space-y-32 pb-32 pt-24 sm:pt-28">
-        {/* 1. Hero Section */}
-        <section id="overview" className="max-w-5xl mx-auto px-6 pt-10 sm:pt-16 text-center space-y-8">
-          <div className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full border border-indigo-500/30 bg-indigo-500/10 shadow-[0_0_20px_rgba(99,102,241,0.2)] text-xs text-indigo-300 backdrop-blur-md">
-            <span className="relative flex h-2 w-2">
-              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-indigo-400 opacity-75" />
-              <span className="relative inline-flex rounded-full h-2 w-2 bg-indigo-500" />
-            </span>
-            <span className="font-semibold tracking-wide uppercase text-[10px]">Chapter I · Calibrated Human–AI Collaboration</span>
-          </div>
-
-          <h1 className="text-4xl sm:text-6xl lg:text-7xl font-bold text-white tracking-tight leading-[1.08] max-w-4xl mx-auto">
-            AI is remarkably articulate. <br className="hidden sm:inline" />
-            It is also, at times,{" "}
-            <span className="bg-gradient-to-r from-orange-400 via-rose-400 to-amber-300 bg-clip-text text-transparent italic font-serif">
-              quietly wrong.
-            </span>
-          </h1>
-
-          <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto leading-relaxed">
-            Sentra is the decision intelligence workstation built for consequential choices. We stress-test AI recommendations with stochastic business math, detect human over-reliance, and create an unalterable record of sound judgment.
-          </p>
-
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
-            <Link href="/workspace">
-              <Button variant="primary" size="lg" className="px-7 font-semibold shadow-glow">
-                <span>Explore the Workstation</span>
-                <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
-
-            <a href="#visual-tour">
-              <Button variant="secondary" size="lg" className="px-6 font-medium">
-                <Play className="w-3.5 h-3.5 text-orange-400 fill-current mr-2" />
-                <span>Watch Visual Tour</span>
-              </Button>
-            </a>
-
-            <Button
-              variant="secondary"
-              size="lg"
-              onClick={() => setIsDemystifierOpen(true)}
-              className="px-5 font-medium text-slate-300 hover:text-white"
-            >
-              <BookOpen className="w-4 h-4 text-indigo-400 mr-2" />
-              <span>Read in Plain English</span>
-            </Button>
-          </div>
-
-          {/* Social Proof & Rigor Bar */}
-          <div className="pt-8 border-t border-white/[0.08] max-w-3xl mx-auto flex flex-wrap items-center justify-center gap-8 text-xs text-slate-400">
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>SOC-2 Type II Certified</span>
+      {/* Main Narrative Canvas */}
+      <main className="relative z-10 space-y-24 sm:space-y-32 pb-24 pt-24 sm:pt-28 max-w-[1380px] mx-auto px-4 sm:px-6 w-full">
+        {/* 1. Hero Section - SemiconBio Style */}
+        <section id="overview" className="space-y-10 pt-6 sm:pt-12">
+          {/* Top Telemetry / Section Index Line */}
+          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 pb-3 border-b border-black/[0.08] text-[11px] font-mono text-neutral-500 uppercase tracking-widest">
+            <div className="flex items-center gap-3">
+              <span className="text-black font-semibold">N01.</span>
+              <span className="text-black font-medium">DECISION INTELLIGENCE</span>
+              <span>·</span>
+              <span className="text-neutral-500">STOCHASTIC CALIBRATION</span>
             </div>
             <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Sub-Second Monte Carlo Math</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <CheckCircle2 className="w-4 h-4 text-emerald-400" />
-              <span>Double-Blind Behavioral Lab</span>
-            </div>
-            <div className="flex items-center gap-2">
-              <Lock className="w-4 h-4 text-indigo-400" />
-              <span>HMAC SHA-256 Audit Seal</span>
+              <span className="w-1.5 h-1.5 rounded-full bg-[#00F0FF] animate-pulse" />
+              <span>EMPIRICAL BENCHMARK READY</span>
             </div>
           </div>
 
-          {/* Centerpiece: Interactive Architectural Decision Ledger */}
-          <div className="pt-6">
-            <HeroInteractiveCanvas />
+          {/* Majestic Sentence-Case Display Headline */}
+          <div className="max-w-5xl space-y-6">
+            <h1 className="text-4xl sm:text-6xl lg:text-[76px] font-bold text-black tracking-tightest leading-[1.04]">
+              The Sentra Platform, <br />
+              Where Intuition Yields to <br />
+              Empirical Calibration.
+            </h1>
+
+            <p className="text-base sm:text-xl text-neutral-600 max-w-2xl font-sans leading-relaxed">
+              Consequential choices should not depend on unverified machine confidence. Sentra stress-tests AI recommendations with stochastic calculus, detects cognitive over-reliance, and commits an unalterable HMAC record.
+            </p>
+
+            {/* Precision Action Buttons */}
+            <div className="pt-2 flex flex-wrap items-center gap-3">
+              <Link
+                href="/workspace"
+                className="px-6 py-3 bg-black hover:bg-neutral-800 text-white font-mono text-xs tracking-wider font-medium flex items-center gap-2 transition-colors shadow-sm"
+              >
+                <span>EXPLORE WORKSTATION</span>
+                <ArrowUpRight className="w-4 h-4" />
+              </Link>
+
+              <a
+                href="#visual-tour"
+                className="px-6 py-3 bg-white hover:bg-neutral-100 text-black border border-black/15 font-mono text-xs tracking-wider font-medium flex items-center gap-2 transition-colors"
+              >
+                <span>S-CURVE LAB</span>
+                <span className="text-neutral-400 text-[10px]">[02]</span>
+              </a>
+
+              <button
+                onClick={() => setIsDemystifierOpen(true)}
+                className="px-5 py-3 text-neutral-600 hover:text-black font-mono text-xs tracking-wider flex items-center gap-1.5 transition-colors border border-transparent hover:border-black/10"
+              >
+                <span className="text-[#FF4400] font-bold">[ · i · ]</span>
+                <span>PLAIN ENGLISH GUIDE</span>
+              </button>
+            </div>
+          </div>
+
+          {/* Chapter 01: Horizontal Card Carousel */}
+          <div className="pt-8">
+            <SemiconChapterCards />
           </div>
         </section>
 
-        {/* 2. Visual Walkthrough Tour */}
-        <section id="visual-tour" className="max-w-5xl mx-auto px-6">
-          <MotionSimulationShowcase />
+        {/* 2. Chapter 02: S-Curve Inflection Showcase */}
+        <section className="pt-6">
+          <SemiconSCurveShowcase />
         </section>
 
-        {/* 3. The 4-Part Architecture in Plain English */}
-        <section id="how-it-works" className="max-w-6xl mx-auto px-6">
-          <PlainEnglishExplainer onOpenDemystifier={() => setIsDemystifierOpen(true)} />
+        {/* 3. Chapter 03: Platform Systems / Applications Directory */}
+        <section className="pt-6">
+          <SemiconApplicationsList />
         </section>
 
-        {/* 4. Interactive Decision Stressor Playground */}
-        <section id="simulator" className="max-w-5xl mx-auto px-6">
+        {/* 4. Chapter 04: Interactive Decision Stressor Playground */}
+        <section id="simulator" className="pt-6">
           <InteractiveDecisionStressor />
         </section>
 
-        {/* 5. Five Integrated Workstation Systems */}
-        <section id="systems" className="max-w-6xl mx-auto px-6">
-          <ModuleTabsShowcase />
-        </section>
-
-        {/* 6. Case Studies from Consequential Fields */}
-        <section id="cases" className="max-w-5xl mx-auto px-6">
+        {/* 5. Chapter 05: Consequential Industry Case Studies */}
+        <section id="case-studies" className="pt-6 space-y-6">
+          <div className="pb-3 border-b border-black/[0.08] flex items-center justify-between text-[11px] font-mono text-neutral-500 uppercase tracking-widest">
+            <div className="flex items-center gap-2">
+              <span className="text-black font-semibold">CHAPTER 05</span>
+              <span>·</span>
+              <span>EMPIRICAL BENCHMARKS</span>
+            </div>
+            <span>N = 225 TRIALS</span>
+          </div>
           <IndustryUseCases />
         </section>
 
-        {/* 7. Clear Questions & Answers */}
-        <section id="faq" className="max-w-4xl mx-auto px-6">
+        {/* 6. Chapter 06: Plain English Explainer & Questions */}
+        <section id="faq" className="pt-6 space-y-6">
+          <div className="pb-3 border-b border-black/[0.08] flex items-center justify-between text-[11px] font-mono text-neutral-500 uppercase tracking-widest">
+            <div className="flex items-center gap-2">
+              <span className="text-black font-semibold">CHAPTER 06</span>
+              <span>·</span>
+              <span>DOCUMENTATION & FAQ</span>
+            </div>
+            <span>FREQUENTLY ASKED</span>
+          </div>
           <FAQAccordion />
         </section>
 
-        {/* 8. Thoughtful Invitation Banner */}
-        <section id="cta" className="max-w-4xl mx-auto px-6">
-          <div className="relative rounded-3xl border border-indigo-500/30 bg-gradient-to-b from-[#111628] to-[#0A0E17] shadow-[0_20px_60px_rgba(0,0,0,0.7),0_0_50px_rgba(99,102,241,0.2)] p-8 sm:p-14 text-center space-y-6 overflow-hidden">
-            {/* Ambient inner glow */}
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-32 bg-indigo-500/20 rounded-full blur-3xl pointer-events-none" />
+        {/* 7. Pre-Footer Typographic Invitation - SemiconBio Style */}
+        <section className="pt-12 pb-6 border-t border-black/[0.08] text-center space-y-6">
+          <div className="inline-flex items-center gap-2 text-xs font-mono text-neutral-500 uppercase tracking-widest">
+            <span className="w-2 h-2 bg-[#00F0FF] inline-block" />
+            <span>DEPLOY THE DECISION WORKSTATION</span>
+          </div>
 
-            <div className="relative inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/25 text-xs text-emerald-400 font-medium">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-              <span>Ready for Immediate Deployment</span>
-            </div>
+          <h2 className="text-3xl sm:text-5xl lg:text-6xl font-bold text-black tracking-tightest max-w-3xl mx-auto leading-tight">
+            Ready to calibrate consequential decisions?
+          </h2>
 
-            <h2 className="relative text-3xl sm:text-4xl lg:text-5xl font-bold text-white tracking-tight max-w-2xl mx-auto leading-tight">
-              Think with AI. <br />
-              <span className="bg-gradient-to-r from-indigo-400 via-purple-300 to-pink-300 bg-clip-text text-transparent">
-                Decide with sound judgment.
-              </span>
-            </h2>
+          <p className="text-neutral-600 text-sm sm:text-base max-w-xl mx-auto font-sans leading-relaxed">
+            Experience the full workstation with 45 enrolled participants and 225 pre-seeded trials, or participate in a live double-blind trial right in your browser.
+          </p>
 
-            <p className="relative text-sm sm:text-base text-slate-300 max-w-xl mx-auto leading-relaxed">
-              Experience the full platform with 45 enrolled participants and 225 pre-seeded trials, or participate in a live double-blind trial right in your browser.
-            </p>
-
-            <div className="relative pt-3 flex flex-wrap items-center justify-center gap-3.5">
-              <Link href="/workspace">
-                <Button variant="primary" size="lg" className="px-8 shadow-glow font-semibold">
-                  <span>Enter the Workspace</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
-                </Button>
-              </Link>
-              <Link href="/experiments/run/exp-inv-001">
-                <Button variant="secondary" size="lg" className="px-8 font-medium">
-                  Run a Decision Trial
-                </Button>
-              </Link>
-            </div>
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-4">
+            <Link
+              href="/workspace"
+              className="px-8 py-3.5 bg-black hover:bg-neutral-800 text-white font-mono text-xs tracking-wider flex items-center gap-2 transition-colors"
+            >
+              <span>ENTER WORKSTATION</span>
+              <ArrowUpRight className="w-4 h-4" />
+            </Link>
+            <Link
+              href="/experiments/run/exp-inv-001"
+              className="px-8 py-3.5 bg-white hover:bg-neutral-100 text-black border border-black/20 font-mono text-xs tracking-wider flex items-center gap-2 transition-colors"
+            >
+              <span>RUN DECISION TRIAL</span>
+              <ArrowRight className="w-4 h-4 text-neutral-400" />
+            </Link>
           </div>
         </section>
       </main>
 
-      {/* Elegant Modern Footer */}
-      <footer className="relative z-10 border-t border-white/[0.08] bg-[#07090E]/90 backdrop-blur-2xl py-14 px-6 lg:px-8">
-        <div className="max-w-6xl mx-auto space-y-10">
-          <div className="grid grid-cols-1 md:grid-cols-5 gap-8 text-xs text-slate-400">
-            {/* Brand Col */}
-            <div className="md:col-span-2 space-y-3.5">
-              <div className="flex items-center gap-2.5">
-                <div className="w-7 h-7 rounded-xl bg-gradient-to-tr from-indigo-500 to-purple-600 flex items-center justify-center font-bold text-xs text-white shadow-md">
-                  S
-                </div>
-                <span className="font-bold text-base text-white tracking-tight">SENTRA</span>
-              </div>
-              <p className="text-slate-400 max-w-sm leading-relaxed">
-                The decision intelligence workstation built for human–AI collaborative governance, risk oversight, and mathematical calibration.
-              </p>
-              <div className="flex items-center gap-2 text-[11px] text-emerald-400 pt-1 font-medium">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] inline-block" />
-                <span>Deterministic Engine Active</span>
-              </div>
-            </div>
-
-            {/* Col 1: Systems */}
-            <div className="space-y-2.5">
-              <span className="font-semibold text-white uppercase text-[11px] tracking-wider block">
-                Workstation Systems
-              </span>
-              <ul className="space-y-2">
-                <li><Link href="/workspace" className="hover:text-white transition-colors">Executive Workspace</Link></li>
-                <li><Link href="/decisions" className="hover:text-white transition-colors">Decision Studio</Link></li>
-                <li><Link href="/experiments" className="hover:text-white transition-colors">Behavioral Lab</Link></li>
-                <li><Link href="/analytics" className="hover:text-white transition-colors">Evidence & Analytics</Link></li>
-                <li><Link href="/governance" className="hover:text-white transition-colors">Cryptographic Governance</Link></li>
-              </ul>
-            </div>
-
-            {/* Col 2: Human Concepts */}
-            <div className="space-y-2.5">
-              <span className="font-semibold text-white uppercase text-[11px] tracking-wider block">
-                Concepts & Math
-              </span>
-              <ul className="space-y-2">
-                <li>
-                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-white transition-colors text-left">
-                    Critical Fractile
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-white transition-colors text-left">
-                    Cognitive Over-reliance
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-white transition-colors text-left">
-                    Calibration Curves (ECE)
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-white transition-colors text-left">
-                    Injected Bias Stressors
-                  </button>
-                </li>
-                <li>
-                  <button onClick={() => setIsDemystifierOpen(true)} className="hover:text-white transition-colors text-left">
-                    HMAC SHA-256 Audit
-                  </button>
-                </li>
-              </ul>
-            </div>
-
-            {/* Col 3: Compliance & Assurance */}
-            <div className="space-y-2.5">
-              <span className="font-semibold text-white uppercase text-[11px] tracking-wider block">
-                Assurance & Rigor
-              </span>
-              <ul className="space-y-2">
-                <li className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>SOC-2 Type II Certified</span>
-                </li>
-                <li className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>IRB Double-Blind Compliant</span>
-                </li>
-                <li className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>ISO 42001 AI Risk Framework</span>
-                </li>
-                <li className="flex items-center gap-1.5">
-                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-400" />
-                  <span>Strict Tenant Isolation</span>
-                </li>
-              </ul>
-            </div>
+      {/* Floating Monolithic Notice Banner - SemiconBio Style */}
+      {showNotice && (
+        <div className="fixed bottom-0 inset-x-0 z-40 bg-[#08090C] text-neutral-300 font-mono text-xs border-t border-neutral-800 px-6 py-3 flex items-center justify-between shadow-2xl">
+          <div className="flex items-center gap-3">
+            <span className="text-[#00F0FF] font-bold">[ · i · ]</span>
+            <span className="hidden sm:inline">
+              Sentra operates deterministic stochastic safeguards and immutable cryptographic governance.
+            </span>
+            <span className="sm:hidden">Deterministic safeguards active.</span>
           </div>
-
-          {/* Bottom Copyright Strip */}
-          <div className="pt-8 border-t border-white/[0.06] flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
-            <div>
-              © 2026 SENTRA Systems. Crafted for consequential decision-makers.
-            </div>
-            <div className="flex items-center gap-4 text-xs font-sans">
-              <button
-                onClick={() => setIsDemystifierOpen(true)}
-                className="text-indigo-400 hover:text-indigo-300 font-medium"
-              >
-                Open Concept Guide
-              </button>
-              <span>·</span>
-              <span>Version 1.2.0-PRO</span>
-            </div>
+          <div className="flex items-center gap-4 text-[11px]">
+            <button
+              onClick={() => setShowNotice(false)}
+              className="text-[#FF4400] hover:underline font-bold"
+            >
+              DISMISS
+            </button>
+            <button
+              onClick={() => setShowNotice(false)}
+              className="text-white hover:underline font-bold"
+            >
+              ACKNOWLEDGE
+            </button>
           </div>
         </div>
-      </footer>
+      )}
 
-      {/* Global Concept Demystifier Modal */}
+      {/* Monolithic Pitch-Black Footer */}
+      <SemiconFooter />
+
+      {/* Concept Demystifier Modal */}
       <ConceptDemystifierModal
         isOpen={isDemystifierOpen}
         onClose={() => setIsDemystifierOpen(false)}
       />
 
-      {/* Global Command Palette */}
+      {/* Spotlight Command Palette (⌘K) */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}

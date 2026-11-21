@@ -10,25 +10,41 @@ const config: Config = {
     extend: {
       colors: {
         canvas: {
-          DEFAULT: "#07090E", // Deep midnight obsidian
+          DEFAULT: "#08090C", // Pitch Obsidian Void (Hero & Footer)
+          alabaster: "#EAEAEB", // Architectural Alabaster Paper (SemiconBio editorial body)
+          chalk: "#F5F5F7",
           subtle: "#0D111A",  // Elevated frosted card
           muted: "#131826",   // Secondary panel
           elevated: "#182032", // Elevated interactive layer
           surface: "rgba(13, 17, 26, 0.7)",
         },
+        semicon: {
+          bg: "#EAEAEB",       // Warm architectural concrete/alabaster
+          dark: "#08090C",     // Pitch black void
+          card: "#FFFFFF",     // Crisp white elevated card
+          textDark: "#0A0A0A", // Obsidian display text
+          textMuted: "#666666",// Technical slate
+          hairline: "rgba(0, 0, 0, 0.09)", // 1px architectural divider
+          hairlineDark: "rgba(255, 255, 255, 0.12)",
+          cyan: "#00F0FF",     // Electric Cyan (Signature dot & square)
+          orange: "#FF4400",   // Neon Engineering Orange (S-Curve & Declines)
+          purple: "#A855F7",   // Multi-channel Violet
+          green: "#10B981",    // Precision Emerald
+        },
         brand: {
-          DEFAULT: "#6366F1", // Electric Indigo
-          hover: "#4F46E5",
-          light: "rgba(99, 102, 241, 0.12)",
-          border: "rgba(99, 102, 241, 0.28)",
-          glow: "rgba(99, 102, 241, 0.35)",
+          DEFAULT: "#00F0FF", // Electric Cyan (Semicon signature)
+          indigo: "#6366F1",
+          hover: "#00D2C4",
+          light: "rgba(0, 240, 255, 0.12)",
+          border: "rgba(0, 240, 255, 0.3)",
+          glow: "rgba(0, 240, 255, 0.35)",
         },
         terracotta: {
-          DEFAULT: "#FF6B4A", // Vibrant Luminous Sunset Coral
-          hover: "#FA5532",
-          dark: "#FDA48B",
-          light: "rgba(255, 107, 74, 0.12)",
-          border: "rgba(255, 107, 74, 0.3)",
+          DEFAULT: "#FF4400", // Neon Engineering Orange
+          hover: "#E03C00",
+          dark: "#FF6A33",
+          light: "rgba(255, 68, 0, 0.12)",
+          border: "rgba(255, 68, 0, 0.3)",
         },
         ink: {
           primary: "#FFFFFF",   // Crisp radiant white
@@ -70,13 +86,14 @@ const config: Config = {
       },
       fontFamily: {
         serif: [
-          '"Plus Jakarta Sans"',
+          '"IBM Plex Sans"',
           '"Inter"',
           "-apple-system",
           "BlinkMacSystemFont",
           "sans-serif",
         ],
         sans: [
+          '"IBM Plex Sans"',
           '"Inter"',
           "-apple-system",
           "BlinkMacSystemFont",
@@ -85,6 +102,7 @@ const config: Config = {
           "sans-serif",
         ],
         mono: [
+          '"IBM Plex Mono"',
           '"JetBrains Mono"',
           "ui-monospace",
           "SFMono-Regular",
