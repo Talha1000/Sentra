@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -11,118 +11,24 @@ import {
   CheckCircle2,
   AlertTriangle,
   ChevronDown,
-  Sparkles,
   ExternalLink,
   Layers,
   Fingerprint,
   TrendingUp,
   Activity,
   Lock,
+  BookOpen,
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
 import { CommandPalette } from "@/components/navigation/command-palette";
-import { HeroInteractiveCanvas } from "@/components/home/hero-interactive-canvas";
-import { SiliconMeshHero } from "@/components/home/silicon-mesh-hero";
 
-// Chapter 01: 4 Structural Foundation Cards
-const FOUNDATION_CARDS = [
-  {
-    id: 1,
-    dotColor: "#00F0FF", // Electric Cyan
-    tag: "01 // CALIBRATION",
-    title: "Critical Fractile Solver",
-    headline: "Optimal Risk-Neutral Equilibrium",
-    description:
-      "Calculates the exact stochastic sweet spot where marginal revenue equals expected stockout risk, resolving asymmetric underage and overage penalties without human bias.",
-    metric: "F*(Q) = 0.727",
-    metricNote: "Optimal sweet spot: 1,420 units",
-  },
-  {
-    id: 2,
-    dotColor: "#FF5500", // Engineering Orange
-    tag: "02 // GUARDRAIL",
-    title: "Generative Bias Interception",
-    headline: "Catching Hallucinated Skew",
-    description:
-      "Detects systematic +23.2% optimistic over-ordering drift in frontier LLMs. Flags unjustified confidence intervals before decisions transition into capital execution.",
-    metric: "+23.2% Intercepted",
-    metricNote: "p < 0.001 statistical rejection",
-  },
-  {
-    id: 3,
-    dotColor: "#8B5CF6", // Precision Violet
-    tag: "03 // BEHAVIORAL",
-    title: "Cognitive Behavioral Lab",
-    headline: "Human-in-the-Loop Deference",
-    description:
-      "Conducts double-blind randomized trials measuring human automation fatigue, heuristic anchor traps, and executive willingness to challenge fluent AI recommendations.",
-    metric: "45 Cohorts",
-    metricNote: "225 seated empirical trials",
-  },
-  {
-    id: 4,
-    dotColor: "#10B981", // Calibrated Emerald
-    tag: "04 // PROVENANCE",
-    title: "Cryptographic Ledger",
-    headline: "Tamper-Evident Governance Seals",
-    description:
-      "Binds every parameter, simulated distribution, and authorized human override into an HMAC SHA-256 verifiable certificate for board and institutional compliance.",
-    metric: "HMAC SHA-256",
-    metricNote: "Deterministic audit chain",
-  },
-];
-
-// Chapter 03: Executive Case Studies (SemiconBio Indexed Directory)
-const CASE_STUDIES = [
-  {
-    index: "N01.",
-    title: "Global Semiconductor Fab Capacity Allocation",
-    industry: "High-Tech Semiconductor Manufacturing",
-    summary:
-      "A tier-1 foundry evaluated wafer production commitments against volatile OEM demand. Sentra intercepted a +21% AI allocation hallucination, saving $14.2M in holding depreciation.",
-    capitalProtected: "$14,200,000",
-    regretReduction: "78.4%",
-    hash: "0x89f2a71d...e4c9",
-  },
-  {
-    index: "N02.",
-    title: "High-Volatility Biopharmaceutical Cold-Chain",
-    industry: "Specialty Healthcare & Biologics",
-    summary:
-      "Managing perishable mRNA vaccine inventories with severe stockout penalties. Sentra calculated the critical fractile F*(Q) = 0.812, eliminating catastrophic delivery shortages.",
-    capitalProtected: "$31,500,000",
-    regretReduction: "89.1%",
-    hash: "0x33b1e90a...b72f",
-  },
-  {
-    index: "N03.",
-    title: "Tier-1 Cloud Infrastructure GPU Capacity Planning",
-    industry: "Enterprise AI & Datacenter Infrastructure",
-    summary:
-      "Multi-region AI accelerator reservation planning. Sentra balanced 3-year commitment discounts against rapid hardware obsolescence with stochastic Monte Carlo verification.",
-    capitalProtected: "$8,900,000",
-    regretReduction: "64.2%",
-    hash: "0x77d4c22e...a108",
-  },
-  {
-    index: "N04.",
-    title: "Sovereign Defense Logistics Contingency",
-    industry: "Aerospace & Mission-Critical Defense",
-    summary:
-      "Critical component stockpiling under severe geopolitical volatility. Mathematical verification proved optimal buffer levels without risking fiscal sequestration.",
-    capitalProtected: "$52,000,000",
-    regretReduction: "93.7%",
-    hash: "0x11a58e44...f99c",
-  },
-];
-
-// Scenarios for Chapter 02 Interactive Simulator
-const SIMULATION_SCENARIOS = [
+// Simulation Scenarios
+const SCENARIOS = [
   {
     id: "semiconductor",
-    label: "Semiconductor Fab ($1.2B Batch)",
+    name: "Semiconductor Allocation",
+    industry: "High-Tech Manufacturing",
     meanDemand: 1400,
     stdDemand: 220,
     optimalQ: 1420,
@@ -134,7 +40,8 @@ const SIMULATION_SCENARIOS = [
   },
   {
     id: "vaccine",
-    label: "Cold-Chain Vaccine ($340M)",
+    name: "Vaccine Cold-Chain",
+    industry: "Biopharma & Logistics",
     meanDemand: 2000,
     stdDemand: 350,
     optimalQ: 2360,
@@ -146,7 +53,8 @@ const SIMULATION_SCENARIOS = [
   },
   {
     id: "gpu",
-    label: "GPU Cluster Reservation ($90M)",
+    name: "GPU Reserved Capacity",
+    industry: "Cloud Infrastructure",
     meanDemand: 800,
     stdDemand: 150,
     optimalQ: 860,
@@ -158,23 +66,53 @@ const SIMULATION_SCENARIOS = [
   },
 ];
 
+// Documented Case Studies
+const CASE_STUDIES = [
+  {
+    id: "CS-01",
+    scenario: "Q4 Wafer Production Capacity",
+    industry: "Semiconductor Fabrication",
+    aiProposed: "1,750 wafers",
+    optimal: "1,420 wafers",
+    biasAvoided: "+23.2% Over-allocation",
+    capitalSaved: "$14,200,000",
+    hash: "0x89f2a71d...e4c9",
+    status: "Verified",
+  },
+  {
+    id: "CS-02",
+    scenario: "mRNA Vaccine Cold Storage",
+    industry: "Healthcare Logistics",
+    aiProposed: "2,800 vials",
+    optimal: "2,360 vials",
+    biasAvoided: "+18.6% Waste Buffer",
+    capitalSaved: "$31,500,000",
+    hash: "0x33b1e90a...b72f",
+    status: "Verified",
+  },
+  {
+    id: "CS-03",
+    scenario: "AI Accelerator Reservation",
+    industry: "Datacenter Operations",
+    aiProposed: "1,100 nodes",
+    optimal: "860 nodes",
+    biasAvoided: "+27.9% Stranded CapEx",
+    capitalSaved: "$8,900,000",
+    hash: "0x77d4c22e...a108",
+    status: "Verified",
+  },
+];
+
 export default function HomePage() {
   const [demystifierOpen, setDemystifierOpen] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
-  // Chapter 01 Card Selection
-  const [activeCardId, setActiveCardId] = useState(1);
-
-  // Chapter 02 Interactive Simulator State
+  // Simulator State
   const [selectedScenarioIdx, setSelectedScenarioIdx] = useState(0);
-  const currentScenario = SIMULATION_SCENARIOS[selectedScenarioIdx];
+  const currentScenario = SCENARIOS[selectedScenarioIdx];
   const [userAllocation, setUserAllocation] = useState<number>(currentScenario.optimalQ);
 
-  useEffect(() => {
-    setUserAllocation(currentScenario.optimalQ);
-  }, [selectedScenarioIdx, currentScenario.optimalQ]);
-
-  // Calculations
+  // Economic math
   const Cu = currentScenario.sellingPrice - currentScenario.unitCost + currentScenario.stockoutPenalty;
   const Co = currentScenario.unitCost - currentScenario.salvageValue;
   const criticalFractile = (Cu / (Cu + Co)).toFixed(3);
@@ -185,12 +123,9 @@ export default function HomePage() {
   const estimatedProfit = Math.max(0, Math.round(maxProfit - diffFromOpt * penaltyPerUnit));
   const aiRegret = Math.round(Math.abs(currentScenario.aiQ - currentScenario.optimalQ) * penaltyPerUnit);
 
-  // Chapter 03 Case Study Accordion
-  const [expandedCaseIdx, setExpandedCaseIdx] = useState<number | null>(0);
-
-  // Chapter 04 Live Cryptographic Signature Simulator
-  const [customDecision, setCustomDecision] = useState("Approve Strategic GPU Allocation: 2,500 H100 units");
-  const [cryptoHash, setCryptoHash] = useState("9f2b5d0c1702f415e0eeb02671d36bda5828d7c9");
+  // Provenance Tool State
+  const [decisionPayload, setDecisionPayload] = useState("Commit Q4 Foundry Capacity: 1,420 wafers");
+  const [provenanceHash, setProvenanceHash] = useState("89f2a71d4e08b5329cf012aa084e6b31c9");
   const [isHashing, setIsHashing] = useState(false);
 
   const handleGenerateHash = () => {
@@ -199,298 +134,208 @@ export default function HomePage() {
       const generated = Array.from({ length: 40 }, () =>
         Math.floor(Math.random() * 16).toString(16)
       ).join("");
-      setCryptoHash(generated);
+      setProvenanceHash(generated);
       setIsHashing(false);
     }, 250);
   };
 
-  // Chapter 05 FAQ Accordion
-  const [faqOpenIdx, setFaqOpenIdx] = useState<number | null>(null);
+  // FAQ State
+  const [openFaq, setOpenFaq] = useState<number | null>(0);
   const FAQS = [
     {
-      q: "Why do frontier LLMs consistently recommend over-ordering?",
-      a: "Language models are trained on textual optimization where omission penalties are high. In business scenarios, LLMs perceive running out of inventory as an unrecoverable failure, but fail to mathematically compute the asymmetrical carrying costs of surplus inventory.",
+      q: "What causes generative AI models to systematically over-allocate in enterprise decisions?",
+      a: "Frontier LLMs are trained to avoid perceived omission errors. In capacity and inventory problems, models associate stockouts with failure while neglecting the asymmetric financial penalties of surplus inventory and holding depreciation.",
     },
     {
-      q: "How does Sentra guarantee mathematically optimal decisions?",
-      a: "Sentra deploys the classical Newsvendor critical fractile theorem: F*(Q) = Cu / (Cu + Co). We stress-test decisions across 1,000+ stochastic Monte Carlo demand distributions rather than relying on qualitative LLM heuristics.",
+      q: "How does Sentra's mathematical verification differ from standard prompt engineering?",
+      a: "Sentra uses closed-form stochastic calculus—specifically the classical Newsvendor critical fractile theorem: F*(Q) = Cu / (Cu + Co). Rather than trusting LLM heuristics, Sentra tests decisions across 1,000+ Monte Carlo probability distributions to determine the profit-maximizing order quantity.",
     },
     {
-      q: "Can Sentra integrate with existing ERP and AI workflows?",
-      a: "Yes. Sentra provides REST APIs and SDK integrations with SAP, Oracle, and enterprise LLM orchestrators (LangChain, LlamaIndex), acting as a deterministic verification firewall before orders are committed.",
+      q: "Can Sentra integrate with existing ERP systems and LLM pipelines?",
+      a: "Yes. Sentra provides REST APIs and SDK clients that plug into enterprise orchestration layers (LangChain, LlamaIndex, SAP, Oracle), functioning as a deterministic guardrail before decisions trigger automated workflows.",
     },
     {
-      q: "What is cryptographic provenance?",
-      a: "Every parameter, simulated draw, and authorized executive override is cryptographically sealed with an HMAC SHA-256 signature, creating an indelible audit trail suitable for SOC-2 and regulatory scrutiny.",
+      q: "How are decisions audited for corporate governance and regulatory compliance?",
+      a: "Every trial, parameter set, and executive override is cryptographically sealed using HMAC SHA-256. These immutable tokens provide deterministic provenance for internal audit, SOC-2, and ISO-42001 verification.",
     },
   ];
 
   return (
-    <div className="min-h-screen bg-[#050608] text-[#F3F4F6] font-sans antialiased selection:bg-[#00F0FF]/20 selection:text-[#00F0FF]">
+    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased flex flex-col">
       {/* Site Header */}
       <SiteHeader
         onOpenDemystifier={() => setDemystifierOpen(true)}
         onOpenCommandPalette={() => setCommandPaletteOpen(true)}
       />
 
-      <main className="relative">
+      <main className="flex-1">
         {/* ========================================================================= */}
-        {/* HERO SECTION — Cinematic Silicon Mesh (SemiconBio Aesthetic)              */}
+        {/* HERO SECTION                                                             */}
         {/* ========================================================================= */}
-        <section className="relative min-h-[88vh] flex flex-col justify-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-16 pb-24 overflow-hidden">
-          {/* Animated Procedural Silicon Mesh Canvas Background */}
-          <SiliconMeshHero />
-
-          <div className="relative z-10 max-w-5xl">
-            {/* Monospace Indicator Tag */}
-            <motion.div
-              initial={{ opacity: 0, y: 12 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="flex items-center gap-3 text-xs font-mono tracking-widest text-[#00F0FF] mb-6 uppercase"
-            >
-              <span className="w-2 h-2 rounded-sm bg-[#00F0FF] shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
-              <span className="font-semibold text-white">N01.</span>
-              <span>THE AUTONOMOUS DECISION PLATFORM</span>
-              <div className="h-px flex-1 bg-white/10 ml-2" />
-            </motion.div>
-
-            {/* Massive Display Headline */}
-            <motion.h1
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-              className="text-5xl sm:text-7xl md:text-8xl lg:text-[92px] font-normal tracking-[-0.035em] leading-[1.02] text-white"
-            >
-              The Consequential <br />
-              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-neutral-200 to-neutral-400">
-                Decision Platform
-              </span>
-            </motion.h1>
-
-            {/* Editorial Description */}
-            <motion.p
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-8 text-lg sm:text-xl text-neutral-300 leading-relaxed font-light max-w-3xl"
-            >
-              Frontier AI writes persuasive prose. It cannot absorb stochastic downside.
-              Sentra calculates exact risk-neutral boundaries, intercepts generative hallucinations,
-              and seals every allocation in a cryptographic ledger before capital is deployed.
-            </motion.p>
-
-            {/* Realistic Tactile Action Cluster */}
-            <motion.div
-              initial={{ opacity: 0, y: 16 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
-              className="mt-10 flex flex-wrap items-center gap-4"
-            >
-              <Link
-                href="/workspace"
-                className="btn-semicon-primary text-sm py-3 px-6"
-              >
-                <span>Enter Decision Studio</span>
-                <ArrowRight className="w-4 h-4 ml-2 text-neutral-500" />
-              </Link>
-
-              <button
-                onClick={() => setDemystifierOpen(true)}
-                className="btn-semicon-secondary text-xs py-3 px-6"
-              >
-                <span>Inspect Empirical Proofs</span>
-              </button>
-
-              <a
-                href="#trajectory-section"
-                className="btn-semicon-cyan text-xs py-3 px-5"
-              >
-                <span>Run Live Simulator ▾</span>
-              </a>
-            </motion.div>
-
-            {/* Telemetry Metrics Ribbon */}
-            <motion.div
-              initial={{ opacity: 0 }}
-              animate={{ opacity: 1 }}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="mt-16 pt-8 border-t border-white/[0.08] grid grid-cols-2 sm:grid-cols-4 gap-6 text-xs font-mono"
-            >
-              <div>
-                <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Cohorts Evaluated</div>
-                <div className="text-lg font-bold text-white mt-1">45 Enterprise</div>
-              </div>
-              <div>
-                <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Empirical Trials</div>
-                <div className="text-lg font-bold text-white mt-1">225 Seated Runs</div>
-              </div>
-              <div>
-                <div className="text-neutral-500 uppercase tracking-wider text-[10px]">AI Skew Intercepted</div>
-                <div className="text-lg font-bold text-[#FF5500] mt-1">-23.2% Bias</div>
-              </div>
-              <div>
-                <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Provenance Standard</div>
-                <div className="text-lg font-bold text-white mt-1">HMAC SHA-256</div>
-              </div>
-            </motion.div>
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* CHAPTER 01 — The 4 Core Architectural Pillars (SemiconBio Card Rail)      */}
-        {/* ========================================================================= */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.08]">
-          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
-            <span className="font-semibold text-white">N01.</span>
-            <span>CHAPTER 01 // ARCHITECTURAL PILLARS</span>
-            <div className="h-px flex-1 bg-white/[0.08] ml-2" />
-          </div>
-
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-              <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white">
-                Autonomous Ground Truth in an Era of Synthetic Hallucinations
-              </h2>
-              <p className="text-sm text-neutral-400 mt-3 max-w-2xl font-light">
-                Four deterministic systems designed to stress-test, intercept, and cryptographically
-                seal high-consequence enterprise decisions.
-              </p>
-            </div>
-            <div className="text-xs font-mono text-neutral-500 shrink-0">
-              [ 04 ARCHITECTURAL PILLARS ]
-            </div>
-          </div>
-
-          {/* 4 Foundation Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
-            {FOUNDATION_CARDS.map((card) => {
-              const isActive = activeCardId === card.id;
-              return (
-                <div
-                  key={card.id}
-                  onClick={() => setActiveCardId(card.id)}
-                  className={`cursor-pointer transition-all duration-200 p-6 rounded-lg border flex flex-col justify-between min-h-[360px] select-none ${
-                    isActive
-                      ? "bg-[#11141A] border-white/30 shadow-[0_4px_30px_rgba(0,240,255,0.08)]"
-                      : "bg-[#090A0E] hover:bg-[#0E1016] border-white/[0.08]"
-                  }`}
-                >
-                  <div>
-                    {/* Chromatic Accent Dot & Monospace Tag */}
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-2">
-                        <span
-                          className="w-2.5 h-2.5 rounded-full shadow-sm"
-                          style={{
-                            backgroundColor: card.dotColor,
-                            boxShadow: `0 0 10px ${card.dotColor}`,
-                          }}
-                        />
-                        <span className="text-[10px] font-mono tracking-widest text-neutral-400 font-semibold">
-                          {card.tag}
-                        </span>
-                      </div>
-                      <span className="text-xs font-mono text-neutral-500">0{card.id}</span>
-                    </div>
-
-                    {/* Card Title & Headline */}
-                    <h3 className="text-xl font-medium text-white leading-snug">
-                      {card.title}
-                    </h3>
-                    <div className="text-xs font-semibold text-neutral-400 mt-1">
-                      {card.headline}
-                    </div>
-
-                    {/* Description */}
-                    <p className="text-xs text-neutral-400 leading-relaxed mt-4 font-light">
-                      {card.description}
-                    </p>
-                  </div>
-
-                  {/* Bottom Metric Pill */}
-                  <div className="pt-6 border-t border-white/[0.08] mt-6">
-                    <div className="text-sm font-bold text-white font-mono">
-                      {card.metric}
-                    </div>
-                    <div className="text-[11px] text-neutral-400 font-mono mt-0.5">
-                      {card.metricNote}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-        </section>
-
-        {/* ========================================================================= */}
-        {/* CHAPTER 02 — Stochastic Trajectory Simulator (Cleanroom Chamber)          */}
-        {/* ========================================================================= */}
-        <section id="trajectory-section" className="py-24 border-y border-white/[0.08] bg-[#07080B]">
+        <section className="bg-white border-b border-slate-200 py-16 sm:py-24">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
-              <span className="font-semibold text-white">N02.</span>
-              <span>CHAPTER 02 // STOCHASTIC TRAJECTORY</span>
-              <div className="h-px flex-1 bg-white/[0.08] ml-2" />
-            </div>
-
-            <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
-              <div>
-                <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white max-w-3xl">
-                  Where Generative AI Strays from{" "}
-                  <span className="text-[#00F0FF]">Mathematical Ground Truth</span>
-                </h2>
-                <p className="text-sm text-neutral-400 mt-3 max-w-2xl font-light">
-                  Frontier LLMs optimize for fluent language synthesis. Sentra calculates optimal
-                  asymmetric boundaries across 1,000 stochastic demand states.
-                </p>
+            <div className="max-w-3xl">
+              
+              {/* Product Badge */}
+              <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium mb-6">
+                <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
+                Deterministic Decision Intelligence
               </div>
 
-              {/* Scenario Switcher Pills */}
-              <div className="flex flex-wrap items-center gap-2">
-                {SIMULATION_SCENARIOS.map((scen, idx) => (
-                  <button
-                    key={scen.id}
-                    onClick={() => setSelectedScenarioIdx(idx)}
-                    className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all ${
-                      selectedScenarioIdx === idx
-                        ? "bg-white text-black font-semibold shadow-[0_0_12px_rgba(255,255,255,0.4)]"
-                        : "bg-white/5 text-neutral-400 hover:bg-white/10 border border-white/[0.08]"
-                    }`}
-                  >
-                    {scen.label}
-                  </button>
-                ))}
-              </div>
-            </div>
+              {/* Main Headline */}
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.1]">
+                Stress-test capital decisions before execution.
+              </h1>
 
-            {/* Interactive Simulator Grid */}
+              {/* Subheadline */}
+              <p className="mt-6 text-lg sm:text-xl text-slate-600 leading-relaxed font-normal">
+                Frontier AI writes persuasive prose, but cannot absorb asymmetric downside.
+                Sentra calculates risk-neutral boundaries with stochastic calculus, intercepts
+                generative bias, and seals decisions in an immutable audit ledger.
+              </p>
+
+              {/* Primary Actions */}
+              <div className="mt-8 flex flex-wrap items-center gap-4">
+                <Link
+                  href="/workspace"
+                  className="btn-primary text-sm py-2.5 px-5"
+                >
+                  <span>Launch Decision Studio</span>
+                  <ArrowRight className="w-4 h-4 ml-2" />
+                </Link>
+
+                <button
+                  onClick={() => setDemystifierOpen(true)}
+                  className="btn-secondary text-sm py-2.5 px-5"
+                >
+                  <span>Review Methodology & Proofs</span>
+                </button>
+              </div>
+
+              {/* Key Metrics Strip */}
+              <div className="mt-14 pt-8 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-6">
+                <div>
+                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Enterprise Cohorts</div>
+                  <div className="text-2xl font-bold text-slate-900 mt-1">45 Enrolled</div>
+                </div>
+                <div>
+                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Calibrated Trials</div>
+                  <div className="text-2xl font-bold text-slate-900 mt-1">225 Completed</div>
+                </div>
+                <div>
+                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">AI Skew Intercepted</div>
+                  <div className="text-2xl font-bold text-blue-600 mt-1">-23.2% Bias</div>
+                </div>
+                <div>
+                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Audit Security</div>
+                  <div className="text-2xl font-bold text-slate-900 mt-1">HMAC SHA-256</div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+        </section>
+
+        {/* ========================================================================= */}
+        {/* INTERACTIVE CALIBRATION DEMO                                              */}
+        {/* ========================================================================= */}
+        <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+              Interactive Decision Calibration Engine
+            </h2>
+            <p className="text-sm text-slate-600 mt-2 max-w-3xl">
+              Compare deterministic Newsvendor critical fractile calculations against uncalibrated
+              LLM recommendations across multi-million dollar supply scenarios.
+            </p>
+          </div>
+
+          {/* Scenario Tabs */}
+          <div className="flex flex-wrap items-center gap-2 mb-6">
+            {SCENARIOS.map((scen, idx) => (
+              <button
+                key={scen.id}
+                onClick={() => {
+                  setSelectedScenarioIdx(idx);
+                  setUserAllocation(scen.optimalQ);
+                }}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors border ${
+                  selectedScenarioIdx === idx
+                    ? "bg-blue-600 text-white border-blue-600 shadow-xs"
+                    : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                }`}
+              >
+                {scen.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Interactive Calculator Card */}
+          <div className="bg-white border border-slate-200 rounded-xl shadow-sm p-6 sm:p-8">
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
-              {/* Left Column: Interactive Gaussian Curve Canvas */}
-              <div className="lg:col-span-8 rounded-xl border border-white/10 bg-[#0B0D13] p-6 shadow-2xl relative overflow-hidden">
-                <div className="flex items-center justify-between pb-4 border-b border-white/10 text-xs font-mono">
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                    <span className="text-neutral-200">OPTIMAL FRACTILE: {currentScenario.optimalQ} UNITS</span>
-                  </div>
-                  <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#FF5500] shadow-[0_0_8px_rgba(255,85,0,0.8)]" />
-                    <span className="text-[#FF5500]">AI SKEW: {currentScenario.aiQ} UNITS (+23%)</span>
-                  </div>
-                </div>
+              {/* Left Column: Visual Distribution & Controls */}
+              <div className="lg:col-span-8 flex flex-col justify-between">
+                <div>
+                  <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                    <div>
+                      <h3 className="font-semibold text-slate-900 text-base">
+                        {currentScenario.name} — {currentScenario.industry}
+                      </h3>
+                      <p className="text-xs text-slate-500 mt-0.5">
+                        Mean Demand: {currentScenario.meanDemand} units (σ = {currentScenario.stdDemand})
+                      </p>
+                    </div>
 
-                {/* Canvas Container */}
-                <div className="mt-4">
-                  <HeroInteractiveCanvas />
+                    <div className="flex items-center gap-4 text-xs">
+                      <div className="flex items-center gap-1.5 text-emerald-700 font-medium">
+                        <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
+                        <span>Optimal Q*: {currentScenario.optimalQ} units</span>
+                      </div>
+                      <div className="flex items-center gap-1.5 text-rose-700 font-medium">
+                        <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
+                        <span>LLM Recommendation: {currentScenario.aiQ} units (+23%)</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* SVG Probability Curve Representation */}
+                  <div className="mt-6 bg-slate-50 border border-slate-200 rounded-lg p-6 relative overflow-hidden">
+                    <div className="h-44 w-full flex items-end justify-between relative">
+                      {/* Visual Bell Curve */}
+                      <svg viewBox="0 0 500 120" className="w-full h-full text-slate-300">
+                        <path
+                          d="M 10 110 Q 150 110 210 20 Q 250 10 290 20 Q 350 110 490 110"
+                          fill="none"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                        />
+                        {/* Shaded Area for Critical Fractile */}
+                        <path
+                          d="M 10 110 Q 150 110 210 20 Q 250 10 270 18 L 270 110 L 10 110"
+                          fill="rgba(37, 99, 235, 0.08)"
+                        />
+                        {/* Optimal Line */}
+                        <line x1="270" y1="10" x2="270" y2="110" stroke="#10B981" strokeWidth="2.5" strokeDasharray="4 2" />
+                        {/* AI Skew Line */}
+                        <line x1="360" y1="30" x2="360" y2="110" stroke="#F43F5E" strokeWidth="2.5" strokeDasharray="4 2" />
+                      </svg>
+                    </div>
+
+                    <div className="flex justify-between items-center text-xs text-slate-500 mt-4 pt-3 border-t border-slate-200">
+                      <span>Low Demand (Stockout Risk)</span>
+                      <span className="text-emerald-700 font-semibold">Critical Fractile: {currentScenario.optimalQ} units</span>
+                      <span className="text-rose-700 font-semibold">LLM Skew: {currentScenario.aiQ} units</span>
+                    </div>
+                  </div>
                 </div>
 
                 {/* Interactive Allocation Slider */}
-                <div className="mt-6 pt-6 border-t border-white/10">
-                  <div className="flex items-center justify-between text-xs font-mono mb-2">
-                    <span className="text-neutral-400">EXECUTIVE ALLOCATION SLIDER (Q):</span>
-                    <span className="text-white font-bold text-sm bg-white/10 px-2.5 py-0.5 rounded">
-                      {userAllocation} UNITS
+                <div className="mt-6 pt-6 border-t border-slate-100">
+                  <div className="flex items-center justify-between text-sm mb-2">
+                    <span className="font-medium text-slate-700">Adjust Order Commitment (Q):</span>
+                    <span className="font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-md">
+                      {userAllocation} units
                     </span>
                   </div>
                   <input
@@ -500,59 +345,59 @@ export default function HomePage() {
                     step={10}
                     value={userAllocation}
                     onChange={(e) => setUserAllocation(Number(e.target.value))}
-                    className="w-full accent-[#00F0FF] h-2 bg-neutral-800 rounded-lg cursor-pointer"
+                    className="w-full accent-blue-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
                   />
-                  <div className="flex justify-between text-[10px] font-mono text-neutral-500 mt-2">
-                    <span>Under-Allocation Risk</span>
-                    <span className="text-emerald-400">Q* = {currentScenario.optimalQ} (True Optimum)</span>
-                    <span className="text-[#FF5500]">Over-Ordering Depreciation</span>
+                  <div className="flex justify-between text-xs text-slate-400 mt-2">
+                    <span>Under-allocation</span>
+                    <span className="text-emerald-600 font-medium">Equilibrium: {currentScenario.optimalQ}</span>
+                    <span>Surplus holding loss</span>
                   </div>
                 </div>
               </div>
 
-              {/* Right Column: Financial Telemetry Cards */}
-              <div className="lg:col-span-4 flex flex-col gap-4">
-                <div className="p-6 rounded-xl border border-white/10 bg-[#0B0D13]">
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
-                    EXPECTED NET PROFIT
+              {/* Right Column: Live Financial Telemetry */}
+              <div className="lg:col-span-4 bg-slate-50 border border-slate-200 rounded-xl p-6 flex flex-col gap-5">
+                <div>
+                  <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Expected Net Profit
                   </div>
-                  <div className="text-3xl font-bold font-mono text-white mt-1">
+                  <div className="text-3xl font-bold text-slate-900 mt-1 font-sans">
                     ${estimatedProfit.toLocaleString()}
                   </div>
-                  <div className="text-xs text-neutral-400 font-mono mt-1">
-                    Calculated over 1,000 Monte Carlo draws
-                  </div>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Simulated across 1,000 Monte Carlo demand draws
+                  </p>
                 </div>
 
-                <div className="p-6 rounded-xl border border-white/10 bg-[#0B0D13]">
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-[#FF5500]">
-                    AI OVER-ORDERING REGRET AVOIDED
+                <div className="pt-4 border-t border-slate-200">
+                  <div className="text-xs font-semibold text-rose-600 uppercase tracking-wider">
+                    AI Over-Allocation Regret Avoided
                   </div>
-                  <div className="text-2xl font-bold font-mono text-[#FF5500] mt-1">
+                  <div className="text-2xl font-bold text-rose-600 mt-1">
                     -${aiRegret.toLocaleString()}
                   </div>
-                  <div className="text-xs text-neutral-400 font-mono mt-1">
-                    Direct surplus inventory depreciation prevented
-                  </div>
+                  <p className="text-xs text-slate-500 mt-1">
+                    Direct holding depreciation & obsolescence prevented
+                  </p>
                 </div>
 
-                <div className="p-6 rounded-xl border border-white/10 bg-[#0B0D13]">
-                  <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
-                    ASYMMETRIC PENALTY RATIO
+                <div className="pt-4 border-t border-slate-200">
+                  <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                    Asymmetric Penalty Ratio (F*)
                   </div>
-                  <div className="text-lg font-bold font-mono text-white mt-1">
-                    Cu: ${Cu} / Co: ${Co} (F* = {criticalFractile})
+                  <div className="text-lg font-semibold text-slate-800 mt-1">
+                    F* = {criticalFractile}
                   </div>
-                  <div className="text-xs text-neutral-400 font-mono mt-1">
-                    Cost of stockout vs. holding depreciation
-                  </div>
+                  <p className="text-xs text-slate-500 mt-0.5">
+                    Cu: ${Cu} (Stockout) / Co: ${Co} (Overage)
+                  </p>
                 </div>
 
                 <Link
                   href="/decisions"
-                  className="btn-semicon-primary py-3.5 px-4 text-xs font-semibold text-center text-black"
+                  className="btn-primary w-full text-center py-2.5 text-xs font-semibold mt-2"
                 >
-                  Deploy Model to Production Studio →
+                  Configure in Production Studio →
                 </Link>
               </div>
 
@@ -561,208 +406,243 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* CHAPTER 03 — Executive Case Studies (SemiconBio Indexed Directory)        */}
+        {/* THE 4 VERIFICATION PILLARS                                                */}
         {/* ========================================================================= */}
-        <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
-            <span className="font-semibold text-white">N03.</span>
-            <span>CHAPTER 03 // EMPIRICAL VALIDATION</span>
-            <div className="h-px flex-1 bg-white/[0.08] ml-2" />
-          </div>
-
-          <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
-            <div>
-              <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white">
-                Consequential Enterprise Deployments
+        <section className="py-16 sm:py-20 bg-white border-y border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl mb-12">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                Deterministic Decision Architecture
               </h2>
-              <p className="text-sm text-neutral-400 mt-3 max-w-2xl font-light">
-                Documented case analyses where stochastic calculus intercepted catastrophic
-                generative AI hallucinations.
+              <p className="text-sm text-slate-600 mt-2">
+                Four engineering modules that replace qualitative LLM guesses with closed-form
+                mathematical proofs and verifiable audit chains.
               </p>
             </div>
-            <div className="text-xs font-mono text-neutral-500 shrink-0">
-              [ 04 INSTITUTIONAL PROOFS ]
-            </div>
-          </div>
 
-          {/* Directory Rows */}
-          <div className="border-t border-white/10 divide-y divide-white/10">
-            {CASE_STUDIES.map((study, idx) => {
-              const isExpanded = expandedCaseIdx === idx;
-              return (
-                <div key={study.index} className="py-6 transition-colors">
-                  <div
-                    onClick={() => setExpandedCaseIdx(isExpanded ? null : idx)}
-                    className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer group"
-                  >
-                    <div className="flex items-baseline gap-6">
-                      <span className="font-mono text-xs font-bold text-neutral-500 group-hover:text-[#00F0FF] transition-colors">
-                        {study.index}
-                      </span>
-                      <h3 className="text-xl sm:text-2xl font-normal text-white group-hover:text-[#00F0FF] transition-colors">
-                        {study.title}
-                      </h3>
-                    </div>
-                    <div className="flex items-center gap-4 text-xs font-mono text-neutral-400 shrink-0">
-                      <span>{study.industry}</span>
-                      <span className="text-base text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
-                        ↗
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Expandable Technical Details */}
-                  <AnimatePresence>
-                    {isExpanded && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.3 }}
-                        className="overflow-hidden"
-                      >
-                        <div className="mt-6 pt-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-12 gap-6 bg-[#0E1017] p-6 rounded-lg border border-white/10">
-                          <p className="md:col-span-6 text-sm text-neutral-300 leading-relaxed font-light">
-                            {study.summary}
-                          </p>
-                          <div className="md:col-span-3">
-                            <div className="text-[10px] font-mono uppercase text-neutral-400">
-                              Capital Protected
-                            </div>
-                            <div className="text-2xl font-bold font-mono text-white mt-1">
-                              {study.capitalProtected}
-                            </div>
-                            <div className="text-xs font-mono text-emerald-400 mt-0.5">
-                              Downside regret reduced by {study.regretReduction}
-                            </div>
-                          </div>
-                          <div className="md:col-span-3">
-                            <div className="text-[10px] font-mono uppercase text-neutral-400">
-                              Immutable Ledger Hash
-                            </div>
-                            <div className="text-xs font-mono text-neutral-200 bg-black/50 p-2.5 rounded mt-1 border border-white/10 break-all">
-                              {study.hash}
-                            </div>
-                            <div className="text-[10px] font-mono text-neutral-400 mt-1">
-                              HMAC SHA-256 Verified
-                            </div>
-                          </div>
-                        </div>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+              
+              {/* Pillar 1 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-lg bg-blue-100 border border-blue-200 text-blue-700 flex items-center justify-center mb-5 font-semibold">
+                  01
                 </div>
-              );
-            })}
+                <h3 className="font-bold text-slate-900 text-base">
+                  Critical Fractile Solver
+                </h3>
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Calculates exact risk-neutral inventory and capacity commitments using the
+                  classical Newsvendor theorem, balancing stockout penalties against depreciation.
+                </p>
+                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-mono text-slate-500">
+                  F*(Q) = Cu / (Cu + Co)
+                </div>
+              </div>
+
+              {/* Pillar 2 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-lg bg-orange-100 border border-orange-200 text-orange-700 flex items-center justify-center mb-5 font-semibold">
+                  02
+                </div>
+                <h3 className="font-bold text-slate-900 text-base">
+                  Generative Bias Interceptor
+                </h3>
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Real-time statistical filter that flags systematic optimistic skew (+23.2% average)
+                  and unjustified confidence bounds produced by commercial LLMs.
+                </p>
+                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-mono text-slate-500">
+                  p &lt; 0.001 Statistical Filter
+                </div>
+              </div>
+
+              {/* Pillar 3 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-lg bg-purple-100 border border-purple-200 text-purple-700 flex items-center justify-center mb-5 font-semibold">
+                  03
+                </div>
+                <h3 className="font-bold text-slate-900 text-base">
+                  Cognitive Behavioral Lab
+                </h3>
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Double-blind randomized testing protocols measuring human decision-maker
+                  automation deference, alert fatigue, and readiness to override faulty advice.
+                </p>
+                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-mono text-slate-500">
+                  45 Cohorts · 225 Seated Runs
+                </div>
+              </div>
+
+              {/* Pillar 4 */}
+              <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 hover:shadow-md transition-shadow">
+                <div className="w-10 h-10 rounded-lg bg-emerald-100 border border-emerald-200 text-emerald-700 flex items-center justify-center mb-5 font-semibold">
+                  04
+                </div>
+                <h3 className="font-bold text-slate-900 text-base">
+                  Cryptographic Ledger
+                </h3>
+                <p className="text-xs text-slate-600 mt-2 leading-relaxed">
+                  Binds all simulation parameters, demand draws, and authorized overrides into an
+                  HMAC SHA-256 certificate for corporate governance and regulatory compliance.
+                </p>
+                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-mono text-slate-500">
+                  HMAC SHA-256 Provenance
+                </div>
+              </div>
+
+            </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* CHAPTER 04 — Real-Time Cryptographic Provenance Simulator                  */}
+        {/* DOCUMENTED ENTERPRISE CASE STUDIES (Table)                                */}
         {/* ========================================================================= */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.08]">
-          <div className="bg-[#0A0C11] rounded-xl border border-white/10 p-8 sm:p-12 shadow-2xl">
-            <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
-              <span className="font-semibold text-white">N04.</span>
-              <span>CHAPTER 04 // CRYPTOGRAPHIC GOVERNANCE</span>
-              <div className="h-px flex-1 bg-white/[0.08] ml-2" />
-            </div>
-
-            <h2 className="text-2xl sm:text-4xl font-normal text-white">
-              Interactive Tamper-Evident Provenance Seal
+        <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="mb-8">
+            <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+              Enterprise Impact & Case Studies
             </h2>
-            <p className="text-sm text-neutral-400 mt-2 font-light max-w-2xl">
-              Type or adjust any corporate decision payload below to simulate real-time HMAC
-              SHA-256 certificate generation.
+            <p className="text-sm text-slate-600 mt-2">
+              Verified corporate deployments where deterministic risk modeling prevented
+              unjustified capital expenditure.
             </p>
+          </div>
 
-            <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
-              <div className="lg:col-span-8">
-                <label className="block text-xs font-mono text-neutral-400 mb-2 uppercase">
-                  ENTERPRISE DECISION PAYLOAD:
-                </label>
-                <input
-                  type="text"
-                  value={customDecision}
-                  onChange={(e) => setCustomDecision(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#11141B] border border-white/10 rounded-md text-sm font-mono text-white focus:outline-none focus:border-[#00F0FF] transition-colors"
-                />
-              </div>
+          <div className="bg-white border border-slate-200 rounded-xl shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left text-sm text-slate-700">
+                <thead className="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                  <tr>
+                    <th className="px-6 py-4">Scenario</th>
+                    <th className="px-6 py-4">Industry</th>
+                    <th className="px-6 py-4">AI vs. Optimal</th>
+                    <th className="px-6 py-4">Bias Intercepted</th>
+                    <th className="px-6 py-4">Capital Saved</th>
+                    <th className="px-6 py-4">Audit Provenance</th>
+                  </tr>
+                </thead>
+                <tbody className="divide-y divide-slate-100">
+                  {CASE_STUDIES.map((cs) => (
+                    <tr key={cs.id} className="hover:bg-slate-50/60 transition-colors">
+                      <td className="px-6 py-4 font-medium text-slate-900">
+                        {cs.scenario}
+                      </td>
+                      <td className="px-6 py-4 text-slate-500 text-xs">
+                        {cs.industry}
+                      </td>
+                      <td className="px-6 py-4 text-xs font-mono">
+                        <span className="text-rose-600">{cs.aiProposed}</span> vs{" "}
+                        <span className="text-emerald-600 font-semibold">{cs.optimal}</span>
+                      </td>
+                      <td className="px-6 py-4">
+                        <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
+                          {cs.biasAvoided}
+                        </span>
+                      </td>
+                      <td className="px-6 py-4 font-bold text-slate-900 font-sans">
+                        {cs.capitalSaved}
+                      </td>
+                      <td className="px-6 py-4 text-xs font-mono text-slate-500">
+                        {cs.hash}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
 
-              <div className="lg:col-span-4 flex items-end">
-                <button
-                  onClick={handleGenerateHash}
-                  disabled={isHashing}
-                  className="btn-semicon-primary w-full py-3.5 px-6 text-xs text-black font-semibold"
-                >
-                  {isHashing ? "Computing Digest..." : "Generate Cryptographic Seal →"}
-                </button>
-              </div>
+        {/* ========================================================================= */}
+        {/* CRYPTOGRAPHIC PROVENANCE GENERATOR                                        */}
+        {/* ========================================================================= */}
+        <section className="py-16 sm:py-20 bg-white border-y border-slate-200">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div className="max-w-2xl mb-8">
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
+                Cryptographic Audit Proof Generator
+              </h2>
+              <p className="text-sm text-slate-600 mt-2">
+                Simulate generating an immutable HMAC SHA-256 certificate for enterprise decision
+                provenance.
+              </p>
             </div>
 
-            {/* Generated Hash Box */}
-            <div className="mt-6 p-4 rounded-md bg-black/60 border border-white/10 text-white font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
-              <div>
-                <span className="text-neutral-500 text-[10px] uppercase block">
-                  HMAC SHA-256 PROVENANCE DIGEST:
-                </span>
-                <span className="text-[#00F0FF] font-bold break-all">
-                  0x{cryptoHash}
-                </span>
+            <div className="bg-slate-50 border border-slate-200 rounded-xl p-6 sm:p-8">
+              <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
+                <div className="md:col-span-8">
+                  <label className="block text-xs font-medium text-slate-700 mb-2 uppercase tracking-wider">
+                    Executive Decision Payload
+                  </label>
+                  <input
+                    type="text"
+                    value={decisionPayload}
+                    onChange={(e) => setDecisionPayload(e.target.value)}
+                    className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 font-mono"
+                  />
+                </div>
+
+                <div className="md:col-span-4">
+                  <button
+                    onClick={handleGenerateHash}
+                    disabled={isHashing}
+                    className="btn-primary w-full py-2.5 text-sm"
+                  >
+                    {isHashing ? "Generating..." : "Generate Cryptographic Seal"}
+                  </button>
+                </div>
               </div>
-              <div className="flex items-center gap-2 text-[10px] text-neutral-400 shrink-0">
-                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                <span>SEALED & AUDITABLE</span>
+
+              {/* Hash Display */}
+              <div className="mt-6 p-4 rounded-lg bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                <div>
+                  <span className="text-xs text-slate-500 uppercase font-semibold block">
+                    HMAC SHA-256 Provenance Digest:
+                  </span>
+                  <span className="font-mono text-xs text-blue-700 font-semibold break-all">
+                    0x{provenanceHash}
+                  </span>
+                </div>
+                <div className="flex items-center gap-2 text-xs font-medium text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 shrink-0">
+                  <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                  <span>Sealed &amp; Validated</span>
+                </div>
               </div>
             </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* CHAPTER 05 — Frequently Addressed Inquiries (Minimal Accordion)           */}
+        {/* FAQS                                                                      */}
         {/* ========================================================================= */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.08]">
-          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
-            <span className="font-semibold text-white">N05.</span>
-            <span>CHAPTER 05 // SYSTEM SPECIFICATIONS & FAQ</span>
-            <div className="h-px flex-1 bg-white/[0.08] ml-2" />
-          </div>
-
-          <h2 className="text-3xl sm:text-4xl font-normal tracking-tight text-white mb-10">
-            Frequently Addressed Inquiries
+        <section className="py-16 sm:py-20 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight mb-8 text-center">
+            Frequently Asked Questions
           </h2>
 
-          <div className="border-t border-white/10 divide-y divide-white/10">
+          <div className="bg-white border border-slate-200 rounded-xl shadow-sm divide-y divide-slate-100">
             {FAQS.map((faq, idx) => {
-              const isOpen = faqOpenIdx === idx;
+              const isOpen = openFaq === idx;
               return (
-                <div key={idx} className="py-6">
+                <div key={idx} className="p-6">
                   <button
-                    onClick={() => setFaqOpenIdx(isOpen ? null : idx)}
+                    onClick={() => setOpenFaq(isOpen ? null : idx)}
                     className="w-full flex items-center justify-between text-left group"
                   >
-                    <span className="text-lg font-normal text-white group-hover:text-[#00F0FF] transition-colors">
+                    <span className="text-base font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
                       {faq.q}
                     </span>
-                    <span className="font-mono text-sm text-neutral-500 group-hover:text-white transition-colors">
-                      {isOpen ? "−" : "+"}
-                    </span>
+                    <ChevronDown
+                      className={`w-4 h-4 text-slate-400 transition-transform ${
+                        isOpen ? "transform rotate-180" : ""
+                      }`}
+                    />
                   </button>
-                  <AnimatePresence>
-                    {isOpen && (
-                      <motion.div
-                        initial={{ opacity: 0, height: 0 }}
-                        animate={{ opacity: 1, height: "auto" }}
-                        exit={{ opacity: 0, height: 0 }}
-                        transition={{ duration: 0.25 }}
-                        className="overflow-hidden"
-                      >
-                        <p className="mt-4 text-sm text-neutral-400 leading-relaxed font-light max-w-3xl">
-                          {faq.a}
-                        </p>
-                      </motion.div>
-                    )}
-                  </AnimatePresence>
+                  {isOpen && (
+                    <p className="mt-3 text-sm text-slate-600 leading-relaxed font-normal">
+                      {faq.a}
+                    </p>
+                  )}
                 </div>
               );
             })}
@@ -770,149 +650,82 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* PRE-FOOTER INVITATION BANNER & MINIMAL FOOTER                             */}
+        {/* CTA BANNER & FOOTER                                                       */}
         {/* ========================================================================= */}
-        <section className="bg-[#030406] text-white pt-24 pb-16 border-t border-white/10">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            
-            {/* Pre-Footer Action Banner */}
-            <div className="pb-20 border-b border-white/10 flex flex-col md:flex-row md:items-end justify-between gap-8">
-              <div>
-                <div className="text-xs font-mono tracking-widest text-[#00F0FF] uppercase mb-3">
-                  READY FOR CALIBRATED DEPLOYMENT
-                </div>
-                <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white max-w-2xl leading-tight">
-                  Deploy Deterministic Decision Intelligence into Your Enterprise.
-                </h2>
-              </div>
-              <div className="flex flex-col sm:flex-row gap-4 shrink-0">
-                <Link
-                  href="/workspace"
-                  className="btn-semicon-primary py-3.5 px-8 text-sm text-black"
-                >
-                  Enter Decision Studio →
-                </Link>
-                <button
-                  onClick={() => setDemystifierOpen(true)}
-                  className="btn-semicon-secondary py-3 px-6 text-xs text-white"
-                >
-                  Schedule Technical Briefing
-                </button>
-              </div>
+        <section className="bg-slate-900 text-white py-16">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
+            <div>
+              <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                Ready to deploy deterministic decision intelligence?
+              </h2>
+              <p className="text-slate-400 text-sm mt-2">
+                Join 45 enterprise cohorts calibrating high-consequence capital commitments.
+              </p>
             </div>
-
-            {/* Structured 4-Column Directory (SemiconBio Style) */}
-            <div className="py-16 grid grid-cols-2 md:grid-cols-4 gap-8 text-xs font-mono">
-              <div>
-                <div className="text-white font-bold uppercase tracking-wider mb-4">
-                  PLATFORM CORE
-                </div>
-                <ul className="space-y-2.5 text-neutral-400">
-                  <li>
-                    <Link href="/decisions" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00F0FF] text-[8px]">■</span>
-                      <span>Stochastic Solver</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/workspace" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00F0FF] text-[8px]">■</span>
-                      <span>Executive Studio</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/experiments" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00F0FF] text-[8px]">■</span>
-                      <span>Behavioral Lab</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <Link href="/governance" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00F0FF] text-[8px]">■</span>
-                      <span>Cryptographic Ledger</span>
-                    </Link>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <div className="text-white font-bold uppercase tracking-wider mb-4">
-                  EMPIRICAL SCIENCE
-                </div>
-                <ul className="space-y-2.5 text-neutral-400">
-                  <li>
-                    <button onClick={() => setDemystifierOpen(true)} className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00F0FF] text-[8px]">■</span>
-                      <span>Critical Fractile Theorem</span>
-                    </button>
-                  </li>
-                  <li>
-                    <button onClick={() => setDemystifierOpen(true)} className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00F0FF] text-[8px]">■</span>
-                      <span>Deference Decay Protocols</span>
-                    </button>
-                  </li>
-                  <li>
-                    <button onClick={() => setDemystifierOpen(true)} className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00F0FF] text-[8px]">■</span>
-                      <span>Monte Carlo Proofs</span>
-                    </button>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <div className="text-white font-bold uppercase tracking-wider mb-4">
-                  GOVERNANCE & TRUST
-                </div>
-                <ul className="space-y-2.5 text-neutral-400">
-                  <li>
-                    <Link href="/governance" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00F0FF] text-[8px]">■</span>
-                      <span>HMAC SHA-256 Provenance</span>
-                    </Link>
-                  </li>
-                  <li>
-                    <span className="text-neutral-500 flex items-center gap-1.5">
-                      <span className="text-neutral-600 text-[8px]">■</span>
-                      <span>SOC-2 Type II Certified</span>
-                    </span>
-                  </li>
-                  <li>
-                    <span className="text-neutral-500 flex items-center gap-1.5">
-                      <span className="text-neutral-600 text-[8px]">■</span>
-                      <span>ISO-42001 AI Risk Aligned</span>
-                    </span>
-                  </li>
-                </ul>
-              </div>
-
-              <div>
-                <div className="text-white font-bold uppercase tracking-wider mb-4">
-                  SYSTEM STATUS
-                </div>
-                <div className="flex items-center gap-2 text-emerald-400 mb-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
-                  <span>ALL ENGINES OPERATIONAL</span>
-                </div>
-                <div className="text-[10px] text-neutral-500 leading-relaxed">
-                  Latency: 14ms · Uptime: 99.99% · Monte Carlo Node Cluster Online
-                </div>
-              </div>
+            <div className="flex items-center gap-4 shrink-0">
+              <Link
+                href="/workspace"
+                className="btn-primary text-sm py-2.5 px-6 bg-blue-600 hover:bg-blue-700 border-blue-500"
+              >
+                <span>Launch Studio</span>
+                <ArrowRight className="w-4 h-4 ml-2" />
+              </Link>
+              <button
+                onClick={() => setDemystifierOpen(true)}
+                className="btn-secondary text-sm py-2.5 px-5 bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
+              >
+                Schedule Briefing
+              </button>
             </div>
-
-            {/* Bottom Copyright & Fine Print */}
-            <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-neutral-500 gap-4">
-              <div>© 2026 Sentra Systems Inc. All rights reserved.</div>
-              <div className="flex items-center gap-6">
-                <span className="hover:text-neutral-300 cursor-pointer">Privacy Protocol</span>
-                <span className="hover:text-neutral-300 cursor-pointer">User Agreement</span>
-                <span className="hover:text-neutral-300 cursor-pointer">Security Certifications</span>
-              </div>
-            </div>
-
           </div>
         </section>
+
+        <footer className="bg-white border-t border-slate-200 py-12 text-xs text-slate-500">
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
+            <div>
+              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Platform</div>
+              <ul className="space-y-2">
+                <li><Link href="/workspace" className="hover:text-blue-600">Executive Workspace</Link></li>
+                <li><Link href="/decisions" className="hover:text-blue-600">Decision Studio</Link></li>
+                <li><Link href="/experiments" className="hover:text-blue-600">Behavioral Lab</Link></li>
+                <li><Link href="/governance" className="hover:text-blue-600">Governance Ledger</Link></li>
+              </ul>
+            </div>
+            <div>
+              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Methodology</div>
+              <ul className="space-y-2">
+                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Newsvendor Theorem</button></li>
+                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Deference Decay Protocols</button></li>
+                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Monte Carlo Verification</button></li>
+              </ul>
+            </div>
+            <div>
+              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Compliance</div>
+              <ul className="space-y-2">
+                <li><span>SOC-2 Type II Certified</span></li>
+                <li><span>ISO-42001 AI Risk Aligned</span></li>
+                <li><span>HMAC SHA-256 Provenance</span></li>
+              </ul>
+            </div>
+            <div>
+              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">System Status</div>
+              <div className="flex items-center gap-2 text-emerald-600 font-medium mb-1">
+                <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                <span>All Systems Operational</span>
+              </div>
+              <p className="text-[11px] text-slate-400">99.99% Uptime · Deterministic Nodes Active</p>
+            </div>
+          </div>
+
+          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-12 pt-6 border-t border-slate-100 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div>© 2026 Sentra Systems Inc. All rights reserved.</div>
+            <div className="flex items-center gap-6">
+              <span className="hover:text-slate-700 cursor-pointer">Privacy Policy</span>
+              <span className="hover:text-slate-700 cursor-pointer">Terms of Service</span>
+              <span className="hover:text-slate-700 cursor-pointer">Security Whitepaper</span>
+            </div>
+          </div>
+        </footer>
       </main>
 
       {/* Demystifier Modal */}
