@@ -61,24 +61,24 @@ export default function LandingPage() {
           <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
             <Link
               href="/workspace"
-              className="px-6 py-2.5 bg-white text-black hover:bg-neutral-200 text-sm font-medium rounded-lg transition-colors flex items-center gap-2 shadow-sm"
+              className="btn-realistic-primary px-6 py-2.5 text-sm font-semibold rounded-xl inline-flex items-center gap-2 group"
             >
               <span>Open Workspace</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-4 h-4 text-neutral-600 group-hover:translate-x-0.5 transition-transform" />
             </Link>
 
             <a
               href="#stressor"
-              className="px-5 py-2.5 bg-[#181A1E] hover:bg-[#202328] text-white border border-white/[0.08] text-sm font-medium rounded-lg transition-colors"
+              className="btn-realistic-secondary px-5 py-2.5 text-sm font-medium rounded-xl inline-flex items-center gap-2"
             >
-              Test Decision Dilemma
+              <span>Test Decision Dilemma</span>
             </a>
 
             <button
               onClick={() => setIsDemystifierOpen(true)}
-              className="px-4 py-2.5 text-neutral-400 hover:text-white text-sm font-medium transition-colors"
+              className="px-4 py-2.5 text-neutral-300 hover:text-white hover:bg-white/[0.06] rounded-xl text-sm font-medium transition-all active:scale-[0.985] flex items-center gap-1.5 border border-transparent hover:border-white/[0.08]"
             >
-              Concept Guide
+              <span>Concept Guide</span>
             </button>
           </div>
 
@@ -296,19 +296,19 @@ export default function LandingPage() {
           <p className="text-neutral-400 text-xs sm:text-sm max-w-lg mx-auto">
             Experience the platform with 45 enrolled participants and 225 pre-seeded trials, or run an empirical trial in your browser.
           </p>
-          <div className="pt-2 flex flex-wrap items-center justify-center gap-3">
+          <div className="pt-2 flex flex-wrap items-center justify-center gap-3.5">
             <Link
               href="/workspace"
-              className="px-6 py-2.5 bg-white text-black hover:bg-neutral-200 text-xs font-medium rounded-lg transition-colors flex items-center gap-1.5 shadow-sm"
+              className="btn-realistic-primary px-6 py-2.5 text-xs font-semibold rounded-xl inline-flex items-center gap-2 group"
             >
               <span>Enter Workspace</span>
-              <ArrowRight className="w-3.5 h-3.5" />
+              <ArrowRight className="w-3.5 h-3.5 text-neutral-600 group-hover:translate-x-0.5 transition-transform" />
             </Link>
             <Link
               href="/experiments/run/exp-inv-001"
-              className="px-6 py-2.5 bg-[#181A1E] hover:bg-[#202328] text-white border border-white/[0.08] text-xs font-medium rounded-lg transition-colors"
+              className="btn-realistic-secondary px-5 py-2.5 text-xs font-medium rounded-xl inline-flex items-center gap-2"
             >
-              Run Decision Trial
+              <span>Run Decision Trial</span>
             </Link>
           </div>
         </section>

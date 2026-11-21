@@ -49,21 +49,21 @@ export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHead
         </nav>
 
         {/* Right Action Controls */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           {onOpenCommandPalette && (
             <button
               onClick={onOpenCommandPalette}
-              className="hidden lg:flex items-center gap-2 px-2.5 py-1 text-xs text-neutral-400 hover:text-white border border-white/[0.08] hover:border-white/[0.16] rounded-md transition-colors"
+              className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs text-neutral-400 hover:text-white bg-white/[0.03] hover:bg-white/[0.07] border border-white/[0.09] rounded-xl transition-all shadow-sm"
               title="Search (⌘K)"
             >
               <Search className="w-3.5 h-3.5" />
-              <span className="font-mono text-[10px]">⌘K</span>
+              <kbd className="font-mono text-[10px] px-1.5 py-0.5 rounded bg-white/[0.06] border border-white/[0.08] text-neutral-300">⌘K</kbd>
             </button>
           )}
 
           <button
             onClick={onOpenDemystifier}
-            className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 text-xs text-neutral-300 hover:text-white border border-white/[0.08] hover:border-white/[0.16] rounded-md transition-colors"
+            className="hidden sm:flex items-center gap-1.5 px-3.5 py-1.5 text-xs text-neutral-200 hover:text-white bg-gradient-to-b from-[#242831] via-[#1B1E26] to-[#14161C] border border-white/[0.1] border-b-black/40 shadow-[0_1px_2px_rgba(0,0,0,0.35),inset_0_1px_0_rgba(255,255,255,0.14)] hover:from-[#2A2F3A] hover:to-[#1E212A] rounded-xl transition-all active:scale-[0.985]"
           >
             <BookOpen className="w-3.5 h-3.5 text-blue-400" />
             <span>Guide</span>
@@ -71,10 +71,10 @@ export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHead
 
           <Link
             href="/workspace"
-            className="flex items-center gap-1.5 px-4 py-1.5 bg-white text-black hover:bg-neutral-200 text-xs font-medium rounded-md transition-colors shadow-sm"
+            className="flex items-center gap-1.5 px-4 py-1.5 bg-gradient-to-b from-[#FFFFFF] via-[#FAFBFD] to-[#EFF1F5] text-neutral-900 border border-black/[0.08] border-b-black/[0.2] shadow-[0_1px_2px_rgba(0,0,0,0.06),0_3px_8px_rgba(0,0,0,0.05),inset_0_1px_0_rgba(255,255,255,1),inset_0_-1px_0_rgba(0,0,0,0.04)] hover:from-[#FFFFFF] hover:to-[#F4F6F9] hover:shadow-[0_3px_12px_rgba(0,0,0,0.09),inset_0_1px_0_rgba(255,255,255,1)] active:translate-y-[0.5px] active:scale-[0.985] text-xs font-semibold rounded-xl transition-all"
           >
             <span>Launch Workspace</span>
-            <ArrowRight className="w-3.5 h-3.5" />
+            <ArrowRight className="w-3.5 h-3.5 text-neutral-600" />
           </Link>
 
           <button

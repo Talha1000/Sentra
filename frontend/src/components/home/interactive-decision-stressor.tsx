@@ -118,15 +118,15 @@ export function InteractiveDecisionStressor() {
         </div>
 
         {/* Scenario Switchers */}
-        <div className="flex flex-wrap gap-1.5 p-1 bg-[#181A1E] border border-white/[0.06] rounded-lg">
+        <div className="flex flex-wrap gap-1 p-1 bg-[#181A1E] border border-white/[0.08] rounded-xl shadow-inner">
           {SCENARIOS.map((sc) => (
             <button
               key={sc.id}
               onClick={() => handleSelectScenario(sc)}
-              className={`px-3 py-1.5 text-xs rounded-md font-medium transition-colors ${
+              className={`px-3.5 py-1.5 text-xs rounded-lg font-medium transition-all ${
                 activeScenario.id === sc.id
-                  ? "bg-white text-black shadow-sm"
-                  : "text-neutral-400 hover:text-white"
+                  ? "btn-realistic-primary font-semibold text-neutral-900"
+                  : "text-neutral-400 hover:text-white hover:bg-white/[0.05]"
               }`}
             >
               {sc.name.split(" ")[0]}
