@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 import { formatCurrency } from "@/lib/utils";
 import { api } from "@/lib/api";
-import { Calculator, ArrowUpRight } from "lucide-react";
+import { Calculator, ArrowRight, CheckCircle2, AlertTriangle } from "lucide-react";
 
 interface Scenario {
   id: string;
@@ -21,7 +21,7 @@ interface Scenario {
 const SCENARIOS: Scenario[] = [
   {
     id: "semiconductor",
-    name: "Semiconductor Wafer Allocation",
+    name: "Semiconductor Allocation",
     field: "Hardware & Manufacturing",
     meanDemand: 1400,
     stdDemand: 220,
@@ -99,33 +99,34 @@ export function InteractiveDecisionStressor() {
   const financialRegret = Math.max(0, maxProfit - expectedProfit);
 
   return (
-    <div className="w-full bg-white border border-black/10 shadow-[0_8px_32px_rgba(0,0,0,0.06)] p-6 sm:p-8 text-black">
+    <div className="w-full bg-[#121417] border border-white/[0.08] rounded-2xl p-6 sm:p-8 space-y-8">
       {/* Header */}
-      <div className="pb-6 border-b border-black/[0.08] flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <div className="flex items-center gap-2 text-[10px] font-mono text-neutral-500 uppercase tracking-widest">
-            <span className="text-black font-semibold">CHAPTER 04</span>
-            <span>·</span>
-            <span>DECISION STRESSOR</span>
+      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 pb-6 border-b border-white/[0.08]">
+        <div className="space-y-1">
+          <div className="flex items-center gap-2">
+            <span className="w-2 h-2 rounded-full bg-blue-500" />
+            <span className="text-xs font-medium text-blue-400 uppercase tracking-wider">
+              Interactive Decision Stressor
+            </span>
           </div>
-          <h2 className="text-2xl sm:text-3xl font-bold text-black tracking-tight mt-1">
-            Experience the Decision Dilemma
-          </h2>
-          <p className="text-xs sm:text-sm text-neutral-600 mt-1 max-w-2xl leading-relaxed">
-            Drag the allocation slider to test your judgment against AI overconfidence and the mathematical sweet spot.
+          <h3 className="text-xl sm:text-2xl font-semibold text-white tracking-tight">
+            Stress-test an AI Recommendation
+          </h3>
+          <p className="text-xs sm:text-sm text-neutral-400 max-w-xl">
+            See how articulate AI forecasts introduce subtle +23% over-allocation risks, and compare them against calibrated critical fractile math.
           </p>
         </div>
 
-        {/* Scenario Selector */}
-        <div className="flex flex-wrap gap-1.5 shrink-0">
+        {/* Scenario Switchers */}
+        <div className="flex flex-wrap gap-1.5 p-1 bg-[#181A1E] border border-white/[0.06] rounded-lg">
           {SCENARIOS.map((sc) => (
             <button
               key={sc.id}
               onClick={() => handleSelectScenario(sc)}
-              className={`px-3 py-1.5 text-xs font-mono transition-all border ${
+              className={`px-3 py-1.5 text-xs rounded-md font-medium transition-colors ${
                 activeScenario.id === sc.id
-                  ? "bg-black text-white border-black font-semibold"
-                  : "bg-neutral-50 text-neutral-600 border-neutral-200 hover:bg-neutral-100"
+                  ? "bg-white text-black shadow-sm"
+                  : "text-neutral-400 hover:text-white"
               }`}
             >
               {sc.name.split(" ")[0]}
@@ -134,156 +135,157 @@ export function InteractiveDecisionStressor() {
         </div>
       </div>
 
-      <div className="py-6 space-y-6">
-        {/* Three Reference Benchmarks */}
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-          <div className="p-4 border border-black/[0.08] bg-neutral-50/70 space-y-1">
-            <span className="text-[10px] font-mono font-semibold text-neutral-500 uppercase tracking-wider block">
-              Market Demand
+      {/* 3 Comparative Metrics */}
+      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+        {/* Market Demand */}
+        <div className="p-4 rounded-xl bg-[#181A1E] border border-white/[0.06] space-y-1">
+          <span className="text-[11px] text-neutral-400 font-medium block">
+            Stochastic Demand
+          </span>
+          <div className="text-xl font-semibold text-white tabular-nums">
+            {activeScenario.meanDemand.toLocaleString()} ± {activeScenario.stdDemand}
+          </div>
+          <span className="text-[11px] text-neutral-500 block">
+            Gaussian distribution
+          </span>
+        </div>
+
+        {/* Biased AI */}
+        <div className="p-4 rounded-xl bg-rose-500/[0.06] border border-rose-500/20 space-y-1">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] text-rose-400 font-medium">
+              AI Recommendation
             </span>
-            <div className="text-xl font-bold text-black font-mono tabular-nums">
-              {activeScenario.meanDemand.toLocaleString()} ± {activeScenario.stdDemand}
-            </div>
-            <span className="text-[11px] text-neutral-500 block">
-              Gaussian sales distribution
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-rose-500/10 text-rose-300 border border-rose-500/20">
+              +23% Bias
             </span>
           </div>
+          <div className="text-xl font-semibold text-rose-300 tabular-nums">
+            {aiSuggested.toLocaleString()} units
+          </div>
+          <span className="text-[11px] text-neutral-400 block">
+            Overconfident demand projection
+          </span>
+        </div>
 
-          <div className="p-4 border border-[#FF4400]/40 bg-orange-50/40 space-y-1">
-            <div className="flex justify-between items-center">
-              <span className="text-[10px] font-mono font-semibold text-[#FF4400] uppercase tracking-wider">
-                AI Suggestion
-              </span>
-              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 bg-orange-100 text-[#FF4400] border border-orange-200">
-                +23% SKEW
-              </span>
-            </div>
-            <div className="text-xl font-bold text-[#FF4400] font-mono tabular-nums">
-              {aiSuggested.toLocaleString()} units
-            </div>
-            <span className="text-[11px] text-neutral-600 block">
-              Overconfident recommendation
+        {/* Mathematical Sweet Spot */}
+        <div className="p-4 rounded-xl bg-emerald-500/[0.06] border border-emerald-500/20 space-y-1">
+          <div className="flex items-center justify-between">
+            <span className="text-[11px] text-emerald-400 font-medium">
+              Optimal Equilibrium (Q*)
+            </span>
+            <span className="text-[10px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">
+              Critical Fractile
             </span>
           </div>
+          <div className="text-xl font-semibold text-emerald-300 tabular-nums">
+            {optimalQty.toLocaleString()} units
+          </div>
+          <span className="text-[11px] text-neutral-400 block">
+            Profit-maximizing sweet spot
+          </span>
+        </div>
+      </div>
 
-          <div className="p-4 border border-[#00F0FF]/60 bg-cyan-50/40 space-y-1">
-            <div className="flex justify-between items-center">
-              <span className="text-[10px] font-mono font-semibold text-cyan-800 uppercase tracking-wider">
-                Optimal Sweet Spot (Q*)
-              </span>
-              <span className="text-[9px] font-mono font-bold px-1.5 py-0.5 bg-cyan-100 text-cyan-800 border border-cyan-200">
-                F*(Q) = 0.727
-              </span>
-            </div>
-            <div className="text-xl font-bold text-black font-mono tabular-nums">
-              {optimalQty.toLocaleString()} units
-            </div>
-            <span className="text-[11px] text-neutral-600 block">
-              Max expected profit equilibrium
+      {/* Slider Box */}
+      <div className="p-5 rounded-xl bg-[#181A1E] border border-white/[0.06] space-y-3">
+        <div className="flex items-center justify-between">
+          <div>
+            <span className="text-xs font-medium text-white block">
+              Adjust Allocation Quantity
             </span>
+            <span className="text-[11px] text-neutral-400">
+              Test how different purchase volumes perform
+            </span>
+          </div>
+          <div className="text-right">
+            <span className="text-2xl font-semibold text-white tabular-nums">
+              {orderQuantity.toLocaleString()}
+            </span>
+            <span className="text-xs text-neutral-400 ml-1">units</span>
           </div>
         </div>
 
-        {/* Tactile Slider Box */}
-        <div className="p-5 border border-black/[0.08] bg-neutral-50/50 space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1">
-            <div>
-              <span className="text-xs font-semibold text-black uppercase tracking-wider block font-mono">
-                Your Chosen Allocation
-              </span>
-              <span className="text-[11px] text-neutral-500">
-                Slide to calibrate volume
-              </span>
-            </div>
-            <div className="text-right">
-              <span className="text-2xl font-bold text-black font-mono tabular-nums">
-                {orderQuantity.toLocaleString()}
-              </span>
-              <span className="text-xs text-neutral-500 ml-1 font-mono">units</span>
-            </div>
-          </div>
+        {/* Slider */}
+        <input
+          type="range"
+          min={Math.round(activeScenario.meanDemand * 0.65)}
+          max={Math.round(activeScenario.meanDemand * 1.45)}
+          step={10}
+          value={orderQuantity}
+          onChange={(e) => setOrderQuantity(Number(e.target.value))}
+          className="w-full h-2 bg-[#252830] rounded-lg cursor-pointer accent-blue-500 focus:outline-none"
+        />
 
-          {/* Range Slider */}
-          <input
-            type="range"
-            min={Math.round(activeScenario.meanDemand * 0.65)}
-            max={Math.round(activeScenario.meanDemand * 1.45)}
-            step={10}
-            value={orderQuantity}
-            onChange={(e) => setOrderQuantity(Number(e.target.value))}
-            className="w-full h-2 bg-neutral-200 rounded-none cursor-pointer accent-black focus:outline-none"
-          />
-
-          <div className="flex justify-between text-[10px] text-neutral-500 font-mono">
-            <span>{Math.round(activeScenario.meanDemand * 0.65)} (Conservative)</span>
-            <span className="font-semibold text-cyan-800">{optimalQty} (Optimal Q*)</span>
-            <span className="font-semibold text-[#FF4400]">{aiSuggested} (Biased AI)</span>
-            <span>{Math.round(activeScenario.meanDemand * 1.45)} (Excessive Stock)</span>
-          </div>
+        <div className="flex justify-between text-[11px] text-neutral-400 font-mono">
+          <span>{Math.round(activeScenario.meanDemand * 0.65)} (Conservative)</span>
+          <span className="text-emerald-400">{optimalQty} (Optimal Q*)</span>
+          <span className="text-rose-400">{aiSuggested} (Biased AI)</span>
+          <span>{Math.round(activeScenario.meanDemand * 1.45)} (Excessive Stock)</span>
         </div>
+      </div>
 
-        {/* Diagnosis Strip */}
-        <div className="p-5 border border-black/[0.08] bg-white space-y-3">
-          <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 border-b border-black/[0.06] pb-3">
-            <div>
-              <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block">
-                Human Judgment Verdict
+      {/* Outcome & Diagnosis */}
+      <div className="p-5 rounded-xl bg-[#181A1E] border border-white/[0.06] space-y-3">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 pb-3 border-b border-white/[0.06]">
+          <div>
+            <span className="text-[11px] text-neutral-400 uppercase tracking-wider block">
+              Human Judgment Diagnosis
+            </span>
+            <div className="mt-1 flex items-center gap-2">
+              <span className="px-2 py-0.5 rounded text-xs font-medium bg-neutral-800 text-white border border-white/[0.1]">
+                {simResult?.verdict_badge || "Calibrated Oversight"}
               </span>
-              <div className="mt-1 flex items-center gap-2">
-                <span className="px-2 py-0.5 text-xs font-mono font-semibold border border-black bg-black text-white">
-                  {simResult?.verdict_badge || "Calibrated Oversight"}
+            </div>
+          </div>
+
+          <div className="text-left sm:text-right">
+            <span className="text-[11px] text-neutral-400 uppercase tracking-wider block">
+              Expected Outcome
+            </span>
+            <div className="text-xl font-semibold text-white mt-0.5 tabular-nums">
+              {formatCurrency(expectedProfit)}
+              {financialRegret > 150 && (
+                <span className="text-xs text-rose-400 font-normal ml-2">
+                  (-{formatCurrency(financialRegret)} regret)
                 </span>
-              </div>
-            </div>
-
-            <div className="text-left sm:text-right">
-              <span className="text-[10px] font-mono text-neutral-500 uppercase tracking-wider block">
-                Expected Profit
-              </span>
-              <div className="text-xl font-bold text-black font-mono tabular-nums">
-                {formatCurrency(expectedProfit)}
-                {financialRegret > 150 && (
-                  <span className="text-xs text-[#FF4400] font-medium ml-2">
-                    (-{formatCurrency(financialRegret)} regret)
-                  </span>
-                )}
-              </div>
+              )}
             </div>
           </div>
-
-          <p className="text-xs text-neutral-600 font-sans leading-relaxed">
-            {simResult?.verdict_explanation ||
-              "Adjust the slider above to see real-time cognitive feedback and financial return."}
-          </p>
-
-          {/* Toggle Formula */}
-          <div className="pt-2 flex items-center justify-between text-xs text-neutral-500 border-t border-black/[0.06]">
-            <button
-              onClick={() => setShowFormula(!showFormula)}
-              className="hover:text-black font-mono text-[11px] flex items-center gap-1.5 transition-colors cursor-pointer"
-            >
-              <Calculator className="w-3.5 h-3.5 text-neutral-600" />
-              <span>{showFormula ? "Hide Math" : "Show Critical Fractile Formula"}</span>
-            </button>
-            <span className="text-[10px] text-neutral-400 font-mono">
-              Simulated across N = 1,000 market iterations
-            </span>
-          </div>
-
-          {showFormula && (
-            <div className="p-3 bg-neutral-50 border border-neutral-200 font-mono text-[11px] text-neutral-700 space-y-1">
-              <div>
-                <strong>Critical Fractile:</strong> CF = (Price - Cost + Penalty) / (Price - Salvage + Penalty)
-              </div>
-              <div>
-                <strong>Calculated:</strong> CF = ({activeScenario.sellingPrice} - {activeScenario.unitCost} + {activeScenario.stockoutPenalty}) / ({activeScenario.sellingPrice} - {activeScenario.salvageValue} + {activeScenario.stockoutPenalty}) = <strong className="text-black">{simResult?.critical_fractile || 0.6667}</strong>
-              </div>
-              <div>
-                <strong>Optimal Target (Q*):</strong> {optimalQty} units
-              </div>
-            </div>
-          )}
         </div>
+
+        <p className="text-xs text-neutral-300 leading-relaxed">
+          {simResult?.verdict_explanation ||
+            "Adjust the slider above to see real-time cognitive feedback and expected profit."}
+        </p>
+
+        {/* Toggle Math Formula */}
+        <div className="pt-2 flex items-center justify-between text-xs text-neutral-400 border-t border-white/[0.06]">
+          <button
+            onClick={() => setShowFormula(!showFormula)}
+            className="hover:text-white font-medium flex items-center gap-1.5 transition-colors"
+          >
+            <Calculator className="w-3.5 h-3.5 text-blue-400" />
+            <span>{showFormula ? "Hide Formula" : "View Critical Fractile Math"}</span>
+          </button>
+          <span className="text-[11px] text-neutral-500 font-mono">
+            Monte Carlo N = 1,000 draws
+          </span>
+        </div>
+
+        {showFormula && (
+          <div className="p-3 rounded-lg bg-[#0E1013] border border-white/[0.08] font-mono text-xs text-neutral-300 space-y-1">
+            <div>
+              <strong className="text-blue-300">Critical Fractile:</strong> CF = (Price - Cost + Penalty) / (Price - Salvage + Penalty)
+            </div>
+            <div>
+              <strong>Calculated:</strong> CF = ({activeScenario.sellingPrice} - {activeScenario.unitCost} + {activeScenario.stockoutPenalty}) / ({activeScenario.sellingPrice} - {activeScenario.salvageValue} + {activeScenario.stockoutPenalty}) = <strong className="text-white">{simResult?.critical_fractile || 0.6667}</strong>
+            </div>
+            <div>
+              <strong>Optimal Target (Q*):</strong> {optimalQty} units
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
