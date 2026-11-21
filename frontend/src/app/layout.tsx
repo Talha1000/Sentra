@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "SENTRA — The Decision Intelligence & Verification Platform",
-  description: "Stress-test consequential enterprise decisions with stochastic calculus, behavioral research, and cryptographic auditability.",
+  title: "SENTRA — The Consequential Decision Platform",
+  description: "Mathematically verifiable decision intelligence. Stress-test capital commitments against stochastic reality, generative AI bias, and cognitive deference.",
 };
 
 export default function RootLayout({
@@ -12,8 +12,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="en">
-      <body className="bg-[#EBEBEB] text-[#0A0A0A] min-h-screen selection:bg-neutral-900 selection:text-white">
+    <html lang="en" className="dark">
+      <body className="bg-[#050608] text-[#F3F4F6] min-h-screen antialiased selection:bg-[#00F0FF]/20 selection:text-[#00F0FF]">
         {children}
       </body>
     </html>

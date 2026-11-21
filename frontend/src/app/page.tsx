@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import {
   ArrowRight,
@@ -24,12 +24,13 @@ import { SiteHeader } from "@/components/navigation/site-header";
 import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
 import { CommandPalette } from "@/components/navigation/command-palette";
 import { HeroInteractiveCanvas } from "@/components/home/hero-interactive-canvas";
+import { SiliconMeshHero } from "@/components/home/silicon-mesh-hero";
 
 // Chapter 01: 4 Structural Foundation Cards
 const FOUNDATION_CARDS = [
   {
     id: 1,
-    dotColor: "#00C4CC", // Electric Cyan
+    dotColor: "#00F0FF", // Electric Cyan
     tag: "01 // CALIBRATION",
     title: "Critical Fractile Solver",
     headline: "Optimal Risk-Neutral Equilibrium",
@@ -73,7 +74,7 @@ const FOUNDATION_CARDS = [
   },
 ];
 
-// Chapter 03: Executive Case Studies (SemiconBio Indexed Directory Style)
+// Chapter 03: Executive Case Studies (SemiconBio Indexed Directory)
 const CASE_STUDIES = [
   {
     index: "N01.",
@@ -169,17 +170,15 @@ export default function HomePage() {
   const currentScenario = SIMULATION_SCENARIOS[selectedScenarioIdx];
   const [userAllocation, setUserAllocation] = useState<number>(currentScenario.optimalQ);
 
-  // Reset allocation on scenario switch
   useEffect(() => {
     setUserAllocation(currentScenario.optimalQ);
   }, [selectedScenarioIdx, currentScenario.optimalQ]);
 
-  // Economic calculations
+  // Calculations
   const Cu = currentScenario.sellingPrice - currentScenario.unitCost + currentScenario.stockoutPenalty;
   const Co = currentScenario.unitCost - currentScenario.salvageValue;
   const criticalFractile = (Cu / (Cu + Co)).toFixed(3);
 
-  // Expected profit calculation
   const diffFromOpt = Math.abs(userAllocation - currentScenario.optimalQ);
   const penaltyPerUnit = (Co + Cu) * 0.12;
   const maxProfit = currentScenario.optimalQ * (currentScenario.sellingPrice - currentScenario.unitCost) * 0.88;
@@ -190,8 +189,8 @@ export default function HomePage() {
   const [expandedCaseIdx, setExpandedCaseIdx] = useState<number | null>(0);
 
   // Chapter 04 Live Cryptographic Signature Simulator
-  const [customDecision, setCustomDecision] = useState("Approve Q4 Foundry Wafer Allocation: 1,420 units");
-  const [cryptoHash, setCryptoHash] = useState("89f2a71d4e08b5329cf012aa084e6b31c9");
+  const [customDecision, setCustomDecision] = useState("Approve Strategic GPU Allocation: 2,500 H100 units");
+  const [cryptoHash, setCryptoHash] = useState("9f2b5d0c1702f415e0eeb02671d36bda5828d7c9");
   const [isHashing, setIsHashing] = useState(false);
 
   const handleGenerateHash = () => {
@@ -202,7 +201,7 @@ export default function HomePage() {
       ).join("");
       setCryptoHash(generated);
       setIsHashing(false);
-    }, 280);
+    }, 250);
   };
 
   // Chapter 05 FAQ Accordion
@@ -210,7 +209,7 @@ export default function HomePage() {
   const FAQS = [
     {
       q: "Why do frontier LLMs consistently recommend over-ordering?",
-      a: "Language models are trained on textual optimization where omission penalties are high. In business scenarios, LLMs perceive running out of inventory (stockouts) as an unrecoverable failure, but fail to mathematically compute the asymmetrical carrying costs of surplus inventory.",
+      a: "Language models are trained on textual optimization where omission penalties are high. In business scenarios, LLMs perceive running out of inventory as an unrecoverable failure, but fail to mathematically compute the asymmetrical carrying costs of surplus inventory.",
     },
     {
       q: "How does Sentra guarantee mathematically optimal decisions?",
@@ -227,107 +226,134 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-[#EBEBEB] text-[#0A0A0A] font-sans antialiased selection:bg-neutral-900 selection:text-white">
+    <div className="min-h-screen bg-[#050608] text-[#F3F4F6] font-sans antialiased selection:bg-[#00F0FF]/20 selection:text-[#00F0FF]">
       {/* Site Header */}
       <SiteHeader
         onOpenDemystifier={() => setDemystifierOpen(true)}
         onOpenCommandPalette={() => setCommandPaletteOpen(true)}
       />
 
-      <main>
+      <main className="relative">
         {/* ========================================================================= */}
-        {/* HERO SECTION — Swiss Scientific Modernism / Minimal Gallery Style        */}
+        {/* HERO SECTION — Cinematic Silicon Mesh (SemiconBio Aesthetic)              */}
         {/* ========================================================================= */}
-        <section className="pt-16 pb-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          {/* Monospace Indicator Tag */}
-          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-6 uppercase">
-            <span className="font-semibold text-neutral-900">N01.</span>
-            <span>THE DECISION INTELLIGENCE PLATFORM</span>
-            <div className="h-px flex-1 bg-neutral-300 ml-2" />
-          </div>
+        <section className="relative min-h-[88vh] flex flex-col justify-center px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto pt-16 pb-24 overflow-hidden">
+          {/* Animated Procedural Silicon Mesh Canvas Background */}
+          <SiliconMeshHero />
 
-          {/* Massive Display Headline with Faded Sub-Clause */}
-          <motion.div
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, ease: [0.16, 1, 0.3, 1] }}
-          >
-            <h1 className="text-4xl sm:text-6xl md:text-7xl lg:text-[80px] font-normal tracking-[-0.035em] leading-[1.04] text-neutral-950 max-w-6xl">
-              The Decision Platform, Where High-Stakes Risk{" "}
-              <span className="text-neutral-400">Becomes Verifiable</span>
-            </h1>
-          </motion.div>
+          <div className="relative z-10 max-w-5xl">
+            {/* Monospace Indicator Tag */}
+            <motion.div
+              initial={{ opacity: 0, y: 12 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5 }}
+              className="flex items-center gap-3 text-xs font-mono tracking-widest text-[#00F0FF] mb-6 uppercase"
+            >
+              <span className="w-2 h-2 rounded-sm bg-[#00F0FF] shadow-[0_0_8px_rgba(0,240,255,0.6)]" />
+              <span className="font-semibold text-white">N01.</span>
+              <span>THE AUTONOMOUS DECISION PLATFORM</span>
+              <div className="h-px flex-1 bg-white/10 ml-2" />
+            </motion.div>
 
-          {/* Editorial Narrative */}
-          <motion.div
-            initial={{ opacity: 0, y: 14 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
-            className="mt-8 grid grid-cols-1 md:grid-cols-12 gap-8 items-start"
-          >
-            <p className="md:col-span-8 text-lg sm:text-xl text-neutral-700 leading-relaxed font-light">
-              Generative AI produces persuasive rhetoric. It cannot absorb consequential downside.
-              Sentra deploys stochastic calculus, cognitive behavioral guardrails, and cryptographic
-              audit trails before enterprise capital is deployed.
-            </p>
+            {/* Massive Display Headline */}
+            <motion.h1
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              className="text-5xl sm:text-7xl md:text-8xl lg:text-[92px] font-normal tracking-[-0.035em] leading-[1.02] text-white"
+            >
+              The Consequential <br />
+              <span className="text-transparent bg-clip-text bg-gradient-to-r from-white via-neutral-200 to-neutral-400">
+                Decision Platform
+              </span>
+            </motion.h1>
 
-            {/* Tactile Action Cluster */}
-            <div className="md:col-span-4 flex flex-col sm:flex-row md:flex-col gap-3">
+            {/* Editorial Description */}
+            <motion.p
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.2, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-8 text-lg sm:text-xl text-neutral-300 leading-relaxed font-light max-w-3xl"
+            >
+              Frontier AI writes persuasive prose. It cannot absorb stochastic downside.
+              Sentra calculates exact risk-neutral boundaries, intercepts generative hallucinations,
+              and seals every allocation in a cryptographic ledger before capital is deployed.
+            </motion.p>
+
+            {/* Realistic Tactile Action Cluster */}
+            <motion.div
+              initial={{ opacity: 0, y: 16 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.6, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-10 flex flex-wrap items-center gap-4"
+            >
               <Link
                 href="/workspace"
-                className="btn-tactile-primary w-full py-3.5 px-6 text-sm text-white group"
+                className="btn-semicon-primary text-sm py-3 px-6"
               >
                 <span>Enter Decision Studio</span>
-                <ArrowRight className="w-4 h-4 ml-2 text-neutral-300 group-hover:translate-x-1 transition-transform" />
+                <ArrowRight className="w-4 h-4 ml-2 text-neutral-500" />
               </Link>
+
               <button
                 onClick={() => setDemystifierOpen(true)}
-                className="btn-tactile-secondary w-full py-3 px-6 text-xs text-neutral-800"
+                className="btn-semicon-secondary text-xs py-3 px-6"
               >
-                <span>Inspect Empirical Trial Data</span>
+                <span>Inspect Empirical Proofs</span>
               </button>
-            </div>
-          </motion.div>
 
-          {/* Monospace Empirical Metrics Bar */}
-          <div className="mt-14 pt-6 border-t border-neutral-300 grid grid-cols-2 sm:grid-cols-4 gap-6 text-xs font-mono">
-            <div>
-              <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Cohorts Evaluated</div>
-              <div className="text-lg font-bold text-neutral-900 mt-0.5">45 Enterprise</div>
-            </div>
-            <div>
-              <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Empirical Trials</div>
-              <div className="text-lg font-bold text-neutral-900 mt-0.5">225 Seated Runs</div>
-            </div>
-            <div>
-              <div className="text-neutral-500 uppercase tracking-wider text-[10px]">AI Skew Intercepted</div>
-              <div className="text-lg font-bold text-[#FF5500] mt-0.5">-23.2% Bias</div>
-            </div>
-            <div>
-              <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Provenance Standard</div>
-              <div className="text-lg font-bold text-neutral-900 mt-0.5">HMAC SHA-256</div>
-            </div>
+              <a
+                href="#trajectory-section"
+                className="btn-semicon-cyan text-xs py-3 px-5"
+              >
+                <span>Run Live Simulator ▾</span>
+              </a>
+            </motion.div>
+
+            {/* Telemetry Metrics Ribbon */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ duration: 0.8, delay: 0.4 }}
+              className="mt-16 pt-8 border-t border-white/[0.08] grid grid-cols-2 sm:grid-cols-4 gap-6 text-xs font-mono"
+            >
+              <div>
+                <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Cohorts Evaluated</div>
+                <div className="text-lg font-bold text-white mt-1">45 Enterprise</div>
+              </div>
+              <div>
+                <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Empirical Trials</div>
+                <div className="text-lg font-bold text-white mt-1">225 Seated Runs</div>
+              </div>
+              <div>
+                <div className="text-neutral-500 uppercase tracking-wider text-[10px]">AI Skew Intercepted</div>
+                <div className="text-lg font-bold text-[#FF5500] mt-1">-23.2% Bias</div>
+              </div>
+              <div>
+                <div className="text-neutral-500 uppercase tracking-wider text-[10px]">Provenance Standard</div>
+                <div className="text-lg font-bold text-white mt-1">HMAC SHA-256</div>
+              </div>
+            </motion.div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* CHAPTER 01 — The 4 Core Structural Engines (SemiconBio Card Rail)        */}
+        {/* CHAPTER 01 — The 4 Core Architectural Pillars (SemiconBio Card Rail)      */}
         {/* ========================================================================= */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-300">
-          {/* Section Indicator */}
-          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-4 uppercase">
-            <span className="font-semibold text-neutral-900">N01.</span>
-            <span>CHAPTER 01 // ARCHITECTURAL FOUNDATION</span>
-            <div className="h-px flex-1 bg-neutral-300 ml-2" />
+        <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.08]">
+          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
+            <span className="font-semibold text-white">N01.</span>
+            <span>CHAPTER 01 // ARCHITECTURAL PILLARS</span>
+            <div className="h-px flex-1 bg-white/[0.08] ml-2" />
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-normal tracking-tight text-neutral-950">
+              <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white">
                 Autonomous Ground Truth in an Era of Synthetic Hallucinations
               </h2>
-              <p className="text-sm text-neutral-600 mt-2 max-w-2xl font-light">
-                Four deterministic engines designed to stress-test, intercept, and cryptographically
+              <p className="text-sm text-neutral-400 mt-3 max-w-2xl font-light">
+                Four deterministic systems designed to stress-test, intercept, and cryptographically
                 seal high-consequence enterprise decisions.
               </p>
             </div>
@@ -336,7 +362,7 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Interactive Card Rail */}
+          {/* 4 Foundation Cards */}
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
             {FOUNDATION_CARDS.map((card) => {
               const isActive = activeCardId === card.id;
@@ -344,10 +370,10 @@ export default function HomePage() {
                 <div
                   key={card.id}
                   onClick={() => setActiveCardId(card.id)}
-                  className={`cursor-pointer transition-all duration-200 p-6 rounded-md border flex flex-col justify-between min-h-[340px] select-none ${
+                  className={`cursor-pointer transition-all duration-200 p-6 rounded-lg border flex flex-col justify-between min-h-[360px] select-none ${
                     isActive
-                      ? "bg-white border-white shadow-[0_4px_20px_rgba(0,0,0,0.06)]"
-                      : "bg-[#DFDFDF]/70 hover:bg-[#E5E5E5] border-neutral-300/80"
+                      ? "bg-[#11141A] border-white/30 shadow-[0_4px_30px_rgba(0,240,255,0.08)]"
+                      : "bg-[#090A0E] hover:bg-[#0E1016] border-white/[0.08]"
                   }`}
                 >
                   <div>
@@ -355,36 +381,39 @@ export default function HomePage() {
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-2">
                         <span
-                          className="w-2.5 h-2.5 rounded-full"
-                          style={{ backgroundColor: card.dotColor }}
+                          className="w-2.5 h-2.5 rounded-full shadow-sm"
+                          style={{
+                            backgroundColor: card.dotColor,
+                            boxShadow: `0 0 10px ${card.dotColor}`,
+                          }}
                         />
-                        <span className="text-[10px] font-mono tracking-widest text-neutral-500 font-semibold">
+                        <span className="text-[10px] font-mono tracking-widest text-neutral-400 font-semibold">
                           {card.tag}
                         </span>
                       </div>
-                      <span className="text-xs font-mono text-neutral-400">0{card.id}</span>
+                      <span className="text-xs font-mono text-neutral-500">0{card.id}</span>
                     </div>
 
                     {/* Card Title & Headline */}
-                    <h3 className="text-lg font-medium text-neutral-950 leading-snug">
+                    <h3 className="text-xl font-medium text-white leading-snug">
                       {card.title}
                     </h3>
-                    <div className="text-xs font-semibold text-neutral-700 mt-1">
+                    <div className="text-xs font-semibold text-neutral-400 mt-1">
                       {card.headline}
                     </div>
 
                     {/* Description */}
-                    <p className="text-xs text-neutral-600 leading-relaxed mt-4 font-light">
+                    <p className="text-xs text-neutral-400 leading-relaxed mt-4 font-light">
                       {card.description}
                     </p>
                   </div>
 
                   {/* Bottom Metric Pill */}
-                  <div className="pt-6 border-t border-neutral-200/80 mt-6">
-                    <div className="text-sm font-bold text-neutral-900 font-mono">
+                  <div className="pt-6 border-t border-white/[0.08] mt-6">
+                    <div className="text-sm font-bold text-white font-mono">
                       {card.metric}
                     </div>
-                    <div className="text-[11px] text-neutral-500 font-mono mt-0.5">
+                    <div className="text-[11px] text-neutral-400 font-mono mt-0.5">
                       {card.metricNote}
                     </div>
                   </div>
@@ -395,22 +424,21 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* CHAPTER 02 — High-Contrast Cleanroom Chamber (Stochastic Simulator)      */}
+        {/* CHAPTER 02 — Stochastic Trajectory Simulator (Cleanroom Chamber)          */}
         {/* ========================================================================= */}
-        <section className="bg-[#0A0A0A] text-white py-24 border-y border-neutral-800">
+        <section id="trajectory-section" className="py-24 border-y border-white/[0.08] bg-[#07080B]">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            {/* Monospace Indicator */}
             <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
               <span className="font-semibold text-white">N02.</span>
               <span>CHAPTER 02 // STOCHASTIC TRAJECTORY</span>
-              <div className="h-px flex-1 bg-neutral-800 ml-2" />
+              <div className="h-px flex-1 bg-white/[0.08] ml-2" />
             </div>
 
             <div className="flex flex-col lg:flex-row lg:items-end justify-between mb-12 gap-6">
               <div>
                 <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white max-w-3xl">
                   Where Generative AI Strays from{" "}
-                  <span className="text-neutral-400">Mathematical Ground Truth</span>
+                  <span className="text-[#00F0FF]">Mathematical Ground Truth</span>
                 </h2>
                 <p className="text-sm text-neutral-400 mt-3 max-w-2xl font-light">
                   Frontier LLMs optimize for fluent language synthesis. Sentra calculates optimal
@@ -424,10 +452,10 @@ export default function HomePage() {
                   <button
                     key={scen.id}
                     onClick={() => setSelectedScenarioIdx(idx)}
-                    className={`px-3 py-1.5 rounded-full text-xs font-mono transition-all ${
+                    className={`px-3.5 py-1.5 rounded-full text-xs font-mono transition-all ${
                       selectedScenarioIdx === idx
-                        ? "bg-white text-black font-semibold shadow-sm"
-                        : "bg-white/5 text-neutral-300 hover:bg-white/10 border border-white/10"
+                        ? "bg-white text-black font-semibold shadow-[0_0_12px_rgba(255,255,255,0.4)]"
+                        : "bg-white/5 text-neutral-400 hover:bg-white/10 border border-white/[0.08]"
                     }`}
                   >
                     {scen.label}
@@ -440,14 +468,14 @@ export default function HomePage() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
               
               {/* Left Column: Interactive Gaussian Curve Canvas */}
-              <div className="lg:col-span-8 rounded-lg border border-white/10 bg-[#111317] p-6 shadow-2xl relative overflow-hidden">
+              <div className="lg:col-span-8 rounded-xl border border-white/10 bg-[#0B0D13] p-6 shadow-2xl relative overflow-hidden">
                 <div className="flex items-center justify-between pb-4 border-b border-white/10 text-xs font-mono">
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse" />
+                    <span className="w-2 h-2 rounded-full bg-[#10B981] animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
                     <span className="text-neutral-200">OPTIMAL FRACTILE: {currentScenario.optimalQ} UNITS</span>
                   </div>
                   <div className="flex items-center gap-2">
-                    <span className="w-2 h-2 rounded-full bg-[#FF5500]" />
+                    <span className="w-2 h-2 rounded-full bg-[#FF5500] shadow-[0_0_8px_rgba(255,85,0,0.8)]" />
                     <span className="text-[#FF5500]">AI SKEW: {currentScenario.aiQ} UNITS (+23%)</span>
                   </div>
                 </div>
@@ -457,11 +485,13 @@ export default function HomePage() {
                   <HeroInteractiveCanvas />
                 </div>
 
-                {/* Interactive Slider */}
+                {/* Interactive Allocation Slider */}
                 <div className="mt-6 pt-6 border-t border-white/10">
                   <div className="flex items-center justify-between text-xs font-mono mb-2">
                     <span className="text-neutral-400">EXECUTIVE ALLOCATION SLIDER (Q):</span>
-                    <span className="text-white font-bold text-sm">{userAllocation} UNITS</span>
+                    <span className="text-white font-bold text-sm bg-white/10 px-2.5 py-0.5 rounded">
+                      {userAllocation} UNITS
+                    </span>
                   </div>
                   <input
                     type="range"
@@ -470,19 +500,19 @@ export default function HomePage() {
                     step={10}
                     value={userAllocation}
                     onChange={(e) => setUserAllocation(Number(e.target.value))}
-                    className="w-full accent-white h-2 bg-neutral-800 rounded-lg cursor-pointer"
+                    className="w-full accent-[#00F0FF] h-2 bg-neutral-800 rounded-lg cursor-pointer"
                   />
-                  <div className="flex justify-between text-[10px] font-mono text-neutral-500 mt-1">
-                    <span>Conservative Under-Allocation</span>
-                    <span>Q* = {currentScenario.optimalQ} (True Equilibrium)</span>
-                    <span>Aggressive Surplus Risk</span>
+                  <div className="flex justify-between text-[10px] font-mono text-neutral-500 mt-2">
+                    <span>Under-Allocation Risk</span>
+                    <span className="text-emerald-400">Q* = {currentScenario.optimalQ} (True Optimum)</span>
+                    <span className="text-[#FF5500]">Over-Ordering Depreciation</span>
                   </div>
                 </div>
               </div>
 
-              {/* Right Column: Dynamic Financial Telemetry */}
+              {/* Right Column: Financial Telemetry Cards */}
               <div className="lg:col-span-4 flex flex-col gap-4">
-                <div className="p-6 rounded-lg border border-white/10 bg-[#111317]">
+                <div className="p-6 rounded-xl border border-white/10 bg-[#0B0D13]">
                   <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
                     EXPECTED NET PROFIT
                   </div>
@@ -494,7 +524,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-lg border border-white/10 bg-[#111317]">
+                <div className="p-6 rounded-xl border border-white/10 bg-[#0B0D13]">
                   <div className="text-[10px] font-mono uppercase tracking-widest text-[#FF5500]">
                     AI OVER-ORDERING REGRET AVOIDED
                   </div>
@@ -506,7 +536,7 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <div className="p-6 rounded-lg border border-white/10 bg-[#111317]">
+                <div className="p-6 rounded-xl border border-white/10 bg-[#0B0D13]">
                   <div className="text-[10px] font-mono uppercase tracking-widest text-neutral-400">
                     ASYMMETRIC PENALTY RATIO
                   </div>
@@ -520,9 +550,9 @@ export default function HomePage() {
 
                 <Link
                   href="/decisions"
-                  className="btn-tactile-dark-primary py-3 px-4 text-xs font-semibold text-center text-black"
+                  className="btn-semicon-primary py-3.5 px-4 text-xs font-semibold text-center text-black"
                 >
-                  Deploy This Model to Production Studio →
+                  Deploy Model to Production Studio →
                 </Link>
               </div>
 
@@ -534,19 +564,18 @@ export default function HomePage() {
         {/* CHAPTER 03 — Executive Case Studies (SemiconBio Indexed Directory)        */}
         {/* ========================================================================= */}
         <section className="py-24 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto">
-          {/* Section Indicator */}
-          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-4 uppercase">
-            <span className="font-semibold text-neutral-900">N03.</span>
+          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
+            <span className="font-semibold text-white">N03.</span>
             <span>CHAPTER 03 // EMPIRICAL VALIDATION</span>
-            <div className="h-px flex-1 bg-neutral-300 ml-2" />
+            <div className="h-px flex-1 bg-white/[0.08] ml-2" />
           </div>
 
           <div className="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
             <div>
-              <h2 className="text-3xl sm:text-4xl font-normal tracking-tight text-neutral-950">
+              <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white">
                 Consequential Enterprise Deployments
               </h2>
-              <p className="text-sm text-neutral-600 mt-2 max-w-2xl font-light">
+              <p className="text-sm text-neutral-400 mt-3 max-w-2xl font-light">
                 Documented case analyses where stochastic calculus intercepted catastrophic
                 generative AI hallucinations.
               </p>
@@ -556,8 +585,8 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Indexed Directory List */}
-          <div className="border-t border-neutral-300 divide-y divide-neutral-300">
+          {/* Directory Rows */}
+          <div className="border-t border-white/10 divide-y divide-white/10">
             {CASE_STUDIES.map((study, idx) => {
               const isExpanded = expandedCaseIdx === idx;
               return (
@@ -567,16 +596,16 @@ export default function HomePage() {
                     className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 cursor-pointer group"
                   >
                     <div className="flex items-baseline gap-6">
-                      <span className="font-mono text-xs font-bold text-neutral-400 group-hover:text-neutral-900 transition-colors">
+                      <span className="font-mono text-xs font-bold text-neutral-500 group-hover:text-[#00F0FF] transition-colors">
                         {study.index}
                       </span>
-                      <h3 className="text-xl sm:text-2xl font-normal text-neutral-950 group-hover:text-neutral-700 transition-colors">
+                      <h3 className="text-xl sm:text-2xl font-normal text-white group-hover:text-[#00F0FF] transition-colors">
                         {study.title}
                       </h3>
                     </div>
-                    <div className="flex items-center gap-4 text-xs font-mono text-neutral-500 shrink-0">
+                    <div className="flex items-center gap-4 text-xs font-mono text-neutral-400 shrink-0">
                       <span>{study.industry}</span>
-                      <span className="text-base group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
+                      <span className="text-base text-white group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform">
                         ↗
                       </span>
                     </div>
@@ -592,26 +621,26 @@ export default function HomePage() {
                         transition={{ duration: 0.3 }}
                         className="overflow-hidden"
                       >
-                        <div className="mt-6 pt-6 border-t border-neutral-200/80 grid grid-cols-1 md:grid-cols-12 gap-6 bg-white p-6 rounded-md border border-neutral-200 shadow-sm">
-                          <p className="md:col-span-6 text-sm text-neutral-700 leading-relaxed font-light">
+                        <div className="mt-6 pt-6 border-t border-white/10 grid grid-cols-1 md:grid-cols-12 gap-6 bg-[#0E1017] p-6 rounded-lg border border-white/10">
+                          <p className="md:col-span-6 text-sm text-neutral-300 leading-relaxed font-light">
                             {study.summary}
                           </p>
                           <div className="md:col-span-3">
-                            <div className="text-[10px] font-mono uppercase text-neutral-500">
+                            <div className="text-[10px] font-mono uppercase text-neutral-400">
                               Capital Protected
                             </div>
-                            <div className="text-2xl font-bold font-mono text-neutral-950 mt-1">
+                            <div className="text-2xl font-bold font-mono text-white mt-1">
                               {study.capitalProtected}
                             </div>
-                            <div className="text-xs font-mono text-emerald-600 mt-0.5">
+                            <div className="text-xs font-mono text-emerald-400 mt-0.5">
                               Downside regret reduced by {study.regretReduction}
                             </div>
                           </div>
                           <div className="md:col-span-3">
-                            <div className="text-[10px] font-mono uppercase text-neutral-500">
+                            <div className="text-[10px] font-mono uppercase text-neutral-400">
                               Immutable Ledger Hash
                             </div>
-                            <div className="text-xs font-mono text-neutral-800 bg-neutral-100 p-2 rounded mt-1 break-all">
+                            <div className="text-xs font-mono text-neutral-200 bg-black/50 p-2.5 rounded mt-1 border border-white/10 break-all">
                               {study.hash}
                             </div>
                             <div className="text-[10px] font-mono text-neutral-400 mt-1">
@@ -629,34 +658,34 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* CHAPTER 04 — Real-Time Cryptographic Verification Simulator              */}
+        {/* CHAPTER 04 — Real-Time Cryptographic Provenance Simulator                  */}
         {/* ========================================================================= */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-300">
-          <div className="bg-white rounded-lg border border-neutral-300 p-8 sm:p-12 shadow-sm">
-            <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-4 uppercase">
-              <span className="font-semibold text-neutral-900">N04.</span>
+        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.08]">
+          <div className="bg-[#0A0C11] rounded-xl border border-white/10 p-8 sm:p-12 shadow-2xl">
+            <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
+              <span className="font-semibold text-white">N04.</span>
               <span>CHAPTER 04 // CRYPTOGRAPHIC GOVERNANCE</span>
-              <div className="h-px flex-1 bg-neutral-200 ml-2" />
+              <div className="h-px flex-1 bg-white/[0.08] ml-2" />
             </div>
 
-            <h2 className="text-2xl sm:text-3xl font-normal text-neutral-950">
+            <h2 className="text-2xl sm:text-4xl font-normal text-white">
               Interactive Tamper-Evident Provenance Seal
             </h2>
-            <p className="text-sm text-neutral-600 mt-1 font-light max-w-2xl">
-              Type or adjust any corporate decision parameter below to simulate real-time HMAC
+            <p className="text-sm text-neutral-400 mt-2 font-light max-w-2xl">
+              Type or adjust any corporate decision payload below to simulate real-time HMAC
               SHA-256 certificate generation.
             </p>
 
             <div className="mt-8 grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
               <div className="lg:col-span-8">
-                <label className="block text-xs font-mono text-neutral-500 mb-2 uppercase">
+                <label className="block text-xs font-mono text-neutral-400 mb-2 uppercase">
                   ENTERPRISE DECISION PAYLOAD:
                 </label>
                 <input
                   type="text"
                   value={customDecision}
                   onChange={(e) => setCustomDecision(e.target.value)}
-                  className="w-full px-4 py-3 bg-[#F4F4F5] border border-neutral-300 rounded-md text-sm font-mono text-neutral-900 focus:outline-none focus:border-neutral-900 transition-colors"
+                  className="w-full px-4 py-3 bg-[#11141B] border border-white/10 rounded-md text-sm font-mono text-white focus:outline-none focus:border-[#00F0FF] transition-colors"
                 />
               </div>
 
@@ -664,7 +693,7 @@ export default function HomePage() {
                 <button
                   onClick={handleGenerateHash}
                   disabled={isHashing}
-                  className="btn-tactile-primary w-full py-3 px-6 text-xs text-white"
+                  className="btn-semicon-primary w-full py-3.5 px-6 text-xs text-black font-semibold"
                 >
                   {isHashing ? "Computing Digest..." : "Generate Cryptographic Seal →"}
                 </button>
@@ -672,17 +701,17 @@ export default function HomePage() {
             </div>
 
             {/* Generated Hash Box */}
-            <div className="mt-6 p-4 rounded-md bg-[#0D0E11] text-white font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div className="mt-6 p-4 rounded-md bg-black/60 border border-white/10 text-white font-mono text-xs flex flex-col sm:flex-row sm:items-center justify-between gap-3">
               <div>
-                <span className="text-neutral-400 text-[10px] uppercase block">
+                <span className="text-neutral-500 text-[10px] uppercase block">
                   HMAC SHA-256 PROVENANCE DIGEST:
                 </span>
-                <span className="text-[#00C4CC] font-bold break-all">
+                <span className="text-[#00F0FF] font-bold break-all">
                   0x{cryptoHash}
                 </span>
               </div>
               <div className="flex items-center gap-2 text-[10px] text-neutral-400 shrink-0">
-                <span className="w-2 h-2 rounded-full bg-emerald-400" />
+                <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
                 <span>SEALED & AUDITABLE</span>
               </div>
             </div>
@@ -690,20 +719,20 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* CHAPTER 05 — Frequently Asked Questions (Minimal Swiss Accordion)        */}
+        {/* CHAPTER 05 — Frequently Addressed Inquiries (Minimal Accordion)           */}
         {/* ========================================================================= */}
-        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-neutral-300">
-          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-500 mb-4 uppercase">
-            <span className="font-semibold text-neutral-900">N05.</span>
+        <section className="py-20 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto border-t border-white/[0.08]">
+          <div className="flex items-center gap-3 text-xs font-mono tracking-widest text-neutral-400 mb-4 uppercase">
+            <span className="font-semibold text-white">N05.</span>
             <span>CHAPTER 05 // SYSTEM SPECIFICATIONS & FAQ</span>
-            <div className="h-px flex-1 bg-neutral-300 ml-2" />
+            <div className="h-px flex-1 bg-white/[0.08] ml-2" />
           </div>
 
-          <h2 className="text-3xl font-normal tracking-tight text-neutral-950 mb-10">
+          <h2 className="text-3xl sm:text-4xl font-normal tracking-tight text-white mb-10">
             Frequently Addressed Inquiries
           </h2>
 
-          <div className="border-t border-neutral-300 divide-y divide-neutral-300">
+          <div className="border-t border-white/10 divide-y divide-white/10">
             {FAQS.map((faq, idx) => {
               const isOpen = faqOpenIdx === idx;
               return (
@@ -712,10 +741,10 @@ export default function HomePage() {
                     onClick={() => setFaqOpenIdx(isOpen ? null : idx)}
                     className="w-full flex items-center justify-between text-left group"
                   >
-                    <span className="text-lg font-normal text-neutral-950 group-hover:text-neutral-700 transition-colors">
+                    <span className="text-lg font-normal text-white group-hover:text-[#00F0FF] transition-colors">
                       {faq.q}
                     </span>
-                    <span className="font-mono text-sm text-neutral-400 group-hover:text-neutral-900 transition-colors">
+                    <span className="font-mono text-sm text-neutral-500 group-hover:text-white transition-colors">
                       {isOpen ? "−" : "+"}
                     </span>
                   </button>
@@ -728,7 +757,7 @@ export default function HomePage() {
                         transition={{ duration: 0.25 }}
                         className="overflow-hidden"
                       >
-                        <p className="mt-4 text-sm text-neutral-600 leading-relaxed font-light max-w-3xl">
+                        <p className="mt-4 text-sm text-neutral-400 leading-relaxed font-light max-w-3xl">
                           {faq.a}
                         </p>
                       </motion.div>
@@ -743,29 +772,29 @@ export default function HomePage() {
         {/* ========================================================================= */}
         {/* PRE-FOOTER INVITATION BANNER & MINIMAL FOOTER                             */}
         {/* ========================================================================= */}
-        <section className="bg-[#080808] text-white pt-24 pb-16 border-t border-neutral-800">
+        <section className="bg-[#030406] text-white pt-24 pb-16 border-t border-white/10">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             
             {/* Pre-Footer Action Banner */}
-            <div className="pb-20 border-b border-neutral-800 flex flex-col md:flex-row md:items-end justify-between gap-8">
+            <div className="pb-20 border-b border-white/10 flex flex-col md:flex-row md:items-end justify-between gap-8">
               <div>
-                <div className="text-xs font-mono tracking-widest text-[#00C4CC] uppercase mb-3">
+                <div className="text-xs font-mono tracking-widest text-[#00F0FF] uppercase mb-3">
                   READY FOR CALIBRATED DEPLOYMENT
                 </div>
-                <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white max-w-2xl">
+                <h2 className="text-3xl sm:text-5xl font-normal tracking-tight text-white max-w-2xl leading-tight">
                   Deploy Deterministic Decision Intelligence into Your Enterprise.
                 </h2>
               </div>
               <div className="flex flex-col sm:flex-row gap-4 shrink-0">
                 <Link
                   href="/workspace"
-                  className="btn-tactile-dark-primary py-3.5 px-8 text-sm text-black"
+                  className="btn-semicon-primary py-3.5 px-8 text-sm text-black"
                 >
                   Enter Decision Studio →
                 </Link>
                 <button
                   onClick={() => setDemystifierOpen(true)}
-                  className="btn-tactile-dark-secondary py-3 px-6 text-xs text-white"
+                  className="btn-semicon-secondary py-3 px-6 text-xs text-white"
                 >
                   Schedule Technical Briefing
                 </button>
@@ -781,25 +810,25 @@ export default function HomePage() {
                 <ul className="space-y-2.5 text-neutral-400">
                   <li>
                     <Link href="/decisions" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span className="text-[#00F0FF] text-[8px]">■</span>
                       <span>Stochastic Solver</span>
                     </Link>
                   </li>
                   <li>
                     <Link href="/workspace" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span className="text-[#00F0FF] text-[8px]">■</span>
                       <span>Executive Studio</span>
                     </Link>
                   </li>
                   <li>
                     <Link href="/experiments" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span className="text-[#00F0FF] text-[8px]">■</span>
                       <span>Behavioral Lab</span>
                     </Link>
                   </li>
                   <li>
                     <Link href="/governance" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span className="text-[#00F0FF] text-[8px]">■</span>
                       <span>Cryptographic Ledger</span>
                     </Link>
                   </li>
@@ -813,19 +842,19 @@ export default function HomePage() {
                 <ul className="space-y-2.5 text-neutral-400">
                   <li>
                     <button onClick={() => setDemystifierOpen(true)} className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span className="text-[#00F0FF] text-[8px]">■</span>
                       <span>Critical Fractile Theorem</span>
                     </button>
                   </li>
                   <li>
                     <button onClick={() => setDemystifierOpen(true)} className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span className="text-[#00F0FF] text-[8px]">■</span>
                       <span>Deference Decay Protocols</span>
                     </button>
                   </li>
                   <li>
                     <button onClick={() => setDemystifierOpen(true)} className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span className="text-[#00F0FF] text-[8px]">■</span>
                       <span>Monte Carlo Proofs</span>
                     </button>
                   </li>
@@ -839,7 +868,7 @@ export default function HomePage() {
                 <ul className="space-y-2.5 text-neutral-400">
                   <li>
                     <Link href="/governance" className="hover:text-white transition-colors flex items-center gap-1.5">
-                      <span className="text-[#00C4CC] text-[8px]">■</span>
+                      <span className="text-[#00F0FF] text-[8px]">■</span>
                       <span>HMAC SHA-256 Provenance</span>
                     </Link>
                   </li>
@@ -863,7 +892,7 @@ export default function HomePage() {
                   SYSTEM STATUS
                 </div>
                 <div className="flex items-center gap-2 text-emerald-400 mb-2">
-                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse" />
+                  <span className="w-2 h-2 rounded-full bg-emerald-400 animate-pulse shadow-[0_0_8px_rgba(16,185,129,0.8)]" />
                   <span>ALL ENGINES OPERATIONAL</span>
                 </div>
                 <div className="text-[10px] text-neutral-500 leading-relaxed">
@@ -873,7 +902,7 @@ export default function HomePage() {
             </div>
 
             {/* Bottom Copyright & Fine Print */}
-            <div className="pt-8 border-t border-neutral-900 flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-neutral-500 gap-4">
+            <div className="pt-8 border-t border-white/[0.08] flex flex-col sm:flex-row items-center justify-between text-[11px] font-mono text-neutral-500 gap-4">
               <div>© 2026 Sentra Systems Inc. All rights reserved.</div>
               <div className="flex items-center gap-6">
                 <span className="hover:text-neutral-300 cursor-pointer">Privacy Protocol</span>
