@@ -36,14 +36,12 @@ export interface CommandItem {
 interface CommandPaletteProps {
   isOpen: boolean;
   onClose: () => void;
-  onOpenDemystifier?: () => void;
   onSeedDemo?: () => void;
 }
 
 export function CommandPalette({
   isOpen,
   onClose,
-  onOpenDemystifier,
   onSeedDemo,
 }: CommandPaletteProps) {
   const router = useRouter();
@@ -134,25 +132,25 @@ export function CommandPalette({
       keywords: ["run", "trial", "test", "participate", "inventory battery"],
     },
     {
-      id: "act-demystifier",
+      id: "act-new-decision",
       category: "Actions",
-      title: "Open Plain-English Guide to Concepts",
-      subtitle: "Clear real-world analogies for fractiles, ECE, and cognitive bias",
-      icon: BookOpen,
-      badge: "Guide",
+      title: "Plan a New Decision",
+      subtitle: "Find the sweet spot order size and avoid overspending",
+      icon: Zap,
+      badge: "Plan",
       action: () => {
+        router.push("/decisions");
         onClose();
-        if (onOpenDemystifier) onOpenDemystifier();
       },
-      keywords: ["guide", "help", "demystifier", "explain", "concepts", "plain english"],
+      keywords: ["plan", "new", "decision", "order", "calculate"],
     },
     {
       id: "act-seed-data",
       category: "Actions",
-      title: "Seed 45-Participant Demo Cohort",
-      subtitle: "Populate SQLite database with 225 empirical trials & telemetry",
+      title: "Load Demo Sample Data",
+      subtitle: "Populate test records and simulated business scenarios",
       icon: Sparkles,
-      badge: "Seeder",
+      badge: "Demo",
       action: () => {
         onClose();
         if (onSeedDemo) onSeedDemo();
@@ -162,84 +160,43 @@ export function CommandPalette({
 
     // Scenarios
     {
-      id: "sc-semiconductor",
+      id: "sc-apparel",
       category: "Scenarios",
-      title: "Semiconductor Wafer Allocation",
-      subtitle: "18-week lead time with high obsolescence holding cost",
+      title: "Winter Apparel Inventory",
+      subtitle: "Plan retail orders for holiday shopping season",
       icon: Cpu,
-      badge: "Hardware",
+      badge: "Retail",
       action: () => {
         router.push("/decisions");
         onClose();
       },
-      keywords: ["semiconductor", "wafer", "hardware", "manufacturing", "allocation"],
+      keywords: ["retail", "apparel", "clothing", "inventory", "stock"],
     },
     {
-      id: "sc-coldchain",
+      id: "sc-medical",
       category: "Scenarios",
-      title: "Vaccine Cold-Chain Logistics",
-      subtitle: "Zero stockout tolerance ($120 penalty) with asymmetric demand",
-      icon: Compass,
-      badge: "Pharma",
+      title: "Perishable Medical Supplies",
+      subtitle: "High priority supplies with urgent delivery requirements",
+      icon: FlaskConical,
+      badge: "Healthcare",
       action: () => {
         router.push("/decisions");
         onClose();
       },
-      keywords: ["vaccine", "cold chain", "pharma", "healthcare", "logistics", "stockout"],
+      keywords: ["medical", "healthcare", "hospital", "pharma"],
     },
     {
-      id: "sc-cloud",
+      id: "sc-servers",
       category: "Scenarios",
-      title: "GPU Reserved Capacity Commitment",
-      subtitle: "Elastic spot thresholds versus 3-year reservation commitments",
-      icon: Zap,
-      badge: "Cloud",
+      title: "Cloud Server Fleet",
+      subtitle: "Annual data center capacity and server allocations",
+      icon: LayoutDashboard,
+      badge: "Technology",
       action: () => {
         router.push("/decisions");
         onClose();
       },
-      keywords: ["gpu", "compute", "cloud", "instance", "capacity", "reservation"],
-    },
-
-    // Concepts
-    {
-      id: "c-fractile",
-      category: "Concepts",
-      title: "Critical Fractile: F⁻¹(Cu / (Cu + Co))",
-      subtitle: "Optimal inventory target balancing underage penalty vs overage holding loss",
-      icon: Calculator,
-      badge: "Math",
-      action: () => {
-        onClose();
-        if (onOpenDemystifier) onOpenDemystifier();
-      },
-      keywords: ["critical fractile", "newsvendor", "formula", "cu", "co", "underage", "overage"],
-    },
-    {
-      id: "c-overreliance",
-      category: "Concepts",
-      title: "Cognitive Over-Reliance",
-      subtitle: "Human tendency to defer uncritically to articulate generative advice",
-      icon: Compass,
-      badge: "Behavioral",
-      action: () => {
-        onClose();
-        if (onOpenDemystifier) onOpenDemystifier();
-      },
-      keywords: ["cognitive", "over-reliance", "psychology", "bias", "complacency", "trust"],
-    },
-    {
-      id: "c-ece",
-      category: "Concepts",
-      title: "Expected Calibration Error (ECE)",
-      subtitle: "Empirical reliability metric measuring gap between AI confidence and ground truth",
-      icon: BarChart3,
-      badge: "Metrics",
-      action: () => {
-        onClose();
-        if (onOpenDemystifier) onOpenDemystifier();
-      },
-      keywords: ["ece", "expected calibration error", "reliability", "confidence", "calibration"],
+      keywords: ["gpu", "compute", "cloud", "servers", "tech"],
     },
   ];
 

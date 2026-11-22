@@ -176,15 +176,15 @@ export default function DecisionsPage() {
             <CardHeader className="pb-3">
               <CardTitle className="text-sm flex items-center gap-2">
                 <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-blue-100 text-blue-700 font-bold">01</span>
-                <span>Step 1: Expected Sales Demand</span>
+                <span>Step 1: Expected Customer Sales</span>
               </CardTitle>
-              <CardDescription>Estimate how many units customers will buy</CardDescription>
+              <CardDescription>How many items do you expect customers to buy?</CardDescription>
             </CardHeader>
             <CardContent className="space-y-4 pt-0">
               <div>
                 <div className="flex justify-between mb-1.5 text-xs font-medium">
                   <span className="text-slate-600">Expected Sales</span>
-                  <span className="font-mono font-bold text-slate-900 tabular-nums">{meanDemand} units</span>
+                  <span className="font-mono font-bold text-slate-900 tabular-nums">{meanDemand} items</span>
                 </div>
                 <input
                   type="range"
@@ -199,8 +199,8 @@ export default function DecisionsPage() {
 
               <div>
                 <div className="flex justify-between mb-1.5 text-xs font-medium">
-                  <span className="text-slate-600">Sales Fluctuation</span>
-                  <span className="font-mono font-bold text-amber-700 tabular-nums">±{stdDemand} units</span>
+                  <span className="text-slate-600">Sales Can Vary By (±)</span>
+                  <span className="font-mono font-bold text-amber-700 tabular-nums">±{stdDemand} items</span>
                 </div>
                 <input
                   type="range"
@@ -215,8 +215,8 @@ export default function DecisionsPage() {
 
               <div>
                 <div className="flex justify-between mb-1.5 text-xs font-medium">
-                  <span className="text-slate-600">Stock Already in Warehouse</span>
-                  <span className="font-mono font-bold text-emerald-700 tabular-nums">{currentStock} units</span>
+                  <span className="text-slate-600">Items Already on Hand</span>
+                  <span className="font-mono font-bold text-emerald-700 tabular-nums">{currentStock} items</span>
                 </div>
                 <input
                   type="range"
@@ -244,29 +244,29 @@ export default function DecisionsPage() {
             <CardHeader className="pb-3">
               <CardTitle className="text-sm flex items-center gap-2">
                 <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-blue-100 text-blue-700 font-bold">02</span>
-                <span>Step 2: Costs &amp; Pricing</span>
+                <span>Step 2: Costs &amp; Prices</span>
               </CardTitle>
-              <CardDescription>Your profit margins and budget ceiling</CardDescription>
+              <CardDescription>Your costs, selling price, and spending limit</CardDescription>
             </CardHeader>
             <CardContent className="space-y-3 text-xs pt-0">
               <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Cost to Buy (per unit)</span>
+                <span className="text-slate-600">Cost to Buy (per item)</span>
                 <span className="font-mono font-semibold text-slate-900">{formatCurrency(unitCost)}</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Customer Selling Price</span>
+                <span className="text-slate-600">Selling Price (per item)</span>
                 <span className="font-mono font-bold text-emerald-700">{formatCurrency(sellingPrice)}</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Gross Margin</span>
-                <span className="font-mono font-bold text-emerald-700">{grossMargin.toFixed(1)}%</span>
+                <span className="text-slate-600">Profit per Item Sold</span>
+                <span className="font-mono font-bold text-emerald-700">{formatCurrency(sellingPrice - unitCost)} ({grossMargin.toFixed(0)}%)</span>
               </div>
               <div className="flex justify-between py-1.5 border-b border-slate-100">
-                <span className="text-slate-600">Cost if Out of Stock</span>
+                <span className="text-slate-600">Lost Profit if Sold Out</span>
                 <span className="font-mono font-semibold text-rose-600">{formatCurrency(stockoutPenalty)}</span>
               </div>
               <div className="flex justify-between py-1.5 font-semibold text-slate-900">
-                <span>Maximum Spending Budget</span>
+                <span>Your Spending Limit</span>
                 <span className="font-mono tabular-nums">{formatCurrency(budgetLimit)}</span>
               </div>
             </CardContent>
@@ -298,14 +298,14 @@ export default function DecisionsPage() {
               <div>
                 <CardTitle className="text-sm flex items-center gap-2">
                   <span className="text-xs font-mono px-2 py-0.5 rounded-md bg-blue-100 text-blue-700 font-bold">03</span>
-                  <span>Step 3: Adjust Your Order Quantity</span>
+                  <span>Step 3: Choose How Many to Order</span>
                 </CardTitle>
-                <CardDescription>Slide to test how different order sizes affect your profit and cash</CardDescription>
+                <CardDescription>Slide the bar to test how different order sizes affect your profit and cash</CardDescription>
               </div>
               <div className="flex items-center gap-2">
-                <Badge variant="neutral">{formatNumber(proposedOrder)} Units</Badge>
+                <Badge variant="neutral">{formatNumber(proposedOrder)} Items</Badge>
                 <Badge variant={isBudgetExceeded ? "crimson" : "spruce"}>
-                  {formatCurrency(totalCapitalRequired)}
+                  Total Cost: {formatCurrency(totalCapitalRequired)}
                 </Badge>
               </div>
             </CardHeader>
@@ -324,7 +324,7 @@ export default function DecisionsPage() {
                 <div className="p-3.5 bg-rose-50 border border-rose-200 rounded-lg flex items-center gap-2.5 text-rose-700 text-xs font-medium">
                   <AlertCircle className="w-4 h-4 shrink-0 text-rose-600" />
                   <span>
-                    Budget exceeded: Total order cost of {formatCurrency(totalCapitalRequired)} exceeds your budget of {formatCurrency(budgetLimit)}.
+                    Spending limit exceeded: Total order cost of {formatCurrency(totalCapitalRequired)} exceeds your limit of {formatCurrency(budgetLimit)}.
                   </span>
                 </div>
               )}
@@ -332,19 +332,19 @@ export default function DecisionsPage() {
               {/* Diagnostic Metrics Matrix */}
               <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-1">
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Customer Orders Fulfilled</span>
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Customers Who Get Their Order</span>
                   <span className="font-mono text-base font-bold text-emerald-700 mt-1 block tabular-nums">
                     {formatPercent(Math.min(0.999, (currentStock + proposedOrder) / (meanDemand + 1.2 * stdDemand)))}
                   </span>
                 </div>
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Remaining Cash Budget</span>
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Cash Left in Budget</span>
                   <span className="font-mono text-base font-bold text-slate-900 mt-1 block tabular-nums">
                     {formatCurrency(Math.max(0, budgetLimit - totalCapitalRequired))}
                   </span>
                 </div>
                 <div className="p-4 bg-slate-50 rounded-xl border border-slate-200">
-                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Risk of Running Out</span>
+                  <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider block">Chance of Running Out of Stock</span>
                   <span className="font-mono text-base font-bold text-rose-700 mt-1 block tabular-nums">
                     {formatPercent(Math.max(0, 1 - (currentStock + proposedOrder) / meanDemand))}
                   </span>

@@ -17,10 +17,8 @@ import {
   TrendingUp,
   Activity,
   Lock,
-  BookOpen,
 } from "lucide-react";
 import { SiteHeader } from "@/components/navigation/site-header";
-import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
 import { CommandPalette } from "@/components/navigation/command-palette";
 
 // Simulation Scenarios
@@ -104,7 +102,6 @@ const CASE_STUDIES = [
 ];
 
 export default function HomePage() {
-  const [demystifierOpen, setDemystifierOpen] = useState(false);
   const [commandPaletteOpen, setCommandPaletteOpen] = useState(false);
 
   // Simulator State
@@ -164,7 +161,6 @@ export default function HomePage() {
     <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased flex flex-col">
       {/* Site Header */}
       <SiteHeader
-        onOpenDemystifier={() => setDemystifierOpen(true)}
         onOpenCommandPalette={() => setCommandPaletteOpen(true)}
       />
 
@@ -206,12 +202,12 @@ export default function HomePage() {
                   </div>
                 </Link>
 
-                <button
-                  onClick={() => setDemystifierOpen(true)}
+                <Link
+                  href="/decisions"
                   className="btn-secondary text-sm py-3 px-6 rounded-full"
                 >
-                  <span>Read Plain-English Guide</span>
-                </button>
+                  <span>Plan a Decision Now</span>
+                </Link>
               </div>
 
               {/* Key Metrics Strip */}
@@ -669,12 +665,12 @@ export default function HomePage() {
                   <ArrowRight className="w-4 h-4 text-slate-900" />
                 </div>
               </Link>
-              <button
-                onClick={() => setDemystifierOpen(true)}
+              <Link
+                href="/decisions"
                 className="btn-secondary text-sm py-2.5 px-6 rounded-full bg-slate-800 text-slate-100 border-slate-700 hover:bg-slate-700 hover:text-white"
               >
-                Read Business Guide
-              </button>
+                <span>Plan a Decision</span>
+              </Link>
             </div>
           </div>
         </section>
@@ -691,11 +687,12 @@ export default function HomePage() {
               </ul>
             </div>
             <div>
-              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Resources</div>
+              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Key Features</div>
               <ul className="space-y-2">
-                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Plain-English Guide</button></li>
-                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">The Sweet Spot Explained</button></li>
-                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Avoiding AI Overspending</button></li>
+                <li><Link href="/decisions" className="hover:text-blue-600">Order Quantity Finder</Link></li>
+                <li><Link href="/workspace" className="hover:text-blue-600">Inventory Protection</Link></li>
+                <li><Link href="/governance" className="hover:text-blue-600">Digital Sign-Offs</Link></li>
+                <li><Link href="/analytics" className="hover:text-blue-600">Performance Reports</Link></li>
               </ul>
             </div>
             <div>
@@ -727,20 +724,10 @@ export default function HomePage() {
         </footer>
       </main>
 
-      {/* Demystifier Modal */}
-      <ConceptDemystifierModal
-        isOpen={demystifierOpen}
-        onClose={() => setDemystifierOpen(false)}
-      />
-
       {/* Command Palette */}
       <CommandPalette
         isOpen={commandPaletteOpen}
         onClose={() => setCommandPaletteOpen(false)}
-        onOpenDemystifier={() => {
-          setCommandPaletteOpen(false);
-          setDemystifierOpen(true);
-        }}
       />
     </div>
   );

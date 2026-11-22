@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
-import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
 import { CommandPalette } from "./command-palette";
 import { api } from "@/lib/api";
 import {
@@ -21,7 +20,6 @@ import {
 
 export function Topbar() {
   const pathname = usePathname();
-  const [isDemystifierOpen, setIsDemystifierOpen] = useState(false);
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
   const [telemetry, setTelemetry] = useState<any>({
     engine_status: "ONLINE_DETERMINISTIC",
@@ -118,14 +116,6 @@ export function Topbar() {
               <kbd className="font-mono text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded-full text-slate-400">⌘K</kbd>
             </button>
 
-            <button
-              onClick={() => setIsDemystifierOpen(true)}
-              className="btn-secondary text-xs py-2 px-3 hidden sm:inline-flex"
-            >
-              <BookOpen className="w-3.5 h-3.5 text-slate-500 mr-1.5" />
-              <span>Plain English Guide</span>
-            </button>
-
             <Link
               href="/decisions"
               className="btn-primary text-xs py-2 px-3.5"
@@ -138,20 +128,10 @@ export function Topbar() {
         </div>
       </div>
 
-      {/* Demystifier Modal */}
-      <ConceptDemystifierModal
-        isOpen={isDemystifierOpen}
-        onClose={() => setIsDemystifierOpen(false)}
-      />
-
       {/* Command Palette */}
       <CommandPalette
         isOpen={isCommandPaletteOpen}
         onClose={() => setIsCommandPaletteOpen(false)}
-        onOpenDemystifier={() => {
-          setIsCommandPaletteOpen(false);
-          setIsDemystifierOpen(true);
-        }}
       />
     </header>
   );

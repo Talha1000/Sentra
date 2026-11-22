@@ -4,7 +4,6 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import { ConceptDemystifierModal } from "@/components/ui/concept-demystifier-modal";
 import {
   LayoutDashboard,
   Cpu,
@@ -15,13 +14,11 @@ import {
   ChevronRight,
   Layers,
   HelpCircle,
-  BookOpen,
 } from "lucide-react";
 
 export function Sidebar() {
   const pathname = usePathname();
   const [isCollapsed, setIsCollapsed] = useState(false);
-  const [isDemystifierOpen, setIsDemystifierOpen] = useState(false);
 
   const navigation = [
     { name: "Dashboard", href: "/workspace", icon: LayoutDashboard },
@@ -91,20 +88,8 @@ export function Sidebar() {
         </div>
       </div>
 
-      {/* Footer Info & Guide */}
+      {/* Footer System Status */}
       <div className="p-3 border-t border-slate-200 space-y-2">
-        <button
-          onClick={() => setIsDemystifierOpen(true)}
-          className={cn(
-            "w-full py-2 px-3 rounded-lg text-xs font-medium flex items-center gap-2 transition-all bg-slate-50 text-slate-700 border border-slate-200 hover:bg-slate-100 hover:text-slate-900 cursor-pointer",
-            isCollapsed && "justify-center px-1"
-          )}
-          title="Open Business Guide"
-        >
-          <BookOpen className="w-3.5 h-3.5 text-blue-600 shrink-0" />
-          {!isCollapsed && <span>Plain-English Guide</span>}
-        </button>
-
         {!isCollapsed && (
           <div className="px-3 py-2 rounded-lg bg-slate-50 border border-slate-100">
             <div className="text-[10px] text-slate-400 uppercase tracking-wider flex items-center justify-between font-semibold">
@@ -118,20 +103,9 @@ export function Sidebar() {
         )}
         <div className="flex items-center justify-between px-2 pt-1 text-xs text-slate-400">
           {!isCollapsed && <span className="text-[11px] font-mono">v1.2.0</span>}
-          <button
-            onClick={() => setIsDemystifierOpen(true)}
-            className="hover:text-slate-700 transition-colors cursor-pointer"
-            title="Help & Business Guide"
-          >
-            <HelpCircle className="w-4 h-4" />
-          </button>
+          <span className="text-[11px] text-slate-400">Active</span>
         </div>
       </div>
-
-      <ConceptDemystifierModal
-        isOpen={isDemystifierOpen}
-        onClose={() => setIsDemystifierOpen(false)}
-      />
     </aside>
   );
 }

@@ -5,7 +5,6 @@ import Link from "next/link";
 import { ArrowRight, BookOpen, Search } from "lucide-react";
 
 interface SiteHeaderProps {
-  onOpenDemystifier: () => void;
   onOpenCommandPalette?: () => void;
 }
 
@@ -17,7 +16,7 @@ const NAV_LINKS = [
   { name: "Approvals", href: "/governance" },
 ];
 
-export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHeaderProps) {
+export function SiteHeader({ onOpenCommandPalette }: SiteHeaderProps) {
   return (
     <header className="bg-white border-b border-slate-200 sticky top-0 z-50 select-none shadow-xs">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -65,14 +64,6 @@ export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHead
                 <kbd className="font-mono text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded-full text-slate-400">⌘K</kbd>
               </button>
             )}
-
-            <button
-              onClick={onOpenDemystifier}
-              className="btn-secondary text-xs py-2 px-3.5 hidden sm:inline-flex"
-            >
-              <BookOpen className="w-3.5 h-3.5 mr-1.5 text-slate-500" />
-              <span>Plain English Guide</span>
-            </button>
 
             <Link
               href="/workspace"

@@ -73,19 +73,19 @@ export function DemandBellCurve({
     : "";
 
   return (
-    <div className="space-y-3 bg-[#0D111A]/85 backdrop-blur-xl border border-white/[0.08] rounded-2xl p-4 shadow-card">
+    <div className="space-y-3 bg-slate-50 border border-slate-200/90 rounded-2xl p-4 shadow-xs">
       <div className="flex items-center justify-between text-xs">
-        <span className="font-semibold text-white">Demand Probability & Fill Rate</span>
-        <span className="font-mono text-[11px] font-bold text-emerald-300 px-2.5 py-0.5 rounded-full bg-emerald-500/15 border border-emerald-500/30">
-          Service Level: {formatPercent(serviceLevel)}
+        <span className="font-semibold text-slate-900">Customer Sales Range</span>
+        <span className="font-mono text-[11px] font-bold text-emerald-800 px-2.5 py-0.5 rounded-full bg-emerald-100/80 border border-emerald-200">
+          Orders Fulfilled: {formatPercent(serviceLevel)}
         </span>
       </div>
 
       <svg viewBox={`0 0 ${width} ${height}`} className="w-full h-auto select-none font-mono text-[9px] overflow-visible">
         <defs>
           <linearGradient id="emeraldBellGrad" x1="0" y1="0" x2="0" y2="1">
-            <stop offset="0%" stopColor="#10B981" stopOpacity="0.4" />
-            <stop offset="100%" stopColor="#10B981" stopOpacity="0.02" />
+            <stop offset="0%" stopColor="#10B981" stopOpacity="0.30" />
+            <stop offset="100%" stopColor="#10B981" stopOpacity="0.03" />
           </linearGradient>
         </defs>
 
@@ -93,7 +93,7 @@ export function DemandBellCurve({
         {shadedD && <path d={shadedD} fill="url(#emeraldBellGrad)" />}
 
         {/* Normal Bell Curve */}
-        <path d={curveD} fill="none" stroke="#10B981" strokeWidth="2.5" />
+        <path d={curveD} fill="none" stroke="#059669" strokeWidth="2.5" />
 
         {/* Total Stock Cutoff Line */}
         <line
@@ -101,22 +101,22 @@ export function DemandBellCurve({
           y1={padT}
           x2={scaleX(totalInventory)}
           y2={padT + chartH}
-          stroke="#818CF8"
+          stroke="#4F46E5"
           strokeWidth="2"
           strokeDasharray="4,4"
         />
-        <circle cx={scaleX(totalInventory)} cy={padT} r="4" fill="#6366F1" stroke="#FFFFFF" strokeWidth="1.5" />
+        <circle cx={scaleX(totalInventory)} cy={padT} r="4" fill="#4F46E5" stroke="#FFFFFF" strokeWidth="1.5" />
 
         {/* X axis */}
-        <line x1={padL} y1={padT + chartH} x2={width - padR} y2={padT + chartH} stroke="rgba(255,255,255,0.12)" />
+        <line x1={padL} y1={padT + chartH} x2={width - padR} y2={padT + chartH} stroke="#CBD5E1" />
 
-        <text x={scaleX(minD)} y={height - 8} textAnchor="start" fill="#94A3B8">
+        <text x={scaleX(minD)} y={height - 8} textAnchor="start" fill="#64748B">
           {Math.round(minD)}
         </text>
-        <text x={scaleX(meanDemand)} y={height - 8} textAnchor="middle" fill="#FFFFFF" className="font-bold">
-          μ = {meanDemand}
+        <text x={scaleX(meanDemand)} y={height - 8} textAnchor="middle" fill="#0F172A" className="font-bold">
+          Average: {meanDemand}
         </text>
-        <text x={scaleX(maxD)} y={height - 8} textAnchor="end" fill="#94A3B8">
+        <text x={scaleX(maxD)} y={height - 8} textAnchor="end" fill="#64748B">
           {Math.round(maxD)}
         </text>
 
@@ -126,17 +126,17 @@ export function DemandBellCurve({
             x={totalInventory > meanDemand ? -6 : 6}
             y="0"
             textAnchor={totalInventory > meanDemand ? "end" : "start"}
-            fill="#818CF8"
+            fill="#4338CA"
             className="font-sans font-bold text-[10px]"
           >
-            Inventory ({totalInventory})
+            Total Stock ({totalInventory})
           </text>
         </g>
       </svg>
 
-      <div className="flex justify-between text-[11px] pt-1 border-t border-white/[0.06]">
-        <span className="text-emerald-400 font-medium">■ Satisfied Demand</span>
-        <span className="text-rose-400 font-medium">Stockout Exposure: {formatPercent(1 - serviceLevel)}</span>
+      <div className="flex justify-between text-[11px] pt-1.5 border-t border-slate-200">
+        <span className="text-emerald-700 font-medium">■ Orders You Can Deliver</span>
+        <span className="text-rose-600 font-medium">Chance of Running Out: {formatPercent(1 - serviceLevel)}</span>
       </div>
     </div>
   );
