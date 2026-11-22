@@ -16,6 +16,7 @@ import {
   BookOpen,
   Search,
   Plus,
+  Info,
 } from "lucide-react";
 
 export function Topbar() {
@@ -58,6 +59,7 @@ export function Topbar() {
     { name: "Simulations", href: "/experiments", icon: FlaskConical },
     { name: "Reports", href: "/analytics", icon: BarChart3 },
     { name: "Approvals", href: "/governance", icon: ShieldCheck },
+    { name: "About", href: "/about", icon: Info },
   ];
 
   return (

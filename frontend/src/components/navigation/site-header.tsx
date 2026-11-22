@@ -14,6 +14,7 @@ const NAV_LINKS = [
   { name: "Simulations", href: "/experiments" },
   { name: "Reports", href: "/analytics" },
   { name: "Approvals", href: "/governance" },
+  { name: "About", href: "/about" },
 ];
 
 export function SiteHeader({ onOpenCommandPalette }: SiteHeaderProps) {

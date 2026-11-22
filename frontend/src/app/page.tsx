@@ -684,6 +684,7 @@ export default function HomePage() {
                 <li><Link href="/decisions" className="hover:text-blue-600">Plan Decisions</Link></li>
                 <li><Link href="/experiments" className="hover:text-blue-600">Simulations</Link></li>
                 <li><Link href="/governance" className="hover:text-blue-600">Approvals &amp; History</Link></li>
+                <li><Link href="/about" className="hover:text-blue-600 font-medium text-blue-600">About Sentra</Link></li>
               </ul>
             </div>
             <div>
