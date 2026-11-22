@@ -121,8 +121,8 @@ export default function GovernancePage() {
         />
       </div>
 
-      {/* Segmented Section Navigator */}
-      <div className="flex items-center gap-1.5 p-1 rounded-xl bg-white border border-slate-200 shadow-xs overflow-x-auto">
+      {/* Segmented Section Navigator Pill Dock */}
+      <div className="pill-dock self-start overflow-x-auto max-w-full">
         {[
           { id: "all", label: "All Records", count: models.length + auditLogs.length + 3 },
           { id: "models", label: "AI Assistants", count: models.length },
@@ -132,16 +132,14 @@ export default function GovernancePage() {
           <button
             key={tab.id}
             onClick={() => setActiveTab(tab.id as any)}
-            className={`px-4 py-2 rounded-lg text-xs font-medium transition-all cursor-pointer flex items-center gap-2 whitespace-nowrap ${
-              activeTab === tab.id
-                ? "bg-slate-900 text-white font-semibold shadow-xs"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+            className={`pill-dock-item flex items-center gap-2 whitespace-nowrap ${
+              activeTab === tab.id ? "active" : ""
             }`}
           >
             <span>{tab.label}</span>
             <span
               className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                activeTab === tab.id ? "bg-white/20 text-white" : "bg-slate-200 text-slate-600"
+                activeTab === tab.id ? "bg-slate-900 text-white" : "bg-slate-200 text-slate-600"
               }`}
             >
               {tab.count}

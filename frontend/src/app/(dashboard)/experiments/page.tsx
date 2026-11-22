@@ -309,8 +309,8 @@ export default function ExperimentsDashboardPage() {
         {/* Left 8 Columns: Filter Bar & Protocols */}
         <div className="lg:col-span-8 space-y-4">
           {/* Filter & Search Bar */}
-          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3 rounded-xl border border-slate-200 shadow-xs">
-            <div className="flex items-center gap-1.5 overflow-x-auto">
+          <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-slate-200 shadow-xs">
+            <div className="pill-dock overflow-x-auto max-w-full">
               {[
                 { id: "ALL", label: "All Scenarios", count: filterCounts.ALL },
                 { id: "ACTIVE", label: "Active", count: filterCounts.ACTIVE },
@@ -320,16 +320,14 @@ export default function ExperimentsDashboardPage() {
                 <button
                   key={tab.id}
                   onClick={() => setFilterType(tab.id)}
-                  className={`px-3 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer whitespace-nowrap flex items-center gap-1.5 ${
-                    filterType === tab.id
-                      ? "bg-slate-900 text-white font-semibold shadow-xs"
-                      : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                  className={`pill-dock-item flex items-center gap-1.5 whitespace-nowrap ${
+                    filterType === tab.id ? "active" : ""
                   }`}
                 >
                   <span>{tab.label}</span>
                   <span
                     className={`text-[10px] font-mono px-1.5 py-0.2 rounded-full ${
-                      filterType === tab.id ? "bg-white/20 text-white" : "bg-slate-200 text-slate-600"
+                      filterType === tab.id ? "bg-slate-900 text-white" : "bg-slate-200 text-slate-600"
                     }`}
                   >
                     {tab.count}
@@ -339,13 +337,13 @@ export default function ExperimentsDashboardPage() {
             </div>
 
             <div className="relative min-w-[200px]">
-              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+              <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
               <input
                 type="text"
                 placeholder="Search scenarios..."
                 value={searchQuery}
                 onChange={(e) => setSearchQuery(e.target.value)}
-                className="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-all"
+                className="w-full pl-9 pr-3.5 py-1.5 text-xs rounded-full border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-slate-900 transition-all"
               />
             </div>
           </div>

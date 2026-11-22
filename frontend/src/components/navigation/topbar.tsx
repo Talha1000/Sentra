@@ -93,13 +93,13 @@ export function Topbar() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "px-3.5 py-2 text-sm font-medium rounded-md transition-colors flex items-center gap-2",
+                      "px-3.5 py-1.5 text-sm font-medium rounded-full transition-colors flex items-center gap-2",
                       isActive
-                        ? "bg-slate-100 text-blue-700 font-semibold"
-                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
+                        ? "bg-slate-900 text-white font-semibold shadow-xs"
+                        : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                     )}
                   >
-                    <Icon className={cn("w-4 h-4", isActive ? "text-blue-600" : "text-slate-400")} />
+                    <Icon className={cn("w-4 h-4", isActive ? "text-white" : "text-slate-400")} />
                     <span>{item.name}</span>
                   </Link>
                 );
@@ -111,11 +111,11 @@ export function Topbar() {
           <div className="flex items-center gap-3">
             <button
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs text-slate-500 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors"
+              className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 text-xs text-slate-500 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full transition-colors"
             >
               <Search className="w-3.5 h-3.5 text-slate-400" />
               <span>Search...</span>
-              <kbd className="font-mono text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded text-slate-400">⌘K</kbd>
+              <kbd className="font-mono text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded-full text-slate-400">⌘K</kbd>
             </button>
 
             <button

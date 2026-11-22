@@ -198,15 +198,17 @@ export default function HomePage() {
               <div className="mt-8 flex flex-wrap items-center gap-4">
                 <Link
                   href="/workspace"
-                  className="btn-primary text-sm py-2.5 px-5"
+                  className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-gradient-to-b from-slate-800 to-slate-950 text-white hover:from-slate-700 hover:to-slate-900 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 border border-white/10 group font-medium text-sm"
                 >
                   <span>Open Decision Dashboard</span>
-                  <ArrowRight className="w-4 h-4 ml-2" />
+                  <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-4 h-4 text-white" />
+                  </div>
                 </Link>
 
                 <button
                   onClick={() => setDemystifierOpen(true)}
-                  className="btn-secondary text-sm py-2.5 px-5"
+                  className="btn-secondary text-sm py-3 px-6 rounded-full"
                 >
                   <span>Read Plain-English Guide</span>
                 </button>
@@ -250,8 +252,8 @@ export default function HomePage() {
             </p>
           </div>
 
-          {/* Scenario Tabs */}
-          <div className="flex flex-wrap items-center gap-2 mb-6">
+          {/* Scenario Tabs Pill Dock */}
+          <div className="pill-dock mb-6 max-w-full overflow-x-auto">
             {SCENARIOS.map((scen, idx) => (
               <button
                 key={scen.id}
@@ -259,10 +261,8 @@ export default function HomePage() {
                   setSelectedScenarioIdx(idx);
                   setUserAllocation(scen.optimalQ);
                 }}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border ${
-                  selectedScenarioIdx === idx
-                    ? "bg-slate-900 text-white border-slate-900 shadow-sm"
-                    : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300"
+                className={`pill-dock-item text-xs font-medium py-2 px-4 whitespace-nowrap ${
+                  selectedScenarioIdx === idx ? "active" : ""
                 }`}
               >
                 {scen.name}
@@ -395,9 +395,10 @@ export default function HomePage() {
 
                 <Link
                   href="/decisions"
-                  className="btn-primary w-full text-center py-2.5 text-xs font-semibold mt-2"
+                  className="btn-primary w-full text-center py-3 text-xs font-semibold mt-2 rounded-full shadow-md flex items-center justify-center gap-2 group"
                 >
-                  Plan Your Own Decision Now →
+                  <span>Plan Your Own Decision Now</span>
+                  <ArrowRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 transition-transform" />
                 </Link>
               </div>
 
@@ -582,7 +583,7 @@ export default function HomePage() {
                   <button
                     onClick={handleGenerateHash}
                     disabled={isHashing}
-                    className="btn-primary w-full py-2.5 text-sm"
+                    className="btn-primary w-full py-2.5 text-sm rounded-full shadow-md"
                   >
                     {isHashing ? "Sealing..." : "Generate Digital Seal"}
                   </button>
@@ -661,14 +662,16 @@ export default function HomePage() {
             <div className="flex items-center gap-4 shrink-0">
               <Link
                 href="/workspace"
-                className="btn-primary text-sm py-2.5 px-6 bg-white hover:bg-slate-100 text-slate-900 border-white shadow-sm"
+                className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-white hover:bg-slate-100 text-slate-900 shadow-lg hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 font-medium text-sm group"
               >
                 <span>Start Planning Now</span>
-                <ArrowRight className="w-4 h-4 ml-2" />
+                <div className="w-8 h-8 rounded-full bg-slate-900/10 group-hover:bg-slate-900/20 flex items-center justify-center transition-colors">
+                  <ArrowRight className="w-4 h-4 text-slate-900" />
+                </div>
               </Link>
               <button
                 onClick={() => setDemystifierOpen(true)}
-                className="btn-secondary text-sm py-2.5 px-5 bg-slate-800 text-slate-100 border-slate-700 hover:bg-slate-700 hover:text-white"
+                className="btn-secondary text-sm py-2.5 px-6 rounded-full bg-slate-800 text-slate-100 border-slate-700 hover:bg-slate-700 hover:text-white"
               >
                 Read Business Guide
               </button>

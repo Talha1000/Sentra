@@ -45,7 +45,7 @@ export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHead
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-3 py-2 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-md transition-colors"
+                  className="px-3.5 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
                 >
                   {link.name}
                 </Link>
@@ -58,11 +58,11 @@ export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHead
             {onOpenCommandPalette && (
               <button
                 onClick={onOpenCommandPalette}
-                className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs text-slate-500 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-lg transition-colors"
+                className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 text-xs text-slate-500 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full transition-colors"
               >
                 <Search className="w-3.5 h-3.5 text-slate-400" />
                 <span>Search</span>
-                <kbd className="font-mono text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded text-slate-400">⌘K</kbd>
+                <kbd className="font-mono text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded-full text-slate-400">⌘K</kbd>
               </button>
             )}
 

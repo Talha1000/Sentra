@@ -119,14 +119,14 @@ export default function WorkspacePage() {
 
         <div className="flex items-center gap-3 shrink-0">
           <Link href="/decisions">
-            <Button variant="secondary" className="gap-2">
+            <Button variant="secondary" size="md" className="gap-2 shadow-xs">
               <Plus className="w-4 h-4 text-blue-600" />
               <span>Plan a Decision</span>
             </Button>
           </Link>
           <Link href="/experiments">
-            <Button variant="primary" className="gap-2">
-              <Play className="w-4 h-4 fill-current" />
+            <Button variant="primary" size="md" className="gap-2 shadow-sm">
+              <Play className="w-3.5 h-3.5 fill-current" />
               <span>Run a Simulation</span>
             </Button>
           </Link>
@@ -177,28 +177,26 @@ export default function WorkspacePage() {
               {/* Search & Domain Filter Bar */}
               <div className="flex flex-col sm:flex-row items-stretch sm:items-center gap-2.5">
                 <div className="relative min-w-[180px]">
-                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
+                  <Search className="w-3.5 h-3.5 text-slate-400 absolute left-3.5 top-1/2 -translate-y-1/2" />
                   <input
                     type="text"
                     placeholder="Search plans..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    className="w-full pl-9 pr-3 py-1.5 text-xs rounded-lg border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+                    className="w-full pl-9 pr-3.5 py-1.5 text-xs rounded-full border border-slate-300 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-slate-900"
                   />
                 </div>
 
-                <div className="flex items-center gap-1 bg-slate-100 p-1 rounded-lg border border-slate-200 overflow-x-auto">
+                <div className="pill-dock overflow-x-auto max-w-full">
                   {(["all", "inventory", "equipment", "operations"] as const).map((d) => (
                     <button
                       key={d}
                       onClick={() => setFilterDomain(d)}
-                      className={`px-3 py-1 rounded-md text-xs font-medium capitalize transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
-                        filterDomain === d
-                          ? "bg-white text-slate-900 font-semibold shadow-xs border border-slate-200"
-                          : "text-slate-600 hover:text-slate-900 border border-transparent"
+                      className={`pill-dock-item flex items-center gap-1.5 whitespace-nowrap ${
+                        filterDomain === d ? "active" : ""
                       }`}
                     >
-                      <span>{d === "all" ? "All Plans" : d}</span>
+                      <span className="capitalize">{d === "all" ? "All Plans" : d}</span>
                       <span
                         className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
                           filterDomain === d ? "bg-slate-900 text-white" : "bg-slate-200 text-slate-600"

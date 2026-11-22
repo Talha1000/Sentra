@@ -20,6 +20,7 @@ export default function DecisionsPage() {
   const [stdDemand, setStdDemand] = useState<number>(220);
   const [currentStock, setCurrentStock] = useState<number>(250);
   const [proposedOrder, setProposedOrder] = useState<number>(1420);
+  const [activeStrategy, setActiveStrategy] = useState<"lean" | "optimal" | "ai" | "buffer">("optimal");
   const [humanRationale, setHumanRationale] = useState<string>(
     "Balanced order quantity to maximize profit while keeping unsold stock risk low."
   );
@@ -51,6 +52,7 @@ export default function DecisionsPage() {
   };
 
   const applyStrategy = (type: "lean" | "optimal" | "ai" | "buffer") => {
+    setActiveStrategy(type);
     switch (type) {
       case "lean":
         setProposedOrder(Math.max(0, meanDemand - currentStock));
@@ -80,7 +82,7 @@ export default function DecisionsPage() {
           { label: "Plan Decisions", badge: "Sweet Spot Finder" },
         ]}
         rightElement={
-          <div className="flex items-center gap-2 text-xs text-blue-700 font-medium">
+          <div className="flex items-center gap-2 text-xs text-blue-700 font-medium bg-blue-50/80 px-3 py-1 rounded-full border border-blue-200/60">
             <span className="w-2 h-2 rounded-full bg-blue-600" />
             <span>★ Recommended Sweet Spot: 1,420 units</span>
           </div>
@@ -106,22 +108,24 @@ export default function DecisionsPage() {
         <div className="flex items-center gap-3 shrink-0">
           <Button
             variant={isCommitted ? "secondary" : "primary"}
-            size="default"
+            size="lg"
             onClick={handleCommit}
             disabled={isBudgetExceeded || isCommitted}
-            className="gap-2 font-semibold"
+            className="pl-5 pr-4 py-2.5 shadow-md flex items-center gap-2.5 font-medium"
           >
-            <CheckCircle2 className="w-4 h-4" />
             <span>{isCommitted ? "Decision Approved & Saved ✓" : "Save & Approve Plan"}</span>
+            <div className={`w-5 h-5 rounded-full flex items-center justify-center ${isCommitted ? "bg-emerald-100 text-emerald-700" : "bg-white/20 text-white"}`}>
+              <CheckCircle2 className="w-3.5 h-3.5" />
+            </div>
           </Button>
         </div>
       </div>
 
       {/* Confirmation Banner */}
       {isCommitted && (
-        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-xl flex items-center justify-between text-xs text-emerald-800">
+        <div className="p-4 bg-emerald-50 border border-emerald-200 rounded-2xl flex items-center justify-between text-xs text-emerald-800 shadow-xs">
           <div className="flex items-center gap-2.5 font-medium">
-            <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+            <CheckCircle2 className="w-4 h-4 text-emerald-600 shrink-0" />
             <span>
               Decision approved by Planning Manager. Permanent digital record saved to company audit history.
             </span>
@@ -130,34 +134,34 @@ export default function DecisionsPage() {
         </div>
       )}
 
-      {/* Strategy Presets Strip */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-4 bg-white border border-slate-200 rounded-xl shadow-xs">
-        <div className="flex items-center gap-2 text-xs font-semibold text-slate-700">
+      {/* Strategy Presets Pill Dock */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3 p-3 bg-white border border-slate-200/90 rounded-2xl shadow-xs">
+        <div className="flex items-center gap-2 text-xs font-semibold text-slate-700 px-2">
           <Zap className="w-4 h-4 text-amber-500" />
           <span>Quick Plan Presets:</span>
         </div>
-        <div className="flex flex-wrap items-center gap-2">
+        <div className="pill-dock self-start sm:self-auto overflow-x-auto max-w-full">
           <button
             onClick={() => applyStrategy("lean")}
-            className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer"
+            className={`pill-dock-item ${activeStrategy === "lean" ? "active" : ""}`}
           >
             Lean (Just Enough)
           </button>
           <button
             onClick={() => applyStrategy("optimal")}
-            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-200 transition-colors cursor-pointer"
+            className={`pill-dock-item ${activeStrategy === "optimal" ? "active" : ""}`}
           >
-            ★ Profit Sweet Spot (1,420 units)
+            ★ Profit Sweet Spot (1,420)
           </button>
           <button
             onClick={() => applyStrategy("ai")}
-            className="px-3.5 py-1.5 rounded-lg text-xs font-semibold bg-rose-50 text-rose-700 hover:bg-rose-100 border border-rose-200 transition-colors cursor-pointer"
+            className={`pill-dock-item ${activeStrategy === "ai" ? "active" : ""}`}
           >
-            AI Suggestion (1,750 units)
+            AI Suggestion (1,750)
           </button>
           <button
             onClick={() => applyStrategy("buffer")}
-            className="px-3.5 py-1.5 rounded-lg text-xs font-medium bg-slate-50 text-slate-700 hover:bg-slate-100 border border-slate-200 transition-colors cursor-pointer"
+            className={`pill-dock-item ${activeStrategy === "buffer" ? "active" : ""}`}
           >
             Extra Buffer (Play It Safe)
           </button>

@@ -98,50 +98,40 @@ export default function AnalyticsPage() {
         </div>
       </div>
 
-      {/* Segmented Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-1.5 bg-white rounded-xl border border-slate-200 shadow-xs">
-        <div className="flex items-center gap-1.5">
-          <button
-            onClick={() => setSelectedView("all")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-              selectedView === "all"
-                ? "bg-slate-900 text-white font-semibold shadow-xs"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-            }`}
-          >
-            All Insights
-          </button>
-          <button
-            onClick={() => setSelectedView("matrix")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-              selectedView === "matrix"
-                ? "bg-slate-900 text-white font-semibold shadow-xs"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-            }`}
-          >
-            Performance Comparison
-          </button>
-          <button
-            onClick={() => setSelectedView("charts")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-              selectedView === "charts"
-                ? "bg-slate-900 text-white font-semibold shadow-xs"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-            }`}
-          >
-            Visual Charts
-          </button>
-          <button
-            onClick={() => setSelectedView("inference")}
-            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
-              selectedView === "inference"
-                ? "bg-slate-900 text-white font-semibold shadow-xs"
-                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
-            }`}
-          >
-            Key Takeaways
-          </button>
-        </div>
+      {/* Segmented Filter Bar Pill Dock */}
+      <div className="pill-dock self-start overflow-x-auto max-w-full">
+        <button
+          onClick={() => setSelectedView("all")}
+          className={`pill-dock-item whitespace-nowrap ${
+            selectedView === "all" ? "active" : ""
+          }`}
+        >
+          All Insights
+        </button>
+        <button
+          onClick={() => setSelectedView("matrix")}
+          className={`pill-dock-item whitespace-nowrap ${
+            selectedView === "matrix" ? "active" : ""
+          }`}
+        >
+          Performance Comparison
+        </button>
+        <button
+          onClick={() => setSelectedView("charts")}
+          className={`pill-dock-item whitespace-nowrap ${
+            selectedView === "charts" ? "active" : ""
+          }`}
+        >
+          Visual Charts
+        </button>
+        <button
+          onClick={() => setSelectedView("inference")}
+          className={`pill-dock-item whitespace-nowrap ${
+            selectedView === "inference" ? "active" : ""
+          }`}
+        >
+          Key Takeaways
+        </button>
       </div>
 
       {/* KPI Overview Grid */}

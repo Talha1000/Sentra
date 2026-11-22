@@ -22,7 +22,7 @@
   }
 }
 
-/* Elegant & Simple Button System */
+/* Ultra-Modern Capsule & Pill Button System (No Boxes) */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -30,33 +30,34 @@
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  letter-spacing: -0.01em;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
-  background-color: #0F172A;
+  letter-spacing: -0.015em;
+  padding: 0.55rem 1.35rem;
+  border-radius: 9999px; /* Seamless Pill Shape */
+  background: linear-gradient(180deg, #1E293B 0%, #0F172A 100%);
   color: #FFFFFF;
-  border: 1px solid #0F172A;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   box-shadow: 
-    0 1px 2px 0 rgba(0, 0, 0, 0.08),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+    0 2px 8px -1px rgba(15, 23, 42, 0.2),
+    0 1px 3px 0 rgba(15, 23, 42, 0.1),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.2);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   user-select: none;
 }
 
 .btn-primary:hover {
-  background-color: #1E293B;
-  border-color: #1E293B;
+  background: linear-gradient(180deg, #334155 0%, #1E293B 100%);
   box-shadow: 
-    0 2px 6px 0 rgba(0, 0, 0, 0.12),
-    inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
-  transform: translateY(-0.5px);
+    0 6px 16px -2px rgba(15, 23, 42, 0.25),
+    0 2px 6px -1px rgba(15, 23, 42, 0.12),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.28);
+  transform: translateY(-1px);
 }
 
 .btn-primary:active {
-  background-color: #090D16;
-  transform: translateY(0.5px) scale(0.985);
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
+  background: #090D16;
+  transform: translateY(0.5px) scale(0.975);
+  box-shadow: 0 1px 3px 0 rgba(15, 23, 42, 0.2);
 }
 
 .btn-secondary {
@@ -66,14 +67,16 @@
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.25rem;
-  letter-spacing: -0.01em;
-  padding: 0.5rem 1rem;
-  border-radius: 0.5rem;
+  letter-spacing: -0.015em;
+  padding: 0.55rem 1.35rem;
+  border-radius: 9999px; /* Seamless Pill Shape */
   background-color: #FFFFFF;
-  color: #334155;
-  border: 1px solid #E2E8F0;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
-  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  color: #1E293B;
+  border: 1px solid rgba(226, 232, 240, 0.9);
+  box-shadow: 
+    0 1px 3px 0 rgba(0, 0, 0, 0.04),
+    0 4px 10px -2px rgba(0, 0, 0, 0.03);
+  transition: all 0.2s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   user-select: none;
 }
@@ -82,13 +85,50 @@
   background-color: #F8FAFC;
   border-color: #CBD5E1;
   color: #0F172A;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
-  transform: translateY(-0.5px);
+  box-shadow: 
+    0 4px 12px -2px rgba(0, 0, 0, 0.08),
+    0 2px 6px -1px rgba(0, 0, 0, 0.04);
+  transform: translateY(-1px);
 }
 
 .btn-secondary:active {
   background-color: #F1F5F9;
-  transform: translateY(0.5px) scale(0.985);
+  transform: translateY(0.5px) scale(0.975);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+}
+
+/* Modern Pill Segmented Dock */
+.pill-dock {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem;
+  border-radius: 9999px;
+  background-color: #F1F5F9;
+  border: 1px solid #E2E8F0;
+  gap: 0.25rem;
+}
+
+.pill-dock-item {
+  padding: 0.35rem 0.9rem;
+  border-radius: 9999px;
+  font-size: 0.75rem;
+  font-weight: 500;
+  color: #475569;
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
+  cursor: pointer;
+  border: none;
+  background: transparent;
+}
+
+.pill-dock-item:hover {
+  color: #0F172A;
+}
+
+.pill-dock-item.active {
+  background-color: #FFFFFF;
+  color: #0F172A;
+  font-weight: 600;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.08), 0 1px 2px -1px rgba(0, 0, 0, 0.08);
 }
 
 /* Subtle background dot pattern */
