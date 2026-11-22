@@ -192,16 +192,16 @@ export default function WorkspacePage() {
                     <button
                       key={d}
                       onClick={() => setFilterDomain(d)}
-                      className={`px-3 py-1 rounded-md text-xs font-medium capitalize transition-colors flex items-center gap-1.5 whitespace-nowrap ${
+                      className={`px-3 py-1 rounded-md text-xs font-medium capitalize transition-all cursor-pointer flex items-center gap-1.5 whitespace-nowrap ${
                         filterDomain === d
-                          ? "bg-white text-blue-700 font-semibold shadow-xs"
-                          : "text-slate-600 hover:text-slate-900"
+                          ? "bg-white text-slate-900 font-semibold shadow-xs border border-slate-200"
+                          : "text-slate-600 hover:text-slate-900 border border-transparent"
                       }`}
                     >
                       <span>{d}</span>
                       <span
-                        className={`text-[10px] px-1.5 py-0.2 rounded-full ${
-                          filterDomain === d ? "bg-blue-100 text-blue-800" : "bg-slate-200 text-slate-600"
+                        className={`text-[10px] px-1.5 py-0.2 rounded-full font-mono ${
+                          filterDomain === d ? "bg-slate-900 text-white" : "bg-slate-200 text-slate-600"
                         }`}
                       >
                         {domainCounts[d]}

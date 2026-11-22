@@ -259,10 +259,10 @@ export default function HomePage() {
                   setSelectedScenarioIdx(idx);
                   setUserAllocation(scen.optimalQ);
                 }}
-                className={`px-4 py-2 rounded-lg text-sm font-medium transition-colors border ${
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all cursor-pointer border ${
                   selectedScenarioIdx === idx
-                    ? "bg-blue-600 text-white border-blue-600 shadow-xs"
-                    : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50"
+                    ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+                    : "bg-white text-slate-700 border-slate-200 hover:bg-slate-50 hover:border-slate-300"
                 }`}
               >
                 {scen.name}
@@ -665,14 +665,14 @@ export default function HomePage() {
             <div className="flex items-center gap-4 shrink-0">
               <Link
                 href="/workspace"
-                className="btn-primary text-sm py-2.5 px-6 bg-blue-600 hover:bg-blue-700 border-blue-500"
+                className="btn-primary text-sm py-2.5 px-6 bg-white hover:bg-slate-100 text-slate-900 border-white shadow-sm"
               >
                 <span>Launch Studio</span>
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
               <button
                 onClick={() => setDemystifierOpen(true)}
-                className="btn-secondary text-sm py-2.5 px-5 bg-slate-800 text-white border-slate-700 hover:bg-slate-700"
+                className="btn-secondary text-sm py-2.5 px-5 bg-slate-800 text-slate-100 border-slate-700 hover:bg-slate-700 hover:text-white"
               >
                 Schedule Briefing
               </button>

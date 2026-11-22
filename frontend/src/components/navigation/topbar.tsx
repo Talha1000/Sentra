@@ -120,9 +120,9 @@ export function Topbar() {
 
             <button
               onClick={() => setIsDemystifierOpen(true)}
-              className="hidden sm:inline-flex items-center gap-1.5 px-3 py-2 text-xs font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors border border-slate-200"
+              className="btn-secondary text-xs py-2 px-3 hidden sm:inline-flex"
             >
-              <BookOpen className="w-3.5 h-3.5 text-slate-500" />
+              <BookOpen className="w-3.5 h-3.5 text-slate-500 mr-1.5" />
               <span>Methodology Guide</span>
             </button>
 

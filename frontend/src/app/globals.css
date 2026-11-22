@@ -8,8 +8,7 @@
     --foreground: #0F172A;
     --card: #FFFFFF;
     --border: #E2E8F0;
-    --primary: #2563EB;
-    --primary-hover: #1D4ED8;
+    --primary: #0F172A;
   }
 
   body {
@@ -23,7 +22,7 @@
   }
 }
 
-/* Production-Grade Enterprise Button Styles */
+/* Elegant & Simple Button System */
 .btn-primary {
   display: inline-flex;
   align-items: center;
@@ -31,25 +30,33 @@
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.25rem;
+  letter-spacing: -0.01em;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
-  background-color: #2563EB;
+  background-color: #0F172A;
   color: #FFFFFF;
-  border: 1px solid #1D4ED8;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  transition: all 0.15s ease-in-out;
+  border: 1px solid #0F172A;
+  box-shadow: 
+    0 1px 2px 0 rgba(0, 0, 0, 0.08),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.16);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   user-select: none;
 }
 
 .btn-primary:hover {
-  background-color: #1D4ED8;
-  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.1);
+  background-color: #1E293B;
+  border-color: #1E293B;
+  box-shadow: 
+    0 2px 6px 0 rgba(0, 0, 0, 0.12),
+    inset 0 1px 0 0 rgba(255, 255, 255, 0.22);
+  transform: translateY(-0.5px);
 }
 
 .btn-primary:active {
-  background-color: #1E40AF;
-  transform: translateY(1px);
+  background-color: #090D16;
+  transform: translateY(0.5px) scale(0.985);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
 .btn-secondary {
@@ -59,26 +66,29 @@
   font-weight: 500;
   font-size: 0.875rem;
   line-height: 1.25rem;
+  letter-spacing: -0.01em;
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   background-color: #FFFFFF;
   color: #334155;
-  border: 1px solid #CBD5E1;
-  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  transition: all 0.15s ease-in-out;
+  border: 1px solid #E2E8F0;
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.04);
+  transition: all 0.18s cubic-bezier(0.16, 1, 0.3, 1);
   cursor: pointer;
   user-select: none;
 }
 
 .btn-secondary:hover {
   background-color: #F8FAFC;
-  border-color: #94A3B8;
+  border-color: #CBD5E1;
   color: #0F172A;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.06);
+  transform: translateY(-0.5px);
 }
 
 .btn-secondary:active {
   background-color: #F1F5F9;
-  transform: translateY(1px);
+  transform: translateY(0.5px) scale(0.985);
 }
 
 /* Subtle background dot pattern */
