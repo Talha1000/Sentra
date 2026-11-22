@@ -8,7 +8,7 @@ import { Search, ChevronDown, BookOpen } from "lucide-react";
 export interface ConceptItem {
   id: string;
   term: string;
-  category: "Core Concept" | "Cognitive Psychology" | "Mathematics" | "Governance";
+  category: "How It Works" | "Avoiding Mistakes" | "Business Math" | "Audit & Safety";
   simpleExplanation: string;
   analogy: string;
   whyItMatters: string;
@@ -17,56 +17,56 @@ export interface ConceptItem {
 
 export const SENTRA_CONCEPTS: ConceptItem[] = [
   {
-    id: "decision-intelligence",
-    term: "Decision Intelligence",
-    category: "Core Concept",
+    id: "smart-planning",
+    term: "Decision Planning (The Big Picture)",
+    category: "How It Works",
     simpleExplanation:
-      "The engineering discipline of testing and calibrating business allocations using closed-form mathematics and behavioral verification, rather than blindly trusting unvalidated generative AI outputs.",
+      "Testing your business plans and orders using simulations and real data before spending budget, rather than relying on guesswork or generic AI advice.",
     analogy:
-      "Modern avionics: the flight computer provides automated flight-level suggestions, but redundant systems and human pilots must cross-check calculations before committing descent.",
+      "Flight simulators for pilots: letting you test stormy weather and rough landings safely on a computer before flying a real plane with real passengers.",
     whyItMatters:
-      "Organizations lose millions when teams accept fluent AI recommendations that overlook asymmetric inventory or capacity holding penalties.",
+      "Prevents companies from spending hundreds of thousands of dollars on excess inventory or equipment that ends up sitting idle.",
     technicalDeepDive:
-      "Synthesizes stochastic calculus, uncertainty quantification, behavioral economics, and deterministic cryptographic auditability.",
+      "Compares expected revenue vs cost under 1,000+ realistic market demand outcomes to identify the safest, highest-profit choice.",
   },
   {
-    id: "cognitive-over-reliance",
-    term: "Cognitive Over-reliance",
-    category: "Cognitive Psychology",
+    id: "ai-over-reliance",
+    term: "Why AI Often Guesses Too High",
+    category: "Avoiding Mistakes",
     simpleExplanation:
-      "The documented cognitive bias where human decision-makers accept an algorithmic recommendation despite obvious errors, driven by articulate and fluent prose.",
+      "General AI tools are trained to be helpful and avoid saying 'sorry we ran out'. In business, this causes them to recommend ordering too much stock, forgetting that unsold goods eat your cash.",
     analogy:
-      "Following GPS into a clearly flooded street because the turn-by-turn voice sounded calm and authoritative.",
+      "A caterer who orders 3 times too much food for a party just in case. No one leaves hungry, but you get stuck paying a huge bill for leftovers you throw away.",
     whyItMatters:
-      "In high-consequence corporate decisions, passive compliance leads to massive stranded capital and inventory obsolescence.",
+      "Sentra catches this bias and dials back orders to what will actually make you money.",
     technicalDeepDive:
-      "Quantified as P(Human adopts recommendation | Recommendation is suboptimal). Measured through double-blind controlled randomized trials.",
+      "AI models prioritize stockout avoidance over holding costs. Sentra balances holding penalties against stockout penalties.",
   },
   {
-    id: "critical-fractile",
-    term: "Critical Fractile (Newsvendor Theorem)",
-    category: "Mathematics",
+    id: "sweet-spot",
+    term: "The Profit Sweet Spot",
+    category: "Business Math",
     simpleExplanation:
-      "The mathematically optimal order quantity when facing stochastic demand and unequal financial consequences for underage versus overage.",
+      "The exact order quantity where your expected profit is highest. It balances the risk of running out of stock against the risk of having unsold items left over.",
     analogy:
-      "An outdoor event vendor: running out of ponchos during a storm forfeits high revenue, but leftover stock incurs holding loss. The critical fractile calculates the precise balance point.",
+      "A baker making artisan pastries: baking too few loses eager morning customers; baking too many means throwing stale bread away at night. The sweet spot maximizes the day's cash take-home.",
     whyItMatters:
-      "Committing inventory at the critical fractile guarantees maximum expected net profit over any arbitrary heuristic.",
+      "Ordering at the sweet spot delivers the highest possible profit for your business.",
     technicalDeepDive:
-      "F*(Q) = Cu / (Cu + Co), where Cu is underage penalty (lost margin + stockout penalty) and Co is overage penalty (acquisition cost - salvage value).",
+      "Calculates the exact balance between stockout loss (lost profit) and overage loss (clearance discount).",
   },
   {
-    id: "cryptographic-provenance",
-    term: "Cryptographic Provenance",
-    category: "Governance",
+    id: "tamper-proof-audit",
+    term: "Tamper-Proof Sign-Offs",
+    category: "Audit & Safety",
     simpleExplanation:
-      "A mathematically tamper-evident certificate that proves who authorized a decision, what parameters were evaluated, and what model recommendations were presented.",
+      "A digital security seal that permanently logs who approved a decision, the numbers they saw, and the projected outcome.",
     analogy:
-      "A digitally sealed diplomatic pouch: any modification to the contents immediately invalidates the tamper seal.",
+      "A sealed and notarized contract: once signed and stamped, no one can change the numbers behind your back.",
     whyItMatters:
-      "Essential for regulatory oversight, SOC-2 compliance, and board-level fiduciary verification.",
+      "Gives your executives, board of directors, and auditors complete peace of mind that decisions follow company guidelines.",
     technicalDeepDive:
-      "Every trial state is hashed using HMAC SHA-256 with an institutional key, ensuring an immutable sequence chain.",
+      "Binds all decision numbers into a permanent digital seal for corporate governance and accounting compliance.",
   },
 ];
 
@@ -83,9 +83,9 @@ export function ConceptDemystifierModal({
 }: ConceptDemystifierModalProps) {
   const [search, setSearch] = useState("");
   const [selectedCat, setSelectedCat] = useState<string>("All");
-  const [expandedId, setExpandedId] = useState<string | null>(defaultConceptId || "decision-intelligence");
+  const [expandedId, setExpandedId] = useState<string | null>(defaultConceptId || "smart-planning");
 
-  const categories = ["All", "Core Concept", "Cognitive Psychology", "Mathematics", "Governance"];
+  const categories = ["All", "How It Works", "Avoiding Mistakes", "Business Math", "Audit & Safety"];
 
   const filtered = SENTRA_CONCEPTS.filter((item) => {
     const matchesCat = selectedCat === "All" || item.category === selectedCat;
@@ -101,8 +101,8 @@ export function ConceptDemystifierModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title="Decision Intelligence Methodology Guide"
-      description="Reference manual explaining decision mathematics, behavioral risks, and audit standards."
+      title="Plain-English Business Guide"
+      description="Simple explanations of how Sentra helps you make profitable decisions, avoid costly mistakes, and verify plans."
       className="max-w-2xl"
     >
       <div className="space-y-4">
@@ -111,7 +111,7 @@ export function ConceptDemystifierModal({
           <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
           <input
             type="text"
-            placeholder="Search methodology..."
+            placeholder="Search guide in plain English..."
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="w-full pl-9 pr-4 py-2 rounded-lg border border-slate-300 bg-white text-sm text-slate-900 placeholder:text-slate-400 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
@@ -194,7 +194,7 @@ export function ConceptDemystifierModal({
 
                     <div className="p-3 rounded-lg bg-slate-100 border border-slate-200 font-mono text-[11px] text-slate-600 space-y-1">
                       <span className="font-sans text-[10px] uppercase font-semibold text-slate-500 block">
-                        Mathematical Definition
+                        Behind The Scenes
                       </span>
                       <p className="leading-relaxed">{item.technicalDeepDive}</p>
                     </div>

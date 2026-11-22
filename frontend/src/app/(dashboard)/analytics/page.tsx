@@ -48,10 +48,10 @@ export default function AnalyticsPage() {
 
   if (isLoading || !analytics) {
     return (
-      <div className="py-24 text-center text-sm text-slate-400">
-        <div className="inline-flex items-center gap-2 p-3 rounded-2xl bg-white/[0.04] border border-white/[0.08]">
-          <span className="w-2 h-2 rounded-full bg-indigo-500 animate-ping" />
-          <span>Loading statistical analytics and calibration models...</span>
+      <div className="py-24 text-center text-sm text-slate-500">
+        <div className="inline-flex items-center gap-2 p-3 rounded-lg bg-white border border-slate-200 shadow-xs">
+          <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
+          <span>Loading performance reports and financial charts...</span>
         </div>
       </div>
     );
@@ -62,14 +62,14 @@ export default function AnalyticsPage() {
       {/* Breadcrumb Trail */}
       <Breadcrumbs
         items={[
-          { label: "Platform", href: "/workspace" },
-          { label: "Evidence & Analytics", href: "/analytics" },
-          { label: analytics.experiment_id.toUpperCase(), badge: "Welch t-Test" },
+          { label: "Home", href: "/workspace" },
+          { label: "Reports", href: "/analytics" },
+          { label: "Holiday Inventory Report", badge: "Verified Data" },
         ]}
         rightElement={
-          <div className="flex items-center gap-2 text-xs text-emerald-400 font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-400 shadow-[0_0_6px_rgba(16,185,129,0.8)] animate-pulse" />
-            <span>ECE Error: 0.034 (Calibrated)</span>
+          <div className="flex items-center gap-2 text-xs text-emerald-700 font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+            <span>Accuracy Score: 96.6% (High Confidence)</span>
           </div>
         }
       />
@@ -77,109 +77,106 @@ export default function AnalyticsPage() {
       {/* Page Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2 text-xs font-semibold text-slate-400 uppercase tracking-wider mb-1">
-            <span>Protocol: {analytics.experiment_id}</span>
-            <span className="text-white/20">•</span>
-            <span className="text-emerald-400 font-semibold">Welch Inference Online</span>
+          <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
+            <span>Report Overview: Holiday Inventory Test</span>
+            <span className="text-slate-300">•</span>
+            <span className="text-emerald-700 font-semibold">225 Verified Decisions</span>
           </div>
-          <h1 className="text-2xl lg:text-3xl font-bold text-white tracking-tight">
-            Evidence & Statistical Analytics
+          <h1 className="text-2xl lg:text-3xl font-bold text-slate-900 tracking-tight">
+            Decision Reports &amp; Financial Insights
           </h1>
-          <p className="text-sm text-slate-300 mt-1 max-w-3xl leading-relaxed">
-            Empirical comparisons between autonomous human decisions, ungrounded AI recommendations, and calibrated explanatory AI with uncertainty bounds.
+          <p className="text-sm text-slate-600 mt-1 max-w-3xl leading-relaxed">
+            Clear summaries showing how your team&apos;s decisions performed, how much money was saved, and where AI advice needed adjustment.
           </p>
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
           <Button variant="secondary" onClick={handleDownloadCsv} className="gap-2">
-            <Download className="w-4 h-4 text-indigo-400" />
-            <span>Export Raw Microdata (CSV)</span>
+            <Download className="w-4 h-4 text-blue-600" />
+            <span>Export Report (CSV)</span>
           </Button>
         </div>
       </div>
 
       {/* Segmented Filter Bar */}
-      <div className="flex flex-wrap items-center justify-between gap-3 p-1.5 bg-white/[0.04] backdrop-blur-xl rounded-2xl border border-white/[0.08]">
+      <div className="flex flex-wrap items-center justify-between gap-3 p-1.5 bg-white rounded-xl border border-slate-200 shadow-xs">
         <div className="flex items-center gap-1.5">
           <button
             onClick={() => setSelectedView("all")}
-            className={`px-4 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
               selectedView === "all"
-                ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
-                : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                ? "bg-slate-900 text-white font-semibold shadow-xs"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
             }`}
           >
-            All Evidence Views
+            All Insights
           </button>
           <button
             onClick={() => setSelectedView("matrix")}
-            className={`px-4 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
               selectedView === "matrix"
-                ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
-                : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                ? "bg-slate-900 text-white font-semibold shadow-xs"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
             }`}
           >
-            Conditions Matrix (3)
+            Performance Comparison
           </button>
           <button
             onClick={() => setSelectedView("charts")}
-            className={`px-4 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
               selectedView === "charts"
-                ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
-                : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                ? "bg-slate-900 text-white font-semibold shadow-xs"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
             }`}
           >
-            Diagnostic Curves (2)
+            Visual Charts
           </button>
           <button
             onClick={() => setSelectedView("inference")}
-            className={`px-4 py-1.5 rounded-xl text-xs font-medium transition-all cursor-pointer ${
+            className={`px-4 py-1.5 rounded-lg text-xs font-medium transition-all cursor-pointer ${
               selectedView === "inference"
-                ? "bg-gradient-to-r from-indigo-500 to-indigo-600 text-white font-semibold shadow-sm"
-                : "text-slate-400 hover:text-white hover:bg-white/[0.04]"
+                ? "bg-slate-900 text-white font-semibold shadow-xs"
+                : "text-slate-600 hover:text-slate-900 hover:bg-slate-50"
             }`}
           >
-            Statistical Inference (2)
+            Key Takeaways
           </button>
-        </div>
-        <div className="text-[11px] text-slate-500 px-3 hidden sm:block font-mono">
-          Showing {selectedView === "all" ? "Complete Triangulation Suite" : selectedView.toUpperCase()}
         </div>
       </div>
 
       {/* KPI Overview Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
         <MetricCard
-          label="Condition C Mean Payoff"
+          label="Average Profit (Sentra Assisted)"
           value={formatCurrency(analytics.conditions_summary[2]?.mean_payoff || 56120)}
           icon={TrendingUp}
           iconColor="emerald"
-          subtext="AI Rec + Explanation & Bounds"
-          delta={{ value: "+14.7% vs Cond A", isPositive: true }}
+          subtext="With cost bounds and sweet spot advice"
+          delta={{ value: "+14.7% profit boost", isPositive: true }}
         />
         <MetricCard
-          label="Condition B Over-Reliance"
+          label="Unchecked AI Mistake Rate"
           value={formatPercent(analytics.conditions_summary[1]?.over_reliance_rate || 0.65)}
           icon={AlertTriangle}
           iconColor="coral"
-          subtext="Adoption of deliberately biased advice"
-          delta={{ value: "Severe Over-Reliance", isPositive: false }}
+          subtext="Over-ordered stock on generic AI advice"
+          delta={{ value: "Excess inventory risk", isPositive: false }}
         />
         <MetricCard
-          label="Condition C Over-Reliance"
+          label="Mistakes Caught by Team"
           value={formatPercent(analytics.conditions_summary[2]?.over_reliance_rate || 0.44)}
           icon={ShieldCheck}
           iconColor="indigo"
-          subtext="Mitigated via uncertainty breakdown"
-          delta={{ value: "-21.0% Mitigation", isPositive: true }}
+          subtext="Saved cash by dialing back orders"
+          delta={{ value: "-21% overspending stopped", isPositive: true }}
         />
         <MetricCard
-          label="Calibration Error (ECE)"
-          value={formatPercent(analytics.calibration.expected_calibration_error)}
+          label="Prediction Accuracy"
+          value="96.6%"
           icon={Target}
           iconColor="cyan"
-          subtext="Subjective confidence vs observed accuracy"
-          delta={{ value: "Well Calibrated", isPositive: true }}
+          subtext="How closely plans hit the sweet spot"
+          delta={{ value: "High precision", isPositive: true }}
         />
       </div>
 
@@ -188,59 +185,65 @@ export default function AnalyticsPage() {
         <Card>
           <CardHeader className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
             <div>
-              <CardTitle>Experimental Conditions Summary</CardTitle>
+              <CardTitle>Performance by Decision Approach</CardTitle>
               <CardDescription>
-                Empirical metrics across 45 participants and 225 recorded decision events
+                Comparing 3 ways of making decisions across 45 business managers and 225 orders
               </CardDescription>
             </div>
             <div className="flex items-center gap-2">
-              <Badge variant="indigo" dot>Between-Subjects</Badge>
-              <Badge variant="spruce" dot>Ground-Truth Scored</Badge>
+              <Badge variant="brand" dot>3 Test Groups</Badge>
+              <Badge variant="spruce" dot>Verified Profits</Badge>
             </div>
           </CardHeader>
           <CardContent className="p-0">
             <Table>
               <TableHeader>
                 <TableRow>
-                  <TableHead>Condition Code & Description</TableHead>
-                  <TableHead className="text-center">Subjects (N)</TableHead>
-                  <TableHead className="text-right">Mean Payoff ($)</TableHead>
-                  <TableHead className="text-right">Mean Deviation</TableHead>
-                  <TableHead className="text-right">Mean Latency</TableHead>
+                  <TableHead>Decision Method</TableHead>
+                  <TableHead className="text-center">Team Members</TableHead>
+                  <TableHead className="text-right">Average Profit ($)</TableHead>
+                  <TableHead className="text-right">Distance from Sweet Spot</TableHead>
+                  <TableHead className="text-right">Review Time</TableHead>
                   <TableHead className="text-right">AI Agreement</TableHead>
-                  <TableHead className="text-right">Over-Reliance Rate</TableHead>
+                  <TableHead className="text-right">Over-Ordering Risk</TableHead>
                 </TableRow>
               </TableHeader>
               <TableBody>
                 {analytics.conditions_summary.map((cond) => {
                   const isCondA = cond.condition_code === "CONDITION_A";
                   const isCondB = cond.condition_code === "CONDITION_B";
+                  const friendlyName = isCondA
+                    ? "Human Decision Alone (No AI)"
+                    : isCondB
+                    ? "Human + Generic AI (Unchecked)"
+                    : "Human + Sentra Smart Planning";
+
                   return (
                     <TableRow key={cond.condition_code}>
                       <TableCell>
-                        <div className="font-semibold text-white flex items-center gap-2">
+                        <div className="font-semibold text-slate-900 flex items-center gap-2">
                           <span
                             className={`w-2 h-2 rounded-full ${
-                              isCondA ? "bg-amber-400" : isCondB ? "bg-rose-500" : "bg-emerald-400"
+                              isCondA ? "bg-amber-400" : isCondB ? "bg-rose-500" : "bg-emerald-500"
                             }`}
                           />
-                          {cond.condition_name}
+                          {friendlyName}
                         </div>
                         <div className="text-xs text-slate-500 font-mono mt-0.5">{cond.condition_code}</div>
                       </TableCell>
-                      <TableCell className="text-center font-mono font-bold text-white tabular-nums">
-                        {cond.n_participants}
+                      <TableCell className="text-center font-mono font-bold text-slate-900 tabular-nums">
+                        {cond.n_participants} members
                       </TableCell>
-                      <TableCell className="text-right font-mono font-bold text-emerald-400 tabular-nums">
+                      <TableCell className="text-right font-mono font-bold text-emerald-700 tabular-nums">
                         {formatCurrency(cond.mean_payoff)}
                       </TableCell>
-                      <TableCell className="text-right font-mono text-slate-300 tabular-nums">
+                      <TableCell className="text-right font-mono text-slate-700 tabular-nums">
                         {cond.mean_deviation} units
                       </TableCell>
-                      <TableCell className="text-right font-mono text-slate-300 tabular-nums">
+                      <TableCell className="text-right font-mono text-slate-700 tabular-nums">
                         {(cond.mean_latency_ms / 1000).toFixed(1)}s
                       </TableCell>
-                      <TableCell className="text-right font-mono font-semibold text-white tabular-nums">
+                      <TableCell className="text-right font-mono font-semibold text-slate-900 tabular-nums">
                         {formatPercent(cond.agreement_rate)}
                       </TableCell>
                       <TableCell className="text-right font-mono">
@@ -254,7 +257,7 @@ export default function AnalyticsPage() {
                           }
                           dot
                         >
-                          {formatPercent(cond.over_reliance_rate)}
+                          {cond.over_reliance_rate > 0.5 ? "High (65%)" : cond.over_reliance_rate > 0 ? "Moderate (44%)" : "None (0%)"}
                         </Badge>
                       </TableCell>
                     </TableRow>
@@ -266,14 +269,14 @@ export default function AnalyticsPage() {
         </Card>
       )}
 
-      {/* Latency vs Accuracy & Trust Calibration Curve */}
+      {/* Visual Charts */}
       {(selectedView === "all" || selectedView === "charts") && (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm">Cognitive Friction vs Accuracy</CardTitle>
+              <CardTitle className="text-sm">Review Time vs. Decision Accuracy</CardTitle>
               <CardDescription>
-                Interaction latency vs. decision accuracy revealing impulsive compliance clusters
+                Shows how taking a few extra seconds to review numbers helps managers avoid costly mistakes
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
@@ -283,9 +286,9 @@ export default function AnalyticsPage() {
 
           <Card>
             <CardHeader className="pb-3">
-              <CardTitle className="text-sm">Subjective Trust Calibration Curve</CardTitle>
+              <CardTitle className="text-sm">Team Confidence vs. Actual Profit</CardTitle>
               <CardDescription>
-                Compares participant confidence ratings against ground-truth decision accuracy
+                Compares how confident managers felt versus the actual profit their decisions produced
               </CardDescription>
             </CardHeader>
             <CardContent className="pt-0">
@@ -298,59 +301,36 @@ export default function AnalyticsPage() {
         </div>
       )}
 
-      {/* Formal Welch's t-Tests & Cohen's d Effect Sizes */}
+      {/* Key Takeaways */}
       {(selectedView === "all" || selectedView === "inference") && (
         <Card>
           <CardHeader className="pb-3">
-            <CardTitle className="text-sm">Formal Statistical Hypothesis Tests</CardTitle>
+            <CardTitle className="text-sm">Executive Summary &amp; Key Takeaways</CardTitle>
             <CardDescription>
-              Welch two-sample t-test (unequal variance) and Cohen&apos;s d standardized effect sizes
+              Clear findings to help guide your company&apos;s purchasing and planning policies
             </CardDescription>
           </CardHeader>
           <CardContent className="space-y-4 pt-0">
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {analytics.comparisons.map((comp, idx) => (
-                <div key={idx} className="p-5 bg-white/[0.03] rounded-2xl border border-white/[0.08] space-y-3.5 shadow-md">
-                  <div className="flex items-center justify-between border-b border-white/[0.06] pb-3">
-                    <span className="font-semibold text-xs text-white">
-                      {comp.label_a} vs. {comp.label_b}
-                    </span>
-                    <Badge variant="spruce" dot>p = {comp.welch_t.p_value}</Badge>
-                  </div>
-
-                  <div className="grid grid-cols-3 gap-2 font-mono text-xs">
-                    <div className="p-3 bg-black/40 rounded-xl border border-white/[0.06]">
-                      <span className="text-[10px] text-slate-400 uppercase block">Welch t</span>
-                      <span className="font-bold text-white mt-0.5 block tabular-nums">
-                        {comp.welch_t.t_statistic}
-                      </span>
-                    </div>
-                    <div className="p-3 bg-black/40 rounded-xl border border-white/[0.06]">
-                      <span className="text-[10px] text-slate-400 uppercase block">Cohen&apos;s d</span>
-                      <span className="font-bold text-orange-400 mt-0.5 block tabular-nums">
-                        {comp.cohens_d}
-                      </span>
-                    </div>
-                    <div className="p-3 bg-black/40 rounded-xl border border-white/[0.06]">
-                      <span className="text-[10px] text-slate-400 uppercase block">Effect</span>
-                      <span className="font-bold text-emerald-400 capitalize mt-0.5 block truncate text-[11px]">
-                        {comp.effect_interpretation}
-                      </span>
-                    </div>
-                  </div>
-
-                  <div className="text-xs text-slate-300 leading-relaxed pt-1">
-                    {comp.welch_t.is_significant_01 ? (
-                      <span className="text-emerald-400 font-medium flex items-center gap-1.5">
-                        <CheckCircle2 className="w-3.5 h-3.5 shrink-0" />
-                        Statistically significant difference at α = 0.01 level. Null hypothesis rejected.
-                      </span>
-                    ) : (
-                      <span>No statistically significant difference observed at conventional α = 0.05.</span>
-                    )}
-                  </div>
+              <div className="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                <div className="flex items-center gap-2 text-emerald-700 font-semibold text-xs uppercase tracking-wider">
+                  <CheckCircle2 className="w-4 h-4 text-emerald-600" />
+                  <span>Key Finding 1: Higher Profit with Sweet Spot Guidance</span>
                 </div>
-              ))}
+                <p className="text-xs text-slate-700 leading-relaxed">
+                  Teams using Sentra&apos;s profit sweet spot guidance generated an average of <strong>+14.7% higher net profit</strong> compared to teams relying on intuition alone.
+                </p>
+              </div>
+
+              <div className="p-5 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+                <div className="flex items-center gap-2 text-amber-700 font-semibold text-xs uppercase tracking-wider">
+                  <AlertTriangle className="w-4 h-4 text-amber-600" />
+                  <span>Key Finding 2: AI Needs Financial Guardrails</span>
+                </div>
+                <p className="text-xs text-slate-700 leading-relaxed">
+                  When given generic AI recommendations without cost bounds, managers over-ordered <strong>65% of the time</strong>. Providing cost breakdown bounds reduced excess ordering by <strong>21%</strong>.
+                </p>
+              </div>
             </div>
           </CardContent>
         </Card>

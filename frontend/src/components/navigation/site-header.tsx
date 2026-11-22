@@ -10,11 +10,11 @@ interface SiteHeaderProps {
 }
 
 const NAV_LINKS = [
-  { name: "Workspace", href: "/workspace" },
-  { name: "Decision Studio", href: "/decisions" },
-  { name: "Behavioral Lab", href: "/experiments" },
-  { name: "Analytics", href: "/analytics" },
-  { name: "Governance", href: "/governance" },
+  { name: "Overview", href: "/workspace" },
+  { name: "Plan Decisions", href: "/decisions" },
+  { name: "Simulations", href: "/experiments" },
+  { name: "Reports", href: "/analytics" },
+  { name: "Approvals", href: "/governance" },
 ];
 
 export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHeaderProps) {
@@ -34,7 +34,7 @@ export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHead
                   Sentra
                 </span>
                 <span className="hidden sm:inline-block text-xs font-medium text-slate-500">
-                  Decision Intelligence
+                  Smart Decision Planning
                 </span>
               </div>
             </Link>
@@ -71,14 +71,14 @@ export function SiteHeader({ onOpenDemystifier, onOpenCommandPalette }: SiteHead
               className="btn-secondary text-xs py-2 px-3.5 hidden sm:inline-flex"
             >
               <BookOpen className="w-3.5 h-3.5 mr-1.5 text-slate-500" />
-              <span>Methodology Guide</span>
+              <span>Plain English Guide</span>
             </button>
 
             <Link
               href="/workspace"
               className="btn-primary text-xs py-2 px-4"
             >
-              <span>Launch Studio</span>
+              <span>Start Planning</span>
               <ArrowRight className="w-3.5 h-3.5 ml-1.5" />
             </Link>
           </div>

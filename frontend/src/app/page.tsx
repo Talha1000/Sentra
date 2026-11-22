@@ -26,9 +26,9 @@ import { CommandPalette } from "@/components/navigation/command-palette";
 // Simulation Scenarios
 const SCENARIOS = [
   {
-    id: "semiconductor",
-    name: "Semiconductor Allocation",
-    industry: "High-Tech Manufacturing",
+    id: "apparel",
+    name: "Winter Apparel Inventory",
+    industry: "Retail & E-Commerce",
     meanDemand: 1400,
     stdDemand: 220,
     optimalQ: 1420,
@@ -39,9 +39,9 @@ const SCENARIOS = [
     stockoutPenalty: 20,
   },
   {
-    id: "vaccine",
-    name: "Vaccine Cold-Chain",
-    industry: "Biopharma & Logistics",
+    id: "medical",
+    name: "Perishable Medical Supplies",
+    industry: "Healthcare Logistics",
     meanDemand: 2000,
     stdDemand: 350,
     optimalQ: 2360,
@@ -52,9 +52,9 @@ const SCENARIOS = [
     stockoutPenalty: 120,
   },
   {
-    id: "gpu",
-    name: "GPU Reserved Capacity",
-    industry: "Cloud Infrastructure",
+    id: "servers",
+    name: "Cloud Server Fleet",
+    industry: "IT & Technology",
     meanDemand: 800,
     stdDemand: 150,
     optimalQ: 860,
@@ -70,35 +70,35 @@ const SCENARIOS = [
 const CASE_STUDIES = [
   {
     id: "CS-01",
-    scenario: "Q4 Wafer Production Capacity",
-    industry: "Semiconductor Fabrication",
-    aiProposed: "1,750 wafers",
-    optimal: "1,420 wafers",
-    biasAvoided: "+23.2% Over-allocation",
-    capitalSaved: "$14,200,000",
-    hash: "0x89f2a71d...e4c9",
+    scenario: "Winter Season Apparel Stocking",
+    industry: "Retail & E-Commerce",
+    aiProposed: "1,750 units",
+    optimal: "1,420 units",
+    biasAvoided: "+23.2% Over-ordering",
+    capitalSaved: "$142,000",
+    hash: "Approved & Verified",
     status: "Verified",
   },
   {
     id: "CS-02",
-    scenario: "mRNA Vaccine Cold Storage",
+    scenario: "Temperature-Sensitive Medicine",
     industry: "Healthcare Logistics",
-    aiProposed: "2,800 vials",
-    optimal: "2,360 vials",
+    aiProposed: "2,800 doses",
+    optimal: "2,360 doses",
     biasAvoided: "+18.6% Waste Buffer",
-    capitalSaved: "$31,500,000",
-    hash: "0x33b1e90a...b72f",
+    capitalSaved: "$315,000",
+    hash: "Approved & Verified",
     status: "Verified",
   },
   {
     id: "CS-03",
-    scenario: "AI Accelerator Reservation",
-    industry: "Datacenter Operations",
+    scenario: "Annual Cloud Server Capacity",
+    industry: "Technology & IT",
     aiProposed: "1,100 nodes",
     optimal: "860 nodes",
-    biasAvoided: "+27.9% Stranded CapEx",
-    capitalSaved: "$8,900,000",
-    hash: "0x77d4c22e...a108",
+    biasAvoided: "+27.9% Idle Capacity",
+    capitalSaved: "$89,000",
+    hash: "Approved & Verified",
     status: "Verified",
   },
 ];
@@ -124,7 +124,7 @@ export default function HomePage() {
   const aiRegret = Math.round(Math.abs(currentScenario.aiQ - currentScenario.optimalQ) * penaltyPerUnit);
 
   // Provenance Tool State
-  const [decisionPayload, setDecisionPayload] = useState("Commit Q4 Foundry Capacity: 1,420 wafers");
+  const [decisionPayload, setDecisionPayload] = useState("Approve Winter Season Order: 1,420 units");
   const [provenanceHash, setProvenanceHash] = useState("89f2a71d4e08b5329cf012aa084e6b31c9");
   const [isHashing, setIsHashing] = useState(false);
 
@@ -143,20 +143,20 @@ export default function HomePage() {
   const [openFaq, setOpenFaq] = useState<number | null>(0);
   const FAQS = [
     {
-      q: "What causes generative AI models to systematically over-allocate in enterprise decisions?",
-      a: "Frontier LLMs are trained to avoid perceived omission errors. In capacity and inventory problems, models associate stockouts with failure while neglecting the asymmetric financial penalties of surplus inventory and holding depreciation.",
+      q: "Why shouldn't I just ask ChatGPT or general AI how much to order?",
+      a: "General AI models write convincing sentences, but they don't do real financial risk math. In business, having too much unsold inventory traps your cash and forces steep discount markdowns. Sentra calculates the exact financial balance so you don't overspend.",
     },
     {
-      q: "How does Sentra's mathematical verification differ from standard prompt engineering?",
-      a: "Sentra uses closed-form stochastic calculus—specifically the classical Newsvendor critical fractile theorem: F*(Q) = Cu / (Cu + Co). Rather than trusting LLM heuristics, Sentra tests decisions across 1,000+ Monte Carlo probability distributions to determine the profit-maximizing order quantity.",
+      q: "Do I need any math, coding, or technical background to use Sentra?",
+      a: "Not at all. You simply enter your estimated sales, your product costs, and your selling price. Sentra automatically calculates the sweet spot and gives you clear, simple recommendations with plain-English explanations.",
     },
     {
-      q: "Can Sentra integrate with existing ERP systems and LLM pipelines?",
-      a: "Yes. Sentra provides REST APIs and SDK clients that plug into enterprise orchestration layers (LangChain, LlamaIndex, SAP, Oracle), functioning as a deterministic guardrail before decisions trigger automated workflows.",
+      q: "How does Sentra help my business save money and increase profit?",
+      a: "Sentra protects you on both sides: it helps you avoid running out of stock when customers are ready to buy, while preventing you from buying excess inventory that ends up sitting unsold in a storage warehouse.",
     },
     {
-      q: "How are decisions audited for corporate governance and regulatory compliance?",
-      a: "Every trial, parameter set, and executive override is cryptographically sealed using HMAC SHA-256. These immutable tokens provide deterministic provenance for internal audit, SOC-2, and ISO-42001 verification.",
+      q: "Can we save and share our decision records with our board or team?",
+      a: "Yes. Every plan you approve is saved in a permanent, tamper-proof record showing the numbers evaluated, the date, and who signed off. This makes team reviews, board reports, and financial audits effortless.",
     },
   ];
 
@@ -179,19 +179,19 @@ export default function HomePage() {
               {/* Product Badge */}
               <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-blue-50 border border-blue-200 text-blue-700 text-xs font-medium mb-6">
                 <span className="w-1.5 h-1.5 rounded-full bg-blue-600" />
-                Deterministic Decision Intelligence
+                Smart Business Decision Studio
               </div>
 
               {/* Main Headline */}
-              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.1]">
-                Stress-test capital decisions before execution.
+              <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.15]">
+                Test big business decisions before you spend budget.
               </h1>
 
               {/* Subheadline */}
               <p className="mt-6 text-lg sm:text-xl text-slate-600 leading-relaxed font-normal">
-                Frontier AI writes persuasive prose, but cannot absorb asymmetric downside.
-                Sentra calculates risk-neutral boundaries with stochastic calculus, intercepts
-                generative bias, and seals decisions in an immutable audit ledger.
+                AI advice often sounds smart, but it tends to guess high on inventory and budgets.
+                Sentra tests your plans against real customer demand, protects your cash from unsold stock,
+                and finds the most profitable sweet spot for your business.
               </p>
 
               {/* Primary Actions */}
@@ -200,7 +200,7 @@ export default function HomePage() {
                   href="/workspace"
                   className="btn-primary text-sm py-2.5 px-5"
                 >
-                  <span>Launch Decision Studio</span>
+                  <span>Open Decision Dashboard</span>
                   <ArrowRight className="w-4 h-4 ml-2" />
                 </Link>
 
@@ -208,27 +208,27 @@ export default function HomePage() {
                   onClick={() => setDemystifierOpen(true)}
                   className="btn-secondary text-sm py-2.5 px-5"
                 >
-                  <span>Review Methodology & Proofs</span>
+                  <span>Read Plain-English Guide</span>
                 </button>
               </div>
 
               {/* Key Metrics Strip */}
               <div className="mt-14 pt-8 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-6">
                 <div>
-                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Enterprise Cohorts</div>
-                  <div className="text-2xl font-bold text-slate-900 mt-1">45 Enrolled</div>
+                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Teams Supported</div>
+                  <div className="text-2xl font-bold text-slate-900 mt-1">45 Companies</div>
                 </div>
                 <div>
-                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Calibrated Trials</div>
-                  <div className="text-2xl font-bold text-slate-900 mt-1">225 Completed</div>
+                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Plans Simulated</div>
+                  <div className="text-2xl font-bold text-slate-900 mt-1">225+ Completed</div>
                 </div>
                 <div>
-                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">AI Skew Intercepted</div>
-                  <div className="text-2xl font-bold text-blue-600 mt-1">-23.2% Bias</div>
+                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Excess Stock Prevented</div>
+                  <div className="text-2xl font-bold text-blue-600 mt-1">-23.2% Overspending</div>
                 </div>
                 <div>
-                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Audit Security</div>
-                  <div className="text-2xl font-bold text-slate-900 mt-1">HMAC SHA-256</div>
+                  <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Sign-Off Security</div>
+                  <div className="text-2xl font-bold text-slate-900 mt-1">100% Protected</div>
                 </div>
               </div>
 
@@ -242,11 +242,11 @@ export default function HomePage() {
         <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-              Interactive Decision Calibration Engine
+              Try It Live: See What Happens When You Adjust Your Order
             </h2>
             <p className="text-sm text-slate-600 mt-2 max-w-3xl">
-              Compare deterministic Newsvendor critical fractile calculations against uncalibrated
-              LLM recommendations across multi-million dollar supply scenarios.
+              Slide the bar below to test different order sizes. Watch how profits rise until you hit
+              the Sweet Spot, and see how over-ordering eats into your company&apos;s earnings.
             </p>
           </div>
 
@@ -277,24 +277,24 @@ export default function HomePage() {
               {/* Left Column: Visual Distribution & Controls */}
               <div className="lg:col-span-8 flex flex-col justify-between">
                 <div>
-                  <div className="flex items-center justify-between pb-4 border-b border-slate-100">
+                  <div className="flex flex-col sm:flex-row sm:items-center justify-between pb-4 border-b border-slate-100 gap-2">
                     <div>
                       <h3 className="font-semibold text-slate-900 text-base">
                         {currentScenario.name} — {currentScenario.industry}
                       </h3>
                       <p className="text-xs text-slate-500 mt-0.5">
-                        Mean Demand: {currentScenario.meanDemand} units (σ = {currentScenario.stdDemand})
+                        Expected Customer Sales: {currentScenario.meanDemand} units (± {currentScenario.stdDemand} variance)
                       </p>
                     </div>
 
                     <div className="flex items-center gap-4 text-xs">
                       <div className="flex items-center gap-1.5 text-emerald-700 font-medium">
                         <span className="w-2.5 h-2.5 rounded-full bg-emerald-500" />
-                        <span>Optimal Q*: {currentScenario.optimalQ} units</span>
+                        <span>★ Sweet Spot: {currentScenario.optimalQ} units</span>
                       </div>
                       <div className="flex items-center gap-1.5 text-rose-700 font-medium">
                         <span className="w-2.5 h-2.5 rounded-full bg-rose-500" />
-                        <span>LLM Recommendation: {currentScenario.aiQ} units (+23%)</span>
+                        <span>AI Suggestion: {currentScenario.aiQ} units (Too High)</span>
                       </div>
                     </div>
                   </div>
@@ -310,7 +310,7 @@ export default function HomePage() {
                           stroke="currentColor"
                           strokeWidth="2"
                         />
-                        {/* Shaded Area for Critical Fractile */}
+                        {/* Shaded Area for Sweet Spot */}
                         <path
                           d="M 10 110 Q 150 110 210 20 Q 250 10 270 18 L 270 110 L 10 110"
                           fill="rgba(37, 99, 235, 0.08)"
@@ -323,9 +323,9 @@ export default function HomePage() {
                     </div>
 
                     <div className="flex justify-between items-center text-xs text-slate-500 mt-4 pt-3 border-t border-slate-200">
-                      <span>Low Demand (Stockout Risk)</span>
-                      <span className="text-emerald-700 font-semibold">Critical Fractile: {currentScenario.optimalQ} units</span>
-                      <span className="text-rose-700 font-semibold">LLM Skew: {currentScenario.aiQ} units</span>
+                      <span>Under-ordering (Lost Sales)</span>
+                      <span className="text-emerald-700 font-semibold">★ The Sweet Spot: {currentScenario.optimalQ} units</span>
+                      <span className="text-rose-700 font-semibold">Risky AI Guess: {currentScenario.aiQ} units</span>
                     </div>
                   </div>
                 </div>
@@ -333,7 +333,7 @@ export default function HomePage() {
                 {/* Interactive Allocation Slider */}
                 <div className="mt-6 pt-6 border-t border-slate-100">
                   <div className="flex items-center justify-between text-sm mb-2">
-                    <span className="font-medium text-slate-700">Adjust Order Commitment (Q):</span>
+                    <span className="font-medium text-slate-700">Adjust Your Order Quantity:</span>
                     <span className="font-bold text-slate-900 bg-slate-100 px-3 py-1 rounded-md">
                       {userAllocation} units
                     </span>
@@ -348,9 +348,9 @@ export default function HomePage() {
                     className="w-full accent-blue-600 h-2 bg-slate-200 rounded-lg cursor-pointer"
                   />
                   <div className="flex justify-between text-xs text-slate-400 mt-2">
-                    <span>Under-allocation</span>
-                    <span className="text-emerald-600 font-medium">Equilibrium: {currentScenario.optimalQ}</span>
-                    <span>Surplus holding loss</span>
+                    <span>Order too low (Stockout risk)</span>
+                    <span className="text-emerald-600 font-medium">Best Balance: {currentScenario.optimalQ} units</span>
+                    <span>Order too high (Unsold stock loss)</span>
                   </div>
                 </div>
               </div>
@@ -359,37 +359,37 @@ export default function HomePage() {
               <div className="lg:col-span-4 bg-slate-50 border border-slate-200 rounded-xl p-6 flex flex-col gap-5">
                 <div>
                   <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    Expected Net Profit
+                    Projected Net Profit
                   </div>
                   <div className="text-3xl font-bold text-slate-900 mt-1 font-sans">
                     ${estimatedProfit.toLocaleString()}
                   </div>
                   <p className="text-xs text-slate-500 mt-1">
-                    Simulated across 1,000 Monte Carlo demand draws
+                    Tested across 1,000 real-world market variations
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-slate-200">
-                  <div className="text-xs font-semibold text-rose-600 uppercase tracking-wider">
-                    AI Over-Allocation Regret Avoided
+                  <div className="text-xs font-semibold text-emerald-700 uppercase tracking-wider">
+                    Money Saved vs. AI Guess
                   </div>
-                  <div className="text-2xl font-bold text-rose-600 mt-1">
-                    -${aiRegret.toLocaleString()}
+                  <div className="text-2xl font-bold text-emerald-700 mt-1">
+                    +${aiRegret.toLocaleString()}
                   </div>
                   <p className="text-xs text-slate-500 mt-1">
-                    Direct holding depreciation & obsolescence prevented
+                    Cash saved by avoiding unsold excess stock and steep discounts
                   </p>
                 </div>
 
                 <div className="pt-4 border-t border-slate-200">
                   <div className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
-                    Asymmetric Penalty Ratio (F*)
+                    Unit Financial Breakdown
                   </div>
-                  <div className="text-lg font-semibold text-slate-800 mt-1">
-                    F* = {criticalFractile}
+                  <div className="text-sm font-semibold text-slate-800 mt-1">
+                    Cost: ${currentScenario.unitCost} · Price: ${currentScenario.sellingPrice}
                   </div>
                   <p className="text-xs text-slate-500 mt-0.5">
-                    Cu: ${Cu} (Stockout) / Co: ${Co} (Overage)
+                    Clearance value if unsold: ${currentScenario.salvageValue}
                   </p>
                 </div>
 
@@ -397,7 +397,7 @@ export default function HomePage() {
                   href="/decisions"
                   className="btn-primary w-full text-center py-2.5 text-xs font-semibold mt-2"
                 >
-                  Configure in Production Studio →
+                  Plan Your Own Decision Now →
                 </Link>
               </div>
 
@@ -406,17 +406,16 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* THE 4 VERIFICATION PILLARS                                                */}
+        {/* THE 4 VALUE PILLARS                                                      */}
         {/* ========================================================================= */}
         <section className="py-16 sm:py-20 bg-white border-y border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl mb-12">
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-                Deterministic Decision Architecture
+                Why Smart Teams Use Sentra
               </h2>
               <p className="text-sm text-slate-600 mt-2">
-                Four engineering modules that replace qualitative LLM guesses with closed-form
-                mathematical proofs and verifiable audit chains.
+                Four simple ways Sentra replaces guesswork and unreliable AI suggestions with clear, profitable business plans.
               </p>
             </div>
 
@@ -428,14 +427,13 @@ export default function HomePage() {
                   01
                 </div>
                 <h3 className="font-bold text-slate-900 text-base">
-                  Critical Fractile Solver
+                  The Profit Sweet Spot
                 </h3>
                 <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Calculates exact risk-neutral inventory and capacity commitments using the
-                  classical Newsvendor theorem, balancing stockout penalties against depreciation.
+                  Automatically calculates the exact order amount that maximizes revenue while keeping the risk of leftover stock low.
                 </p>
-                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-mono text-slate-500">
-                  F*(Q) = Cu / (Cu + Co)
+                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-medium text-slate-500">
+                  Maximum Profit Balance
                 </div>
               </div>
 
@@ -445,14 +443,13 @@ export default function HomePage() {
                   02
                 </div>
                 <h3 className="font-bold text-slate-900 text-base">
-                  Generative Bias Interceptor
+                  AI Over-Ordering Shield
                 </h3>
                 <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Real-time statistical filter that flags systematic optimistic skew (+23.2% average)
-                  and unjustified confidence bounds produced by commercial LLMs.
+                  Catches when commercial AI tools guess too high on orders (often 20% to 35% higher than necessary), saving your cash flow.
                 </p>
-                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-mono text-slate-500">
-                  p &lt; 0.001 Statistical Filter
+                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-medium text-slate-500">
+                  Prevents Wasted Cash
                 </div>
               </div>
 
@@ -462,14 +459,13 @@ export default function HomePage() {
                   03
                 </div>
                 <h3 className="font-bold text-slate-900 text-base">
-                  Cognitive Behavioral Lab
+                  Team Practice Simulations
                 </h3>
                 <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Double-blind randomized testing protocols measuring human decision-maker
-                  automation deference, alert fatigue, and readiness to override faulty advice.
+                  Let your team practice handling sudden supplier delays or sales spikes in a safe simulator before real money is on the line.
                 </p>
-                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-mono text-slate-500">
-                  45 Cohorts · 225 Seated Runs
+                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-medium text-slate-500">
+                  Risk-Free Training
                 </div>
               </div>
 
@@ -479,14 +475,13 @@ export default function HomePage() {
                   04
                 </div>
                 <h3 className="font-bold text-slate-900 text-base">
-                  Cryptographic Ledger
+                  Tamper-Proof Audit Sign-Off
                 </h3>
                 <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                  Binds all simulation parameters, demand draws, and authorized overrides into an
-                  HMAC SHA-256 certificate for corporate governance and regulatory compliance.
+                  Every approved decision is automatically logged with an official digital timestamp and record for clean board reports and accounting audits.
                 </p>
-                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-mono text-slate-500">
-                  HMAC SHA-256 Provenance
+                <div className="mt-4 pt-4 border-t border-slate-200 text-xs font-medium text-slate-500">
+                  100% Protected Record
                 </div>
               </div>
 
@@ -500,11 +495,10 @@ export default function HomePage() {
         <section className="py-16 sm:py-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="mb-8">
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-              Enterprise Impact & Case Studies
+              Real Business Case Studies
             </h2>
             <p className="text-sm text-slate-600 mt-2">
-              Verified corporate deployments where deterministic risk modeling prevented
-              unjustified capital expenditure.
+              Verified examples where smart decision planning protected cash and boosted operating profits.
             </p>
           </div>
 
@@ -513,12 +507,12 @@ export default function HomePage() {
               <table className="w-full text-left text-sm text-slate-700">
                 <thead className="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <tr>
-                    <th className="px-6 py-4">Scenario</th>
+                    <th className="px-6 py-4">Business Scenario</th>
                     <th className="px-6 py-4">Industry</th>
-                    <th className="px-6 py-4">AI vs. Optimal</th>
-                    <th className="px-6 py-4">Bias Intercepted</th>
-                    <th className="px-6 py-4">Capital Saved</th>
-                    <th className="px-6 py-4">Audit Provenance</th>
+                    <th className="px-6 py-4">AI Guess vs. Smart Plan</th>
+                    <th className="px-6 py-4">Waste Prevented</th>
+                    <th className="px-6 py-4">Cash Saved</th>
+                    <th className="px-6 py-4">Record Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-100">
@@ -531,8 +525,8 @@ export default function HomePage() {
                         {cs.industry}
                       </td>
                       <td className="px-6 py-4 text-xs font-mono">
-                        <span className="text-rose-600">{cs.aiProposed}</span> vs{" "}
-                        <span className="text-emerald-600 font-semibold">{cs.optimal}</span>
+                        <span className="text-rose-600 font-medium">{cs.aiProposed}</span> vs{" "}
+                        <span className="text-emerald-700 font-bold">{cs.optimal}</span>
                       </td>
                       <td className="px-6 py-4">
                         <span className="inline-flex items-center px-2 py-0.5 rounded text-xs font-medium bg-amber-50 text-amber-700 border border-amber-200">
@@ -542,8 +536,11 @@ export default function HomePage() {
                       <td className="px-6 py-4 font-bold text-slate-900 font-sans">
                         {cs.capitalSaved}
                       </td>
-                      <td className="px-6 py-4 text-xs font-mono text-slate-500">
-                        {cs.hash}
+                      <td className="px-6 py-4 text-xs font-medium text-emerald-700">
+                        <span className="inline-flex items-center gap-1">
+                          <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
+                          <span>Approved &amp; Verified</span>
+                        </span>
                       </td>
                     </tr>
                   ))}
@@ -560,11 +557,10 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl mb-8">
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
-                Cryptographic Audit Proof Generator
+                Permanent Digital Sign-Off
               </h2>
               <p className="text-sm text-slate-600 mt-2">
-                Simulate generating an immutable HMAC SHA-256 certificate for enterprise decision
-                provenance.
+                See how every business decision gets an unalterable digital seal for your company records.
               </p>
             </div>
 
@@ -572,13 +568,13 @@ export default function HomePage() {
               <div className="grid grid-cols-1 md:grid-cols-12 gap-6 items-end">
                 <div className="md:col-span-8">
                   <label className="block text-xs font-medium text-slate-700 mb-2 uppercase tracking-wider">
-                    Executive Decision Payload
+                    Approved Business Decision:
                   </label>
                   <input
                     type="text"
                     value={decisionPayload}
                     onChange={(e) => setDecisionPayload(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 font-mono"
+                    className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-lg text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
                   />
                 </div>
 
@@ -588,7 +584,7 @@ export default function HomePage() {
                     disabled={isHashing}
                     className="btn-primary w-full py-2.5 text-sm"
                   >
-                    {isHashing ? "Generating..." : "Generate Cryptographic Seal"}
+                    {isHashing ? "Sealing..." : "Generate Digital Seal"}
                   </button>
                 </div>
               </div>
@@ -597,7 +593,7 @@ export default function HomePage() {
               <div className="mt-6 p-4 rounded-lg bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                 <div>
                   <span className="text-xs text-slate-500 uppercase font-semibold block">
-                    HMAC SHA-256 Provenance Digest:
+                    Permanent Record Seal:
                   </span>
                   <span className="font-mono text-xs text-blue-700 font-semibold break-all">
                     0x{provenanceHash}
@@ -605,7 +601,7 @@ export default function HomePage() {
                 </div>
                 <div className="flex items-center gap-2 text-xs font-medium text-emerald-700 bg-emerald-50 px-2.5 py-1 rounded-md border border-emerald-200 shrink-0">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
-                  <span>Sealed &amp; Validated</span>
+                  <span>Signed &amp; Approved</span>
                 </div>
               </div>
             </div>
@@ -656,10 +652,10 @@ export default function HomePage() {
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col md:flex-row items-center justify-between gap-8">
             <div>
               <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white">
-                Ready to deploy deterministic decision intelligence?
+                Ready to make smarter, safer business decisions?
               </h2>
               <p className="text-slate-400 text-sm mt-2">
-                Join 45 enterprise cohorts calibrating high-consequence capital commitments.
+                Join forward-thinking business leaders testing their plans before committing company funds.
               </p>
             </div>
             <div className="flex items-center gap-4 shrink-0">
@@ -667,14 +663,14 @@ export default function HomePage() {
                 href="/workspace"
                 className="btn-primary text-sm py-2.5 px-6 bg-white hover:bg-slate-100 text-slate-900 border-white shadow-sm"
               >
-                <span>Launch Studio</span>
+                <span>Start Planning Now</span>
                 <ArrowRight className="w-4 h-4 ml-2" />
               </Link>
               <button
                 onClick={() => setDemystifierOpen(true)}
                 className="btn-secondary text-sm py-2.5 px-5 bg-slate-800 text-slate-100 border-slate-700 hover:bg-slate-700 hover:text-white"
               >
-                Schedule Briefing
+                Read Business Guide
               </button>
             </div>
           </div>
@@ -683,37 +679,37 @@ export default function HomePage() {
         <footer className="bg-white border-t border-slate-200 py-12 text-xs text-slate-500">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
             <div>
-              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Platform</div>
+              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Product</div>
               <ul className="space-y-2">
-                <li><Link href="/workspace" className="hover:text-blue-600">Executive Workspace</Link></li>
-                <li><Link href="/decisions" className="hover:text-blue-600">Decision Studio</Link></li>
-                <li><Link href="/experiments" className="hover:text-blue-600">Behavioral Lab</Link></li>
-                <li><Link href="/governance" className="hover:text-blue-600">Governance Ledger</Link></li>
+                <li><Link href="/workspace" className="hover:text-blue-600">Dashboard</Link></li>
+                <li><Link href="/decisions" className="hover:text-blue-600">Plan Decisions</Link></li>
+                <li><Link href="/experiments" className="hover:text-blue-600">Simulations</Link></li>
+                <li><Link href="/governance" className="hover:text-blue-600">Approvals &amp; History</Link></li>
               </ul>
             </div>
             <div>
-              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Methodology</div>
+              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Resources</div>
               <ul className="space-y-2">
-                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Newsvendor Theorem</button></li>
-                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Deference Decay Protocols</button></li>
-                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Monte Carlo Verification</button></li>
+                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Plain-English Guide</button></li>
+                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">The Sweet Spot Explained</button></li>
+                <li><button onClick={() => setDemystifierOpen(true)} className="hover:text-blue-600">Avoiding AI Overspending</button></li>
               </ul>
             </div>
             <div>
-              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Compliance</div>
+              <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">Trust &amp; Security</div>
               <ul className="space-y-2">
-                <li><span>SOC-2 Type II Certified</span></li>
-                <li><span>ISO-42001 AI Risk Aligned</span></li>
-                <li><span>HMAC SHA-256 Provenance</span></li>
+                <li><span>Enterprise Protected</span></li>
+                <li><span>Permanent Digital Records</span></li>
+                <li><span>Bank-Grade Encryption</span></li>
               </ul>
             </div>
             <div>
               <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">System Status</div>
               <div className="flex items-center gap-2 text-emerald-600 font-medium mb-1">
                 <span className="w-2 h-2 rounded-full bg-emerald-500" />
-                <span>All Systems Operational</span>
+                <span>All Services Running Smoothly</span>
               </div>
-              <p className="text-[11px] text-slate-400">99.99% Uptime · Deterministic Nodes Active</p>
+              <p className="text-[11px] text-slate-400">99.99% Uptime · Real-Time Calculations Active</p>
             </div>
           </div>
 
@@ -722,7 +718,7 @@ export default function HomePage() {
             <div className="flex items-center gap-6">
               <span className="hover:text-slate-700 cursor-pointer">Privacy Policy</span>
               <span className="hover:text-slate-700 cursor-pointer">Terms of Service</span>
-              <span className="hover:text-slate-700 cursor-pointer">Security Whitepaper</span>
+              <span className="hover:text-slate-700 cursor-pointer">Security Overview</span>
             </div>
           </div>
         </footer>

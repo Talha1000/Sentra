@@ -55,11 +55,11 @@ export function Topbar() {
   }, []);
 
   const navItems = [
-    { name: "Workspace", href: "/workspace", icon: LayoutDashboard },
-    { name: "Decision Studio", href: "/decisions", icon: Cpu },
-    { name: "Experiments", href: "/experiments", icon: FlaskConical },
-    { name: "Analytics", href: "/analytics", icon: BarChart3 },
-    { name: "Governance", href: "/governance", icon: ShieldCheck },
+    { name: "Dashboard", href: "/workspace", icon: LayoutDashboard },
+    { name: "Plan Decisions", href: "/decisions", icon: Cpu },
+    { name: "Simulations", href: "/experiments", icon: FlaskConical },
+    { name: "Reports", href: "/analytics", icon: BarChart3 },
+    { name: "Approvals", href: "/governance", icon: ShieldCheck },
   ];
 
   return (
@@ -78,7 +78,7 @@ export function Topbar() {
                   Sentra
                 </span>
                 <span className="hidden sm:inline-block ml-2 text-xs text-slate-500 font-medium">
-                  Decision Intelligence
+                  Smart Decision Planning
                 </span>
               </div>
             </Link>
@@ -123,7 +123,7 @@ export function Topbar() {
               className="btn-secondary text-xs py-2 px-3 hidden sm:inline-flex"
             >
               <BookOpen className="w-3.5 h-3.5 text-slate-500 mr-1.5" />
-              <span>Methodology Guide</span>
+              <span>Plain English Guide</span>
             </button>
 
             <Link
@@ -131,7 +131,7 @@ export function Topbar() {
               className="btn-primary text-xs py-2 px-3.5"
             >
               <Plus className="w-3.5 h-3.5 mr-1" />
-              <span>New Decision</span>
+              <span>Plan a Decision</span>
             </Link>
           </div>
 

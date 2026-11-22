@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sentra — Enterprise Decision Intelligence & Verification",
-  description: "Mathematically verifiable decision intelligence. Stress-test enterprise capital commitments against stochastic reality, generative AI bias, and cognitive deference.",
+  title: "Sentra — Smart Business Decision Planning & Verification",
+  description: "Test big business decisions before you spend budget. Sentra helps business leaders simulate plans, compare options, and avoid costly mistakes with simple, reliable forecasts.",
 };
 
 export default function RootLayout({

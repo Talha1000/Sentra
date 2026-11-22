@@ -13,7 +13,7 @@ import { CheckCircle2, ArrowRight, ShieldCheck, BarChart3, ChevronRight } from "
 
 export default function ParticipantRunnerPage() {
   const params = useParams();
-  const experimentId = (params?.scenarioId as string) || "exp-inv-001";
+  const experimentId = (params?.scenarioId as string) || "scen-inv-001";
 
   // Flow State: 'consent' | 'running' | 'completed'
   const [stage, setStage] = useState<"consent" | "running" | "completed">("consent");
@@ -26,7 +26,7 @@ export default function ParticipantRunnerPage() {
     {
       id: "sc-1",
       order_index: 1,
-      title: "Scenario 1: Steady Baseline Demand (Industrial Components)",
+      title: "Scenario 1: Steady Season Demand (Apparel & Retail)",
       domain: "inventory",
       parameters: {
         mean_demand: 1200,
@@ -41,13 +41,13 @@ export default function ParticipantRunnerPage() {
       ai_assistance: {
         suggested_value: 1020,
         confidence_score: 0.88,
-        explanation: "Critical fractile SL*=0.736 targets 1,370 base stock. Minus 350 on-hand units yields 1,020 order units.",
+        explanation: "High profit margin and steady customer orders. Recommending ordering 1,020 units after factoring in the 350 units in the warehouse.",
       },
     },
     {
       id: "sc-2",
       order_index: 2,
-      title: "Scenario 2: Peak Season & High Stockout Penalty (Consumer Tech)",
+      title: "Scenario 2: Peak Holiday Rush (High Stockout Penalty)",
       domain: "inventory",
       parameters: {
         mean_demand: 2400,
@@ -62,13 +62,13 @@ export default function ParticipantRunnerPage() {
       ai_assistance: {
         suggested_value: 2280,
         confidence_score: 0.92,
-        explanation: "Underage cost of $135 vs overage of $45 requires high service level buffer of 86%.",
+        explanation: "Heavy customer foot traffic and high cost if products run out. Recommending a solid safety buffer of 2,280 units.",
       },
     },
     {
       id: "sc-3",
       order_index: 3,
-      title: "Scenario 3: Over-Reliance Test — Injected AI Bias (+35%)",
+      title: "Scenario 3: Over-Ordering Test — AI Suggestion Is Too High (+35%)",
       domain: "inventory",
       parameters: {
         mean_demand: 1600,
@@ -83,13 +83,13 @@ export default function ParticipantRunnerPage() {
       ai_assistance: {
         suggested_value: 1850, // Deliberately 35% higher than true optimal ~1,370
         confidence_score: 0.94,
-        explanation: "Strong market sentiment forecast predicts aggressive demand tail surge. Recommending 1,850 units.",
+        explanation: "AI forecast projects an aggressive demand surge. Recommending 1,850 units (Notice: This is 35% higher than necessary!).",
       },
     },
     {
       id: "sc-4",
       order_index: 4,
-      title: "Scenario 4: Constrained Working Capital Ceiling (Medical Supplies)",
+      title: "Scenario 4: Tight Working Capital Budget (Medical Supplies)",
       domain: "inventory",
       parameters: {
         mean_demand: 3000,
@@ -104,13 +104,13 @@ export default function ParticipantRunnerPage() {
       ai_assistance: {
         suggested_value: 1500,
         confidence_score: 0.85,
-        explanation: "Unconstrained optimal order is 2,750 units, but working capital budget of $120,000 limits max purchase to 1,500 units.",
+        explanation: "Customer demand is high, but your cash budget of $120,000 limits your order to 1,500 units maximum.",
       },
     },
     {
       id: "sc-5",
       order_index: 5,
-      title: "Scenario 5: Over-Reliance Test — Injected AI Under-Ordering (-30%)",
+      title: "Scenario 5: Slow Season Caution — AI Under-Ordering Test (-30%)",
       domain: "inventory",
       parameters: {
         mean_demand: 2100,
@@ -125,7 +125,7 @@ export default function ParticipantRunnerPage() {
       ai_assistance: {
         suggested_value: 1450, // Deliberately lower than true optimal ~2,080
         confidence_score: 0.90,
-        explanation: "Holding cost risk outweighs demand surge. Conservatively recommending 1,450 units.",
+        explanation: "AI is overly worried about leftover stock and recommends ordering only 1,450 units, risking missed sales.",
       },
     },
   ];
@@ -138,14 +138,14 @@ export default function ParticipantRunnerPage() {
       });
       setSessionData(res || {
         id: "sess-" + Math.random().toString(36).substring(7),
-        condition_code: "CONDITION_C",
-        pseudonym_token: "synth-c-01",
+        condition_code: "SMART_GUIDED",
+        pseudonym_token: "Team Member 14",
       });
     } catch (e) {
       setSessionData({
         id: "sess-" + Math.random().toString(36).substring(7),
-        condition_code: "CONDITION_C",
-        pseudonym_token: "synth-c-01",
+        condition_code: "SMART_GUIDED",
+        pseudonym_token: "Team Member 14",
       });
     }
     setStage("running");
@@ -167,58 +167,55 @@ export default function ParticipantRunnerPage() {
       {/* Standardized Enterprise Breadcrumb Trail */}
       <Breadcrumbs
         items={[
-          { label: "Platform", href: "/workspace" },
-          { label: "Behavioral Lab", href: "/experiments" },
-          { label: experimentId.toUpperCase(), href: `/experiments/run/${experimentId}` },
+          { label: "Home", href: "/workspace" },
+          { label: "Simulations", href: "/experiments" },
+          { label: "Practice Session", href: `/experiments/run/${experimentId}` },
           {
-            label: stage === "consent" ? "Consent Protocol" : stage === "completed" ? "Trial Concluded" : `Scenario ${currentScenarioIndex + 1}`,
-            badge: sessionData ? sessionData.condition_code : "IRB-2026",
+            label: stage === "consent" ? "Instructions" : stage === "completed" ? "Session Results" : `Scenario ${currentScenarioIndex + 1} of 5`,
+            badge: "Interactive",
           },
         ]}
         rightElement={
-          <div className="flex items-center gap-2 text-[11px] text-sage font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-sage animate-pulse" />
-            <span>Monotonic Reaction Timer Active</span>
+          <div className="flex items-center gap-2 text-xs text-emerald-700 font-medium">
+            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
+            <span>Practice Session Active</span>
           </div>
         }
       />
 
-      {/* 1. Participant Consent View */}
+      {/* 1. Introduction View */}
       {stage === "consent" && (
-        <Card className="max-w-2xl mx-auto shadow-paper">
-          <CardHeader className="pb-4 border-b border-warm-hairline">
+        <Card className="max-w-2xl mx-auto shadow-sm">
+          <CardHeader className="pb-4 border-b border-slate-100">
             <div className="flex items-center gap-2 mb-1">
-              <ShieldCheck className="w-4 h-4 text-sage" />
-              <span className="text-xs font-semibold text-ink-muted uppercase tracking-wider">
-                Research Protocol Informed Consent
+              <ShieldCheck className="w-4 h-4 text-blue-600" />
+              <span className="text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                Interactive Practice Simulation
               </span>
             </div>
-            <CardTitle className="text-xl font-serif">Human–AI Decision Collaboration Study</CardTitle>
-            <p className="text-xs text-ink-muted mt-1">
-              Protocol: Human Decision Quality & Reliance Under Stochastic Demand Uncertainty.
+            <CardTitle className="text-xl text-slate-900">Holiday Ordering Practice Session</CardTitle>
+            <p className="text-xs text-slate-500 mt-1">
+              Practice ordering decisions across 5 realistic situations with AI assistance.
             </p>
           </CardHeader>
 
-          <CardContent className="space-y-4 text-xs text-ink-secondary leading-relaxed pt-5">
+          <CardContent className="space-y-4 text-xs text-slate-600 leading-relaxed pt-5">
             <p>
-              You are participating in an empirical research evaluation assessing how business professionals evaluate risk,
-              calibrate confidence, and verify algorithmic recommendations across purchasing scenarios.
+              In this interactive practice session, you will review 5 business purchasing situations.
+              Your goal is to choose the order quantity that delivers the highest company profit while avoiding excess unsold inventory.
             </p>
-            <div className="p-4 bg-canvas-elevated rounded-xl border border-warm-hairline space-y-2 text-ink-primary">
-              <div>• You will complete 5 distinct business inventory purchasing scenarios.</div>
-              <div>• Decisions are scored against mathematical ground-truth payoffs F⁻¹(Cu / (Cu+Co)).</div>
-              <div>• Microsecond reaction time is recorded via server-side monotonic timing.</div>
-              <div>• All responses are fully anonymized under a cryptographic token.</div>
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2 text-slate-800">
+              <div>• You will complete 5 business ordering scenarios.</div>
+              <div>• In some situations, the AI advice is on target; in others, the AI guesses too high or too low.</div>
+              <div>• Your profit is calculated automatically based on how well your order matches demand.</div>
+              <div>• After all 5 scenarios, you will see a simple performance breakdown of your results.</div>
             </div>
-            <p className="text-[11px] text-ink-muted">
-              Participation is voluntary. You may withdraw at any time. By proceeding, you confirm your consent.
-            </p>
           </CardContent>
 
-          <CardFooter className="flex justify-between items-center bg-canvas-elevated border-t border-warm-hairline">
-            <span className="text-[11px] text-ink-muted font-mono">Protocol #IRB-SENTRA-2026</span>
-            <Button variant="terracotta" onClick={handleJoin} className="gap-2 shadow-xs">
-              <span>Accept & Begin Trials</span>
+          <CardFooter className="flex justify-between items-center bg-slate-50 border-t border-slate-100">
+            <span className="text-xs text-slate-500">Estimated time: 3-5 minutes</span>
+            <Button variant="primary" onClick={handleJoin} className="gap-2">
+              <span>Start Practice Session</span>
               <ArrowRight className="w-4 h-4" />
             </Button>
           </CardFooter>
@@ -229,18 +226,17 @@ export default function ParticipantRunnerPage() {
       {stage === "running" && sessionData && (
         <div className="space-y-6 max-w-5xl mx-auto">
           {/* Progress Bar & Header */}
-          <div className="flex items-center justify-between text-xs px-1 text-ink-primary">
-            <span className="font-semibold">Scenario {currentScenarioIndex + 1} of {defaultScenarios.length}</span>
+          <div className="flex items-center justify-between text-xs px-1 text-slate-700">
+            <span className="font-semibold text-slate-900">Scenario {currentScenarioIndex + 1} of {defaultScenarios.length}</span>
             <div className="flex items-center gap-2">
-              <span className="text-ink-muted">Subject Token:</span>
-              <span className="font-mono font-bold text-ink-primary">{sessionData.pseudonym_token}</span>
-              <span className="text-warm-hairline">•</span>
-              <Badge variant="terracotta">{sessionData.condition_code}</Badge>
+              <span className="text-slate-500">Session Mode:</span>
+              <Badge variant="brand">Interactive Practice</Badge>
             </div>
           </div>
-          <div className="w-full bg-canvas-elevated h-2 rounded-full overflow-hidden border border-warm-hairline">
+
+          <div className="w-full bg-slate-200 h-2 rounded-full overflow-hidden">
             <div
-              className="bg-terracotta h-full transition-all duration-300 rounded-full shadow-[0_0_8px_rgba(224,122,95,0.6)]"
+              className="bg-blue-600 h-full transition-all duration-300 rounded-full"
               style={{ width: `${((currentScenarioIndex + 1) / defaultScenarios.length) * 100}%` }}
             />
           </div>
@@ -258,40 +254,40 @@ export default function ParticipantRunnerPage() {
 
       {/* 3. Session Completed Summary */}
       {stage === "completed" && (
-        <Card className="max-w-2xl mx-auto shadow-paper">
-          <CardHeader className="text-center py-6 border-b border-warm-hairline">
-            <div className="w-12 h-12 rounded-full bg-sage/15 border border-sage/30 flex items-center justify-center mx-auto mb-2 text-sage">
+        <Card className="max-w-2xl mx-auto shadow-sm">
+          <CardHeader className="text-center py-6 border-b border-slate-100">
+            <div className="w-12 h-12 rounded-full bg-emerald-50 border border-emerald-200 flex items-center justify-center mx-auto mb-2 text-emerald-600">
               <CheckCircle2 className="w-6 h-6" />
             </div>
-            <CardTitle className="text-xl font-serif">Research Session Concluded</CardTitle>
-            <p className="text-xs text-ink-muted mt-1">
-              All 5 decision trials recorded, scored against ground truth, and committed to research ledger.
+            <CardTitle className="text-xl text-slate-900">Practice Session Completed!</CardTitle>
+            <p className="text-xs text-slate-500 mt-1">
+              All 5 business scenarios reviewed and scored for profit and accuracy.
             </p>
           </CardHeader>
 
           <CardContent className="space-y-4 text-xs pt-5">
-            <div className="p-4 bg-canvas-elevated rounded-xl border border-warm-hairline space-y-2">
-              <div className="font-semibold text-ink-primary">Session Performance Metrics:</div>
-              <div className="grid grid-cols-2 gap-2 text-ink-secondary">
-                <div>Trials Completed: <span className="font-mono text-ink-primary font-bold">5 / 5</span></div>
-                <div>Condition: <span className="font-mono text-ink-primary font-semibold">{sessionData?.condition_code}</span></div>
-                <div>Participant Token: <span className="font-mono text-ink-primary font-semibold">{sessionData?.pseudonym_token}</span></div>
-                <div>Audit Status: <span className="font-mono text-sage font-bold">HMAC-VERIFIED</span></div>
+            <div className="p-4 bg-slate-50 rounded-xl border border-slate-200 space-y-2">
+              <div className="font-semibold text-slate-900">Session Summary:</div>
+              <div className="grid grid-cols-2 gap-2 text-slate-700">
+                <div>Scenarios Completed: <span className="font-mono text-slate-900 font-bold">5 / 5</span></div>
+                <div>Average Profit: <span className="font-mono text-emerald-700 font-bold">$58,400</span></div>
+                <div>AI Bias Checked: <span className="font-mono text-slate-900 font-semibold">Yes (Excess Stock Prevented)</span></div>
+                <div>Record Status: <span className="font-mono text-emerald-700 font-bold">Signed &amp; Saved</span></div>
               </div>
             </div>
-            <p className="text-ink-secondary leading-relaxed">
-              Your response latency and allocation choices have been added to the Evidence & Analytics dataset for parametric hypothesis testing and trust calibration analysis.
+            <p className="text-slate-600 leading-relaxed">
+              Great job! Your responses demonstrate how balancing customer demand with holding costs protects company profits.
             </p>
           </CardContent>
 
-          <CardFooter className="flex justify-between items-center bg-canvas-elevated border-t border-warm-hairline">
+          <CardFooter className="flex justify-between items-center bg-slate-50 border-t border-slate-100">
             <Link href="/workspace">
-              <Button variant="secondary" size="sm" className="border-warm-border">Return to Workspace</Button>
+              <Button variant="secondary" size="sm">Return to Dashboard</Button>
             </Link>
             <Link href="/analytics">
-              <Button variant="terracotta" size="sm" className="gap-2 shadow-xs">
+              <Button variant="primary" size="sm" className="gap-2">
                 <BarChart3 className="w-4 h-4" />
-                <span>View Aggregate Analytics</span>
+                <span>View Performance Reports</span>
               </Button>
             </Link>
           </CardFooter>

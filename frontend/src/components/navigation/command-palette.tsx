@@ -56,67 +56,67 @@ export function CommandPalette({
     {
       id: "nav-workspace",
       category: "Navigation",
-      title: "Executive Workspace",
-      subtitle: "Live telemetry across organizational human–AI decision streams",
+      title: "Decisions Dashboard",
+      subtitle: "Overview of your team's business plans, forecasts, and outcomes",
       icon: LayoutDashboard,
-      badge: "Command",
+      badge: "Dashboard",
       action: () => {
         router.push("/workspace");
         onClose();
       },
-      keywords: ["workspace", "dashboard", "overview", "portfolio", "telemetry"],
+      keywords: ["workspace", "dashboard", "overview", "portfolio", "plans"],
     },
     {
       id: "nav-decisions",
       category: "Navigation",
-      title: "Decision Studio",
-      subtitle: "Stochastic optimization, newsvendor math & Monte Carlo simulation",
+      title: "Plan & Test a Decision",
+      subtitle: "Find the most profitable order quantity before spending budget",
       icon: Cpu,
-      badge: "Stochastic",
+      badge: "Planning",
       action: () => {
         router.push("/decisions");
         onClose();
       },
-      keywords: ["decisions", "studio", "stochastic", "monte carlo", "newsvendor", "fractile"],
+      keywords: ["decisions", "plan", "forecast", "profit", "order quantity"],
     },
     {
       id: "nav-experiments",
       category: "Navigation",
-      title: "Behavioral Research Lab",
-      subtitle: "Double-blind randomized trials with injected bias stressors",
+      title: "Decision Simulations",
+      subtitle: "Test how your team and plans respond to unexpected sales spikes or drops",
       icon: FlaskConical,
-      badge: "Research",
+      badge: "Simulations",
       action: () => {
         router.push("/experiments");
         onClose();
       },
-      keywords: ["experiments", "lab", "trials", "behavioral", "over-reliance", "double blind"],
+      keywords: ["simulations", "scenarios", "practice", "trials", "stress test"],
     },
     {
       id: "nav-analytics",
       category: "Navigation",
-      title: "Evidence & Analytics",
-      subtitle: "Welch t-tests, Cohen's d effect sizes & trust calibration curves",
+      title: "Reports & Insights",
+      subtitle: "Visual charts showing money saved, profit earned, and team accuracy",
       icon: BarChart3,
-      badge: "Inference",
+      badge: "Reports",
       action: () => {
         router.push("/analytics");
         onClose();
       },
-      keywords: ["analytics", "statistics", "welch", "t-test", "cohen", "ece", "calibration"],
+      keywords: ["analytics", "reports", "insights", "profit", "savings", "accuracy"],
     },
     {
       id: "nav-governance",
       category: "Navigation",
-      title: "Model Provenance & Audit Registry",
-      subtitle: "Cryptographic HMAC SHA-256 tamper-evident chronological ledger",
+      title: "Decision History & Approvals",
+      subtitle: "Tamper-proof record of every approved business decision and sign-off",
       icon: ShieldCheck,
-      badge: "Governance",
+      badge: "Approvals",
       action: () => {
         router.push("/governance");
         onClose();
       },
-      keywords: ["governance", "audit", "sha256", "hmac", "compliance", "soc2", "model cards"],
+      keywords: ["governance", "history", "approvals", "audit", "compliance", "sign-off"],
     },
 
     // Actions
