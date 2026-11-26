@@ -35,7 +35,6 @@ export function Breadcrumbs({ items, rightElement }: BreadcrumbsProps) {
               <ChevronRight className="w-3.5 h-3.5 text-slate-300 shrink-0" />
               {isLast || !item.href ? (
                 <div className="flex items-center gap-2 font-medium text-slate-900">
-                  <span className="w-1.5 h-1.5 rounded-full bg-blue-600 inline-block" />
                   <span>{item.label}</span>
                   {item.badge && (
                     <span className="text-[11px] font-medium px-2 py-0.5 rounded-full bg-blue-50 text-blue-700 border border-blue-200">

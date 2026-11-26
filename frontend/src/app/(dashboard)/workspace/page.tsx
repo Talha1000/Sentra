@@ -94,8 +94,8 @@ export default function WorkspacePage() {
           { label: "Decisions Dashboard", badge: "Live" },
         ]}
         rightElement={
-          <div className="flex items-center gap-2 text-xs text-emerald-700 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-medium">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             <span>Protected: All Decisions Safely Logged</span>
           </div>
         }
@@ -213,16 +213,16 @@ export default function WorkspacePage() {
             </CardHeader>
 
             <CardContent className="p-0 overflow-x-auto scrollbar-none">
-              <Table className="w-full min-w-[680px]">
+              <Table className="w-full text-xs">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Decision Plan</TableHead>
                     <TableHead>Category</TableHead>
                     <TableHead className="text-right">Your Choice</TableHead>
                     <TableHead className="text-right">AI Advice</TableHead>
-                    <TableHead>Alignment</TableHead>
+                    <TableHead className="text-center">Alignment</TableHead>
                     <TableHead className="text-right">Projected Profit</TableHead>
-                    <TableHead>Status</TableHead>
+                    <TableHead className="text-center">Status</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
@@ -230,7 +230,7 @@ export default function WorkspacePage() {
                     <TableRow key={d.id}>
                       <TableCell>
                         <div className="font-semibold text-slate-900">{d.title}</div>
-                        <div className="text-xs text-slate-500 font-mono mt-0.5">
+                        <div className="text-[11px] text-slate-400 font-mono mt-0.5">
                           {d.id} • {d.date}
                         </div>
                       </TableCell>
@@ -243,17 +243,17 @@ export default function WorkspacePage() {
                       <TableCell className="text-right font-mono text-slate-500 tabular-nums">
                         {d.aiSuggested} units
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         {d.agreement ? (
-                          <Badge variant="neutral" dot>Agreed</Badge>
+                          <Badge variant="neutral">Agreed</Badge>
                         ) : (
-                          <Badge variant="emerald" dot>Smart Override</Badge>
+                          <Badge variant="emerald">Smart Override</Badge>
                         )}
                       </TableCell>
                       <TableCell className="text-right font-mono font-bold text-emerald-700 tabular-nums">
                         {formatCurrency(d.payoff)}
                       </TableCell>
-                      <TableCell>
+                      <TableCell className="text-center">
                         <Badge variant="outline">{d.status}</Badge>
                       </TableCell>
                     </TableRow>

@@ -7,7 +7,6 @@ import {
   ArrowRight,
   ShieldCheck,
   CheckCircle2,
-  AlertTriangle,
   ChevronDown,
   Sparkles,
   Eye,
@@ -18,11 +17,12 @@ import {
   Package,
   Layers,
   Award,
-  Zap,
   RefreshCw,
 } from "lucide-react";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { CommandPalette } from "@/components/navigation/command-palette";
+import { SpotlightCard } from "@/components/ui/spotlight-card";
+import { AnimatedNumber } from "@/components/ui/animated-number";
 import { formatCurrency, formatNumber, formatPercent } from "@/lib/utils";
 
 // Simulation Scenarios for the Interactive Simulator
@@ -81,7 +81,7 @@ const CASE_STUDIES = [
     optimal: "1,420 items",
     biasAvoided: "-23.2% Over-ordering",
     capitalSaved: "$142,000",
-    status: "Verified",
+    status: "Verified Record",
   },
   {
     id: "CS-02",
@@ -91,7 +91,7 @@ const CASE_STUDIES = [
     optimal: "2,360 items",
     biasAvoided: "-18.6% Waste Buffer",
     capitalSaved: "$315,000",
-    status: "Verified",
+    status: "Verified Record",
   },
   {
     id: "CS-03",
@@ -101,7 +101,7 @@ const CASE_STUDIES = [
     optimal: "860 units",
     biasAvoided: "-27.9% Idle Capacity",
     capitalSaved: "$89,000",
-    status: "Verified",
+    status: "Verified Record",
   },
 ];
 
@@ -114,8 +114,7 @@ const PROMISES = [
     description:
       "You shouldn't need a mathematics degree to know how many jackets or medical supplies to buy. Everything in Sentra is written in plain, friendly English so everyone on your team feels confident.",
     badge: "Plain English",
-    color: "from-blue-500/10 to-indigo-500/10 border-blue-200/80",
-    accent: "text-blue-600 bg-blue-50",
+    accent: "text-blue-600 bg-blue-50 border-blue-200/60",
   },
   {
     icon: DollarSign,
@@ -124,8 +123,7 @@ const PROMISES = [
     description:
       "When an AI guesses too high, your money gets locked in dusty warehouse boxes. Sentra finds the sweet spot that fulfills customer orders while keeping your working cash safely in the bank.",
     badge: "Cash Safety",
-    color: "from-emerald-500/10 to-teal-500/10 border-emerald-200/80",
-    accent: "text-emerald-600 bg-emerald-50",
+    accent: "text-emerald-700 bg-emerald-50 border-emerald-200/60",
   },
   {
     icon: HeartHandshake,
@@ -134,8 +132,7 @@ const PROMISES = [
     description:
       "We believe technology should serve people, not replace them. Sentra shows you clear trade-offs, but the final choice is always yours to approve with open eyes.",
     badge: "Human First",
-    color: "from-amber-500/10 to-orange-500/10 border-amber-200/80",
-    accent: "text-amber-600 bg-amber-50",
+    accent: "text-amber-700 bg-amber-50 border-amber-200/60",
   },
   {
     icon: Lock,
@@ -144,8 +141,7 @@ const PROMISES = [
     description:
       "Every approved plan is sealed into a permanent record showing the date, reasons, and numbers. Board meetings and seasonal reviews become effortless and transparent.",
     badge: "Safe Sign-Offs",
-    color: "from-purple-500/10 to-violet-500/10 border-purple-200/80",
-    accent: "text-purple-600 bg-purple-50",
+    accent: "text-indigo-700 bg-indigo-50 border-indigo-200/60",
   },
 ];
 
@@ -181,6 +177,8 @@ export default function HomePage() {
   const [userAllocation, setUserAllocation] = useState<number>(currentScenario.optimalQ);
 
   // Economic math for live simulator
+  const minRange = Math.round(currentScenario.meanDemand * 0.5);
+  const maxRange = Math.round(currentScenario.meanDemand * 1.8);
   const Cu = currentScenario.sellingPrice - currentScenario.unitCost + currentScenario.stockoutPenalty;
   const Co = currentScenario.unitCost - currentScenario.salvageValue;
   const diffFromOpt = Math.abs(userAllocation - currentScenario.optimalQ);
@@ -230,54 +228,49 @@ export default function HomePage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 text-slate-900 font-sans antialiased flex flex-col selection:bg-blue-100 selection:text-blue-900">
+    <div className="min-h-screen bg-[#FAFAFA] text-slate-900 font-sans antialiased flex flex-col selection:bg-blue-100 selection:text-blue-900">
       {/* Site Header */}
       <SiteHeader onOpenCommandPalette={() => setCommandPaletteOpen(true)} />
 
       <main className="flex-1">
         {/* ========================================================================= */}
-        {/* HERO SECTION                                                             */}
+        {/* HERO SECTION — CLEAN HUMAN EDITORIAL DESIGN (NO GIMMICKS)                */}
         {/* ========================================================================= */}
-        <section className="relative overflow-hidden bg-white border-b border-slate-200 py-20 sm:py-32">
-          {/* Layered Multi-Color Ambient Glow Lighting */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-blue-200/50 via-indigo-100/30 to-transparent blur-3xl pointer-events-none -z-0 animate-ambient-glow" />
-          <div className="absolute -top-10 right-1/4 w-[450px] h-[300px] bg-sky-200/35 blur-[100px] pointer-events-none -z-0 animate-float-slow" />
-          <div className="absolute top-32 left-1/4 w-[420px] h-[280px] bg-emerald-100/40 blur-[90px] pointer-events-none -z-0 animate-float-reverse" />
+        <section className="relative overflow-hidden bg-white border-b border-slate-200/80 py-20 sm:py-32">
+          {/* Subtle warm ambient lighting */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[850px] h-[450px] bg-gradient-to-b from-blue-50/70 via-slate-50/50 to-transparent blur-3xl pointer-events-none -z-0" />
 
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            {/* Animated Pill Badge with Shimmer Sweep */}
+            
+            {/* Human Editorial Badge (Zero synthetic blinking dots) */}
             <motion.div
-              initial={{ opacity: 0, y: 15, scale: 0.96 }}
+              initial={{ opacity: 0, y: 12, scale: 0.98 }}
               animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-50/90 border border-blue-200/80 shadow-xs mb-8 relative overflow-hidden group cursor-default"
+              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200/90 text-slate-700 text-xs font-medium mb-8 cursor-default"
             >
-              {/* Shimmer sweep effect */}
-              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 to-transparent animate-shimmer pointer-events-none" />
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse relative z-10" />
-              <span className="text-xs font-semibold text-blue-800 tracking-wide relative z-10">
-                Smart Business Decision Studio
-              </span>
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+              <span>Smart Business Decision Studio</span>
             </motion.div>
 
-            {/* Main Headline with Animated Gradient Flow */}
+            {/* Main Headline with Google-style typography */}
             <motion.h1
-              initial={{ opacity: 0, y: 22 }}
+              initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: 0.08, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.12]"
             >
               We built Sentra so no business owner has to{" "}
-              <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-teal-600 bg-clip-text text-transparent animate-gradient-flow font-extrabold">
+              <span className="text-blue-600 underline decoration-blue-200 decoration-wavy underline-offset-8">
                 gamble with company cash.
               </span>
             </motion.h1>
 
             {/* Subtitle */}
             <motion.p
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: 0.18, ease: [0.16, 1, 0.3, 1] }}
               className="mt-6 text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-normal"
             >
               AI advice often sounds smart, but it tends to guess high on inventory and budgets.
@@ -285,26 +278,26 @@ export default function HomePage() {
               and finds the most profitable sweet spot for your business.
             </motion.p>
 
-            {/* Hero Action Pill Buttons with Micro-Interactions */}
+            {/* Hero Action Pill Buttons */}
             <motion.div
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: 0.28, ease: [0.16, 1, 0.3, 1] }}
               className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
-              <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
+              <motion.div whileHover={{ scale: 1.04, y: -1 }} whileTap={{ scale: 0.97 }}>
                 <Link
                   href="/decisions"
-                  className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-gradient-to-b from-slate-800 to-slate-950 text-white hover:from-slate-700 hover:to-slate-900 shadow-md hover:shadow-xl transition-all duration-200 border border-white/10 group font-medium text-sm"
+                  className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-slate-900 text-white hover:bg-slate-800 shadow-md hover:shadow-lg transition-all duration-200 group font-medium text-sm border border-slate-800"
                 >
                   <span>Try the Decision Calculator</span>
-                  <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-all group-hover:translate-x-0.5">
+                  <div className="w-8 h-8 rounded-full bg-white/15 group-hover:bg-white/25 flex items-center justify-center transition-all group-hover:translate-x-0.5">
                     <ArrowRight className="w-4 h-4 text-white" />
                   </div>
                 </Link>
               </motion.div>
 
-              <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }}>
+              <motion.div whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.98 }}>
                 <Link
                   href="/workspace"
                   className="btn-secondary text-sm py-3 px-6 rounded-full"
@@ -314,26 +307,26 @@ export default function HomePage() {
               </motion.div>
             </motion.div>
 
-            {/* Key Metrics Trust Strip with Hover Lift */}
+            {/* Clean Editorial Metric Strip */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.65, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
+              transition={{ duration: 0.6, delay: 0.38, ease: [0.16, 1, 0.3, 1] }}
               className="mt-16 pt-8 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-6 text-left"
             >
-              <div className="p-3 rounded-2xl transition-all hover:bg-slate-50/80">
+              <div className="p-3 rounded-2xl hover:bg-slate-50 transition-colors">
                 <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Teams Supported</div>
                 <div className="text-2xl font-bold text-slate-900 mt-1">45 Companies</div>
               </div>
-              <div className="p-3 rounded-2xl transition-all hover:bg-slate-50/80">
+              <div className="p-3 rounded-2xl hover:bg-slate-50 transition-colors">
                 <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Plans Simulated</div>
                 <div className="text-2xl font-bold text-slate-900 mt-1">225+ Completed</div>
               </div>
-              <div className="p-3 rounded-2xl transition-all hover:bg-slate-50/80">
+              <div className="p-3 rounded-2xl hover:bg-slate-50 transition-colors">
                 <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Excess Stock Avoided</div>
                 <div className="text-2xl font-bold text-emerald-600 mt-1">-23.2% Overspending</div>
               </div>
-              <div className="p-3 rounded-2xl transition-all hover:bg-slate-50/80">
+              <div className="p-3 rounded-2xl hover:bg-slate-50 transition-colors">
                 <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Sign-Off Security</div>
                 <div className="text-2xl font-bold text-slate-900 mt-1">100% Protected</div>
               </div>
@@ -342,55 +335,70 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* INTERACTIVE COMPARISON WIDGET: THE OLD WAY VS SENTRA                      */}
+        {/* INTERACTIVE COMPARISON WITH GLIDING TAB HIGHLIGHT (SPRING PHYSICS)        */}
         {/* ========================================================================= */}
         <section className="py-16 sm:py-24 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-10">
-            <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-2">
+            <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider block mb-2">
               Why Guessing Fails
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
               See the Difference: Guessing vs. Planning
             </h2>
             <p className="text-sm text-slate-600 mt-2">
-              Toggle between the two approaches below to see how Sentra protects your business.
+              Click either option to watch how Sentra protects your business cash in real time.
             </p>
 
-            {/* Segmented Interactive Pill Dock */}
-            <div className="pill-dock mt-6 inline-flex shadow-xs p-1">
+            {/* Gliding Tab Slider Pill with Framer Motion Spring */}
+            <div className="mt-6 inline-flex p-1.5 bg-slate-100 rounded-full border border-slate-200/90 shadow-xs relative">
               <button
                 onClick={() => setInteractiveMode("guessing")}
-                className={`pill-dock-item px-5 py-2 text-xs font-semibold transition-all duration-200 ${
-                  interactiveMode === "guessing" ? "active text-rose-700 shadow-sm" : "hover:text-slate-900"
+                className={`relative z-10 px-5 py-2 text-xs font-medium rounded-full transition-colors ${
+                  interactiveMode === "guessing" ? "text-slate-900 font-semibold" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                The Old Way (Guessing &amp; Chatbots)
+                {interactiveMode === "guessing" && (
+                  <motion.div
+                    layoutId="activeComparisonTab"
+                    className="absolute inset-0 bg-white rounded-full shadow-xs border border-slate-200/80"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">The Old Way (Guessing &amp; Chatbots)</span>
               </button>
+
               <button
                 onClick={() => setInteractiveMode("sentra")}
-                className={`pill-dock-item px-5 py-2 text-xs font-semibold transition-all duration-200 ${
-                  interactiveMode === "sentra" ? "active text-emerald-700 shadow-sm" : "hover:text-slate-900"
+                className={`relative z-10 px-5 py-2 text-xs font-medium rounded-full transition-colors ${
+                  interactiveMode === "sentra" ? "text-slate-900 font-semibold" : "text-slate-600 hover:text-slate-900"
                 }`}
               >
-                ★ The Sentra Way (Tested Sweet Spot)
+                {interactiveMode === "sentra" && (
+                  <motion.div
+                    layoutId="activeComparisonTab"
+                    className="absolute inset-0 bg-white rounded-full shadow-xs border border-slate-200/80"
+                    transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                  />
+                )}
+                <span className="relative z-10">★ The Sentra Way (Tested Sweet Spot)</span>
               </button>
             </div>
           </div>
 
-          {/* Dynamic Card Display with Animated Layout Transition */}
+          {/* Dynamic Card Display with 3D Tilt Spotlight Cards */}
           <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-sm transition-all duration-300">
             <AnimatePresence mode="wait">
               {interactiveMode === "guessing" ? (
                 <motion.div
                   key="guessing"
-                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
+                  exit={{ opacity: 0, y: -12, scale: 0.98 }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   className="grid grid-cols-1 md:grid-cols-3 gap-6"
                 >
-                  <motion.div
-                    whileHover={{ y: -4 }}
+                  <SpotlightCard
+                    spotlightColor="rgba(239, 68, 68, 0.08)"
                     className="p-6 rounded-2xl bg-rose-50/60 border border-rose-200/80 flex flex-col justify-between shadow-xs"
                   >
                     <div>
@@ -402,13 +410,13 @@ export default function HomePage() {
                         General AI suggests ordering 1,750 units because it sounds safe. But nobody checked what happens if demand dips slightly.
                       </p>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-rose-200/80 text-xs font-semibold text-rose-800">
+                    <div className="mt-6 pt-4 border-t border-rose-200 text-xs font-semibold text-rose-800">
                       Outcome: 330 leftover items
                     </div>
-                  </motion.div>
+                  </SpotlightCard>
 
-                  <motion.div
-                    whileHover={{ y: -4 }}
+                  <SpotlightCard
+                    spotlightColor="rgba(239, 68, 68, 0.08)"
                     className="p-6 rounded-2xl bg-rose-50/60 border border-rose-200/80 flex flex-col justify-between shadow-xs"
                   >
                     <div>
@@ -420,13 +428,13 @@ export default function HomePage() {
                         Your working cash is trapped in storage. You have to run deep discounts and clearance sales just to get your money back.
                       </p>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-rose-200/80 text-xs font-semibold text-rose-800">
-                      Outcome: -$14,850 in clearance loss
+                    <div className="mt-6 pt-4 border-t border-rose-200 text-xs font-semibold text-rose-800">
+                      Outcome: -$14,850 clearance loss
                     </div>
-                  </motion.div>
+                  </SpotlightCard>
 
-                  <motion.div
-                    whileHover={{ y: -4 }}
+                  <SpotlightCard
+                    spotlightColor="rgba(239, 68, 68, 0.08)"
                     className="p-6 rounded-2xl bg-rose-50/60 border border-rose-200/80 flex flex-col justify-between shadow-xs"
                   >
                     <div>
@@ -438,23 +446,23 @@ export default function HomePage() {
                         When the leadership team asks why this order size was chosen, the answers are buried in email threads and lost chat windows.
                       </p>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-rose-200/80 text-xs font-semibold text-rose-800">
+                    <div className="mt-6 pt-4 border-t border-rose-200 text-xs font-semibold text-rose-800">
                       Outcome: Zero defensibility
                     </div>
-                  </motion.div>
+                  </SpotlightCard>
                 </motion.div>
               ) : (
                 <motion.div
                   key="sentra"
-                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                  initial={{ opacity: 0, y: 12, scale: 0.98 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
-                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
+                  exit={{ opacity: 0, y: -12, scale: 0.98 }}
                   transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   className="grid grid-cols-1 md:grid-cols-3 gap-6"
                 >
-                  <motion.div
-                    whileHover={{ y: -4 }}
-                    className="p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between shadow-xs"
+                  <SpotlightCard
+                    spotlightColor="rgba(16, 185, 129, 0.08)"
+                    className="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-200 flex flex-col justify-between shadow-xs"
                   >
                     <div>
                       <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm mb-4">
@@ -466,13 +474,13 @@ export default function HomePage() {
                       </p>
                     </div>
                     <div className="mt-6 pt-4 border-t border-emerald-200 text-xs font-semibold text-emerald-800">
-                      Result: 99.9% of customer orders fulfilled
+                      Result: 99.9% customer orders fulfilled
                     </div>
-                  </motion.div>
+                  </SpotlightCard>
 
-                  <motion.div
-                    whileHover={{ y: -4 }}
-                    className="p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between shadow-xs"
+                  <SpotlightCard
+                    spotlightColor="rgba(16, 185, 129, 0.08)"
+                    className="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-200 flex flex-col justify-between shadow-xs"
                   >
                     <div>
                       <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm mb-4">
@@ -486,11 +494,11 @@ export default function HomePage() {
                     <div className="mt-6 pt-4 border-t border-emerald-200 text-xs font-semibold text-emerald-800">
                       Result: Maximum operating profit
                     </div>
-                  </motion.div>
+                  </SpotlightCard>
 
-                  <motion.div
-                    whileHover={{ y: -4 }}
-                    className="p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between shadow-xs"
+                  <SpotlightCard
+                    spotlightColor="rgba(16, 185, 129, 0.08)"
+                    className="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-200 flex flex-col justify-between shadow-xs"
                   >
                     <div>
                       <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm mb-4">
@@ -504,7 +512,7 @@ export default function HomePage() {
                     <div className="mt-6 pt-4 border-t border-emerald-200 text-xs font-semibold text-emerald-800">
                       Result: 100% auditable peace of mind
                     </div>
-                  </motion.div>
+                  </SpotlightCard>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -512,79 +520,114 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* INTERACTIVE SWEET-SPOT DEMO WITH LIVE PROFIT SPRING BAR                   */}
+        {/* INTERACTIVE SWEET-SPOT DEMO WITH GLIDING TABS & FLOATING SLIDER BUBBLE   */}
         {/* ========================================================================= */}
-        <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white border-y border-slate-200">
+        <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white border-y border-slate-200/80">
           <div className="max-w-3xl mb-8">
-            <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-2">
-              Try It Live
+            <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider block mb-2">
+              Hands-On Demonstration
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
               Test What Happens When You Adjust Your Order
             </h2>
             <p className="text-sm text-slate-600 mt-2 leading-relaxed">
-              Pick a real business scenario below, then slide the bar to see how profits rise until you hit the sweet spot.
+              Pick a business scenario below, then drag the slider to watch profit and cash safety rebalance in real time.
             </p>
           </div>
 
-          {/* Scenario Selector Pill Dock */}
-          <div className="pill-dock mb-8 overflow-x-auto max-w-full shadow-xs scrollbar-none">
-            {SCENARIOS.map((sc, idx) => (
-              <button
-                key={sc.id}
-                onClick={() => {
-                  setSelectedScenarioIdx(idx);
-                  setUserAllocation(sc.optimalQ);
-                }}
-                className={`pill-dock-item px-4 py-2 font-medium text-xs whitespace-nowrap transition-all duration-200 ${
-                  selectedScenarioIdx === idx ? "active shadow-xs" : ""
-                }`}
-              >
-                <span>{sc.name}</span>
-                <span className="text-slate-400 ml-1.5 font-normal">({sc.industry})</span>
-              </button>
-            ))}
+          {/* Gliding Scenario Selector Tabs */}
+          <div className="w-full overflow-x-auto scrollbar-none pb-2 mb-8">
+            <div className="inline-flex p-1.5 bg-slate-100 rounded-full border border-slate-200/90 shadow-xs relative">
+              {SCENARIOS.map((sc, idx) => {
+                const isActive = selectedScenarioIdx === idx;
+                return (
+                  <button
+                    key={sc.id}
+                    onClick={() => {
+                      setSelectedScenarioIdx(idx);
+                      setUserAllocation(sc.optimalQ);
+                    }}
+                    className={`relative z-10 px-4 py-2 text-xs font-medium rounded-full transition-colors whitespace-nowrap ${
+                      isActive ? "text-slate-900 font-semibold" : "text-slate-600 hover:text-slate-900"
+                    }`}
+                  >
+                    {isActive && (
+                      <motion.div
+                        layoutId="activeScenarioPill"
+                        className="absolute inset-0 bg-white rounded-full shadow-xs border border-slate-200/80"
+                        transition={{ type: "spring", stiffness: 380, damping: 30 }}
+                      />
+                    )}
+                    <span className="relative z-10">
+                      {sc.name} <span className="opacity-60 font-normal">({sc.industry})</span>
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
           </div>
 
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            {/* Left 7 Columns: Interactive Slider & Metrics */}
+            {/* Left 7 Columns: Interactive Slider with Floating Bubble */}
             <div className="lg:col-span-7 bg-slate-50 border border-slate-200 rounded-3xl p-6 sm:p-8 space-y-6">
               <div>
                 <div className="flex justify-between items-baseline mb-2">
-                  <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
+                  <span className="text-xs font-semibold text-slate-700 uppercase tracking-wider">
                     How Many Items to Order:
                   </span>
                   <div className="flex items-center gap-2">
                     {isOptimal && (
-                      <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full animate-pulse border border-emerald-300">
+                      <span className="text-[11px] font-bold text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full border border-emerald-300">
                         ★ SWEET SPOT
                       </span>
                     )}
                     <span className="font-mono text-2xl font-bold text-slate-900 tabular-nums">
-                      {formatNumber(userAllocation)} items
+                      <AnimatedNumber value={userAllocation} format={(v) => `${v.toLocaleString()} items`} />
                     </span>
                   </div>
                 </div>
 
-                {/* Range Slider */}
-                <input
-                  type="range"
-                  min={Math.round(currentScenario.meanDemand * 0.5)}
-                  max={Math.round(currentScenario.meanDemand * 1.8)}
-                  step={20}
-                  value={userAllocation}
-                  onChange={(e) => setUserAllocation(Number(e.target.value))}
-                  className="w-full h-2.5 bg-slate-200 rounded-lg cursor-pointer accent-blue-600 transition-all"
-                />
+                {/* Slider with Floating Live Tooltip */}
+                <div className="relative pt-6 pb-2">
+                  {/* Floating Tooltip Gliding with Slider Value */}
+                  <div
+                    className="absolute -top-1 transition-all duration-75 pointer-events-none -translate-x-1/2"
+                    style={{
+                      left: `${Math.max(6, Math.min(94, ((userAllocation - minRange) / (maxRange - minRange)) * 100))}%`,
+                    }}
+                  >
+                    <div
+                      className={`px-3 py-1 rounded-full text-[10px] font-semibold shadow-xs whitespace-nowrap border ${
+                        isOptimal
+                          ? "bg-emerald-700 text-white border-emerald-600"
+                          : userAllocation > currentScenario.optimalQ
+                          ? "bg-slate-900 text-white border-slate-800"
+                          : "bg-blue-600 text-white border-blue-500"
+                      }`}
+                    >
+                      {formatNumber(userAllocation)} items {isOptimal ? "— Sweet Spot" : ""}
+                    </div>
+                  </div>
 
-                <div className="flex justify-between text-xs text-slate-500 mt-1.5 font-mono">
-                  <span>Lean: {Math.round(currentScenario.meanDemand * 0.5)}</span>
+                  <input
+                    type="range"
+                    min={minRange}
+                    max={maxRange}
+                    step={20}
+                    value={userAllocation}
+                    onChange={(e) => setUserAllocation(Number(e.target.value))}
+                    className="w-full h-2.5 bg-slate-200 rounded-lg cursor-pointer accent-blue-600 transition-all"
+                  />
+                </div>
+
+                <div className="flex justify-between text-xs text-slate-500 mt-1 font-mono">
+                  <span>Lean: {minRange}</span>
                   <span className="text-blue-700 font-bold">★ Sweet Spot: {currentScenario.optimalQ}</span>
                   <span>AI Guess: {currentScenario.aiQ}</span>
                 </div>
 
                 {/* Animated Profit Level Meter */}
-                <div className="mt-4 pt-3 border-t border-slate-200/80">
+                <div className="mt-4 pt-3 border-t border-slate-200">
                   <div className="flex justify-between text-[11px] font-medium text-slate-600 mb-1.5">
                     <span>Profit Optimization Level:</span>
                     <span className="font-mono font-bold text-slate-900">
@@ -595,60 +638,45 @@ export default function HomePage() {
                     <motion.div
                       className={`h-full rounded-full ${
                         isOptimal
-                          ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400"
+                          ? "bg-emerald-500"
                           : userAllocation > currentScenario.optimalQ
-                          ? "bg-gradient-to-r from-amber-500 to-rose-500"
-                          : "bg-gradient-to-r from-blue-500 to-indigo-500"
+                          ? "bg-amber-500"
+                          : "bg-blue-600"
                       }`}
                       animate={{ width: `${Math.min(100, (estimatedProfit / maxProfit) * 100)}%` }}
-                      transition={{ type: "spring", stiffness: 260, damping: 25 }}
+                      transition={{ type: "spring", stiffness: 280, damping: 28 }}
                     />
                   </div>
                 </div>
               </div>
 
-              {/* Live Diagnostic Metrics with Spring Animations */}
+              {/* Live Diagnostic Metrics with Animated Numbers */}
               <div className="grid grid-cols-3 gap-3 pt-1">
-                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
                   <div className="text-[11px] text-slate-500 font-semibold uppercase">Customers Fulfilled</div>
-                  <motion.div
-                    key={fulfillmentRate}
-                    initial={{ scale: 0.95 }}
-                    animate={{ scale: 1 }}
-                    className="text-xl font-bold text-emerald-700 mt-1 font-mono"
-                  >
-                    {formatPercent(fulfillmentRate)}
-                  </motion.div>
+                  <div className="text-xl font-bold text-emerald-700 mt-1 font-mono">
+                    <AnimatedNumber value={Math.round(fulfillmentRate * 1000) / 10} format={(v) => `${v.toFixed(1)}%`} />
+                  </div>
                 </div>
 
-                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
                   <div className="text-[11px] text-slate-500 font-semibold uppercase">Cash Left in Bank</div>
-                  <motion.div
-                    key={remainingCash}
-                    initial={{ scale: 0.95 }}
-                    animate={{ scale: 1 }}
-                    className="text-xl font-bold text-slate-900 mt-1 font-mono"
-                  >
-                    {formatCurrency(remainingCash)}
-                  </motion.div>
+                  <div className="text-xl font-bold text-slate-900 mt-1 font-mono">
+                    <AnimatedNumber value={remainingCash} format={(v) => formatCurrency(v)} />
+                  </div>
                 </div>
 
-                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
+                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
                   <div className="text-[11px] text-slate-500 font-semibold uppercase">Estimated Profit</div>
-                  <motion.div
-                    key={estimatedProfit}
-                    initial={{ scale: 0.95 }}
-                    animate={{ scale: 1 }}
-                    className="text-xl font-bold text-blue-700 mt-1 font-mono"
-                  >
-                    {formatCurrency(estimatedProfit)}
-                  </motion.div>
+                  <div className="text-xl font-bold text-blue-700 mt-1 font-mono">
+                    <AnimatedNumber value={estimatedProfit} format={(v) => formatCurrency(v)} />
+                  </div>
                 </div>
               </div>
 
-              {/* Explanatory Message Banner */}
+              {/* Clear Plain Message Banner */}
               <div
-                className={`p-4 rounded-2xl text-xs flex items-start gap-3 border transition-all ${
+                className={`p-4 rounded-2xl text-xs flex items-start gap-3 border transition-colors ${
                   isOptimal
                     ? "bg-emerald-50 border-emerald-200 text-emerald-900"
                     : "bg-blue-50/70 border-blue-200 text-blue-900"
@@ -675,7 +703,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right 5 Columns: Scenario Cost Breakdown */}
+            {/* Right 5 Columns: Scenario Costs */}
             <div className="lg:col-span-5 space-y-4">
               <div className="p-6 bg-white border border-slate-200 rounded-3xl shadow-xs space-y-4">
                 <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wider">
@@ -718,11 +746,11 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* OUR FOUR CORE PROMISES                                                    */}
+        {/* OUR FOUR CORE PROMISES WITH SPOTLIGHT TILT CARDS                          */}
         {/* ========================================================================= */}
         <section className="py-16 sm:py-24 max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-2xl mx-auto mb-16">
-            <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-2">
+            <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider block mb-2">
               What We Stand For
             </span>
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
@@ -735,24 +763,16 @@ export default function HomePage() {
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {PROMISES.map((v, i) => (
-              <motion.div
+              <SpotlightCard
                 key={v.title}
-                initial={{ opacity: 0, y: 20 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-50px" }}
-                transition={{ duration: 0.45, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
-                whileHover={{ y: -6, scale: 1.01 }}
-                className="p-8 rounded-3xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group shadow-xs cursor-default"
+                className="p-8 rounded-3xl bg-white border border-slate-200/90 hover:border-slate-300 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group shadow-xs cursor-default"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <motion.div
-                      whileHover={{ scale: 1.15, rotate: 6 }}
-                      className={`w-12 h-12 rounded-2xl ${v.accent} flex items-center justify-center transition-transform`}
-                    >
+                    <div className={`w-12 h-12 rounded-2xl ${v.accent} border flex items-center justify-center transition-transform group-hover:scale-105`}>
                       <v.icon className="w-6 h-6" />
-                    </motion.div>
-                    <span className="text-[11px] font-semibold text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full">
+                    </div>
+                    <span className="text-[11px] font-semibold text-slate-600 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full">
                       {v.badge}
                     </span>
                   </div>
@@ -767,7 +787,7 @@ export default function HomePage() {
                     {v.description}
                   </p>
                 </div>
-              </motion.div>
+              </SpotlightCard>
             ))}
           </div>
         </section>
@@ -775,10 +795,10 @@ export default function HomePage() {
         {/* ========================================================================= */}
         {/* MILESTONES / OUR JOURNEY                                                  */}
         {/* ========================================================================= */}
-        <section className="py-16 sm:py-24 bg-white border-y border-slate-200">
+        <section className="py-16 sm:py-24 bg-white border-y border-slate-200/80">
           <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="text-center mb-16">
-              <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-2">
+              <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider block mb-2">
                 Our Journey
               </span>
               <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 tracking-tight">
@@ -791,29 +811,22 @@ export default function HomePage() {
 
             <div className="space-y-8 relative before:absolute before:inset-0 before:left-5 before:w-0.5 before:bg-slate-200">
               {MILESTONES.map((m, idx) => (
-                <motion.div
+                <div
                   key={m.year}
-                  initial={{ opacity: 0, x: -16 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-40px" }}
-                  transition={{ duration: 0.45, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
                   className="relative flex items-start gap-6 group"
                 >
-                  {/* Milestone Node with Breathing Halo */}
-                  <div className="w-10 h-10 rounded-full bg-white border-2 border-blue-600 flex items-center justify-center font-bold text-xs text-blue-700 shrink-0 shadow-xs z-10 group-hover:scale-110 transition-transform">
+                  {/* Clean Number Node */}
+                  <div className="w-10 h-10 rounded-full bg-white border-2 border-slate-900 flex items-center justify-center font-bold text-xs text-slate-900 shrink-0 shadow-xs z-10 group-hover:scale-105 transition-transform">
                     {idx + 1}
                   </div>
 
                   {/* Milestone Content Card */}
-                  <motion.div
-                    whileHover={{ x: 4 }}
-                    className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex-1 shadow-xs group-hover:shadow-md transition-all"
-                  >
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex-1 shadow-xs group-hover:shadow-md transition-shadow">
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs font-bold text-blue-600 font-mono">
                         {m.year}
                       </span>
-                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
+                      <span className="text-xs text-slate-400 font-medium">Completed</span>
                     </div>
                     <h3 className="text-lg font-bold text-slate-900">
                       {m.title}
@@ -821,8 +834,8 @@ export default function HomePage() {
                     <p className="text-sm text-slate-600 mt-2 leading-relaxed">
                       {m.summary}
                     </p>
-                  </motion.div>
-                </motion.div>
+                  </div>
+                </div>
               ))}
             </div>
           </div>
@@ -833,7 +846,7 @@ export default function HomePage() {
         {/* ========================================================================= */}
         <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-2xl mb-8">
-            <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-2">
+            <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider block mb-2">
               Proven Results
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
@@ -847,7 +860,7 @@ export default function HomePage() {
           <div className="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
             <div className="overflow-x-auto scrollbar-none">
               <table className="w-full text-left text-sm text-slate-700 min-w-[700px]">
-                <thead className="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
+                <thead className="bg-slate-50 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <tr>
                     <th className="px-6 py-4">Business Scenario</th>
                     <th className="px-6 py-4">Industry</th>
@@ -879,7 +892,7 @@ export default function HomePage() {
                         {cs.capitalSaved}
                       </td>
                       <td className="px-6 py-4 text-xs font-medium text-emerald-700">
-                        <span className="inline-flex items-center gap-1">
+                        <span className="inline-flex items-center gap-1.5">
                           <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                           <span>Approved &amp; Verified</span>
                         </span>
@@ -893,12 +906,12 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* PERMANENT DIGITAL RECORD GENERATOR TOOL WITH INTERACTIVE SEAL             */}
+        {/* PERMANENT DIGITAL RECORD GENERATOR TOOL                                   */}
         {/* ========================================================================= */}
-        <section className="py-16 sm:py-24 bg-white border-y border-slate-200">
+        <section className="py-16 sm:py-24 bg-white border-y border-slate-200/80">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="max-w-2xl mb-8">
-              <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-2">
+              <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider block mb-2">
                 Tamper-Proof Records
               </span>
               <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
@@ -946,12 +959,12 @@ export default function HomePage() {
                 </div>
               </div>
 
-              {/* Hash Display with Smooth Pop-In */}
+              {/* Hash Display with Stamp-Down Effect */}
               <motion.div
                 key={provenanceHash}
-                initial={{ opacity: 0, y: 6 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
+                initial={{ scale: 0.94, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                transition={{ type: "spring", stiffness: 350, damping: 25 }}
                 className="mt-6 p-4 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
               >
                 <div>
@@ -962,7 +975,7 @@ export default function HomePage() {
                     0x{provenanceHash}
                   </span>
                 </div>
-                <div className="flex items-center gap-2 text-xs font-medium text-emerald-700 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shrink-0">
+                <div className="flex items-center gap-1.5 text-xs font-medium text-emerald-800 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200 shrink-0">
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Signed &amp; Approved</span>
                 </div>
@@ -976,7 +989,7 @@ export default function HomePage() {
         {/* ========================================================================= */}
         <section className="py-16 sm:py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <span className="text-xs font-bold text-blue-700 uppercase tracking-wider block mb-2">
+            <span className="text-xs font-semibold text-blue-600 uppercase tracking-wider block mb-2">
               Common Questions
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 tracking-tight">
@@ -1072,13 +1085,13 @@ export default function HomePage() {
         {/* ========================================================================= */}
         <section className="py-20 sm:py-28 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
+            initial={{ opacity: 0, scale: 0.98 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
-            className="p-8 sm:p-14 rounded-3xl bg-gradient-to-b from-white to-slate-50 border border-slate-200 shadow-sm relative overflow-hidden"
+            className="p-8 sm:p-14 rounded-3xl bg-slate-50 border border-slate-200/90 shadow-sm relative overflow-hidden"
           >
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-6 shadow-xs animate-bounce">
+            <div className="w-12 h-12 rounded-2xl bg-blue-100 text-blue-700 flex items-center justify-center mx-auto mb-6 shadow-xs">
               <Sparkles className="w-6 h-6" />
             </div>
 
@@ -1090,19 +1103,19 @@ export default function HomePage() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
+              <motion.div whileHover={{ scale: 1.04, y: -1 }} whileTap={{ scale: 0.97 }}>
                 <Link
                   href="/decisions"
-                  className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-gradient-to-b from-slate-800 to-slate-950 text-white hover:from-slate-700 hover:to-slate-900 shadow-md hover:shadow-xl transition-all duration-200 border border-white/10 group font-medium text-sm"
+                  className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-slate-900 text-white hover:bg-slate-800 shadow-md hover:shadow-lg transition-all duration-200 group font-medium text-sm border border-slate-800"
                 >
                   <span>Plan a Decision Now</span>
-                  <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-colors">
+                  <div className="w-8 h-8 rounded-full bg-white/15 group-hover:bg-white/25 flex items-center justify-center transition-colors">
                     <ArrowRight className="w-4 h-4 text-white" />
                   </div>
                 </Link>
               </motion.div>
 
-              <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }}>
+              <motion.div whileHover={{ scale: 1.03, y: -1 }} whileTap={{ scale: 0.98 }}>
                 <Link
                   href="/workspace"
                   className="btn-secondary text-sm py-3 px-6 rounded-full"
@@ -1115,7 +1128,7 @@ export default function HomePage() {
         </section>
       </main>
 
-      {/* Footer */}
+      {/* Footer (No synthetic signal dots) */}
       <footer className="bg-white border-t border-slate-200 py-12 text-xs text-slate-500">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 grid grid-cols-2 md:grid-cols-4 gap-8">
           <div>
@@ -1147,8 +1160,8 @@ export default function HomePage() {
           </div>
           <div>
             <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">System Status</div>
-            <div className="flex items-center gap-2 text-emerald-600 font-medium mb-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+            <div className="flex items-center gap-1.5 text-emerald-700 font-medium mb-1">
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
               <span>All Services Running Smoothly</span>
             </div>
             <p className="text-[11px] text-slate-400">99.99% Uptime · Real-Time Calculations Active</p>

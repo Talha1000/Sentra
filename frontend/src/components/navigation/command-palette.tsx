@@ -19,6 +19,7 @@ import {
   Zap,
   CornerDownLeft,
   X,
+  CheckCircle2,
 } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
 
@@ -395,8 +396,8 @@ export function CommandPalette({
                   <span>dismiss</span>
                 </span>
               </div>
-              <div className="hidden sm:flex items-center gap-2 text-emerald-700 font-medium text-xs">
-                <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 inline-block" />
+              <div className="hidden sm:flex items-center gap-1.5 text-emerald-700 font-medium text-xs">
+                <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600 inline-block" />
                 <span>Deterministic Workstation</span>
               </div>
             </div>

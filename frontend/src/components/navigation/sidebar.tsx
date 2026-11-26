@@ -14,6 +14,7 @@ import {
   ChevronRight,
   Layers,
   HelpCircle,
+  CheckCircle2,
 } from "lucide-react";
 
 export function Sidebar() {
@@ -94,7 +95,7 @@ export function Sidebar() {
           <div className="px-3 py-2 rounded-lg bg-slate-50 border border-slate-100">
             <div className="text-[10px] text-slate-400 uppercase tracking-wider flex items-center justify-between font-semibold">
               <span>Status</span>
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             </div>
             <div className="text-xs font-medium text-slate-700 mt-0.5 truncate">
               All Systems Operational

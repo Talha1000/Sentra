@@ -61,8 +61,8 @@ export default function GovernancePage() {
           { label: "Decision Audit Trail", badge: "Permanent Record" },
         ]}
         rightElement={
-          <div className="flex items-center gap-2 text-xs text-emerald-700 font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-medium">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             <span>Audit Trail: 100% Signed &amp; Protected</span>
           </div>
         }

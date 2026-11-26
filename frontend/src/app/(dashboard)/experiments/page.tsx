@@ -142,8 +142,8 @@ export default function ExperimentsDashboardPage() {
           { label: "Business Scenarios", badge: "Live Practice" },
         ]}
         rightElement={
-          <div className="flex items-center gap-2 text-xs text-emerald-700 font-medium">
-            <span className="w-2 h-2 rounded-full bg-emerald-500" />
+          <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-medium">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             <span>Interactive Practice Simulator Active</span>
           </div>
         }
@@ -438,7 +438,7 @@ export default function ExperimentsDashboardPage() {
           <Card>
             <CardHeader className="pb-3 flex flex-row items-center justify-between">
               <div className="flex items-center gap-2">
-                <Activity className="w-4 h-4 text-emerald-600 animate-pulse" />
+                <Activity className="w-4 h-4 text-emerald-600" />
                 <CardTitle className="text-sm">Recent Team Runs</CardTitle>
               </div>
               <Badge variant="spruce" dot>Live Activity</Badge>

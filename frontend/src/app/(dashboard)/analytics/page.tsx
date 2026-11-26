@@ -21,6 +21,7 @@ import {
   Target,
   BarChart3,
   ShieldCheck,
+  Loader2,
 } from "lucide-react";
 
 export default function AnalyticsPage() {
@@ -50,7 +51,7 @@ export default function AnalyticsPage() {
     return (
       <div className="py-24 text-center text-sm text-slate-500">
         <div className="inline-flex items-center gap-2 p-3 rounded-lg bg-white border border-slate-200 shadow-xs">
-          <span className="w-2 h-2 rounded-full bg-blue-600 animate-ping" />
+          <Loader2 className="w-4 h-4 text-blue-600 animate-spin" />
           <span>Loading performance reports and financial charts...</span>
         </div>
       </div>
@@ -67,8 +68,8 @@ export default function AnalyticsPage() {
           { label: "Holiday Inventory Report", badge: "Verified Data" },
         ]}
         rightElement={
-          <div className="flex items-center gap-2 text-xs text-emerald-700 font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+          <div className="flex items-center gap-1.5 text-xs text-emerald-700 font-medium">
+            <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
             <span>Accuracy Score: 96.6% (High Confidence)</span>
           </div>
         }

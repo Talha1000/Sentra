@@ -60,7 +60,6 @@ export function Badge({ className, variant = "neutral", dot = false, children, .
 
   return (
     <span className={cn(baseStyles, variants[variant], className)} {...props}>
-      {dot && <span className={cn("w-1.5 h-1.5 rounded-full shrink-0", dotColors[variant])} />}
       {children}
     </span>
   );

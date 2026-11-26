@@ -2,6 +2,7 @@
 
 import React from "react";
 import { Topbar } from "./topbar";
+import { CheckCircle2, Layers } from "lucide-react";
 
 export function AppShell({ children }: { children: React.ReactNode }) {
   return (
@@ -16,7 +17,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div className="flex items-center gap-3">
             <span className="font-semibold text-slate-900 flex items-center gap-2">
-              <span className="w-2 h-2 rounded-full bg-blue-600" />
+              <Layers className="w-4 h-4 text-blue-600" />
               Sentra
             </span>
             <span>•</span>
@@ -29,7 +30,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
 
           <div className="flex items-center gap-4 text-slate-500 text-xs">
             <span className="flex items-center gap-1.5">
-              <span className="w-1.5 h-1.5 rounded-full bg-emerald-500" />
+              <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
               Real-Time Forecasting Active
             </span>
             <span>•</span>

@@ -82,9 +82,9 @@ export default function DecisionsPage() {
           { label: "Plan Decisions", badge: "Sweet Spot Finder" },
         ]}
         rightElement={
-          <div className="flex items-center gap-2 text-xs text-blue-700 font-medium bg-blue-50/80 px-3 py-1 rounded-full border border-blue-200/60">
-            <span className="w-2 h-2 rounded-full bg-blue-600" />
-            <span>★ Recommended Sweet Spot: 1,420 units</span>
+          <div className="flex items-center gap-1.5 text-xs text-blue-700 font-medium bg-blue-50/80 px-3 py-1 rounded-full border border-blue-200/60">
+            <Sparkles className="w-3.5 h-3.5 text-blue-600" />
+            <span>Recommended Sweet Spot: 1,420 units</span>
           </div>
         }
       />

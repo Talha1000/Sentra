@@ -37,7 +37,7 @@ export function TableRow({ className, children, ...props }: React.HTMLAttributes
 
 export function TableHead({ className, children, ...props }: React.ThHTMLAttributes<HTMLTableCellElement>) {
   return (
-    <th className={cn("h-11 px-5 py-3 align-middle font-medium text-slate-600 whitespace-nowrap", className)} {...props}>
+    <th className={cn("h-10 px-3.5 sm:px-4 py-2.5 align-middle font-medium text-slate-600 whitespace-nowrap", className)} {...props}>
       {children}
     </th>
   );
@@ -45,7 +45,7 @@ export function TableHead({ className, children, ...props }: React.ThHTMLAttribu
 
 export function TableCell({ className, children, ...props }: React.TdHTMLAttributes<HTMLTableCellElement>) {
   return (
-    <td className={cn("px-5 py-3.5 align-middle text-slate-800", className)} {...props}>
+    <td className={cn("px-3.5 sm:px-4 py-3 align-middle text-slate-800", className)} {...props}>
       {children}
     </td>
   );

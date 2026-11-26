@@ -111,9 +111,9 @@ export default function AboutPage() {
               initial={{ opacity: 0, y: 15 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-50/90 border border-blue-200/80 shadow-xs mb-8"
+              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-blue-50/90 border border-blue-200/80 shadow-xs mb-8"
             >
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
+              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
               <span className="text-xs font-semibold text-blue-800 tracking-wide">
                 Our Story &amp; Purpose
               </span>
@@ -410,7 +410,7 @@ export default function AboutPage() {
                     <span className="text-xs font-bold text-blue-600 font-mono">
                       {m.year}
                     </span>
-                    <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                    <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                   </div>
                   <h3 className="text-lg font-bold text-slate-900">
                     {m.title}
@@ -537,7 +537,7 @@ export default function AboutPage() {
           <div>
             <div className="font-semibold text-slate-900 uppercase tracking-wider mb-3">System Status</div>
             <div className="flex items-center gap-2 text-emerald-600 font-medium mb-1">
-              <span className="w-2 h-2 rounded-full bg-emerald-500" />
+              <CheckCircle2 className="w-4 h-4 text-emerald-600" />
               <span>All Services Running Smoothly</span>
             </div>
             <p className="text-[11px] text-slate-400">99.99% Uptime · Real-Time Calculations Active</p>
