@@ -292,7 +292,7 @@ export default function AboutPage() {
                       </div>
                       <h3 className="font-bold text-slate-900 text-base">Cash Safely in the Bank</h3>
                       <p className="text-xs text-slate-600 mt-2 leading-relaxed">
-                        You avoid over-spending \$14,850 on excess inventory, keeping your company finances healthy and resilient.
+                        You avoid over-spending $14,850 on excess inventory, keeping your company finances healthy and resilient.
                       </p>
                     </div>
                     <div className="mt-6 pt-4 border-t border-emerald-200/60 text-xs font-semibold text-emerald-800">

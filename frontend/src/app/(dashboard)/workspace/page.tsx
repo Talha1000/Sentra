@@ -118,17 +118,19 @@ export default function WorkspacePage() {
         </div>
 
         <div className="flex items-center gap-3 shrink-0">
-          <Link href="/decisions">
-            <Button variant="secondary" size="md" className="gap-2 shadow-xs">
-              <Plus className="w-4 h-4 text-blue-600" />
-              <span>Plan a Decision</span>
-            </Button>
+          <Link
+            href="/decisions"
+            className="btn-secondary text-xs py-2 px-4 shadow-xs inline-flex items-center gap-2"
+          >
+            <Plus className="w-4 h-4 text-blue-600 shrink-0" />
+            <span>Plan a Decision</span>
           </Link>
-          <Link href="/experiments">
-            <Button variant="primary" size="md" className="gap-2 shadow-sm">
-              <Play className="w-3.5 h-3.5 fill-current" />
-              <span>Run a Simulation</span>
-            </Button>
+          <Link
+            href="/experiments"
+            className="btn-primary text-xs py-2 px-4 shadow-sm inline-flex items-center gap-2"
+          >
+            <Play className="w-3.5 h-3.5 fill-current shrink-0" />
+            <span>Run a Simulation</span>
           </Link>
         </div>
       </div>
@@ -187,7 +189,7 @@ export default function WorkspacePage() {
                   />
                 </div>
 
-                <div className="pill-dock overflow-x-auto max-w-full">
+                <div className="pill-dock overflow-x-auto max-w-full scrollbar-none">
                   {(["all", "inventory", "equipment", "operations"] as const).map((d) => (
                     <button
                       key={d}
@@ -210,8 +212,8 @@ export default function WorkspacePage() {
               </div>
             </CardHeader>
 
-            <CardContent className="p-0">
-              <Table>
+            <CardContent className="p-0 overflow-x-auto scrollbar-none">
+              <Table className="w-full min-w-[680px]">
                 <TableHeader>
                   <TableRow>
                     <TableHead>Decision Plan</TableHead>

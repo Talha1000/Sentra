@@ -40,12 +40,12 @@ export function SiteHeader({ onOpenCommandPalette }: SiteHeaderProps) {
             </Link>
 
             {/* Desktop Navigation */}
-            <nav className="hidden md:flex items-center space-x-1">
+            <nav className="hidden md:flex items-center space-x-1 shrink-0">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="px-3.5 py-1.5 text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors"
+                  className="px-3.5 py-1.5 text-xs lg:text-sm font-medium text-slate-600 hover:text-slate-900 hover:bg-slate-100 rounded-full transition-colors whitespace-nowrap shrink-0"
                 >
                   {link.name}
                 </Link>
@@ -54,11 +54,11 @@ export function SiteHeader({ onOpenCommandPalette }: SiteHeaderProps) {
           </div>
 
           {/* Action Controls */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-3 shrink-0">
             {onOpenCommandPalette && (
               <button
                 onClick={onOpenCommandPalette}
-                className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 text-xs text-slate-500 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full transition-colors"
+                className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 text-xs text-slate-500 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full transition-colors whitespace-nowrap shrink-0"
               >
                 <Search className="w-3.5 h-3.5 text-slate-400" />
                 <span>Search</span>
@@ -68,7 +68,7 @@ export function SiteHeader({ onOpenCommandPalette }: SiteHeaderProps) {
 
             <Link
               href="/workspace"
-              className="btn-primary text-xs py-2 px-4"
+              className="btn-primary text-xs py-2 px-4 whitespace-nowrap shrink-0"
             >
               <span>Start Planning</span>
               <ArrowRight className="w-3.5 h-3.5 ml-1.5" />

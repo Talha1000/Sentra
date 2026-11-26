@@ -84,7 +84,7 @@ export function Topbar() {
             </Link>
 
             {/* Desktop Navigation Tabs */}
-            <nav className="hidden md:flex items-center space-x-1">
+            <nav className="hidden md:flex items-center space-x-1 shrink-0">
               {navItems.map((item) => {
                 const isActive = pathname.startsWith(item.href);
                 const Icon = item.icon;
@@ -93,14 +93,14 @@ export function Topbar() {
                     key={item.href}
                     href={item.href}
                     className={cn(
-                      "px-3.5 py-1.5 text-sm font-medium rounded-full transition-colors flex items-center gap-2",
+                      "px-3 py-1.5 text-xs lg:text-sm font-medium rounded-full transition-colors flex items-center gap-1.5 whitespace-nowrap shrink-0",
                       isActive
                         ? "bg-slate-900 text-white font-semibold shadow-xs"
                         : "text-slate-600 hover:text-slate-900 hover:bg-slate-100"
                     )}
                   >
-                    <Icon className={cn("w-4 h-4", isActive ? "text-white" : "text-slate-400")} />
-                    <span>{item.name}</span>
+                    <Icon className={cn("w-3.5 h-3.5 shrink-0", isActive ? "text-white" : "text-slate-400")} />
+                    <span className="whitespace-nowrap">{item.name}</span>
                   </Link>
                 );
               })}
@@ -108,21 +108,21 @@ export function Topbar() {
           </div>
 
           {/* Right Action Controls */}
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-2.5 shrink-0">
             <button
               onClick={() => setIsCommandPaletteOpen(true)}
-              className="hidden lg:flex items-center gap-2 px-3.5 py-1.5 text-xs text-slate-500 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full transition-colors"
+              className="hidden lg:flex items-center gap-2 px-3 py-1.5 text-xs text-slate-500 bg-slate-50 hover:bg-slate-100 border border-slate-200 rounded-full transition-colors whitespace-nowrap shrink-0"
             >
-              <Search className="w-3.5 h-3.5 text-slate-400" />
+              <Search className="w-3.5 h-3.5 text-slate-400 shrink-0" />
               <span>Search...</span>
               <kbd className="font-mono text-[10px] bg-white border border-slate-200 px-1.5 py-0.5 rounded-full text-slate-400">⌘K</kbd>
             </button>
 
             <Link
               href="/decisions"
-              className="btn-primary text-xs py-2 px-3.5"
+              className="btn-primary text-xs py-2 px-3.5 whitespace-nowrap shrink-0"
             >
-              <Plus className="w-3.5 h-3.5 mr-1" />
+              <Plus className="w-3.5 h-3.5 mr-1 shrink-0" />
               <span>Plan a Decision</span>
             </Link>
           </div>
