@@ -19,6 +19,7 @@ import {
   Layers,
   Award,
   Zap,
+  RefreshCw,
 } from "lucide-react";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { CommandPalette } from "@/components/navigation/command-palette";
@@ -189,6 +190,7 @@ export default function HomePage() {
   const totalCost = userAllocation * currentScenario.unitCost;
   const remainingCash = Math.max(0, currentScenario.budgetLimit - totalCost);
   const fulfillmentRate = Math.min(0.999, userAllocation / (currentScenario.meanDemand + 1.2 * currentScenario.stdDemand));
+  const isOptimal = userAllocation === currentScenario.optimalQ;
 
   // Digital Record Generator State
   const [decisionPayload, setDecisionPayload] = useState("Approve Winter Season Order: 1,420 items");
@@ -203,7 +205,7 @@ export default function HomePage() {
       ).join("");
       setProvenanceHash(generated);
       setIsHashing(false);
-    }, 250);
+    }, 350);
   };
 
   // FAQ State
@@ -236,33 +238,37 @@ export default function HomePage() {
         {/* ========================================================================= */}
         {/* HERO SECTION                                                             */}
         {/* ========================================================================= */}
-        <section className="relative overflow-hidden bg-white border-b border-slate-200 py-20 sm:py-28">
-          {/* Animated Ambient Light */}
-          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[750px] h-[380px] bg-gradient-to-b from-blue-100/70 via-indigo-50/40 to-transparent blur-3xl pointer-events-none -z-0 animate-ambient-glow" />
+        <section className="relative overflow-hidden bg-white border-b border-slate-200 py-20 sm:py-32">
+          {/* Layered Multi-Color Ambient Glow Lighting */}
+          <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-gradient-to-b from-blue-200/50 via-indigo-100/30 to-transparent blur-3xl pointer-events-none -z-0 animate-ambient-glow" />
+          <div className="absolute -top-10 right-1/4 w-[450px] h-[300px] bg-sky-200/35 blur-[100px] pointer-events-none -z-0 animate-float-slow" />
+          <div className="absolute top-32 left-1/4 w-[420px] h-[280px] bg-emerald-100/40 blur-[90px] pointer-events-none -z-0 animate-float-reverse" />
 
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
-            {/* Animated Pill Badge */}
+            {/* Animated Pill Badge with Shimmer Sweep */}
             <motion.div
-              initial={{ opacity: 0, y: 15 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5 }}
-              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-50/90 border border-blue-200/80 shadow-xs mb-8"
+              initial={{ opacity: 0, y: 15, scale: 0.96 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+              className="inline-flex items-center gap-2.5 px-4 py-1.5 rounded-full bg-blue-50/90 border border-blue-200/80 shadow-xs mb-8 relative overflow-hidden group cursor-default"
             >
-              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse" />
-              <span className="text-xs font-semibold text-blue-800 tracking-wide">
+              {/* Shimmer sweep effect */}
+              <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/70 to-transparent animate-shimmer pointer-events-none" />
+              <span className="w-2 h-2 rounded-full bg-blue-600 animate-pulse relative z-10" />
+              <span className="text-xs font-semibold text-blue-800 tracking-wide relative z-10">
                 Smart Business Decision Studio
               </span>
             </motion.div>
 
-            {/* Main Headline */}
+            {/* Main Headline with Animated Gradient Flow */}
             <motion.h1
-              initial={{ opacity: 0, y: 20 }}
+              initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.1 }}
+              transition={{ duration: 0.65, delay: 0.1, ease: [0.16, 1, 0.3, 1] }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-slate-900 leading-[1.12]"
             >
               We built Sentra so no business owner has to{" "}
-              <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-700 bg-clip-text text-transparent">
+              <span className="bg-gradient-to-r from-blue-600 via-indigo-600 to-teal-600 bg-clip-text text-transparent animate-gradient-flow font-extrabold">
                 gamble with company cash.
               </span>
             </motion.h1>
@@ -271,7 +277,7 @@ export default function HomePage() {
             <motion.p
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.2 }}
+              transition={{ duration: 0.65, delay: 0.22, ease: [0.16, 1, 0.3, 1] }}
               className="mt-6 text-lg sm:text-xl text-slate-600 max-w-3xl mx-auto leading-relaxed font-normal"
             >
               AI advice often sounds smart, but it tends to guess high on inventory and budgets.
@@ -279,51 +285,55 @@ export default function HomePage() {
               and finds the most profitable sweet spot for your business.
             </motion.p>
 
-            {/* Hero Action Pill Buttons */}
+            {/* Hero Action Pill Buttons with Micro-Interactions */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.3 }}
+              transition={{ duration: 0.65, delay: 0.32, ease: [0.16, 1, 0.3, 1] }}
               className="mt-10 flex flex-wrap items-center justify-center gap-4"
             >
-              <Link
-                href="/decisions"
-                className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-gradient-to-b from-slate-800 to-slate-950 text-white hover:from-slate-700 hover:to-slate-900 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 border border-white/10 group font-medium text-sm"
-              >
-                <span>Try the Decision Calculator</span>
-                <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-4 h-4 text-white" />
-                </div>
-              </Link>
+              <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
+                <Link
+                  href="/decisions"
+                  className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-gradient-to-b from-slate-800 to-slate-950 text-white hover:from-slate-700 hover:to-slate-900 shadow-md hover:shadow-xl transition-all duration-200 border border-white/10 group font-medium text-sm"
+                >
+                  <span>Try the Decision Calculator</span>
+                  <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-all group-hover:translate-x-0.5">
+                    <ArrowRight className="w-4 h-4 text-white" />
+                  </div>
+                </Link>
+              </motion.div>
 
-              <Link
-                href="/workspace"
-                className="btn-secondary text-sm py-3 px-6 rounded-full"
-              >
-                <span>Open Decision Dashboard</span>
-              </Link>
+              <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }}>
+                <Link
+                  href="/workspace"
+                  className="btn-secondary text-sm py-3 px-6 rounded-full"
+                >
+                  <span>Open Decision Dashboard</span>
+                </Link>
+              </motion.div>
             </motion.div>
 
-            {/* Key Metrics Trust Strip */}
+            {/* Key Metrics Trust Strip with Hover Lift */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.6, delay: 0.4 }}
+              transition={{ duration: 0.65, delay: 0.42, ease: [0.16, 1, 0.3, 1] }}
               className="mt-16 pt-8 border-t border-slate-100 grid grid-cols-2 sm:grid-cols-4 gap-6 text-left"
             >
-              <div>
+              <div className="p-3 rounded-2xl transition-all hover:bg-slate-50/80">
                 <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Teams Supported</div>
                 <div className="text-2xl font-bold text-slate-900 mt-1">45 Companies</div>
               </div>
-              <div>
+              <div className="p-3 rounded-2xl transition-all hover:bg-slate-50/80">
                 <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Plans Simulated</div>
                 <div className="text-2xl font-bold text-slate-900 mt-1">225+ Completed</div>
               </div>
-              <div>
-                <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Excess Stock Prevented</div>
+              <div className="p-3 rounded-2xl transition-all hover:bg-slate-50/80">
+                <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Excess Stock Avoided</div>
                 <div className="text-2xl font-bold text-emerald-600 mt-1">-23.2% Overspending</div>
               </div>
-              <div>
+              <div className="p-3 rounded-2xl transition-all hover:bg-slate-50/80">
                 <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Sign-Off Security</div>
                 <div className="text-2xl font-bold text-slate-900 mt-1">100% Protected</div>
               </div>
@@ -347,19 +357,19 @@ export default function HomePage() {
             </p>
 
             {/* Segmented Interactive Pill Dock */}
-            <div className="pill-dock mt-6 inline-flex shadow-xs">
+            <div className="pill-dock mt-6 inline-flex shadow-xs p-1">
               <button
                 onClick={() => setInteractiveMode("guessing")}
-                className={`pill-dock-item px-5 py-2 text-xs font-semibold ${
-                  interactiveMode === "guessing" ? "active text-rose-700" : ""
+                className={`pill-dock-item px-5 py-2 text-xs font-semibold transition-all duration-200 ${
+                  interactiveMode === "guessing" ? "active text-rose-700 shadow-sm" : "hover:text-slate-900"
                 }`}
               >
                 The Old Way (Guessing &amp; Chatbots)
               </button>
               <button
                 onClick={() => setInteractiveMode("sentra")}
-                className={`pill-dock-item px-5 py-2 text-xs font-semibold ${
-                  interactiveMode === "sentra" ? "active text-emerald-700" : ""
+                className={`pill-dock-item px-5 py-2 text-xs font-semibold transition-all duration-200 ${
+                  interactiveMode === "sentra" ? "active text-emerald-700 shadow-sm" : "hover:text-slate-900"
                 }`}
               >
                 ★ The Sentra Way (Tested Sweet Spot)
@@ -367,19 +377,22 @@ export default function HomePage() {
             </div>
           </div>
 
-          {/* Dynamic Card Display */}
+          {/* Dynamic Card Display with Animated Layout Transition */}
           <div className="bg-white border border-slate-200 rounded-3xl p-6 sm:p-10 shadow-sm transition-all duration-300">
             <AnimatePresence mode="wait">
               {interactiveMode === "guessing" ? (
                 <motion.div
                   key="guessing"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   className="grid grid-cols-1 md:grid-cols-3 gap-6"
                 >
-                  <div className="p-6 rounded-2xl bg-rose-50/60 border border-rose-100 flex flex-col justify-between">
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="p-6 rounded-2xl bg-rose-50/60 border border-rose-200/80 flex flex-col justify-between shadow-xs"
+                  >
                     <div>
                       <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm mb-4">
                         ✕
@@ -389,12 +402,15 @@ export default function HomePage() {
                         General AI suggests ordering 1,750 units because it sounds safe. But nobody checked what happens if demand dips slightly.
                       </p>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-rose-200/60 text-xs font-medium text-rose-800">
+                    <div className="mt-6 pt-4 border-t border-rose-200/80 text-xs font-semibold text-rose-800">
                       Outcome: 330 leftover items
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="p-6 rounded-2xl bg-rose-50/60 border border-rose-100 flex flex-col justify-between">
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="p-6 rounded-2xl bg-rose-50/60 border border-rose-200/80 flex flex-col justify-between shadow-xs"
+                  >
                     <div>
                       <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm mb-4">
                         $
@@ -404,12 +420,15 @@ export default function HomePage() {
                         Your working cash is trapped in storage. You have to run deep discounts and clearance sales just to get your money back.
                       </p>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-rose-200/60 text-xs font-medium text-rose-800">
+                    <div className="mt-6 pt-4 border-t border-rose-200/80 text-xs font-semibold text-rose-800">
                       Outcome: -$14,850 in clearance loss
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="p-6 rounded-2xl bg-rose-50/60 border border-rose-100 flex flex-col justify-between">
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="p-6 rounded-2xl bg-rose-50/60 border border-rose-200/80 flex flex-col justify-between shadow-xs"
+                  >
                     <div>
                       <div className="w-10 h-10 rounded-xl bg-rose-100 text-rose-700 flex items-center justify-center font-bold text-sm mb-4">
                         ?
@@ -419,21 +438,24 @@ export default function HomePage() {
                         When the leadership team asks why this order size was chosen, the answers are buried in email threads and lost chat windows.
                       </p>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-rose-200/60 text-xs font-medium text-rose-800">
+                    <div className="mt-6 pt-4 border-t border-rose-200/80 text-xs font-semibold text-rose-800">
                       Outcome: Zero defensibility
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               ) : (
                 <motion.div
                   key="sentra"
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                  exit={{ opacity: 0, y: -10 }}
-                  transition={{ duration: 0.3 }}
+                  initial={{ opacity: 0, y: 15, scale: 0.98 }}
+                  animate={{ opacity: 1, y: 0, scale: 1 }}
+                  exit={{ opacity: 0, y: -15, scale: 0.98 }}
+                  transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
                   className="grid grid-cols-1 md:grid-cols-3 gap-6"
                 >
-                  <div className="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-100 flex flex-col justify-between">
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between shadow-xs"
+                  >
                     <div>
                       <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm mb-4">
                         ✓
@@ -443,12 +465,15 @@ export default function HomePage() {
                         Sentra calculates the exact 1,420 units that maximizes profit while keeping the risk of unsold inventory virtually zero.
                       </p>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-emerald-200/60 text-xs font-semibold text-emerald-800">
+                    <div className="mt-6 pt-4 border-t border-emerald-200 text-xs font-semibold text-emerald-800">
                       Result: 99.9% of customer orders fulfilled
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-100 flex flex-col justify-between">
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between shadow-xs"
+                  >
                     <div>
                       <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm mb-4">
                         $
@@ -458,12 +483,15 @@ export default function HomePage() {
                         You avoid over-spending $14,850 on excess inventory, keeping your company finances healthy and resilient.
                       </p>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-emerald-200/60 text-xs font-semibold text-emerald-800">
+                    <div className="mt-6 pt-4 border-t border-emerald-200 text-xs font-semibold text-emerald-800">
                       Result: Maximum operating profit
                     </div>
-                  </div>
+                  </motion.div>
 
-                  <div className="p-6 rounded-2xl bg-emerald-50/60 border border-emerald-100 flex flex-col justify-between">
+                  <motion.div
+                    whileHover={{ y: -4 }}
+                    className="p-6 rounded-2xl bg-emerald-50/70 border border-emerald-200 flex flex-col justify-between shadow-xs"
+                  >
                     <div>
                       <div className="w-10 h-10 rounded-xl bg-emerald-100 text-emerald-700 flex items-center justify-center font-bold text-sm mb-4">
                         ★
@@ -473,10 +501,10 @@ export default function HomePage() {
                         Every decision is stamped with a digital seal, recording who approved it, when, and the exact reasons why.
                       </p>
                     </div>
-                    <div className="mt-6 pt-4 border-t border-emerald-200/60 text-xs font-semibold text-emerald-800">
+                    <div className="mt-6 pt-4 border-t border-emerald-200 text-xs font-semibold text-emerald-800">
                       Result: 100% auditable peace of mind
                     </div>
-                  </div>
+                  </motion.div>
                 </motion.div>
               )}
             </AnimatePresence>
@@ -484,7 +512,7 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* INTERACTIVE SWEET-SPOT DEMO                                               */}
+        {/* INTERACTIVE SWEET-SPOT DEMO WITH LIVE PROFIT SPRING BAR                   */}
         {/* ========================================================================= */}
         <section className="py-16 sm:py-24 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 bg-white border-y border-slate-200">
           <div className="max-w-3xl mb-8">
@@ -500,7 +528,7 @@ export default function HomePage() {
           </div>
 
           {/* Scenario Selector Pill Dock */}
-          <div className="pill-dock mb-8 overflow-x-auto max-w-full shadow-xs">
+          <div className="pill-dock mb-8 overflow-x-auto max-w-full shadow-xs scrollbar-none">
             {SCENARIOS.map((sc, idx) => (
               <button
                 key={sc.id}
@@ -508,8 +536,8 @@ export default function HomePage() {
                   setSelectedScenarioIdx(idx);
                   setUserAllocation(sc.optimalQ);
                 }}
-                className={`pill-dock-item px-4 py-2 font-medium text-xs whitespace-nowrap ${
-                  selectedScenarioIdx === idx ? "active" : ""
+                className={`pill-dock-item px-4 py-2 font-medium text-xs whitespace-nowrap transition-all duration-200 ${
+                  selectedScenarioIdx === idx ? "active shadow-xs" : ""
                 }`}
               >
                 <span>{sc.name}</span>
@@ -526,10 +554,19 @@ export default function HomePage() {
                   <span className="text-xs font-bold text-slate-700 uppercase tracking-wider">
                     How Many Items to Order:
                   </span>
-                  <span className="font-mono text-2xl font-bold text-slate-900 tabular-nums">
-                    {formatNumber(userAllocation)} items
-                  </span>
+                  <div className="flex items-center gap-2">
+                    {isOptimal && (
+                      <span className="text-[11px] font-bold text-emerald-700 bg-emerald-100 px-2.5 py-0.5 rounded-full animate-pulse border border-emerald-300">
+                        ★ SWEET SPOT
+                      </span>
+                    )}
+                    <span className="font-mono text-2xl font-bold text-slate-900 tabular-nums">
+                      {formatNumber(userAllocation)} items
+                    </span>
+                  </div>
                 </div>
+
+                {/* Range Slider */}
                 <input
                   type="range"
                   min={Math.round(currentScenario.meanDemand * 0.5)}
@@ -537,45 +574,94 @@ export default function HomePage() {
                   step={20}
                   value={userAllocation}
                   onChange={(e) => setUserAllocation(Number(e.target.value))}
-                  className="w-full h-2.5 bg-slate-200 rounded-lg cursor-pointer accent-blue-600"
+                  className="w-full h-2.5 bg-slate-200 rounded-lg cursor-pointer accent-blue-600 transition-all"
                 />
+
                 <div className="flex justify-between text-xs text-slate-500 mt-1.5 font-mono">
                   <span>Lean: {Math.round(currentScenario.meanDemand * 0.5)}</span>
                   <span className="text-blue-700 font-bold">★ Sweet Spot: {currentScenario.optimalQ}</span>
                   <span>AI Guess: {currentScenario.aiQ}</span>
                 </div>
+
+                {/* Animated Profit Level Meter */}
+                <div className="mt-4 pt-3 border-t border-slate-200/80">
+                  <div className="flex justify-between text-[11px] font-medium text-slate-600 mb-1.5">
+                    <span>Profit Optimization Level:</span>
+                    <span className="font-mono font-bold text-slate-900">
+                      {Math.round((estimatedProfit / maxProfit) * 100)}% of Max
+                    </span>
+                  </div>
+                  <div className="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden relative shadow-inner">
+                    <motion.div
+                      className={`h-full rounded-full ${
+                        isOptimal
+                          ? "bg-gradient-to-r from-emerald-500 via-teal-500 to-emerald-400"
+                          : userAllocation > currentScenario.optimalQ
+                          ? "bg-gradient-to-r from-amber-500 to-rose-500"
+                          : "bg-gradient-to-r from-blue-500 to-indigo-500"
+                      }`}
+                      animate={{ width: `${Math.min(100, (estimatedProfit / maxProfit) * 100)}%` }}
+                      transition={{ type: "spring", stiffness: 260, damping: 25 }}
+                    />
+                  </div>
+                </div>
               </div>
 
-              {/* Live Diagnostic Metrics */}
-              <div className="grid grid-cols-3 gap-3 pt-2">
-                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
+              {/* Live Diagnostic Metrics with Spring Animations */}
+              <div className="grid grid-cols-3 gap-3 pt-1">
+                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
                   <div className="text-[11px] text-slate-500 font-semibold uppercase">Customers Fulfilled</div>
-                  <div className="text-xl font-bold text-emerald-700 mt-1 font-mono">
+                  <motion.div
+                    key={fulfillmentRate}
+                    initial={{ scale: 0.95 }}
+                    animate={{ scale: 1 }}
+                    className="text-xl font-bold text-emerald-700 mt-1 font-mono"
+                  >
                     {formatPercent(fulfillmentRate)}
-                  </div>
+                  </motion.div>
                 </div>
 
-                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
+                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
                   <div className="text-[11px] text-slate-500 font-semibold uppercase">Cash Left in Bank</div>
-                  <div className="text-xl font-bold text-slate-900 mt-1 font-mono">
+                  <motion.div
+                    key={remainingCash}
+                    initial={{ scale: 0.95 }}
+                    animate={{ scale: 1 }}
+                    className="text-xl font-bold text-slate-900 mt-1 font-mono"
+                  >
                     {formatCurrency(remainingCash)}
-                  </div>
+                  </motion.div>
                 </div>
 
-                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs">
+                <div className="p-4 bg-white rounded-2xl border border-slate-200 shadow-xs hover:border-slate-300 transition-all">
                   <div className="text-[11px] text-slate-500 font-semibold uppercase">Estimated Profit</div>
-                  <div className="text-xl font-bold text-blue-700 mt-1 font-mono">
+                  <motion.div
+                    key={estimatedProfit}
+                    initial={{ scale: 0.95 }}
+                    animate={{ scale: 1 }}
+                    className="text-xl font-bold text-blue-700 mt-1 font-mono"
+                  >
                     {formatCurrency(estimatedProfit)}
-                  </div>
+                  </motion.div>
                 </div>
               </div>
 
-              {/* Explanatory Message */}
-              <div className="p-4 bg-blue-50/70 border border-blue-200 rounded-2xl text-xs text-blue-900 flex items-start gap-3">
-                <Sparkles className="w-4 h-4 text-blue-600 mt-0.5 shrink-0" />
+              {/* Explanatory Message Banner */}
+              <div
+                className={`p-4 rounded-2xl text-xs flex items-start gap-3 border transition-all ${
+                  isOptimal
+                    ? "bg-emerald-50 border-emerald-200 text-emerald-900"
+                    : "bg-blue-50/70 border-blue-200 text-blue-900"
+                }`}
+              >
+                <Sparkles
+                  className={`w-4 h-4 mt-0.5 shrink-0 ${
+                    isOptimal ? "text-emerald-600" : "text-blue-600"
+                  }`}
+                />
                 <div>
                   <span className="font-semibold block mb-0.5">
-                    {userAllocation === currentScenario.optimalQ
+                    {isOptimal
                       ? "★ Perfect Sweet Spot!"
                       : userAllocation > currentScenario.optimalQ
                       ? "Over-ordering warning: Buying more than this risks leftover inventory."
@@ -589,7 +675,7 @@ export default function HomePage() {
               </div>
             </div>
 
-            {/* Right 5 Columns: Comparison Summary */}
+            {/* Right 5 Columns: Scenario Cost Breakdown */}
             <div className="lg:col-span-5 space-y-4">
               <div className="p-6 bg-white border border-slate-200 rounded-3xl shadow-xs space-y-4">
                 <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wider">
@@ -618,12 +704,14 @@ export default function HomePage() {
                   </div>
                 </div>
 
-                <Link
-                  href="/decisions"
-                  className="btn-primary w-full py-2.5 text-xs text-center justify-center mt-2 shadow-xs"
-                >
-                  <span>Open Full Planning Studio →</span>
-                </Link>
+                <motion.div whileHover={{ scale: 1.02 }} whileTap={{ scale: 0.98 }}>
+                  <Link
+                    href="/decisions"
+                    className="btn-primary w-full py-2.5 text-xs text-center justify-center mt-2 shadow-xs"
+                  >
+                    <span>Open Full Planning Studio →</span>
+                  </Link>
+                </motion.div>
               </div>
             </div>
           </div>
@@ -649,17 +737,21 @@ export default function HomePage() {
             {PROMISES.map((v, i) => (
               <motion.div
                 key={v.title}
-                initial={{ opacity: 0, y: 15 }}
+                initial={{ opacity: 0, y: 20 }}
                 whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: i * 0.1 }}
-                className="p-8 rounded-3xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-200 hover:shadow-md flex flex-col justify-between group shadow-xs"
+                viewport={{ once: true, margin: "-50px" }}
+                transition={{ duration: 0.45, delay: i * 0.1, ease: [0.16, 1, 0.3, 1] }}
+                whileHover={{ y: -6, scale: 1.01 }}
+                className="p-8 rounded-3xl bg-white border border-slate-200 hover:border-slate-300 transition-all duration-300 hover:shadow-lg flex flex-col justify-between group shadow-xs cursor-default"
               >
                 <div>
                   <div className="flex items-center justify-between mb-6">
-                    <div className={`w-12 h-12 rounded-2xl ${v.accent} flex items-center justify-center`}>
+                    <motion.div
+                      whileHover={{ scale: 1.15, rotate: 6 }}
+                      className={`w-12 h-12 rounded-2xl ${v.accent} flex items-center justify-center transition-transform`}
+                    >
                       <v.icon className="w-6 h-6" />
-                    </div>
+                    </motion.div>
                     <span className="text-[11px] font-semibold text-slate-500 bg-slate-50 border border-slate-200 px-3 py-1 rounded-full">
                       {v.badge}
                     </span>
@@ -701,24 +793,27 @@ export default function HomePage() {
               {MILESTONES.map((m, idx) => (
                 <motion.div
                   key={m.year}
-                  initial={{ opacity: 0, x: -10 }}
+                  initial={{ opacity: 0, x: -16 }}
                   whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ duration: 0.4, delay: idx * 0.15 }}
+                  viewport={{ once: true, margin: "-40px" }}
+                  transition={{ duration: 0.45, delay: idx * 0.15, ease: [0.16, 1, 0.3, 1] }}
                   className="relative flex items-start gap-6 group"
                 >
-                  {/* Milestone Node */}
+                  {/* Milestone Node with Breathing Halo */}
                   <div className="w-10 h-10 rounded-full bg-white border-2 border-blue-600 flex items-center justify-center font-bold text-xs text-blue-700 shrink-0 shadow-xs z-10 group-hover:scale-110 transition-transform">
                     {idx + 1}
                   </div>
 
-                  {/* Milestone Content */}
-                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex-1 shadow-xs group-hover:shadow-md transition-shadow">
+                  {/* Milestone Content Card */}
+                  <motion.div
+                    whileHover={{ x: 4 }}
+                    className="bg-slate-50 border border-slate-200 rounded-2xl p-6 flex-1 shadow-xs group-hover:shadow-md transition-all"
+                  >
                     <div className="flex items-center justify-between mb-2">
                       <span className="text-xs font-bold text-blue-600 font-mono">
                         {m.year}
                       </span>
-                      <span className="w-2 h-2 rounded-full bg-emerald-500" />
+                      <span className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse" />
                     </div>
                     <h3 className="text-lg font-bold text-slate-900">
                       {m.title}
@@ -726,7 +821,7 @@ export default function HomePage() {
                     <p className="text-sm text-slate-600 mt-2 leading-relaxed">
                       {m.summary}
                     </p>
-                  </div>
+                  </motion.div>
                 </motion.div>
               ))}
             </div>
@@ -750,8 +845,8 @@ export default function HomePage() {
           </div>
 
           <div className="bg-white border border-slate-200 rounded-2xl shadow-xs overflow-hidden">
-            <div className="overflow-x-auto">
-              <table className="w-full text-left text-sm text-slate-700">
+            <div className="overflow-x-auto scrollbar-none">
+              <table className="w-full text-left text-sm text-slate-700 min-w-[700px]">
                 <thead className="bg-slate-50/80 border-b border-slate-200 text-xs font-semibold text-slate-500 uppercase tracking-wider">
                   <tr>
                     <th className="px-6 py-4">Business Scenario</th>
@@ -764,7 +859,7 @@ export default function HomePage() {
                 </thead>
                 <tbody className="divide-y divide-slate-100">
                   {CASE_STUDIES.map((cs) => (
-                    <tr key={cs.id} className="hover:bg-slate-50/60 transition-colors">
+                    <tr key={cs.id} className="hover:bg-slate-50/70 transition-colors">
                       <td className="px-6 py-4 font-medium text-slate-900">
                         {cs.scenario}
                       </td>
@@ -798,7 +893,7 @@ export default function HomePage() {
         </section>
 
         {/* ========================================================================= */}
-        {/* PERMANENT DIGITAL RECORD GENERATOR TOOL                                   */}
+        {/* PERMANENT DIGITAL RECORD GENERATOR TOOL WITH INTERACTIVE SEAL             */}
         {/* ========================================================================= */}
         <section className="py-16 sm:py-24 bg-white border-y border-slate-200">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -824,23 +919,41 @@ export default function HomePage() {
                     type="text"
                     value={decisionPayload}
                     onChange={(e) => setDecisionPayload(e.target.value)}
-                    className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600"
+                    className="w-full px-4 py-2.5 bg-white border border-slate-300 rounded-xl text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:border-blue-600 transition-colors"
                   />
                 </div>
 
                 <div className="md:col-span-4">
-                  <button
+                  <motion.button
+                    whileHover={{ scale: 1.02 }}
+                    whileTap={{ scale: 0.98 }}
                     onClick={handleGenerateHash}
                     disabled={isHashing}
-                    className="btn-primary w-full py-2.5 text-sm rounded-full shadow-sm"
+                    className="btn-primary w-full py-2.5 text-sm rounded-full shadow-sm flex items-center justify-center gap-2"
                   >
-                    {isHashing ? "Sealing..." : "Generate Digital Seal"}
-                  </button>
+                    {isHashing ? (
+                      <>
+                        <RefreshCw className="w-4 h-4 animate-spin" />
+                        <span>Sealing Record...</span>
+                      </>
+                    ) : (
+                      <>
+                        <Lock className="w-4 h-4" />
+                        <span>Generate Digital Seal</span>
+                      </>
+                    )}
+                  </motion.button>
                 </div>
               </div>
 
-              {/* Hash Display */}
-              <div className="mt-6 p-4 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+              {/* Hash Display with Smooth Pop-In */}
+              <motion.div
+                key={provenanceHash}
+                initial={{ opacity: 0, y: 6 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ duration: 0.3 }}
+                className="mt-6 p-4 rounded-2xl bg-white border border-slate-200 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-xs"
+              >
                 <div>
                   <span className="text-xs text-slate-500 uppercase font-semibold block">
                     Permanent Record Seal:
@@ -853,13 +966,13 @@ export default function HomePage() {
                   <CheckCircle2 className="w-3.5 h-3.5 text-emerald-600" />
                   <span>Signed &amp; Approved</span>
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
 
         {/* ========================================================================= */}
-        {/* FAQS                                                                      */}
+        {/* FAQS WITH BUTTERY SMOOTH ANIMATED ACCORDION                               */}
         {/* ========================================================================= */}
         <section className="py-16 sm:py-24 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
@@ -871,29 +984,41 @@ export default function HomePage() {
             </h2>
           </div>
 
-          <div className="bg-white border border-slate-200 rounded-3xl shadow-xs divide-y divide-slate-100">
+          <div className="bg-white border border-slate-200 rounded-3xl shadow-xs divide-y divide-slate-100 overflow-hidden">
             {FAQS.map((faq, idx) => {
               const isOpen = openFaq === idx;
               return (
-                <div key={idx} className="p-6">
+                <div key={idx} className="p-6 transition-colors hover:bg-slate-50/50">
                   <button
                     onClick={() => setOpenFaq(isOpen ? null : idx)}
-                    className="w-full flex items-center justify-between text-left group"
+                    className="w-full flex items-center justify-between text-left group cursor-pointer"
                   >
                     <span className="text-base font-semibold text-slate-900 group-hover:text-blue-600 transition-colors">
                       {faq.q}
                     </span>
-                    <ChevronDown
-                      className={`w-4 h-4 text-slate-400 transition-transform ${
-                        isOpen ? "transform rotate-180" : ""
-                      }`}
-                    />
+                    <motion.div
+                      animate={{ rotate: isOpen ? 180 : 0 }}
+                      transition={{ duration: 0.25, ease: [0.16, 1, 0.3, 1] }}
+                    >
+                      <ChevronDown className="w-4 h-4 text-slate-400 group-hover:text-slate-600 transition-colors" />
+                    </motion.div>
                   </button>
-                  {isOpen && (
-                    <p className="mt-3 text-sm text-slate-600 leading-relaxed font-normal">
-                      {faq.a}
-                    </p>
-                  )}
+
+                  <AnimatePresence initial={false}>
+                    {isOpen && (
+                      <motion.div
+                        initial={{ height: 0, opacity: 0 }}
+                        animate={{ height: "auto", opacity: 1 }}
+                        exit={{ height: 0, opacity: 0 }}
+                        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
+                        className="overflow-hidden"
+                      >
+                        <p className="mt-3 text-sm text-slate-600 leading-relaxed font-normal">
+                          {faq.a}
+                        </p>
+                      </motion.div>
+                    )}
+                  </AnimatePresence>
                 </div>
               );
             })}
@@ -906,38 +1031,38 @@ export default function HomePage() {
         <section className="py-14 bg-slate-900 text-white">
           <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 text-center">
-              <div>
+              <motion.div whileHover={{ scale: 1.05 }} className="cursor-default">
                 <div className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
                   45+
                 </div>
                 <div className="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">
                   Active Companies
                 </div>
-              </div>
-              <div>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} className="cursor-default">
                 <div className="text-3xl sm:text-4xl font-bold tracking-tight text-emerald-400">
                   $3.2M+
                 </div>
                 <div className="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">
                   Cash Protected
                 </div>
-              </div>
-              <div>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} className="cursor-default">
                 <div className="text-3xl sm:text-4xl font-bold tracking-tight text-white">
                   99.9%
                 </div>
                 <div className="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">
                   Order Delivery Rate
                 </div>
-              </div>
-              <div>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} className="cursor-default">
                 <div className="text-3xl sm:text-4xl font-bold tracking-tight text-blue-400">
                   0%
                 </div>
                 <div className="text-xs text-slate-400 font-medium uppercase tracking-wider mt-1">
                   Uncertain Guesswork
                 </div>
-              </div>
+              </motion.div>
             </div>
           </div>
         </section>
@@ -946,8 +1071,14 @@ export default function HomePage() {
         {/* FINAL CALL TO ACTION                                                      */}
         {/* ========================================================================= */}
         <section className="py-20 sm:py-28 max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <div className="p-8 sm:p-14 rounded-3xl bg-gradient-to-b from-white to-slate-50 border border-slate-200 shadow-sm relative overflow-hidden">
-            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-6 shadow-xs">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.96 }}
+            whileInView={{ opacity: 1, scale: 1 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5, ease: [0.16, 1, 0.3, 1] }}
+            className="p-8 sm:p-14 rounded-3xl bg-gradient-to-b from-white to-slate-50 border border-slate-200 shadow-sm relative overflow-hidden"
+          >
+            <div className="w-12 h-12 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mx-auto mb-6 shadow-xs animate-bounce">
               <Sparkles className="w-6 h-6" />
             </div>
 
@@ -959,24 +1090,28 @@ export default function HomePage() {
             </p>
 
             <div className="mt-8 flex flex-wrap items-center justify-center gap-4">
-              <Link
-                href="/decisions"
-                className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-gradient-to-b from-slate-800 to-slate-950 text-white hover:from-slate-700 hover:to-slate-900 shadow-md hover:shadow-xl hover:-translate-y-0.5 active:translate-y-0 active:scale-[0.98] transition-all duration-200 border border-white/10 group font-medium text-sm"
-              >
-                <span>Plan a Decision Now</span>
-                <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-colors">
-                  <ArrowRight className="w-4 h-4 text-white" />
-                </div>
-              </Link>
+              <motion.div whileHover={{ scale: 1.04, y: -2 }} whileTap={{ scale: 0.96 }}>
+                <Link
+                  href="/decisions"
+                  className="rounded-full pl-6 pr-2.5 py-2.5 inline-flex items-center gap-3 bg-gradient-to-b from-slate-800 to-slate-950 text-white hover:from-slate-700 hover:to-slate-900 shadow-md hover:shadow-xl transition-all duration-200 border border-white/10 group font-medium text-sm"
+                >
+                  <span>Plan a Decision Now</span>
+                  <div className="w-8 h-8 rounded-full bg-white/10 group-hover:bg-white/20 flex items-center justify-center transition-colors">
+                    <ArrowRight className="w-4 h-4 text-white" />
+                  </div>
+                </Link>
+              </motion.div>
 
-              <Link
-                href="/workspace"
-                className="btn-secondary text-sm py-3 px-6 rounded-full"
-              >
-                <span>Explore the Dashboard</span>
-              </Link>
+              <motion.div whileHover={{ scale: 1.03, y: -2 }} whileTap={{ scale: 0.97 }}>
+                <Link
+                  href="/workspace"
+                  className="btn-secondary text-sm py-3 px-6 rounded-full"
+                >
+                  <span>Explore the Dashboard</span>
+                </Link>
+              </motion.div>
             </div>
-          </div>
+          </motion.div>
         </section>
       </main>
 
