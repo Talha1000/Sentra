@@ -93,7 +93,7 @@ export default function DecisionsPage() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <div className="flex items-center gap-2 text-xs font-semibold text-slate-500 uppercase tracking-wider mb-1">
-            <span>Planning Studio</span>
+            <span>Order Planning</span>
             <span className="text-slate-300">•</span>
             <span className="text-blue-700 font-semibold">Product &amp; Inventory</span>
           </div>

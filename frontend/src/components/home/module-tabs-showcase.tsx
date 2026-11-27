@@ -53,7 +53,7 @@ const MODULES: ModuleInfo[] = [
   },
   {
     id: "decisions",
-    name: "Decision Studio",
+    name: "Decision Planning",
     badge: "Stochastic Engine",
     badgeVariant: "spruce",
     route: "/decisions",
@@ -153,7 +153,7 @@ export function ModuleTabsShowcase() {
           Platform Architecture
         </span>
         <h2 className="text-3xl sm:text-4xl font-bold text-white tracking-tight">
-          Five Integrated Systems, One Unified Studio
+          Five Integrated Systems, One Unified Platform
         </h2>
         <p className="text-xs sm:text-sm text-slate-300 leading-relaxed">
           From live executive oversight to behavioral experiments and cryptographic sealing.

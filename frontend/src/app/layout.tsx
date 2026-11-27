@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Sentra — Smart Business Decision Planning & Verification",
+  title: "Sentra — Business Decision Planning & Verification",
   description: "Test big business decisions before you spend budget. Sentra helps business leaders simulate plans, compare options, and avoid costly mistakes with simple, reliable forecasts.",
 };
 

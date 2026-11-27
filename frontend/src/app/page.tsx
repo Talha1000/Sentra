@@ -242,17 +242,6 @@ export default function HomePage() {
 
           <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
             
-            {/* Human Editorial Badge (Zero synthetic blinking dots) */}
-            <motion.div
-              initial={{ opacity: 0, y: 12, scale: 0.98 }}
-              animate={{ opacity: 1, y: 0, scale: 1 }}
-              transition={{ duration: 0.45, ease: [0.16, 1, 0.3, 1] }}
-              className="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-slate-100 border border-slate-200/90 text-slate-700 text-xs font-medium mb-8 cursor-default"
-            >
-              <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-              <span>Smart Business Decision Studio</span>
-            </motion.div>
-
             {/* Main Headline with Google-style typography */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
@@ -737,7 +726,7 @@ export default function HomePage() {
                     href="/decisions"
                     className="btn-primary w-full py-2.5 text-xs text-center justify-center mt-2 shadow-xs"
                   >
-                    <span>Open Full Planning Studio →</span>
+                    <span>Open Decision Planner →</span>
                   </Link>
                 </motion.div>
               </div>
