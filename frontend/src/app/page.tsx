@@ -23,6 +23,7 @@ import { SiteHeader } from "@/components/navigation/site-header";
 import { CommandPalette } from "@/components/navigation/command-palette";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
 import { AnimatedNumber } from "@/components/ui/animated-number";
+import { FloatyVideoTheater } from "@/components/ui/floaty-video-theater";
 import { formatCurrency, formatNumber, formatPercent } from "@/lib/utils";
 
 // Simulation Scenarios for the Interactive Simulator
@@ -319,6 +320,16 @@ export default function HomePage() {
                 <div className="text-xs text-slate-500 font-medium uppercase tracking-wider">Sign-Off Security</div>
                 <div className="text-2xl font-bold text-slate-900 mt-1">100% Protected</div>
               </div>
+            </motion.div>
+
+            {/* Floaty Video-Style Interactive Motion Theater */}
+            <motion.div
+              initial={{ opacity: 0, y: 25 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.7, delay: 0.45 }}
+              className="mt-12"
+            >
+              <FloatyVideoTheater />
             </motion.div>
           </div>
         </section>

@@ -7,6 +7,7 @@ import { SiteHeader } from "@/components/navigation/site-header";
 import { CommandPalette } from "@/components/navigation/command-palette";
 import { SpotlightCard } from "@/components/ui/spotlight-card";
 import { AnimatedNumber } from "@/components/ui/animated-number";
+import { FloatyVideoTheater } from "@/components/ui/floaty-video-theater";
 import {
   ShieldCheck,
   HeartHandshake,
@@ -190,6 +191,16 @@ export default function AboutPage() {
                   <span>View Live Dashboard</span>
                 </Link>
               </motion.div>
+            </motion.div>
+
+            {/* Floaty Video-Style Continuous Interactive Motion Theater */}
+            <motion.div
+              initial={{ opacity: 0, y: 30, scale: 0.98 }}
+              animate={{ opacity: 1, y: 0, scale: 1 }}
+              transition={{ duration: 0.75, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
+              className="mt-12"
+            >
+              <FloatyVideoTheater />
             </motion.div>
           </div>
         </section>
